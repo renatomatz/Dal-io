@@ -1,8 +1,4 @@
----
-geometry:
-    margin=1in
----
-![Logo]("docs/logo.png")
+[[docs/logo.png]]
 
 # Understanding Graphs
 
