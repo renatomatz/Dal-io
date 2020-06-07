@@ -1,4 +1,4 @@
-[[docs/logo.png]]
+![logo](https://github.com/renatomatz/Dal-IO/blob/master/docs/logo.png?raw=true)
 
 # Understanding Graphs
 
