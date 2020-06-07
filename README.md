@@ -2,10 +2,7 @@
 geometry:
     margin=1in
 ---
-
-<title>Dal-I/O</title>
-
-An integrated graphical structure for the creation of financial models.
+![Logo]("docs/logo.png")
 
 # Understanding Graphs
 
