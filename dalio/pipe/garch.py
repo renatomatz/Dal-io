@@ -1,3 +1,8 @@
+import numpu as np
+import pandas as pd
+
+from typing import List
+
 from arch.univariate.base import ARCHModel
 
 # Import mean models
@@ -17,11 +22,12 @@ from arch.univariate import (
 from arch.univariate import (
     Normal,
     StudentsT
+    SkewStudent
 )
 
 from dalio.util import _Builder
 from dalio.pipe import Pipe
-from dalio.validator import HAS_DIMS
+from dalio.validator import HAS_DIMS, IS_TYPE
 
 
 class MakeARCH(Pipe, _Builder):
@@ -42,11 +48,12 @@ class MakeARCH(Pipe, _Builder):
     _DIST_DICT = {
         "Normal": Normal,
         "normal": Normal,
-        "StudentsT": StudentsT
+        "StudentsT": StudentsT,
+        "SkewStudent": SkewStudent
     }
     # TODO: make this agnostic to upper or lower case
 
-    def __init__(self, model=None):
+    def __init__(self):
         super().__init__()
 
         self._init_piece([
@@ -58,11 +65,8 @@ class MakeARCH(Pipe, _Builder):
         self._source\
             .add_desc(HAS_DIMS(1))
 
-        if isinstance(model, ARCHModel):
-            self.assimilate(model)
-
     def transform(self, data, **kwargs):
-        return self.build_model(data).fit(**kwargs.get("fit_opts", {}))
+        return self.build_model(data)
 
     def copy(self):
         ret = type(self)()
@@ -113,3 +117,104 @@ class MakeARCH(Pipe, _Builder):
             "distribution",
             type(model.distribution).__name__
         )
+
+
+class FitARCHModel(Pipe):
+
+    def __init__(self):
+        super().__init__()
+
+        self._source\
+            .add_desc(IS_TYPE(ARCHModel))\
+            .add_desc(HAS_ATTR("fit"))
+
+    def transform(self, data, **kwargs):
+        if "fit_opts" in kwargs:
+            fit_opts = kwargs.pop("fit_opts")
+        else:
+            fit_opts = {}
+        return data.fit(**fit_opts)
+
+
+class ValueAtRisk(Pipe):
+
+    _quantiles: List[float]
+
+    def __init__(self, quantiles=[0.01, 0.05]):
+
+        self._source\
+            .add_desc(IS_TYPE(ARCHModel))
+            .add_desc(HAS_ATTR{"fit"})
+
+        if isinstance(quantiles, list):
+            if sum([n for n in quantiles if not isinstance(n, float)]) > 0:
+                raise TypeError("all quantiles must be floats")
+            else:
+                self._quandiles = sorted(quantiles)
+        elif isinstance(quantiles, float):
+            self._quandiles = [quantiles]
+        else:
+            raise TypeError("quantiles argument must either be a float or \
+                    list of floats")
+
+    def transform(self, data, **kwargs):
+        '''Thank you for the creators of the arch package for the beautiful
+        visualizations!
+        '''
+
+        # This might seem redundant considering the above FitARCHModel pipe
+        # but keep in mind here we need both the fitted results and the model
+        if "fit_opts" in kwargs:
+            fit_opts = kwargs.pop("fit_opts")
+        else:
+            fit_opts = {}
+
+        fit_res = data.fit(**fit_opts)
+
+        returns = data._y_original
+        first_date = returns.index[0]
+
+        if returns is None:
+            raise ValueError("Invalid ARCH model: does not have returns")
+
+        forecasts = fit_res.forecast(start=first_date)
+
+        cond_mean = forecasts.mean
+        cond_var = forecasts.variance
+
+        dist = type(data.distribution).__name__
+
+        # set ppf parameters according to data distribution
+        if dist == "Normal":
+            params = None
+        elif dist == "StudentsT":
+            params = fit_res.params[-1]
+        elif dist == "SkewStudent":
+            params = fit_res.params[-2:]
+        else:
+            raise TypeError(f"model has unsuported distribution {dist}")
+
+        q = data.distribution.ppf(self._quantiles, params)
+
+        cols = ["".join([str(int(n * 100)), "%"]) for n in self._quantiles]
+
+        value_at_risk = -cond_mean.values - np.sqrt(cond_var).values * q[None, :]
+        value_at_risk = pd.DataFrame(
+                value_at_risk, 
+                columns=cols, 
+                index=cond_var.index)
+
+        max_exedence = []
+        for idx in value_at_risk.index:
+            for i, quantile in enumerate(self.cols[::-1]):
+                if returns[idx] < -value_at_risk.loc[idx, quantile]:
+                    c.append(self._quantiles[-(i+1)])
+                    break
+                c.append(1)
+
+        max_exedence = pd.DataFrame(
+                max_exedence,
+                columns="max_exedence",
+                index=cond_var.index)
+
+        return pd.concat(returns, value_at_risk, max_exedence)

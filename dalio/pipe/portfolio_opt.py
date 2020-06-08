@@ -1,9 +1,10 @@
 from functools import partial
+from typing import List
 
 from pypfopt import CovarianceShrinkage
 from pypfopt.expected_returns import return_model as ReturnModel
 
-from dalio.base.constants import ADJ_CLOSE
+from dalio.base.constants import ADJ_CLOSE, IS_TYPE
 from dalio.pipe import Pipe
 from dalio.validator import STOCK_STREAM, HAS_COLS
 from dalio.util import _Builder
@@ -57,8 +58,6 @@ class CovShrink(Pipe, _Builder):
         return partial(shrink_func,
                        *shrink["args"],
                        **shrink["kwargs"])
-
-    # TODO: set pieces should check for available presets
 
 
 class ExpectedReturn(Pipe, _Builder):

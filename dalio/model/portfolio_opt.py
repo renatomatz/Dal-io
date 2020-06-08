@@ -49,8 +49,8 @@ class MakeCriticalLine(Model):
         # dropping levels are allowed as by this point both mu and S are
         # derived from STOCK_STREAM dataframes
         cla = CLA(mu.droplevel(0),
-                 S.droplevel(0),
-                 weight_bounds=self.weight_bounds)
+                  S.droplevel(0),
+                  weight_bounds=self.weight_bounds)
 
         return cla
 
