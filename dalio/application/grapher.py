@@ -1,19 +1,19 @@
 from dalio.application import Application
-from dalio.validator import IS_PD_DF, HAS_COLS, IS_PD_TS
+from dalio.validator import IS_PD_DF, HAS_COLS, IS_PD_TS, HAS_DIMS
 
 
 class Grapher(Application):
 
-    def __init__(self):
+    def __init__(self, extra_source=list(), extra_output=list()):
         super().__init__()
 
         self._init_source([
             "data_in"
-        ])
+        ] + extra_source)
 
         self._init_output([
             "data_out"
-        ])
+        ] + extra_output)
 
     def run(self, **kwargs):
         data = self._source_from("data_in", **kwargs)
@@ -75,3 +75,36 @@ class PandasTSGrapher(PandasGrapher):
 
         self._get_source("data_in")\
             .add_desc(IS_PD_TS())
+
+
+class ForecastGrapher(Grapher):
+
+    def __init__(self):
+        super().__init__(extra_source=["forecast_in"])
+
+        self._get_source("data_in")\
+            .add_desc(IS_PD_DF())\
+            .add_desc(IS_PD_TS())\
+            .add_desc(HAS_DIMS(1))
+
+        self._get_source("forecast_in")\
+            .add_desc(IS_PD_DF())\
+            .add_desc(IS_PD_TS())\
+            .add_desc(HAS_DIMS(1))
+
+    def run(self, **kwargs):
+        # TODO: Parallelize
+        data = self._source_from("data_in", **kwargs)
+        forecast = self._source_from("forecast_in", **kwargs)
+
+        joined = data.join(forecast, how="outer", sort=True)
+
+        labels = [kwargs.get("data_label", "Data"), 
+                  kwargs.get("forecast_label", "Forecast")]
+        joined.columns = labels
+
+        graph_opts = kwargs.get("graph_opts", {})
+
+        self._get_output("data_out").plot(joined, **graph_opts)
+        fig = self._get_output("data_out").request()
+        return fig
