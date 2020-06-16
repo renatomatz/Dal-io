@@ -60,18 +60,21 @@ class HAS_ATTR(Validator):
         super().__init__()
 
         if isinstance(attr, str):
+            self._attr = [attr]
+        elif isinstance(attr, list):
             self._attr = attr
         else:
             ValueError(f"Invalid input type {type(attr)} specify input of type\
                     {str} instead")
 
     def validate(self, data):
-        if hasattr(data, self._attr):
-            return True
-        elif self._fatal:
-            return self._error_report(TypeError, data)
-        else:
-            return self._warn_report(data)
+        for attr in self._attr:
+            if hasattr(data, attr):
+                return True
+            elif self._fatal:
+                return self._error_report(TypeError, data)
+            else:
+                return self._warn_report(data)
 
     def _warn_report(self, data):
         return f"Data does not have attribute {self._attr}."

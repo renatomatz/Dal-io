@@ -4,6 +4,7 @@ from typing import Dict
 from dalio.model import Model
 from dalio.external import External
 
+# TODO: better way of informing of missing output
 
 class Application(Model):
     '''While Models are normally the last stage of the processing chain, it 
@@ -36,15 +37,14 @@ class Application(Model):
         self._out = {}
 
     def copy(self):
-        ret = super(Model, self).copy()
-        for name, node in self._out:
-            ret.set_output(name, node.copy())
+        ret = super().copy()
+        ret._out = self._out.copy()
         return ret
 
     def _get_output(self, output_name):
-        if output_name in self._out:
+        try:
             return self._out[output_name]
-        else:
+        except KeyError:
             KeyError(f"{output_name} is not a valid output, select one of\
                 {self._out.keys()}")
 

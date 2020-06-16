@@ -37,8 +37,10 @@ class Pipe(_Transformer):
         '''Get data from input, transform it, and return it '''
         return self.transform(self._source.request(**kwargs), **kwargs)
 
-    def copy(self):
-        return type(self)()
+    def copy(self, *args, **kwargs):
+        ret = type(self)(*args, **kwargs)
+        ret._source = self._source
+        return ret
 
     def transform(self, data, **kwargs):
         '''Apply a transformation to data returned from
@@ -97,26 +99,25 @@ class PipeLine(Pipe):
 
     '''
 
-    pipeline: List[Pipe]
+    _pipeline: List[Pipe]
 
     def __init__(self, *args):
         '''Initialize PipeLine with initial Pipe instacnes being passed into
         *args
         '''
         super().__init__()
+        self._source = args[0]._source
 
-        if len(args) >= 1:
-            self._source = args[0]._source
+        self._pipeline = []
+        self.extend(*args)
 
-        self.extend(args)
-
-    def transforrm(self, data):
+    def transform(self, data, **kwargs):
         '''Modify transform to pass input data on all pipes
         '''
-        return reduce(
-            (lambda data, pipe: pipe.transform(data)),
-            [data] + self.pipeline
-        )
+        for pipe in self._pipeline:
+            data = pipe.transform(data)
+
+        return data
 
     def extend(self, *args):
         '''Extend existing pipeline with one or more Pipe instances
@@ -124,9 +125,9 @@ class PipeLine(Pipe):
         for pipe in args:
 
             if isinstance(pipe, PipeLine):
-                self.pipeline.extend(pipe.pipeline)
+                self._pipeline.extend(pipe.pipeline)
             elif isinstance(pipe, Pipe):
-                self.pipeline.append(pipe)
+                self._pipeline.append(pipe)
             else:
                 raise TypeError()  # TODO: make propper exceptions
 

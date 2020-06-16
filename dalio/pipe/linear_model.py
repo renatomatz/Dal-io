@@ -13,7 +13,7 @@ class TSLinearModel(Pipe, _Builder):
     }
     # TODO: make this agnostic to upper or lower case
 
-    def __init__(self, model=None):
+    def __init__(self):
         super().__init__()
 
         self._init_piece([

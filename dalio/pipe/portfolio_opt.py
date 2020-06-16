@@ -1,10 +1,8 @@
 from functools import partial
-from typing import List
 
 from pypfopt import CovarianceShrinkage
 from pypfopt.expected_returns import return_model as ReturnModel
 
-from dalio.base.constants import ADJ_CLOSE, IS_TYPE
 from dalio.pipe import Pipe
 from dalio.validator import STOCK_STREAM, HAS_COLS
 from dalio.util import _Builder
@@ -28,7 +26,6 @@ class CovShrink(Pipe, _Builder):
 
         self._source\
             .add_desc(STOCK_STREAM)\
-            .add_desc(HAS_COLS(ADJ_CLOSE))
 
         if isinstance(frequency, int):
             self.frequency = frequency
@@ -50,7 +47,9 @@ class CovShrink(Pipe, _Builder):
         cs = CovarianceShrinkage(data, frequency=self.frequency)
         shrink = self._piece["shrinkage"]
 
-        if shrink["name"] == "shrunk_covariance":
+        if shrink["name"] is None:
+            ValueError("shrinkage piece 'name' not set")
+        elif shrink["name"] == "shrunk_covariance":
             shrink_func = cs.shrunk_covariance
         elif shrink["name"] == "ledoit_wolf":
             shrink_func = cs.ledoit_wolf
@@ -60,7 +59,7 @@ class CovShrink(Pipe, _Builder):
                        **shrink["kwargs"])
 
 
-class ExpectedReturn(Pipe, _Builder):
+class ExpectedReturns(Pipe, _Builder):
 
     _RETURN_MODEL_PRESETS = [
         "mean_historical_return",
@@ -78,16 +77,15 @@ class ExpectedReturn(Pipe, _Builder):
 
         self._source\
             .add_desc(STOCK_STREAM)\
-            .add_desc(HAS_COLS(ADJ_CLOSE))
 
     def transform(self, data, **kwargs):
         return self.build_model(data)(data)
 
     def check_name(self, param, name):
         super().check_name(param, name)
-        if name not in ExpectedReturn._RETURN_MODEL_PRESETS:
+        if name not in ExpectedReturns._RETURN_MODEL_PRESETS:
             raise ValueError(f"argument return_model must be one of \
-                {ExpectedReturn._RETURN_MODEL_PRESETS}")
+                {ExpectedReturns._RETURN_MODEL_PRESETS}")
 
     def build_model(self, data):
         return_model = self._piece["return_model"]

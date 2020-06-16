@@ -1,11 +1,16 @@
+import numpy as np
+import pandas as pd
+
+from collections import OrderedDict
 from functools import partial
 from typing import Tuple, List, Dict, Union, Callable, Any
 
 from pypfopt import EfficientFrontier, CLA
 from pypfopt.objective_functions import L2_reg
 
+from dalio.base.constants import PORTFOLIO
 from dalio.model import Model
-from dalio.validator import HAS_DIMS
+from dalio.validator import HAS_DIMS, IS_TYPE, STOCK_STREAM
 from dalio.util import _Builder
 
 
@@ -148,7 +153,7 @@ class MakeEfficientFrontier(Model):
         return ef
 
     def copy(self):
-        ret = type(self)(
+        ret = super().copy(
             weight_bounds=self.weight_bounds,
             gamma=self.gamma
         )
@@ -289,7 +294,9 @@ class OptimumWeights(MakeEfficientFrontier, _Builder):
 
         strat = self._piece["strategy"]
 
-        if strat["name"] == "max_sharpe":
+        if strat["name"] is None:
+            ValueError("piece 'strategy' is not set")
+        elif strat["name"] == "max_sharpe":
             strat_func = data.max_sharpe
         elif strat["name"] == "min_volatility":
             strat_func = data.min_volatility
@@ -309,3 +316,52 @@ class OptimumWeights(MakeEfficientFrontier, _Builder):
         if name not in OptimumWeights._STRATEGY_PRESETS:
             ValueError("invalid strategy name, please select one of \
                 {OptimumWeights._STRATEGY_PRESETS}")
+
+
+class OptimumPortfolio(Model):
+
+    def __init__(self):
+        super().__init__()
+
+        self._init_source([
+            "weights_in",
+            "data_in"
+        ])
+
+        self._get_source("weights_in")\
+            .add_desc(IS_TYPE(dict))
+
+        self._get_source("data_in")\
+            .add_desc(STOCK_STREAM)
+
+    def run(self, **kwargs):
+
+        # Paralelize
+        # Fill unavailable stocks with 0
+        prices = self._source_from("data_in", **kwargs).fillna(0)
+        weights = self._source_from("weights_in", **kwargs)
+
+        # sorted prices
+        prices = prices.reindex(sorted(prices.columns), axis=1)
+        # sorted weights
+        weights = OrderedDict(sorted(weights.items(), key=lambda t: t[0]))
+
+        p_val = prices.values
+        w_val = np.array([*weights.values()]).reshape([-1, 1])
+
+        port = np.matmul(p_val, w_val)
+
+        port = pd.DataFrame(
+            port,
+            index=prices.index
+        )
+
+        # do this to conform to STOCK_STREAM description
+        multi_idx = pd.MultiIndex.from_tuples(
+            [(prices.columns[0][0], PORTFOLIO)],
+            names=prices.columns.names
+        )
+
+        port.columns = multi_idx
+
+        return port

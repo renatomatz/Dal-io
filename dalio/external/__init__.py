@@ -1,8 +1,8 @@
 from dalio.external.external import External
 
-from dalio.external.file import FileWriter
+from dalio.external.file import FileWriter, PandasInFile
 
-from dalio.external.matplotlib import PyPlotGraph, PySubplotGraph
+from dalio.external.figure import PyPlotGraph, PySubplotGraph, PyPfOptGraph
 
 from dalio.external.pdr import YahooDR
 

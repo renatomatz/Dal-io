@@ -6,10 +6,10 @@ from dalio.datadef import _DataDef
 
 
 class Model(_Transformer):
-    '''Models are a lot like transformers as they take in inputs and has a 
-    single output. Models do differ from transformers as they can take in 
-    multiple inputs and be much more flexible with additional options for 
-    different strategies or for limited data storage.     
+    '''Models are a lot like transformers as they take in inputs and has a
+    single output. Models do differ from transformers as they can take in
+    multiple inputs and be much more flexible with additional options for
+    different strategies or for limited data storage.
 
     === Attributes ===
 
@@ -27,8 +27,9 @@ class Model(_Transformer):
         super().__init__()
         self._source = {}
 
-    def copy(self):
-        ret = type(self)()
+    def copy(self, *args, **kwargs):
+        # TODO: make all copy() methods take in args and kwargs and call super
+        ret = type(self)(*args, **kwargs)
 
         for name, node in self._source.items():
             ret._source[name] = node
@@ -71,13 +72,11 @@ class Model(_Transformer):
 
     def _init_source(self, sources):
         if isinstance(sources, list):
-            s_dict = {}
             for source in sources:
                 if isinstance(source, str):
-                    s_dict[source] = _DataDef()
+                    self._source[source] = _DataDef()
                 else:
                     raise ValueError("source names must be strings")
-            self._source = s_dict
         else:
             raise ValueError("please specify a list of strings to the \
                     sources argument")
@@ -85,4 +84,4 @@ class Model(_Transformer):
     def __call__(self, input_name, new_input):
         '''Friendlier interface for with_input call
         '''
-        return self.with_input(input_name, new_input)
+        return self.set_input(input_name, new_input)

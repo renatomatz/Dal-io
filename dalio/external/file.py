@@ -2,6 +2,8 @@ import sys
 import io
 import os
 
+import pandas as pd
+
 from dalio.external import External
 
 
@@ -37,7 +39,22 @@ class FileWriter(External):
                 raise IOError(f"specified path {new_connection}\
                     does not exist")
         else:
-            raise ValueError("invalid connection type {type(new_connection)}")
+            raise ValueError(f"invalid connection type {type(new_connection)}")
 
         if old is not None:
             old.close()
+
+
+class PandasInFile(External):
+
+    _connection: str
+    ext: str
+
+    def __init__(self, in_file):
+        if isinstance(in_file, str):
+            self.set_connection(in_file)
+            self.ext = in_file.split(".")[-1]
+
+    def request(self, **kwargs):
+        if self.ext in ["xls", "xlsx"]:
+            return pd.read_excel(self._connection, **kwargs)

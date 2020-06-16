@@ -43,6 +43,7 @@ class IS_PD_DF(Validator):
 
 
 class HAS_COLS(IS_PD_DF):
+    # TODO: Accept regex
 
     _cols: List[str]
 
@@ -147,3 +148,6 @@ class HAS_INDEX_NAMES(IS_PD_DF):
 
         return f"The following items are missing from axis {self._axis}: \
                 {missing}"
+
+
+# TODO: Make a mean value checker

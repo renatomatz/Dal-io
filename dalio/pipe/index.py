@@ -12,7 +12,7 @@ class Index(Pipe):
     _cols: List[str]
     _groupby: List[str]
 
-    def __init__(self, index_at=1, cols=None, groupby=None):
+    def __init__(self, index_at, cols=None, groupby=None):
         super().__init__()
 
         self._source\
@@ -28,7 +28,7 @@ class Index(Pipe):
         cols_to_change = self._cols if self._cols is not None \
             else data.columns.to_list()
 
-        if len(self._groupby) == 0:
+        if self._groupby is None:
             data.loc(axis=1)[cols_to_change] = \
                     data[cols_to_change].transform(index_cols, i=self.index_at)
         else:
@@ -41,10 +41,10 @@ class Index(Pipe):
 
     def copy(self):
         ret = type(self)(
+            self.index_at,
             cols=self._cols,
             groupby=self._groupby
         )
-        ret.index_at = self.index_at,
         return ret
 
 

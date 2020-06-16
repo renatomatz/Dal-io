@@ -49,15 +49,16 @@ class Translator(_Transformer):
             self._source = new_input
         else:
             raise ValueError("new input must be of type External")
+        return self
 
     def with_input(self, new_input):
         if isinstance(new_input, External):
             ret = type(self)()
             ret._source = new_input
             ret.update_translations(self.translations)
-            return ret
         else:
             raise ValueError("new input must be of type External")
+        return ret
 
     def update_translations(self, new_translations):
         if isinstance(new_translations, dict):

@@ -1,4 +1,4 @@
-import numpu as np
+import numpy as np
 import pandas as pd
 
 from typing import List
@@ -21,13 +21,14 @@ from arch.univariate import (
 # Import distribution models
 from arch.univariate import (
     Normal,
-    StudentsT
+    StudentsT,
     SkewStudent
 )
 
+from dalio.base.constants import RETURNS, MAX_EXEDENCE, EXPECTED_SHORTFALL
 from dalio.util import _Builder
 from dalio.pipe import Pipe
-from dalio.validator import HAS_DIMS, IS_TYPE
+from dalio.validator import HAS_DIMS, IS_TYPE, HAS_ATTR
 
 
 class MakeARCH(Pipe, _Builder):
@@ -141,18 +142,19 @@ class ValueAtRisk(Pipe):
     _quantiles: List[float]
 
     def __init__(self, quantiles=[0.01, 0.05]):
+        super().__init__()
 
         self._source\
-            .add_desc(IS_TYPE(ARCHModel))
-            .add_desc(HAS_ATTR{"fit"})
+            .add_desc(IS_TYPE(ARCHModel))\
+            .add_desc(HAS_ATTR("fit"))
 
         if isinstance(quantiles, list):
             if sum([n for n in quantiles if not isinstance(n, float)]) > 0:
                 raise TypeError("all quantiles must be floats")
             else:
-                self._quandiles = sorted(quantiles)
+                self._quantiles = sorted(quantiles)
         elif isinstance(quantiles, float):
-            self._quandiles = [quantiles]
+            self._quantiles = [quantiles]
         else:
             raise TypeError("quantiles argument must either be a float or \
                     list of floats")
@@ -171,16 +173,22 @@ class ValueAtRisk(Pipe):
 
         fit_res = data.fit(**fit_opts)
 
+        # prepare returns data
         returns = data._y_original
-        first_date = returns.index[0]
+        while type(returns.columns).__name__ == "MultiIndex":
+            returns = returns.droplevel(1, axis=1)
+        returns.columns = [RETURNS]
+
+        # start is the earliest index fitted by the algorithm
+        start = returns.index[max(0, fit_res._fit_indices[0]-1)]
 
         if returns is None:
             raise ValueError("Invalid ARCH model: does not have returns")
 
-        forecasts = fit_res.forecast(start=first_date)
+        forecasts = fit_res.forecast(start=start)
 
-        cond_mean = forecasts.mean
-        cond_var = forecasts.variance
+        cond_mean = forecasts.mean[start:]
+        cond_var = forecasts.variance[start:]
 
         dist = type(data.distribution).__name__
 
@@ -196,25 +204,50 @@ class ValueAtRisk(Pipe):
 
         q = data.distribution.ppf(self._quantiles, params)
 
-        cols = ["".join([str(int(n * 100)), "%"]) for n in self._quantiles]
+        cols = ["".join([str(n*100), "%"]) for n in self._quantiles]
 
-        value_at_risk = -cond_mean.values - np.sqrt(cond_var).values * q[None, :]
+        value_at_risk = -cond_mean.values \
+            - np.sqrt(cond_var).values \
+            * q[None, :]
+
         value_at_risk = pd.DataFrame(
-                value_at_risk, 
-                columns=cols, 
+                value_at_risk,
+                columns=cols,
                 index=cond_var.index)
 
         max_exedence = []
         for idx in value_at_risk.index:
-            for i, quantile in enumerate(self.cols[::-1]):
-                if returns[idx] < -value_at_risk.loc[idx, quantile]:
-                    c.append(self._quantiles[-(i+1)])
+            for i, quantile in enumerate(cols[::-1]):
+                if float(returns.loc[idx]) < -value_at_risk.loc[idx, quantile]:
+                    max_exedence.append(self._quantiles[-(i+1)])
                     break
-                c.append(1)
+            else:
+                # this only executes if the whole for loop completes
+                max_exedence.append(1)
 
         max_exedence = pd.DataFrame(
                 max_exedence,
-                columns="max_exedence",
+                columns=[MAX_EXEDENCE],
                 index=cond_var.index)
 
-        return pd.concat(returns, value_at_risk, max_exedence)
+        return pd.concat([returns, value_at_risk, max_exedence],
+                         join="inner",
+                         axis=1).dropna()
+
+    def copy(self):
+        return super().copy(
+            quantiles=self._quantiles
+        )
+
+
+class ExpectedShortfall(ValueAtRisk):
+
+    def transform(self, data, **kwargs):
+        data = super().transform(data, **kwargs)[[MAX_EXEDENCE, RETURNS]]
+
+        ret = {}
+        for quant in self._quantiles:
+            # calculate mean returns that exeed a quantile
+            ret[quant] = np.mean(data[RETURNS][data[MAX_EXEDENCE] <= quant])
+
+        return pd.DataFrame.from_dict(ret, orient="index", columns=[EXPECTED_SHORTFALL])

@@ -87,4 +87,4 @@ class _Transformer:
     def __call__(self, new_input):
         '''Easier interface to with_input
         '''
-        return self.with_input(new_input)
+        return self.set_input(new_input)
