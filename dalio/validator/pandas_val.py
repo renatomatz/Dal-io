@@ -3,7 +3,7 @@ import pandas as pd
 from typing import Any, List
 
 from dalio.validator import Validator
-from dalio.util import process_cols
+from dalio.util import process_cols, unique
 
 
 class IS_PD_TS(Validator):
@@ -46,11 +46,14 @@ class HAS_COLS(IS_PD_DF):
     # TODO: Accept regex
 
     _cols: List[str]
+    _level: int
 
-    def __init__(self, cols):
+    def __init__(self, cols, level=None):
         super().__init__()
         
         self._cols = process_cols(cols)
+        self._level = level
+
         self.test_desc = "Check if specified columns are present in \
                 pd.DataFrame"
 
@@ -60,8 +63,22 @@ class HAS_COLS(IS_PD_DF):
         if isinstance(df_res, str):
             return df_res
 
+        if self._level is None:
+            all_cols = data.columns
+        else:
+            all_cols = [unique(elems) for elems 
+                        in zip(*data.columns)][self._level]
+
+        if callable(self._cols):
+            cols_to_check = [
+                col for col in all_cols
+                if self._cols(col)
+            ]
+        else:
+            cols_to_check = self._cols
+
         missing_cols = [col for col in self._cols
-                        if col not in data.columns]
+                        if col not in cols_to_check]
 
         if len(missing_cols) == 0:
             return True
@@ -151,3 +168,4 @@ class HAS_INDEX_NAMES(IS_PD_DF):
 
 
 # TODO: Make a mean value checker
+

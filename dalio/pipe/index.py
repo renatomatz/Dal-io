@@ -1,7 +1,8 @@
 from dalio.base.constants import TICKER
 from dalio.pipe import Pipe
 from dalio.validator import IS_PD_TS, IS_PD_DF, HAS_COLS
-from dalio.util import process_cols, index_cols
+from dalio.ops import index_cols
+from dalio.util import process_cols
 
 from typing import List
 

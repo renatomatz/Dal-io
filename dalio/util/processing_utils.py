@@ -1,13 +1,12 @@
 import pandas as pd
 
 
-def process_cols(cols):
-    if isinstance(cols, str):
-        ret = [cols]
-    else:
-        ret = cols
-
-    return ret
+def process_cols(columns):
+    if isinstance(columns, str):
+        return [columns]
+    elif hasattr(columns, '__iter__'):
+        return columns
+    return columns
 
 
 def process_new_colnames(cols, new_cols):
@@ -50,3 +49,30 @@ def process_new_df(df1, df2, cols, new_cols):
         df2.columns = new_cols
         df1 = df1.join(df2)
     return df1
+
+
+def list_str(listi):
+    if listi is None:
+        return None
+    if isinstance(listi, (list, tuple)):
+        return ', '.join([str(elem) for elem in listi])
+    return listi
+
+
+def unique(elems):
+    """
+    Thanks to Martin Broadhurst for the beautiful code
+    """
+    seen = set()
+    return [x for x in elems if not (x in seen or seen.add(x))] 
+
+
+def filter_columns(all_cols, cols):
+    if callable(cols):
+        filtered_cols = [col for col in all_cols if cols(col)]
+    elif cols is None:
+        filtered_cols = all_cols
+    else:
+        filtered_cols = cols
+
+    return filtered_cols

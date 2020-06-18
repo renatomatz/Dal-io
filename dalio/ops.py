@@ -1,3 +1,7 @@
+def index_cols(df, i=100):
+    return (df / df.iloc[0]) * i
+
+
 def risk_metrics(df, lamb):
     df = df.copy()**2
     last_ret = df.iloc[0].copy()
