@@ -1,10 +1,22 @@
 from itertools import product
 
+import numpy as np
 import pandas as pd
 
 from dalio.pipe import Pipe
-from dalio.validator import IS_PD_DF, HAS_COLS, IS_PD_TS
-from dalio.util import process_cols, process_date, unique, filter_columns
+
+from dalio.pipe.extra_classes import (
+        _ColSelection,
+        _ColValSelection,
+        _ColMapSelection
+)
+
+from dalio.validator import IS_PD_DF, IS_PD_TS
+
+from dalio.util import (
+        process_date,
+        _filter_cols
+)
 
 
 class DropNa(Pipe):
@@ -28,10 +40,10 @@ class DropNa(Pipe):
         self._source\
             .add_desc(IS_PD_DF())
 
-        self._drop_na_kwargs(**kwargs)
+        self._drop_na_kwargs = kwargs
 
     def transform(self, data, **kwargs):
-        return data.dropna(**self._dropna_kwargs)
+        return data.dropna(**self._drop_na_kwargs)
 
 
 class DateSelect(Pipe):
@@ -64,35 +76,11 @@ class DateSelect(Pipe):
         self._end = process_date(end)
 
 
-class _ColSelection(Pipe):
-
-    def __init__(self, cols, **kwargs):
-        super().__init__()
-
-        if cols is not None:
-            level = kwargs.get("level", None)
-            self._source\
-                .add_desc(HAS_COLS(cols, level=level))
-
-        if not callable(cols):
-            self._cols = process_cols(cols)
-        else:
-            self._cols = cols
-
-    def copy(self):
-
-        ret = type(self)(
-            cols=self._cols
-        )
-
-        return ret
-
-
 class ColSelect(_ColSelection):
 
     def transform(self, data, **kwargs):
 
-        cols_to_keep = filter_columns(data.columns.to_list(), self._cols)
+        cols_to_keep = _filter_cols(data.columns.to_list(), self._cols)
 
         return data[cols_to_keep]
 
@@ -122,8 +110,8 @@ class ColDrop(_ColSelection):
 
         if callable(self._cols):
             cols_to_drop = [
-                col for col in df.cols
-                if self._cols(df[col])
+                col for col in data.cols
+                if self._cols(data[col])
             ]
         else:
             cols_to_drop = self._cols
@@ -174,63 +162,53 @@ class RowDrop(_ColSelection):
         'xor': lambda x: sum(x) == 1
     }
 
+    def _row_condition_builder(self):
+        if isinstance(self._conditions, dict):
+            def _row_cond(row):
+                res = [cond(row[lbl])
+                       for lbl, cond in self._conditions.items()]
+                return self._reducer(res)
+        elif hasattr(self._conditions, "__iter__"):
+            def _row_cond(row):
+                res = [self._reducer(row.apply(cond))
+                       for cond in self._conditions]
+                return self._reducer(res)
+        else:
+            def _row_cond(row):
+                return self._reducer(row.apply(self._conditions))
+
+        return _row_cond
+
     def __init__(self, conditions, columns=None, reduce_strat=None, **kwargs):
 
-        self._conditions = conditions
-
-        if reduce_strat not in RowDrop._REDUCERS.keys():
-            raise ValueError((
-                "{} is an unsupported argument for the 'reduce' parameter of "
-                "the RowDrop constructor!").format(reduce))
-
-        self._reducer = RowDrop._REDUCERS.get(reduce_strat, "any")
+        self._reducer = RowDrop._REDUCERS.get(reduce_strat, any)
 
         if isinstance(conditions, dict):
             valid = all([callable(cond) for cond in conditions.values()])
             if not valid:
                 raise ValueError(
                     "Condition dicts given to RowDrop must map to callables!")
-            self._columns = list(conditions.keys())
+            columns = list(conditions.keys())
         elif hasattr(conditions, "__iter__"):
             valid = all([callable(cond) for cond in conditions])
             if not valid:
                 raise ValueError(
                     "RowDrop condition lists can contain only callables!")
         elif not callable(conditions):
-                raise ValueError(
-                    "RowDrop condition must be callable!")
+            raise ValueError("RowDrop condition must be callable!")
 
         self._conditions = conditions
 
-        super().__init__(self._columns)
+        super().__init__(columns)
 
+    def transform(self, data, **kwargs):
 
-    def _transform(self, df, verbose):
+        subdf = data
 
-        cols_to_check = filter_columns(data.columns.to_list(), self._cols)
+        if self._cols is not None:
+            subdf = data[self._cols]
 
-        i_to_keep = set()
-        for col in cols_to_check:
-            if isinstance(conditions, dict):
-            elif hasattr(conditions, "__iter__"):
-            else:
-
-            i_to_keep.update(data[col].isin(vals_to_keep))
-
-        return data.copy().iloc[[*i_to_keep]]
-
-
-class _ColValSelection:
-
-    def __init__(self, values, cols=None):
-        super().__init__(cols)
-
-        self._values = values
-
-    def copy(self):
-        ret = super().copy()
-        ret._values = self._values
-        return ret
+        return data.copy()[~subdf.apply(self._row_condition_builder(), axis=1)]
 
 
 class ValDrop(_ColValSelection):
@@ -256,6 +234,12 @@ class ValDrop(_ColValSelection):
             a   b
         3  18  11
     """
+
+    def __init__(self, values, cols=None):
+        if not isinstance(values, (dict, list)):
+            values = [values]
+
+        super().__init__(values, cols)
 
     def transform(self, data, **kwargs):
 
@@ -294,10 +278,15 @@ class ValKeep(_ColValSelection):
         2  4  5
     """
 
+    def __init__(self, values, cols=None):
+        if not isinstance(values, (dict, list)):
+            values = [values]
+
+        super().__init__(values, cols)
+
     def transform(self, data, **kwargs):
 
         inter_df = data.copy()
-        before_count = len(inter_df)
 
         cols_to_check = self._cols if self._cols is not None else data.cols
 
@@ -328,30 +317,18 @@ class FreqDrop(_ColValSelection):
         3  1  11
     """
 
-    def _transform(self, data, **kwargs):
+    def transform(self, data, **kwargs):
 
-        cols_to_check = filter_columns(data.columns.to_list(), self._cols)
+        cols_to_check = _filter_cols(data.columns.to_list(), self._cols)
 
         i_to_keep = set()
+        n_index = np.arange(data.shape[0])
         for col in cols_to_check:
             valcount = data[col].value_counts()
-            vals_to_keep = valcount[valcount >= self._value].index
-            i_to_keep.update(data[col].isin(vals_to_keep))
+            vals_to_keep = valcount[valcount >= self._values].index
+            i_to_keep.update(n_index[data[col].isin(vals_to_keep)])
 
         return data.copy().iloc[[*i_to_keep]]
-
-
-class _ColMapSelection:
-
-    def __init__(self, map_dict, **kwargs):
-        super().__init__([*map_dict.keys()], **kwargs)
-
-        self._map_dict = map_dict
-
-    def copy(self):
-        ret = super().copy()
-        ret._map_dict = self._map_dict
-        return ret
 
 
 class ColRename(_ColMapSelection):
@@ -400,35 +377,18 @@ class ColReorder(_ColMapSelection):
     def __init__(self, map_dict, level=None):
         super().__init__(map_dict, level=level)
 
-        if self._level is None or isinstance(level, int):
-            self._level = level
-        else:
-            TypeError(f"level attribute must be None or of type {int}, \
-                    not {type(level)}")
-
     def transform(self, data, **kwargs):
 
-        cols = data.columns.to_list()
+        cols, levels = self._extract_col_names(data, filter_cols=False)
 
-        if self._level is not None:
-            # create dict of unique elements in each level
-            levels = {i: unique(elems) for i, elems in enumerate(zip(*cols))}
-            # select elements of the chosen level
-            cols = levels[self._level]
-        
         # reposition elements of columns or chosen levels
-        for pos, col in self._map_dict:
+        for col, pos in self._map_dict.items():
             cols.remove(col)
             # this works for edge cases like last cols because of the remove
             cols = cols[:pos] + [col] + cols[pos:]
 
-        if self._levels is not None:
-            levels[self._level] = col
+        if levels is not None:
+            levels[self._level] = cols
             cols = [*product(*levels.values())]
-        
-        return data[cols]
 
-    def copy(self):
-        ret = super().copy()
-        ret._level = self._level
-        return ret
+        return data[cols]

@@ -59,15 +59,7 @@ def list_str(listi):
     return listi
 
 
-def unique(elems):
-    """
-    Thanks to Martin Broadhurst for the beautiful code
-    """
-    seen = set()
-    return [x for x in elems if not (x in seen or seen.add(x))] 
-
-
-def filter_columns(all_cols, cols):
+def _filter_cols(all_cols, cols):
     if callable(cols):
         filtered_cols = [col for col in all_cols if cols(col)]
     elif cols is None:

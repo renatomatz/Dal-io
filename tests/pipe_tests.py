@@ -10,6 +10,9 @@ from dalio.pipe import *
 from dalio.model import *
 from dalio.application import *
 
+# File Input
+file_in = StockStreamFileTranslator()(PandasInFile("tests/MGT441.xlsx"))
+ticker = ["NVDA", "RL", "GPS", "WMT"]
 
 # Yahoo Input
 y_api = YahooDR()
@@ -78,21 +81,21 @@ tickers = ["MSFT", "AAPL", "IBM", "TSLA", "XOM", "BP", "JPM"]
 
 # q_comps_grapher.run(ticker=tickers)
 
-adj_close_in = ColSelect(cols=("adj_close"))(y_in)
-returns = StockReturns(cols="adj_close")(adj_close_in)
+# adj_close_in = ColSelect(cols=("adj_close"))(y_in)
+# returns = StockReturns(cols="adj_close")(adj_close_in)
 
-garch = MakeARCH()(returns)
-fit_garch = FitARCHModel()(garch)
+# garch = MakeARCH()(returns)
+# fit_garch = FitARCHModel()(garch)
 
-garch\
-    .set_piece("mean", "ARX", lags=[1, 3, 12])\
-    .set_piece("volatility", "ARCH", p=5)\
-    .set_piece("distribution", "StudentsT")
+# garch\
+#     .set_piece("mean", "ARX", lags=[1, 3, 12])\
+#     .set_piece("volatility", "ARCH", p=5)\
+#     .set_piece("distribution", "StudentsT")
 
 # am = garch.run(ticker="MSFT")
 # res = fit_garch.run(ticker="MSFT")
 
-var = ValueAtRisk(quantiles=[0.1, 0.01, 0.05])(garch)
+# var = ValueAtRisk(quantiles=[0.1, 0.01, 0.05])(garch)
 # var_res = var.run(ticker="MSFT")
 
 # pyplot_grapher = PyPlotGraph()
@@ -103,37 +106,37 @@ var = ValueAtRisk(quantiles=[0.1, 0.01, 0.05])(garch)
 
 # fig = var_graph.run(ticker="MSFT")
 
-S = CovShrink()(adj_close_in)
-S.set_piece("shrinkage", "ledoit_wolf")
+# S = CovShrink()(adj_close_in)
+# S.set_piece("shrinkage", "ledoit_wolf")
 
-mu = ExpectedReturn()(adj_close_in)
-mu.set_piece("return_model", "mean_historical_return")
+# mu = ExpectedReturn()(adj_close_in)
+# mu.set_piece("return_model", "mean_historical_return")
 
 # S_data = S.run(ticker=tickers)
 # mu_data = mu.run(ticker=tickers)
 
-port_ef = OptimumWeights()\
-    .set_input("sample_covariance", S)\
-    .set_input("expected_returns", mu)
+# port_ef = OptimumWeights()\
+#     .set_input("sample_covariance", S)\
+#     .set_input("expected_returns", mu)
 
-port_ef\
-    .add_objective("L2_reg")\
-    .add_constraint(lambda x: x[1] <= 0.5)\
-    .add_stock_weight_constraint(
-        ticker="MSFT",
-        comparisson="==",
-        weight=0.3
-    )\
-    .set_piece("strategy", "max_sharpe")
+# port_ef\
+#     .add_objective("L2_reg")\
+#     .add_constraint(lambda x: x[1] <= 0.5)\
+#     .add_stock_weight_constraint(
+#         ticker="MSFT",
+#         comparisson="==",
+#         weight=0.3
+#     )\
+#     .set_piece("strategy", "max_sharpe")
 
-ef = port_ef.run(ticker=tickers)
+# ef = port_ef.run(ticker=tickers)
 
-opt_port = MakeOptPort()
-opt_port\
-    .set_input("data_in", adj_close_in)\
-    .set_input("weights_in", port_ef)
+# opt_port = MakeOptPort()
+# opt_port\
+#     .set_input("data_in", adj_close_in)\
+#     .set_input("weights_in", port_ef)
 
-port = opt_port.run(ticker=tickers)
+# port = opt_port.run(ticker=tickers)
 
 # lm = TSLinearModel()(adj_close_in)
 # lm\
@@ -141,10 +144,72 @@ port = opt_port.run(ticker=tickers)
 
 # lm_fitted = lm.run(ticker="MSFT")
 
-port_cla = MakeCriticalLine()\
-    .set_input("sample_covariance", S)\
-    .set_input("expected_returns", mu)
+# port_cla = MakeCriticalLine()\
+#     .set_input("sample_covariance", S)\
+#     .set_input("expected_returns", mu)
 
-cla = port_cla.run(ticker=tickers)
+# cla = port_cla.run(ticker=tickers)
+
+time = DateSelect()
+price = time.set_input(y_in)
+
+# Select
+pipe = ColDrop("close").set_input(price)
+# res = pipe.run(ticker=ticker)
+
+val_drop = ValDrop(12855900, cols="volume").set_input(price)
+# res = pipe.run(ticker=ticker)
+
+pipe = ValKeep(12855900, cols="volume").set_input(price)
+# res = pipe.run(ticker=ticker)
+
+pipe = ColRename({"close": "CLOSE"}).set_input(price)
+# res = pipe.run(ticker=ticker)
+
+pipe = DropNa().set_input(val_drop)
+# res = pipe.run(ticker=ticker)
+
+pipe = FreqDrop(3, [("adj_close", "NVDA")]).set_input(price)
+# res = pipe.run(ticker=ticker)
+
+pipe = ColReorder({"open":0}, level=0).set_input(price)
+# res = pipe.run(ticker=ticker)
+
+pipe = RowDrop({("adj_close", "NVDA"): (lambda x: x < 100)}).set_input(price)
+# res = pipe.run(ticker=ticker)
+
+# Generate
+pipe = Bin({"NVDA": 3}, level=1, drop=False).set_input(price)
+res = pipe.run(ticker=ticker)
+
+pipe = OneHotEncode("is_delisted").set_input(q_tick_in)
+res = pipe.run(ticker=ticker)
+
+pipe = MapColVals("is_delisted", {1:"delisted", 2:"not delisted"}).set_input(q_tick_in)
+res = pipe.run(ticker=ticker)
+
+pipe = ApplyToRows((lambda row: row["open"] - row["close"]), "diff").set_input(price)
+res = pipe.run(ticker=ticker)
+
+pipe = ApplyByCols(("adj_close", "NVDA"), (lambda x: x*100)).set_input(price)
+res = pipe.run(ticker=ticker)
+
+pipe = ColByFrameFunc("Sum", (lambda x: x.apply(np.sum, axis=1))).set_input(price)
+res = pipe.run(ticker=ticker)
+
+pipe = AggByCols(("adj_close", "NVDA"), np.log).set_input(price)
+res = pipe.run(ticker=ticker)
+
+pipe = Log().set_input(price)
+res = pipe.run(ticker=ticker)
+
+
+# SKLearn
+pipe = Encode().set_input(price)
+res = pipe.run(ticker=ticker)
+
+pipe = Scale().set_input(price)
+res = pipe.run(ticker=ticker)
+
 
 print("DONE")

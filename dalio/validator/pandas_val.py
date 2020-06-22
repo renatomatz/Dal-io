@@ -3,7 +3,7 @@ import pandas as pd
 from typing import Any, List
 
 from dalio.validator import Validator
-from dalio.util import process_cols, unique
+from dalio.util import process_cols
 
 
 class IS_PD_TS(Validator):
@@ -66,8 +66,7 @@ class HAS_COLS(IS_PD_DF):
         if self._level is None:
             all_cols = data.columns
         else:
-            all_cols = [unique(elems) for elems 
-                        in zip(*data.columns)][self._level]
+            all_cols = data.columns.unique(level=self._level)
 
         if callable(self._cols):
             cols_to_check = [
@@ -162,10 +161,56 @@ class HAS_INDEX_NAMES(IS_PD_DF):
             return self._warn_report(data, not_in_index)
 
     def _warn_report(self, data, missing):
-
         return f"The following items are missing from axis {self._axis}: \
                 {missing}"
 
+
+class HAS_LEVELS(IS_PD_DF):
+
+    def __init__(self, levels, axis=0, comparisson="<="):
+        super().__init__()
+
+        if levels is None or isinstance(levels, int):
+            # TODO: add support to level names
+            self._levels = levels
+        else:
+            raise TypeError(f"level attribute must be None or of type {int}, \
+                    not {type(levels)}")
+        
+        if axis not in [0, 1]:
+            raise ValueError("argument axis must be either 0 or 1")
+        else:
+            self._axis = axis
+
+        if comparisson in [">=", "==", "<="]:
+            self._comparission = comparisson
+        else:
+            raise ValueError(f"argument 'comparisson' must be one of \
+                ['>=', '==', '<=']")
+
+    def validate(self, data):
+
+        nlevels = (data.index if self._axis == 0 else data.columns).nlevels
+        passed = False
+
+        # TODO: use dicts and function operators, this is ugly
+        if self._comparisson == ">=":
+            passed = nlevels >= self._levels
+        elif self._comparisson == "==":
+            passed = nlevels == self._levels
+        elif self._comparisson == "<=":
+            passed = nlevels <= self._levels
+
+        if passed:
+            return True
+        elif self._fatal:
+            raise self._error_report(ValueError, data, None)
+        else:
+            return self._warn_report(data, None)
+
+    def _warn_report(self, data, missing):
+        return f"Dataframe does not meet the required number of levels \
+            (levels {self._comparisson} {self._levels}"
 
 # TODO: Make a mean value checker
 

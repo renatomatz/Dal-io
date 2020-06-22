@@ -10,3 +10,10 @@ def risk_metrics(df, lamb):
         df.iloc[i] = lamb*(df.iloc[i-1]**2) + (1-lamb)*(last_ret)
         last_ret = curr
     return df
+
+
+def unique(elems):
+    """ Thank you, Martin Broadhurst for the beautiful code
+    """
+    seen = set()
+    return [x for x in elems if not (x in seen or seen.add(x))] 
