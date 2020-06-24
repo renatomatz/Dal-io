@@ -1,7 +1,9 @@
+"""Data processing utilities"""
 import pandas as pd
 
 
 def process_cols(cols):
+    """Standardize input columns"""
     if isinstance(cols, str):
         ret = [cols]
     else:
@@ -11,6 +13,7 @@ def process_cols(cols):
 
 
 def process_new_colnames(cols, new_cols):
+    """Get new column names based on the column parameter"""
     col_names = None
     if new_cols is None:
         col_names = cols
@@ -20,8 +23,8 @@ def process_new_colnames(cols, new_cols):
         if isinstance(cols[0], tuple):
             # append new column name to last element of tuple
             col_names = [
-                    old_name[:-1] + (new_cols + "_" + old_name[-1],)
-                    for old_name in cols]
+                old_name[:-1] + (new_cols + "_" + old_name[-1],)
+                for old_name in cols]
         else:
             col_names = [new_cols + old_name for old_name in cols]
 
@@ -29,6 +32,12 @@ def process_new_colnames(cols, new_cols):
 
 
 def process_date(date):
+    """Standardize input date
+
+    Raises:
+        TypeError: if the type of the date parameter cannot be converted to
+            a pandas timestamp
+    """
     if date is None or isinstance(date, pd.Timestamp):
         return date
     else:
@@ -43,6 +52,14 @@ def process_date(date):
 
 
 def process_new_df(df1, df2, cols, new_cols):
+    """Process new dataframe given columns and new column names
+
+    Args:
+        df1 (pd.DataFrame): first dataframe.
+        df2 (pd.DataFrame): dataframe to join or get columns from
+        cols (iterable): iterable of columns being targetted.
+        new_cols (iterable): iterable of new column names.
+    """
     if cols == new_cols:
         df1 = df1.copy()
         df1.loc(axis=1)[new_cols] = df2

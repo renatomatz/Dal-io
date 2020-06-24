@@ -1,30 +1,25 @@
-'''Defines Node abstract class'''
+"""Defines Node abstract class
 
-
-from typing import List
+Nodes are the key building blocks of your model as they represent any data
+that passes thorugh it. These are usued in subsequent classes to describe and
+manage data.
+"""
+from typing import Any, List
 
 
 class _Node:
-    '''Nodes are the key building blocks of your model as they represent any
-    data that passes thorugh it. These are usued in subsequent classes to 
-    describe and manage data.
+    """Node abstract class.
 
-    === Attributes ===
+    Used to represent input or output data at any point of the analysis.
+    Implements basic functionality to request data from a connection and
+    ensure the integrity of the requested data.
 
-    _connection: entry point for data
+    Attributes:
+        _connection: an entry point for data
+        tags (list): strings to describe this node
+    """
 
-    tags: strings to describe this node
-
-    === Methods ===
-   
-    request: request data from a source
-
-    check: check if sourced data is correct
-
-    describe: output a description of the Node
-
-    '''
-
+    _connection: Any
     tags: List[str]
 
     def __init__(self):
@@ -32,28 +27,43 @@ class _Node:
         self.tags = []
 
     def request(self, **kwargs):
+        """Requests data from a source
+
+        Args:
+            **kwargs (dict): arguments dependent on the data being retrieved
+            by the connection of processed after request
+
+        Returns:
+            Data requested from connection, after any needed processing and
+            integrity checks.
+        """
         raise NotImplementedError()
 
     def check(self):
+        """Checks if this _Node instance is ready to request data
+
+        Returns:
+            A boolean stating whether _Node instance is ready.
+        """
         raise NotImplementedError()
 
     def describe(self):
-        '''Describe this node
-        '''
+        """Outputs a description of this _Node instance
+        """
         print(f"\
-        connection: {self._connection}\n \
-        tags: {self.tags}\n \
+            connection: {self._connection}\n \
+            tags: {self.tags}\n \
         ")
 
     def get_connection(self):
-        '''Get connection attribute
-        '''
+        """Gets instance's connection"""
         return self._connection
 
     def set_connection(self, new_connection):
-        '''Set connection attribute
-        This method can be further extended to certify connection and implement
-        other securuty features
-        '''
+        """Set connection attribute
+
+        This method can be further extended to certify connection and
+        implement other securuty features
+        """
         self._connection = new_connection
         return self

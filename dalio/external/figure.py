@@ -1,11 +1,16 @@
+"""Define classes for external figure pieces
+
+Figures, be it a plot, image or video are considered external outputs as the
+figure itself is not contained in the python session, and must be shown in a
+screen or server.
+"""
+from typing import Any
+
 import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
 
-from typing import Any, Tuple
-
 from pypfopt import CLA
-from pypfopt.plotting import Plotting
 
 from dalio.external import External
 
@@ -14,29 +19,90 @@ from dalio.util import plot_efficient_frontier, \
 
 
 class Figure(External):
+    """Base Figure class
+
+    These serve to implement the basic logic of a figure, and are not limited
+    to any specific python package. Python packages should be standardazied
+    in these classes to take in these broad commands.
+
+    Attributes:
+        _connection: figure object dealt with by this class
+    """
 
     _connection: Any
 
     def __init__(self):
+        """Initializes instance and set empty figure"""
         super().__init__()
         self.reset()
 
     def request(self, **kwargs):
-        return self._connection
+        """Processes a request based on the figure.
 
-    def plot(self, data, kind=None, **graph_opts):
+        Args:
+            **kwargs: additional request options.
+        """
+        query = kwargs.get("query", None)
+        if query == "GET":
+            return self._connection
+        else:
+            return self._connection
+
+    def check(self):
+        """Check if there is a figure to return"""
+        return self._connection is not None
+
+    def plot(self, data, coords=None, kind=None, **graph_opts):
+        """Plots data on the figure.
+
+        Args:
+            data: data to be used in the plot.
+            coords: coordinates or location of a target graph
+            kind: kind of plot to be plotted. None by default.
+            **graph_opts: optional graphing options
+        """
         raise NotImplementedError()
 
     def reset(self):
+        """Resets figure to default, empty state"""
         self._connection = None
 
 
 class PyPlotGraph(Figure):
+    """Figure from the matplotlib.pyplot package.
+
+    Attributes:
+        _connection (matplotlib.pyplot.Figure): graph figure
+        _axes (matplotlib.axes._subplots.AxesSubplot): figure axis
+    """
 
     _connection: plt.Figure
-    _axes: Any
+    _axes: object
 
-    def plot(self, x, y=None, kind=None, **graph_opts):
+    def request(self, **kwargs):
+        """Processed request for data.
+
+        This adds the SHOW request to the base class implementation
+        """
+        query = kwargs.get("query", None)
+        if query == "SHOW":
+            self._connection.show()
+            return None
+        else:
+            return super().request(**kwargs)
+
+    def plot(self, data, coords=None, kind=None, **graph_opts):
+        """Plot x onto the x-axis and y onto the y-axis, if applicable.
+
+        Args:
+            data (matrix or array like): either data to be plotted on the x
+                axis or a tuple of x and y data to be plotted or the x and y
+                axis.
+            kind (str): kind of graph.
+            **graph_opts: plt plotting arguments for this kind of graph.
+        """
+        x, y = data if len(data) == 2 else (data, None)
+
         if kind == "line":
             self._axes.plot(x, y, **graph_opts)
         elif kind == "scatter":
@@ -45,97 +111,117 @@ class PyPlotGraph(Figure):
             self._axes.plot(x, y, **graph_opts)
 
     def reset(self):
+        """Set connection and axes to a single figure and axis"""
         self._connection, self._axes = plt.subplots(1)
 
 
-class PySubplotGraph(PyPlotGraph):
+class PySubplotGraph(Figure):
+    """A matplotlib.pyplot.Figure containing multiple subplots.
+
+    This has a set number of axes, rows and columns which can be accessed
+    individually to have data plotted on. These will often be used inside of
+    applications that require more than one subplot all contained in the
+    same instance.
+
+    Attributes:
+        _rows (int): number of rows in the subplot
+        _cols (int): number of columns in the subplot
+        _axes (np.array): array of the figure's axes
+    """
 
     _rows = int
     _cols = int
     _axes: np.ndarray
 
     def __init__(self, rows=1, cols=1):
-        super().__init__()
+        """Initialize instance, check and set rows and columns
+
+        Args:
+            rows (int): number of subplot rows
+            cols (int): number of subplot columns
+        """
         self._rows = rows
         self._cols = cols
+        super().__init__()
 
-    def plot(self, coords, x, y=None, **graph_opts):
-        i, j = coords
-        if i > self._rows or j > self._cols:
-            self._axes[i, j].plot(x, y, **graph_opts)
+    def plot(self, data, coords=None, kind=None, **graph_opts):
+        """Plot on a specified subplot axis
+
+        Args:
+            coords (tuple): tuple of subplot coordinates to plot data
+
+        Raises:
+            ValueError: if coordinates are out of range.
+        """
+        x, y = data if len(data) == 2 else (data, None)
+
+        if coords[0] > self._rows or coords[1] > self._cols:
+            self.get_axis(coords).plot(x, y, **graph_opts)
         else:
             raise ValueError(f"Invalid indexes, this figure has {self._rows} \
                 rows and {self._cols} columns")
 
     def reset(self):
+        """Resets figure and all axes"""
         self._connection, self._axes = plt.subplots(self._rows, self._cols)
 
-    def make(self, i, j=None):
-        return SubplotManager(self).make(i, j)
+    def get_axis(self, coords):
+        """Gets a specific axis from the _axis attribute at given
+        coordinates
+        """
+        i, j = coords
+        return self._axes[i, j]
+
+    def make_manager(self, coords):
+        """Create a SubPlotManager to manage this instance's subplots"""
+        return SubplotManager(self, coords)
 
 
 class SubplotManager(PyPlotGraph):
+    """A manager object for treating a subplot axis like a single plot.
 
-    _rows = int
-    _cols = int
+    Applications will often take in single plots and have their functionality
+    catered to such. Subplots, while useful, will often be used for specific
+    applications. A subplot manager allows you to create multiple subplots
+    and pass each one individually onto applications that take a single
+    subplot axis and still have access to the underlying figure.
+    """
 
-    _coords = Tuple[int]
-    _fig = PySubplotGraph
+    def __init__(self, subplot, coords):
+        """Initialize instance, check and assimilate managed subplot.
 
-    def __init__(self, subplot):
-        super().__init__()
+        Args:
+            subplot (PySubplotGraph): subplot instance containing axis to be
+                managed.
+            coords (tuple): tuple containing row and column of the subplot
+                to manage
 
-        if isinstance(subplot, PySubplotGraph):
-            self._fig = subplot
-        else:
+        Raises:
+            TypeError: if specified subplot is not a PySubplotGraph.
+        """
+        if not isinstance(subplot, PySubplotGraph):
             TypeError("Subplot managers take in PySubplotGraph instances")
 
-        self._rows = self._fig._rows
-        self._cols = self._fig._rows
-
-        self._coords = None
-
-    def plot(self, x, y=None, **graph_opts):
-        if self._coords is not None:
-            self._fig.plot(self._coords, x, y, **graph_opts)
-        else:
-            ValueError("this multigraph is uniniciated, build make a subplot \
-                    first")
+        self._figure = subplot.request(query="GET")
+        self._axes = subplot.get_axis(coords)
+        super().__init__()
 
     def reset(self):
-        self._fig.reset()
-
-    def make(self, i, j=None):
-        if isinstance(i, tuple) and len(i) == 2:
-            i, j = i
-
-        if isinstance(i, int) or not isinstance(j, int):
-            TypeError("Invalid inputs, either specify a tuple with the desired \
-                    coordinates or two integers with the desired coordinates")
-
-        ret = type(self)(self._fig)
-
-        if i > self._rows or j > self._cols:
-            ret.set_coords(i, j)
-        else:
-            raise ValueError(f"Invalid indexes, this figure has {self._rows} \
-                rows and {self._cols} columns")
-
-        return ret
-
-    def set_coords(self, i, j):
-        if isinstance(i, tuple) and len(i) == 2:
-            self._coords = i
-        elif isinstance(i, int) and isinstance(j, int):
-            self._coords = (i, j,)
-        else:
-            TypeError("Invalid inputs, either specify a tuple with the desired \
-                    coordinates or two integers with the desired coordinates")
+        self._axes.cla()
 
 
 class PyPfOptGraph(PyPlotGraph):
+    """Graphs data from the PyPfOpt package"""
 
-    def plot(self, data, **kwargs):
+    def plot(self, data, coords=None, kind=None, **kwargs):
+        """Graph data from pypfopt
+
+        Args:
+            data: plottable data from pypfopt package
+
+        Raises:
+            TypeError: if data is not of a plottable class from pypfopt
+        """
         if isinstance(data, CLA):
             plot_efficient_frontier(data, ax=self._axes, **kwargs)
         elif isinstance(data, (np.ndarray, pd.DataFrame)):

@@ -40,12 +40,11 @@ Transformers represent transformations on data. They have one or more sources an
 ### Translator <Transformer>
 Translators are the root of all data that feeds your graph. Objects of this class connect with some external source, imports raw data, then "translates" it into a format that can be used universaly through the model. 
 ### Pipe <Transformer>
+Pipes are a base class that represents any kind of data modification with one internal input and one internal output. All pipes must implement the .transform() method, which takes in the output from sourced data and returns it transformed. The .run() method in turn has a default implementation to actually source the input data from the input node and pass it onto the .transform() method; this default implementation is often changed to modify keyword arguments passed onto the source node and the .transform() call. 
 
 **Configuration:** Sources often require additional ids, secrets or paths in order to access their data. The .config attribute aims to summarise all key configuration details and data needed to access a resource. Additional functions can be added as needed to facilitate one-time connection needs.
 
 **Factories:** Sources, typically web APIs, will give users various functionalities with the same base configurations. The .make() method can be implemeted to return subclasses that inherit parent processing and configuration.
-
-Pipes are a base class that represents any kind of data modification with one internal input and one internal output. All pipes must implement the .transform() method, which takes in the output from sourced data and returns it transformed. The .run() method in turn has a default implementation to actually source the input data from the input node and pass it onto the .transform() method; this default implementation is often changed to modify keyword arguments passed onto the source node and the .transform() call. 
 
 ### PipeLine <Pipe>
 As Pipe instances implement a normally small operation and have only one imput and one output, you are able to join them together, thorugh the \_\_add\_\_() internal method to create a sequence of transformations linked one after the other. These simply pass the output of one Pipe instance's .transform() method as the input to another, so be carefull with data integrity here. KEEP IN MIND that good alternatives to these is just linking Pipe instances together in order to validate the data at every stage of the pipeline.

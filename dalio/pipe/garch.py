@@ -1,3 +1,4 @@
+"""Pipes that create ARCH Models and derivatives"""
 import numpy as np
 import pandas as pd
 
@@ -32,6 +33,15 @@ from dalio.validator import HAS_DIMS, IS_TYPE, HAS_ATTR
 
 
 class MakeARCH(Pipe, _Builder):
+    """Build arch model and make it based on input data.
+
+    This class allows for the creation of arch models by configuring three
+    pieces: the mean, volatility and distribution. These are set after
+    initialization through the _Builder interface.
+
+    Attributes:
+        _piece (list): see _Builder class.
+    """
 
     _MEAN_DICT = {
         "ConstantMean": ConstantMean,
@@ -55,6 +65,7 @@ class MakeARCH(Pipe, _Builder):
     # TODO: make this agnostic to upper or lower case
 
     def __init__(self):
+        """Initialize instance and pieces"""
         super().__init__()
 
         self._init_piece([
@@ -67,17 +78,18 @@ class MakeARCH(Pipe, _Builder):
             .add_desc(HAS_DIMS(1))
 
     def transform(self, data, **kwargs):
+        """Build model with sourced data"""
         return self.build_model(data)
 
-    def copy(self):
-        ret = type(self)()
-
-        # users shouldn't have access to arg and kwarg keys from pieces
-        # attribute, so no need to deep copy those too
-        ret._piece = self._piece.copy()
-        return ret
+    def copy(self, *args, **kwargs):
+        return _Builder.copy(self, *args, **kwargs)
 
     def build_model(self, data):
+        """Build ARCH Model using data, set pieces and their arguments
+
+        Returns:
+            A built arch model from the arch package.
+        """
 
         # set mean model piece
         mean = self._piece["mean"]
@@ -104,7 +116,15 @@ class MakeARCH(Pipe, _Builder):
         return am
 
     def assimilate(self, model):
-        # shallow assimilation
+        """Assimilate core pieces of an existent ARCH Model.
+
+        Assimilation means setting this model's' pieces in accordance to an
+        existing model's pieces. Assimilation is shallow, so only the main
+        pieces are assimilated, not their parameters.
+
+        Args:
+            model (ARCHModel): Existing ARCH Model.
+        """
 
         self.set_piece(
             "mean",
@@ -120,28 +140,31 @@ class MakeARCH(Pipe, _Builder):
         )
 
 
-class FitARCHModel(Pipe):
-
-    def __init__(self):
-        super().__init__()
-
-        self._source\
-            .add_desc(IS_TYPE(ARCHModel))\
-            .add_desc(HAS_ATTR("fit"))
-
-    def transform(self, data, **kwargs):
-        if "fit_opts" in kwargs:
-            fit_opts = kwargs.pop("fit_opts")
-        else:
-            fit_opts = {}
-        return data.fit(**fit_opts)
-
-
 class ValueAtRisk(Pipe):
+    """Get the value at risk for data based on an ARHC Model
+
+    This takes in an ARCH Model maker, not data, which might be unintuitive,
+    yet necessary, as this allows users to modify the ARCH model generating
+    these values separately. A useful strategy that allows for this
+    is using a pipeline with an arch model as its first input and a
+    ValueAtRisk instance as its second layer. This allows us to treat the
+    PipeLine as a data input with VaR output and still have control over the
+    ARCH Model pieces (given you left a local variable for it behind.)
+
+    Attributes:
+        _quantiles (list): list of quantiles to check the value at risk for.
+    """
 
     _quantiles: List[float]
 
-    def __init__(self, quantiles=[0.01, 0.05]):
+    def __init__(self, quantiles=None):
+        """Initialize instance and set quantiles.
+
+        Source requires an ARCHModel input with a .fit() method
+
+        Raises:
+            TypeError: if quantiles is neither a float or a list of floats.
+        """
         super().__init__()
 
         self._source\
@@ -155,14 +178,30 @@ class ValueAtRisk(Pipe):
                 self._quantiles = sorted(quantiles)
         elif isinstance(quantiles, float):
             self._quantiles = [quantiles]
+        elif quantiles is None:
+            self._quantiles = [0.01, 0.05]
         else:
             raise TypeError("quantiles argument must either be a float or \
                     list of floats")
 
     def transform(self, data, **kwargs):
-        '''Thank you for the creators of the arch package for the beautiful
-        visualizations!
-        '''
+        """Get values at risk at each quantile and each results maximum
+        exedence from the mean.
+
+        The maximum exedence columns tells which quantile the loss is placed
+        on. The word "maximum" might be misleading as it is compared to the
+        minimum quantile, however, this definition is accurate as the column
+        essentially answers the question: "what quantile furthest away from
+        the mean does the data exeed?"
+
+        Thank you for the creators of the arch package for the beautiful
+        visualizations and ideas!
+
+        Raises:
+            ValueError: if ARCH model does not have returns. This is often
+                the case for unfitted models. Ensure your graph is complete.
+            TypeError: if ARCH model has unsuported distribution parameter.
+        """
 
         # This might seem redundant considering the above FitARCHModel pipe
         # but keep in mind here we need both the fitted results and the model
@@ -211,9 +250,10 @@ class ValueAtRisk(Pipe):
             * q[None, :]
 
         value_at_risk = pd.DataFrame(
-                value_at_risk,
-                columns=cols,
-                index=cond_var.index)
+            value_at_risk,
+            columns=cols,
+            index=cond_var.index
+        )
 
         max_exedence = []
         for idx in value_at_risk.index:
@@ -226,23 +266,33 @@ class ValueAtRisk(Pipe):
                 max_exedence.append(1)
 
         max_exedence = pd.DataFrame(
-                max_exedence,
-                columns=[MAX_EXEDENCE],
-                index=cond_var.index)
+            max_exedence,
+            columns=[MAX_EXEDENCE],
+            index=cond_var.index
+        )
 
         return pd.concat([returns, value_at_risk, max_exedence],
                          join="inner",
                          axis=1).dropna()
 
-    def copy(self):
+    def copy(self, *args, **kwargs):
         return super().copy(
-            quantiles=self._quantiles
+            *args,
+            quantiles=self._quantiles,
+            **kwargs
         )
 
 
 class ExpectedShortfall(ValueAtRisk):
+    """Get expected shortfal for given quantiles
+
+    See base class for more in depth explanation.
+    """
 
     def transform(self, data, **kwargs):
+        """Get the value at risk given by an arch model and calculate the
+        expected shortfall at given quantiles.
+        """
         data = super().transform(data, **kwargs)[[MAX_EXEDENCE, RETURNS]]
 
         ret = {}
@@ -250,4 +300,8 @@ class ExpectedShortfall(ValueAtRisk):
             # calculate mean returns that exeed a quantile
             ret[quant] = np.mean(data[RETURNS][data[MAX_EXEDENCE] <= quant])
 
-        return pd.DataFrame.from_dict(ret, orient="index", columns=[EXPECTED_SHORTFALL])
+        return pd.DataFrame.from_dict(
+                ret,
+                orient="index",
+                columns=[EXPECTED_SHORTFALL]
+        )

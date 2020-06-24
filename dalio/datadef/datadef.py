@@ -1,162 +1,165 @@
-'''Defines DataDef base class
-'''
+"""Defines DataDef base class
+
+DataDef instances describe data inputs throughout the graph and ensure the
+integrity of data continuously. These are composed of various validators that
+serve both to describe approved data and check for whether data passes a test.
+"""
 
 import concurrent.futures
 
-from typing import Any, List
-from dalio.base import _Node
+from typing import List
+from dalio.base import _Node, _Transformer
 from dalio.validator import Validator
-from dalio.util import _print_warn_report, _print_error_report
 
 
 class _DataDef(_Node):
-    '''DataDef types are perhaps the most important piece of models, as they
-    describe data inputs throughout the graph and ensure the integrity of
-    data continuously.
+    """Define input data
 
+    Node used to represent input data coming from a _Transformer instance.
+    Used to check for the integrity of this data and for any characteristics
+    necessary for a particular analysis.
 
-    === Attributes ===
+    Attributes:
+        _connection (_Transformer): Transformer instance which outputs data to
+            be checked.
+        _desc (list): list of Validator instances that describe approved data and
+            tests input data for certain characteristics.
+    """
 
-    - _connection: connection to data. DataDef instances only use these as
-    data inputs and they must be Transformer instances
-
-    - _desc: list of Validator instances
-
-    === Methods ===
-
-    request: request data from an input transformer
-
-    copy: make a deep copy of the validator dictionary and any other attributes
-
-    __add__: add another DataDef instance validators to your own
-
-    '''
-
-    _input: _Node
+    _connection: _Transformer
     _desc: List[Validator]
-    tags: List[str]
 
-    def __init__(self, tags=None):
+    def __init__(self, parallel=False):
+        """Initialize DataDef instance"""
         super().__init__()
+        self.parallel = parallel
         self._desc = []
 
     def add_desc(self, desc):
+        """Add single or multiple description validator(s)
+
+        Arguments:
+            desc (Validator, iterable): validator or list of validators to add
+
+        Returns:
+            Self with the new description. Allows for layering.
+        """
         desc = desc if hasattr(desc, "__iter__") else [desc]
-        for d in desc:
-            if isinstance(d, Validator):
-                # TODO: implement check to ensure desc uniqueness
-                self._desc.append(d)
+        for description in desc:
+            if isinstance(description, Validator):
+                self._desc.append(description)
             else:
-                raise ValueError()  # TODO: propper exceptions
+                raise TypeError(f"New description must be of \
+                    type {Validator} or an iterator of such, not \
+                    {type(desc)}")
+
         return self
 
     def clear_desc(self):
+        """Clear descriptions
+
+        Returns:
+            Old description Validator list.
+        """
         ret, self._desc = self._desc, []
         return ret
 
     def request(self, **kwargs):
-        '''Get input data and check for validity
-        Return data if all is good
-        Validators will throw errors if needed
-        '''
+        """Get input data and check for validity
 
-        in_data = self._connection.run(**kwargs)
-        if self.check(in_data):
-            return in_data
+        Returns:
+            Data if no fatal validators fail.
 
-    def check(self, data):
-        '''Pass data through validator list, return if all validators return
-        True
-        '''
+        Raises:
+            Exception: Error thrown by specific Validator in case of invalid
+                data and being set to "fatal"
+        """
 
-        warning_report = {}
-        exception_report = {}
-        passed = True
+        return self.check(run_kwargs=kwargs)
 
-        # TODO: parallel checking is not working as it seems like a copy of the 
-        # [LARGE] dataset is being assigned to each process, make the parallelization
-        # work with large datasets please
+    def check(self, **kwargs):
+        """Pass data through validator list.
 
-        # with concurrent.futures.ProcessPoolExecutor() as executor:
+        Used to check for data integrity or create a detailed report on
+        specific failed tests.
 
-        #     # create a futures instance for every validator to run in parallel
-        #     future_to_desc = {
-        #         executor.submit(desc.validate, data): desc
-        #         for desc in self._desc
-        #     }
+        Returns:
+            Nothing. Prints warnings if data is invalid and description is not
+            fatal.
 
-        #     for future in concurrent.futures.as_completed(future_to_desc):
-        #         desc = future_to_desc[future]
-        #         desc_name = type(desc).__name__
-        #         try:
-        #             warn = future.result()
-        #             if isinstance(warn, str):
-        #                 if desc_name in warning_report:
-        #                     warning_report[desc_name].append(warn)
-        #                 else:
-        #                     warning_report[desc_name] = [warn]
-        #         except Exception as exc:
-        #             if desc_name in exception_report:
-        #                 exception_report[desc_name].append(exc)
-        #             else:
-        #                 exception_report[desc_name] = [exc]
+        Raises:
+            Exception: Error thrown by specific Validator in case of invalid
+                data and being set to "fatal"
+        """
+        data = self._connection.run(**kwargs.get("run_kwargs", {}))
 
-        for desc in self._desc:
-            if desc.is_on:
-                desc_name = type(desc).__name__
-                try:
-                    warn = desc.validate(data)
-                    if isinstance(warn, str):
-                        if desc_name in warning_report:
-                            warning_report[desc_name].append(warn)
-                        else:
-                            warning_report[desc_name] = [warn]
-                except Exception as exc:
-                    if desc_name in exception_report:
-                        exception_report[desc_name].append(exc)
-                    else:
-                        exception_report[desc_name] = [exc]
+        report = {
+            "warning": [],
+            "exception": []
+        }
+        errors = 0
 
-        if len(warning_report) > 0:
-            _print_warn_report(warning_report)
-            passed = False
+        if self.parallel:
+            with concurrent.futures.ProcessPoolExecutor() as executor:
 
-        if len(exception_report) > 0:
-            _print_error_report(exception_report)
-            raise Exception()  # TODO: Create propper exceptions
+                # create a futures instance for every validator
+                future_to_desc = {
+                    executor.submit(desc.validate, data): desc
+                    for desc in self._desc
+                }
 
-        return passed
+                for future in concurrent.futures.as_completed(future_to_desc):
+                    desc = future_to_desc[future]
+
+                    err_kind = "exception" if desc.fatal else "warning"
+                    err = future.result()
+
+                    if err is not None:
+                        report[err_kind].append(err)
+                        errors += 1
+
+        else:
+            for desc in self._desc:
+                err_kind = "exception" if desc.fatal else "warning"
+                err = desc.validate(data)
+
+                if err is not None:
+                    report[err_kind].append(err)
+                    errors += 1
+
+        if errors > 0:
+            _print_report(report)
+
+        if len(report["exception"]) > 0:
+            raise Exception()  # TODO: Create custom exception
+
+        return data
 
     def describe(self):
-        '''Print out validator descriptions and tags
-        '''
+        """Print out validator descriptions
+        """
         super().describe()
         print("Validators:\n")
         for val in self._desc:
             print(f"- {type(val)}: {val.test_desc}\n")
 
-    def copy(self, keep_input=True):
-        '''Make deep copy of instance, with option to remove original input
-        '''
+    def copy(self, keep_connection=True):
+        """Make deep copy of instance, with option to remove original input
+
+        Returns:
+            Another instance of this class with same descriptions.
+        """
         ret = type(self)()
-        ret.set_connection(self._input if keep_input else None)
+        ret.set_connection(self._connection if keep_connection else None)
         ret.add_desc(self._desc.copy())
-        ret.tags = self.tags.copy()
         return ret
 
-    def add_tags(self, tags):
-        if isinstance(tags, str):
-            self.tags.append(tags)
-        elif hasattr(tags, "__iter__"):
-            self.tags.extend(tags)
-        else:
-            raise ValueError("Argument tags must be either a string or\
-                iterable with strings")
-        return self
-
     def __add__(self, other):
-        '''Add Validators to own
-        '''
+        """Add two instance's descriptions or one description to an instance
+
+        Returns:
+            Instance of class with descriptions from self and other
+        """
 
         ret = self.copy()
 
@@ -165,6 +168,11 @@ class _DataDef(_Node):
         elif isinstance(other, _DataDef):
             ret._desc.extend(other._desc)
         else:
-            raise TypeError()
+            raise TypeError(f"Other must be either of type {Validator} or \
+                {_DataDef}, not {type(other)}")
 
         return ret
+
+
+def _print_report(report):
+    print(report)

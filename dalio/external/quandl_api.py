@@ -1,3 +1,9 @@
+"""Define quandl external request classes
+
+Quandl has a varied set of tables to request data from, so these classes just
+implement basic functionaliy to import data from any table given quandl's
+basic functionalities.
+"""
 import os
 import quandl
 
@@ -5,13 +11,14 @@ from dalio.external import External
 
 
 class QuandlAPI(External):
-    '''Set up the Quandl API
+    '''Set up the Quandl API and request table data from quandl.
 
-    === Attributes ===
-    _quandl_conf: Quandl API config object
+    Attributes:
+        _quandl_conf: Quandl API config object
     '''
 
     def __init__(self, config=None):
+        """Initialize instance and set config file to a default"""
 
         if config is None and os.path.exists("config/quandl_config.json"):
             config = "quandl_config.json"
@@ -21,12 +28,26 @@ class QuandlAPI(External):
         self.set_connection(quandl.ApiConfig)
 
     def request(self, **kwargs):
+        """Request table data from quandl
 
-        self.check()
+        Args:
+            **kwargs: keyword arguments for quandl request.
+                query: table to get data from.
+                filter: dictionary of filters for data. Depends on table.
+                columns: columns to select.
 
-        if "filters" in kwargs and not isinstance(kwargs["filters"], dict):
-            raise ValueError("filters keyword argument must be a dictionary of\
-                    valid Qaudnl column filters")
+        Raises:
+            IOError: if api key is not set.
+            ValueError: if filters kwarg is not a dict.
+        """
+        if not self.check():
+            raise IOError("Connection is not valid")
+
+        filters = kwargs.get("filters", {})
+
+        if not isinstance(filters, dict):
+            raise ValueError("'filters' keyword argument must be a \
+                dictionary of valid Qaudnl column filters")
 
         # set up queue options
         qopts = dict()
@@ -38,13 +59,23 @@ class QuandlAPI(External):
                                 ticker=kwargs.get("ticker", None),
                                 paginate=True,
                                 qopts=qopts,
-                                **kwargs.get("filters", {}))
+                                **filters)
 
     def check(self):
-        return self._connection.api_key is not None
+        """Check if the api key is set"""
+        if self._connection.api_key is None:
+            return self.authenticate()
+        else:
+            return True
 
     def authenticate(self):
+        """Set the api key if it is available in the config dictionary
+
+        Returns:
+            True if key was successfully set, False otherwise
+        """
         if "api_key" in self._config:
             self._connection.api_key = self._config["api_key"]
+            return True
         else:
-            raise IOError()
+            return False

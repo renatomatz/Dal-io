@@ -1,25 +1,49 @@
-import numpy as np
-import pandas as pd
+"""Define portfolio optimization models"""
 
 from collections import OrderedDict
 from functools import partial
 from typing import Tuple, List, Dict, Union, Callable, Any
+
+import numpy as np
+import pandas as pd
 
 from pypfopt import EfficientFrontier, CLA
 from pypfopt.objective_functions import L2_reg
 
 from dalio.base.constants import PORTFOLIO
 from dalio.model import Model
-from dalio.validator import HAS_DIMS, IS_TYPE, STOCK_STREAM
+from dalio.validator import HAS_DIMS, IS_TYPE
+from dalio.validator.presets import STOCK_STREAM
 from dalio.util import _Builder
 
 
 class MakeCriticalLine(Model):
+    """Fit a critical line algorithm
 
+    This model takes in two sources: sample_covariance and expected_returns.
+    These are self-explanatory. The model calculates the algorithm for a set
+    of weight bounds.
+
+    Attributes:
+        weight_bounds (tuple): lower and upper bound for portfolio weights.
+    """
     weight_bounds: Tuple[int]
 
-    def __init__(self, weight_bounds=(0, 1)):
+    def __init__(self, weight_bounds=(-1, 1)):
+        """Initialize instance
 
+        Defines sample_covariance as two-dimensional.
+        Defines expected_returns as one-dimensional.
+
+        Args:
+            weight_bounds (tuple, list): lower and upper bound for portfolio
+                weights.
+
+        Raises:
+            TypeError: if weight bounds are not in a tuple or list.
+            ValueError: if there are more than three elements in the weight
+                bounds.
+        """
         super().__init__()
 
         self._init_source([
@@ -46,6 +70,7 @@ class MakeCriticalLine(Model):
                     not {len(weight_bounds)}")
 
     def run(self, **kwargs):
+        """Get source data and create critical line algorithm"""
 
         # TODO: Paralelise
         mu = self._source_from("expected_returns", **kwargs)
@@ -60,7 +85,12 @@ class MakeCriticalLine(Model):
         return cla
 
 
-class MakeEfficientFrontier(Model):
+class MakeEfficientFrontier(MakeCriticalLine):
+    """Make an efficient frontier algorithm.
+
+    Args:
+        gamma (int): gamma optimization parameter.
+    """
 
     _OBJECTIVE_PRESETS = {
         "L2_reg": L2_reg
@@ -73,31 +103,14 @@ class MakeEfficientFrontier(Model):
     _constraints: List[Union[Callable, Dict[str, Union[str, float]]]]
 
     def __init__(self, weight_bounds=(0, 1), gamma=0):
+        """Initialize instance.
 
-        super().__init__()
+        Initialize sources and weights from superclass.
 
-        self._init_source([
-            "sample_covariance",
-            "expected_returns"
-        ])
-
-        self._get_source("sample_covariance")\
-            .add_desc(HAS_DIMS(2))
-
-        self._get_source("expected_returns")\
-            .add_desc(HAS_DIMS(1))
-
-        if len(weight_bounds) == 2:
-            if isinstance(weight_bounds, tuple):
-                self.weight_bounds = weight_bounds
-            elif isinstance(weight_bounds, list):
-                self.weight_bounds = tuple(weight_bounds)
-            else:
-                TypeError(f"weight bounds must be of type list or tuple, \
-                        not {type(weight_bounds)}")
-        else:
-            ValueError(f"weight bounds must be of length 2, \
-                    not {len(weight_bounds)}")
+        Raises:
+            TypeError: if gamma is not an integer
+        """
+        super().__init__(weight_bounds=weight_bounds)
 
         if isinstance(gamma, (int, float)):
             self.gamma = gamma
@@ -108,6 +121,10 @@ class MakeEfficientFrontier(Model):
         self._constraints = list()
 
     def run(self, **kwargs):
+        """Make efficient frontier.
+
+        Create efficient frontier given a set of weight constraints.
+        """
 
         # TODO: Paralelise
         mu = self._source_from("expected_returns", **kwargs)
@@ -121,7 +138,7 @@ class MakeEfficientFrontier(Model):
                                gamma=self.gamma)
 
         for obj in self._objectives:
-            ef.add_objective(obj["func"], **obj["kwargs"])
+            ef.add_objective(obj["func"], *obj["args"], **obj["kwargs"])
 
         for const in self._constraints:
 
@@ -153,31 +170,29 @@ class MakeEfficientFrontier(Model):
         return ef
 
     def copy(self):
+        """Copy superclass, objectives and constraints."""
         ret = super().copy(
             weight_bounds=self.weight_bounds,
             gamma=self.gamma
         )
 
-        ret._objectives = self._objectives
-        ret._constraints = self._constraints
-
-        ret._piece = self._piece.copy()
+        ret._objectives = self._objectives.copy()
+        ret._constraints = self._constraints.copy()
 
         return ret
 
-    def add_objective(self, new_objective, **kwargs):
-        """
-        Wrepper to PyPortfolioOpt BaseConvexOptimizer function
+    def add_objective(self, new_objective, *args, **kwargs):
+        """Wrapper to PyPortfolioOpt BaseConvexOptimizer function
 
         Add a new term into the objective function. This term must be convex,
         and built from cvxpy atomic functions.
-        Example::
-            def L1_norm(w, k=1):
-                return k * cp.norm(w, 1)
-            ef.add_objective(L1_norm, k=2)
-        :param new_objective: the objective to be added
-        :type new_objective: cp.Expression (i.e function of cp.Variable)
 
+        Args:
+            new_objective (cp.Expression): the objective to be added
+
+        Raises:
+            ValueError: if the new objective is not supported.
+            AttributeError: if new objective is not callable.
         """
 
         if isinstance(new_objective, str):
@@ -185,8 +200,8 @@ class MakeEfficientFrontier(Model):
                 obj_func = MakeEfficientFrontier\
                         ._OBJECTIVE_PRESETS[new_objective]
             else:
-                ValueError(f"{new_objective} not in preset list, specify one of \
-                        {MakeEfficientFrontier._OBJECTIVE_PRESETS.keys()}")
+                ValueError(f"{new_objective} not in preset list, specify one \
+                    of {MakeEfficientFrontier._OBJECTIVE_PRESETS.keys()}")
         elif callable(new_objective):
             obj_func = new_objective
         else:
@@ -194,23 +209,23 @@ class MakeEfficientFrontier(Model):
 
         self._objectives.append({
             "func": obj_func,
+            "args": args,
             "kwargs": kwargs
         })
 
         return self
 
     def add_constraint(self, new_constraint):
-        """
-        Wrepper to PyPortfolioOpt BaseConvexOptimizer function
+        """Wrapper to PyPortfolioOpt BaseConvexOptimizer function
 
         Add a new constraint to the optimisation problem. This constraint must
         be linear and must be either an equality or simple inequality.
-        Examples::
-            ef.add_constraint(lambda x : x[0] == 0.02)
-            ef.add_constraint(lambda x : x >= 0.01)
-            ef.add_constraint(lambda x: x <= np.array([0.01, 0.08, ..., 0.5]))
-        :param new_constraint: the constraint to be added
-        :type constraintfunc: lambda function
+
+        Args:
+            new_constraint (callable): the constraint to be added
+
+        Raises:
+            AttributeError: if new objective is not callable.
         """
 
         if callable(new_constraint):
@@ -222,10 +237,25 @@ class MakeEfficientFrontier(Model):
 
         return self
 
-    def add_stock_weight_constraint(self,
-                                    ticker=None,
-                                    comparisson="is",
-                                    weight=0.5):
+    def add_stock_weight_constraint(
+            self,
+            ticker=None,
+            comparisson="is",
+            weight=0.5):
+        """Wrapper to add_constraint method. Adds constraing on a named
+        ticker.
+
+        This is a much more intuitive interface to add constraints, as these
+        will often be stocks of an unknown order in a dataframe.
+
+        Args:
+            ticker (str, int): stock ticker or location to be constrained.
+            comparisson (str): constraing comparisson.
+            weight (float): weight to constrain.
+
+        Raises:
+            TypeError: if any of the arguments are of an invalid type
+        """
 
         new_entry = dict()
 
@@ -257,15 +287,21 @@ class MakeEfficientFrontier(Model):
         # TODO: create a ticker to sector pipe
         pass
 
-    def add_sector_weight_constraint(self,
-                                     sector=None,
-                                     constraint="is",
-                                     weight=0.5):
+    def add_sector_weight_constraint(
+            self,
+            sector=None,
+            constraint="is",
+            weight=0.5):
         # TODO: add sector weight constraint
         pass
 
 
 class OptimumWeights(MakeEfficientFrontier, _Builder):
+    """Get optimum portfolio weights from an efficient frontier.
+
+    This is also a builder with one piece: strategy. The strategy piece
+    refers to the optimization strategy.
+    """
 
     _STRATEGY_PRESETS = [
         "max_sharpe",
@@ -276,6 +312,7 @@ class OptimumWeights(MakeEfficientFrontier, _Builder):
     ]
 
     def __init__(self, weight_bounds=(0, 1), gamma=0):
+        """Initialize instance and strategy builder piece."""
         super().__init__(
             weight_bounds=weight_bounds,
             gamma=gamma
@@ -286,12 +323,12 @@ class OptimumWeights(MakeEfficientFrontier, _Builder):
         ])
 
     def run(self, **kwargs):
+        """Get efficient frontier, fit it to model and get weights"""
         ef = super().run(**kwargs)
         self.build_model(ef)()
         return ef.clean_weights()
 
     def build_model(self, data):
-
         strat = self._piece["strategy"]
 
         if strat["name"] is None:
@@ -319,8 +356,21 @@ class OptimumWeights(MakeEfficientFrontier, _Builder):
 
 
 class OptimumPortfolio(Model):
+    """Create optimum portfolio of stocks given dictionary of weights.
+
+    This model has two sources: weights_in and data_in. The weights_in source
+    gets optimum weights for a set of tickers. The data_in source gets price
+    data for these same tickers.
+    """
+    # TODO: make this a builder with strategies for weight rebalancing and
+    # options for investing schedules.
 
     def __init__(self):
+        """Initialize instance.
+
+        Describe weights_in source as a dict.
+        Describe data_in source as a stock stream validator preset.
+        """
         super().__init__()
 
         self._init_source([
@@ -335,6 +385,9 @@ class OptimumPortfolio(Model):
             .add_desc(STOCK_STREAM)
 
     def run(self, **kwargs):
+        """Gets weights and uses them to create portfolio prices if weights
+        were kept constant.
+        """
 
         # Paralelize
         # Fill unavailable stocks with 0
