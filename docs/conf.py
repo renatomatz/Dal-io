@@ -17,7 +17,7 @@ sys.path.insert(0, os.path.abspath('..'))
 
 # -- Project information -----------------------------------------------------
 
-project = 'Dal-io'
+project = 'Dal.io'
 copyright = '2020, Renato Zimmermann'
 author = 'Renato Zimmermann'
 
