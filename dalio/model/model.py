@@ -6,8 +6,7 @@ strategies of data processing and collection.
 """
 
 from typing import Dict
-from dalio.base import _Transformer
-from dalio.datadef import _DataDef
+from dalio.base import _Transformer, _DataDef
 
 
 class Model(_Transformer):

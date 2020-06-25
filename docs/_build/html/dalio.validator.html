@@ -1,0 +1,428 @@
+
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta charset="utf-8" />
+    <title>dalio.validator &#8212; Dal-io 0.1.1 documentation</title>
+    <link rel="stylesheet" href="_static/sphinxdoc.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <script id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+    <script src="_static/jquery.js"></script>
+    <script src="_static/underscore.js"></script>
+    <script src="_static/doctools.js"></script>
+    <script src="_static/language_data.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="dalio.util" href="dalio.util.html" />
+    <link rel="prev" title="dalio.base" href="dalio.base.html" /> 
+  </head><body>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="dalio.util.html" title="dalio.util"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="dalio.base.html" title="dalio.base"
+             accesskey="P">previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="index.html">Dal-io 0.1.1 documentation</a> &#187;</li> 
+      </ul>
+    </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+            <p class="logo"><a href="index.html">
+              <img class="logo" src="_static/logo.png" alt="Logo"/>
+            </a></p>
+  <h3><a href="index.html">Table of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">dalio.validator</a><ul>
+<li><a class="reference internal" href="#submodules">Submodules</a></li>
+<li><a class="reference internal" href="#module-dalio.validator.array_val">dalio.validator.array_val module</a></li>
+<li><a class="reference internal" href="#module-dalio.validator.base_val">dalio.validator.base_val module</a></li>
+<li><a class="reference internal" href="#module-dalio.validator.pandas_val">dalio.validator.pandas_val module</a></li>
+<li><a class="reference internal" href="#module-dalio.validator.presets">dalio.validator.presets module</a></li>
+<li><a class="reference internal" href="#module-dalio.validator.validator">dalio.validator.validator module</a></li>
+<li><a class="reference internal" href="#module-dalio.validator">Module contents</a></li>
+</ul>
+</li>
+</ul>
+
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="dalio.base.html"
+                        title="previous chapter">dalio.base</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="dalio.util.html"
+                        title="next chapter">dalio.util</a></p>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="_sources/dalio.validator.rst.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" />
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script>$('#searchbox').show(0);</script>
+        </div>
+      </div>
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="dalio-validator">
+<h1>dalio.validator<a class="headerlink" href="#dalio-validator" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="submodules">
+<h2>Submodules<a class="headerlink" href="#submodules" title="Permalink to this headline">¶</a></h2>
+</div>
+<div class="section" id="module-dalio.validator.array_val">
+<span id="dalio-validator-array-val-module"></span><h2>dalio.validator.array_val module<a class="headerlink" href="#module-dalio.validator.array_val" title="Permalink to this headline">¶</a></h2>
+<p>Definte validators applied to array-like inputs</p>
+<dl class="class">
+<dt id="dalio.validator.array_val.HAS_DIMS">
+<em class="property">class </em><code class="sig-prename descclassname">dalio.validator.array_val.</code><code class="sig-name descname">HAS_DIMS</code><span class="sig-paren">(</span><em class="sig-param">dims</em>, <em class="sig-param">comparisson='=='</em><span class="sig-paren">)</span><a class="headerlink" href="#dalio.validator.array_val.HAS_DIMS" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#dalio.validator.validator.Validator" title="dalio.validator.validator.Validator"><code class="xref py py-class docutils literal notranslate"><span class="pre">dalio.validator.validator.Validator</span></code></a></p>
+<p>Check if an array has a number of dimensions</p>
+<dl class="attribute">
+<dt id="dalio.validator.array_val.HAS_DIMS._dims">
+<code class="sig-name descname">_dims</code><a class="headerlink" href="#dalio.validator.array_val.HAS_DIMS._dims" title="Permalink to this definition">¶</a></dt>
+<dd><p>number of dimensions</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p>int</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="dalio.validator.array_val.HAS_DIMS._comparisson">
+<code class="sig-name descname">_comparisson</code><a class="headerlink" href="#dalio.validator.array_val.HAS_DIMS._comparisson" title="Permalink to this definition">¶</a></dt>
+<dd><p>which comparisson to perform</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p>str</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="dalio.validator.array_val.HAS_DIMS.validate">
+<code class="sig-name descname">validate</code><span class="sig-paren">(</span><em class="sig-param">data</em><span class="sig-paren">)</span><a class="headerlink" href="#dalio.validator.array_val.HAS_DIMS.validate" title="Permalink to this definition">¶</a></dt>
+<dd><p>Validate data</p>
+<p>Check if data fits a certain description.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>A description of any errors in the data according to this
+specific validation condition, and None if data is valid.</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="module-dalio.validator.base_val">
+<span id="dalio-validator-base-val-module"></span><h2>dalio.validator.base_val module<a class="headerlink" href="#module-dalio.validator.base_val" title="Permalink to this headline">¶</a></h2>
+<p>Define Validators used for general python objects</p>
+<dl class="class">
+<dt id="dalio.validator.base_val.ELEMS_TYPE">
+<em class="property">class </em><code class="sig-prename descclassname">dalio.validator.base_val.</code><code class="sig-name descname">ELEMS_TYPE</code><span class="sig-paren">(</span><em class="sig-param">t</em><span class="sig-paren">)</span><a class="headerlink" href="#dalio.validator.base_val.ELEMS_TYPE" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#dalio.validator.base_val.HAS_ATTR" title="dalio.validator.base_val.HAS_ATTR"><code class="xref py py-class docutils literal notranslate"><span class="pre">dalio.validator.base_val.HAS_ATTR</span></code></a></p>
+<p>Checks if all elements of an iterator is of a certain type.</p>
+<dl class="attribute">
+<dt id="dalio.validator.base_val.ELEMS_TYPE._t">
+<code class="sig-name descname">_t</code><a class="headerlink" href="#dalio.validator.base_val.ELEMS_TYPE._t" title="Permalink to this definition">¶</a></dt>
+<dd><p>type to check iterator’s elements for</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p>type, tuple</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="dalio.validator.base_val.ELEMS_TYPE.validate">
+<code class="sig-name descname">validate</code><span class="sig-paren">(</span><em class="sig-param">data</em><span class="sig-paren">)</span><a class="headerlink" href="#dalio.validator.base_val.ELEMS_TYPE.validate" title="Permalink to this definition">¶</a></dt>
+<dd><p>Validates data if it is an iterable with all elements of type
+self._t</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="dalio.validator.base_val.HAS_ATTR">
+<em class="property">class </em><code class="sig-prename descclassname">dalio.validator.base_val.</code><code class="sig-name descname">HAS_ATTR</code><span class="sig-paren">(</span><em class="sig-param">attr</em><span class="sig-paren">)</span><a class="headerlink" href="#dalio.validator.base_val.HAS_ATTR" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#dalio.validator.validator.Validator" title="dalio.validator.validator.Validator"><code class="xref py py-class docutils literal notranslate"><span class="pre">dalio.validator.validator.Validator</span></code></a></p>
+<p>Checks if data has an attribute</p>
+<dl class="attribute">
+<dt id="dalio.validator.base_val.HAS_ATTR._attr">
+<code class="sig-name descname">_attr</code><a class="headerlink" href="#dalio.validator.base_val.HAS_ATTR._attr" title="Permalink to this definition">¶</a></dt>
+<dd><p>attribute to check for</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p>str</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="dalio.validator.base_val.HAS_ATTR.validate">
+<code class="sig-name descname">validate</code><span class="sig-paren">(</span><em class="sig-param">data</em><span class="sig-paren">)</span><a class="headerlink" href="#dalio.validator.base_val.HAS_ATTR.validate" title="Permalink to this definition">¶</a></dt>
+<dd><p>Validates data if it contains attribute self._attr</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="dalio.validator.base_val.IS_TYPE">
+<em class="property">class </em><code class="sig-prename descclassname">dalio.validator.base_val.</code><code class="sig-name descname">IS_TYPE</code><span class="sig-paren">(</span><em class="sig-param">t</em><span class="sig-paren">)</span><a class="headerlink" href="#dalio.validator.base_val.IS_TYPE" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#dalio.validator.validator.Validator" title="dalio.validator.validator.Validator"><code class="xref py py-class docutils literal notranslate"><span class="pre">dalio.validator.validator.Validator</span></code></a></p>
+<p>Checks if data is of a certain type</p>
+<dl class="simple">
+<dt>Attribute:</dt><dd><p>t (type): type of data to check for</p>
+</dd>
+</dl>
+<dl class="method">
+<dt id="dalio.validator.base_val.IS_TYPE.validate">
+<code class="sig-name descname">validate</code><span class="sig-paren">(</span><em class="sig-param">data</em><span class="sig-paren">)</span><a class="headerlink" href="#dalio.validator.base_val.IS_TYPE.validate" title="Permalink to this definition">¶</a></dt>
+<dd><p>Validates data if it is of type self._t</p>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="module-dalio.validator.pandas_val">
+<span id="dalio-validator-pandas-val-module"></span><h2>dalio.validator.pandas_val module<a class="headerlink" href="#module-dalio.validator.pandas_val" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="dalio.validator.pandas_val.HAS_COLS">
+<em class="property">class </em><code class="sig-prename descclassname">dalio.validator.pandas_val.</code><code class="sig-name descname">HAS_COLS</code><span class="sig-paren">(</span><em class="sig-param">cols</em><span class="sig-paren">)</span><a class="headerlink" href="#dalio.validator.pandas_val.HAS_COLS" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#dalio.validator.pandas_val.IS_PD_DF" title="dalio.validator.pandas_val.IS_PD_DF"><code class="xref py py-class docutils literal notranslate"><span class="pre">dalio.validator.pandas_val.IS_PD_DF</span></code></a></p>
+<p>Checks if data has certain column names</p>
+<dl class="attribute">
+<dt id="dalio.validator.pandas_val.HAS_COLS._cols">
+<code class="sig-name descname">_cols</code><a class="headerlink" href="#dalio.validator.pandas_val.HAS_COLS._cols" title="Permalink to this definition">¶</a></dt>
+<dd><p>list of column names to check</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="dalio.validator.pandas_val.HAS_COLS.validate">
+<code class="sig-name descname">validate</code><span class="sig-paren">(</span><em class="sig-param">data</em><span class="sig-paren">)</span><a class="headerlink" href="#dalio.validator.pandas_val.HAS_COLS.validate" title="Permalink to this definition">¶</a></dt>
+<dd><p>Validates data if all the columns in self._cols is present in the
+dataframe</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="dalio.validator.pandas_val.HAS_INDEX_NAMES">
+<em class="property">class </em><code class="sig-prename descclassname">dalio.validator.pandas_val.</code><code class="sig-name descname">HAS_INDEX_NAMES</code><span class="sig-paren">(</span><em class="sig-param">names</em>, <em class="sig-param">axis=0</em><span class="sig-paren">)</span><a class="headerlink" href="#dalio.validator.pandas_val.HAS_INDEX_NAMES" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#dalio.validator.pandas_val.IS_PD_DF" title="dalio.validator.pandas_val.IS_PD_DF"><code class="xref py py-class docutils literal notranslate"><span class="pre">dalio.validator.pandas_val.IS_PD_DF</span></code></a></p>
+<p>Checks if an axis has specified names</p>
+<dl class="attribute">
+<dt id="dalio.validator.pandas_val.HAS_INDEX_NAMES._names">
+<code class="sig-name descname">_names</code><a class="headerlink" href="#dalio.validator.pandas_val.HAS_INDEX_NAMES._names" title="Permalink to this definition">¶</a></dt>
+<dd><p>names to check for</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="dalio.validator.pandas_val.HAS_INDEX_NAMES._axis">
+<code class="sig-name descname">_axis</code><a class="headerlink" href="#dalio.validator.pandas_val.HAS_INDEX_NAMES._axis" title="Permalink to this definition">¶</a></dt>
+<dd><p>axis to check for names</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="dalio.validator.pandas_val.HAS_INDEX_NAMES.validate">
+<code class="sig-name descname">validate</code><span class="sig-paren">(</span><em class="sig-param">data</em><span class="sig-paren">)</span><a class="headerlink" href="#dalio.validator.pandas_val.HAS_INDEX_NAMES.validate" title="Permalink to this definition">¶</a></dt>
+<dd><p>Validates data if specified axis has the specified names</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="dalio.validator.pandas_val.HAS_IN_COLS">
+<em class="property">class </em><code class="sig-prename descclassname">dalio.validator.pandas_val.</code><code class="sig-name descname">HAS_IN_COLS</code><span class="sig-paren">(</span><em class="sig-param">items</em>, <em class="sig-param">cols=None</em><span class="sig-paren">)</span><a class="headerlink" href="#dalio.validator.pandas_val.HAS_IN_COLS" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#dalio.validator.pandas_val.HAS_COLS" title="dalio.validator.pandas_val.HAS_COLS"><code class="xref py py-class docutils literal notranslate"><span class="pre">dalio.validator.pandas_val.HAS_COLS</span></code></a></p>
+<p>Check if certain items are present in certain columns</p>
+<dl class="attribute">
+<dt id="dalio.validator.pandas_val.HAS_IN_COLS._cols">
+<code class="sig-name descname">_cols</code><a class="headerlink" href="#dalio.validator.pandas_val.HAS_IN_COLS._cols" title="Permalink to this definition">¶</a></dt>
+<dd><p>See base class</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="dalio.validator.pandas_val.HAS_IN_COLS._items">
+<code class="sig-name descname">_items</code><a class="headerlink" href="#dalio.validator.pandas_val.HAS_IN_COLS._items" title="Permalink to this definition">¶</a></dt>
+<dd><p>items that must be present in each of the specified columns</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="dalio.validator.pandas_val.HAS_IN_COLS.validate">
+<code class="sig-name descname">validate</code><span class="sig-paren">(</span><em class="sig-param">data</em><span class="sig-paren">)</span><a class="headerlink" href="#dalio.validator.pandas_val.HAS_IN_COLS.validate" title="Permalink to this definition">¶</a></dt>
+<dd><p>Validates data if items in self._items are not present in specified
+columns. Specified columns are all columns if self._cols is None.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="dalio.validator.pandas_val.IS_PD_DF">
+<em class="property">class </em><code class="sig-prename descclassname">dalio.validator.pandas_val.</code><code class="sig-name descname">IS_PD_DF</code><a class="headerlink" href="#dalio.validator.pandas_val.IS_PD_DF" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#dalio.validator.base_val.IS_TYPE" title="dalio.validator.base_val.IS_TYPE"><code class="xref py py-class docutils literal notranslate"><span class="pre">dalio.validator.base_val.IS_TYPE</span></code></a></p>
+<p>Checks if data is a pandas dataframe</p>
+<dl class="attribute">
+<dt>
+<code class="sig-name descname">See base class</code></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="dalio.validator.pandas_val.IS_PD_TS">
+<em class="property">class </em><code class="sig-prename descclassname">dalio.validator.pandas_val.</code><code class="sig-name descname">IS_PD_TS</code><a class="headerlink" href="#dalio.validator.pandas_val.IS_PD_TS" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#dalio.validator.base_val.IS_TYPE" title="dalio.validator.base_val.IS_TYPE"><code class="xref py py-class docutils literal notranslate"><span class="pre">dalio.validator.base_val.IS_TYPE</span></code></a></p>
+<p>Checks if data is a pandas time series</p>
+<dl class="method">
+<dt id="dalio.validator.pandas_val.IS_PD_TS.validate">
+<code class="sig-name descname">validate</code><span class="sig-paren">(</span><em class="sig-param">data</em><span class="sig-paren">)</span><a class="headerlink" href="#dalio.validator.pandas_val.IS_PD_TS.validate" title="Permalink to this definition">¶</a></dt>
+<dd><p>Validates data if it’s index is of type pandas.DateTimeIndex</p>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="module-dalio.validator.presets">
+<span id="dalio-validator-presets-module"></span><h2>dalio.validator.presets module<a class="headerlink" href="#module-dalio.validator.presets" title="Permalink to this headline">¶</a></h2>
+<p>Define Validator collection presets</p>
+<p>These are useful to describe very specific data characteristics commonly used
+in some analysis.</p>
+</div>
+<div class="section" id="module-dalio.validator.validator">
+<span id="dalio-validator-validator-module"></span><h2>dalio.validator.validator module<a class="headerlink" href="#module-dalio.validator.validator" title="Permalink to this headline">¶</a></h2>
+<p>Define Validator class</p>
+<p>Validators are the building blocks of data integrity in the graph. As
+modularity is key, validators ensure that the data that enters a node is what
+it is mean to be or that errors are targeted to make debugging easier.</p>
+<dl class="class">
+<dt id="dalio.validator.validator.Validator">
+<em class="property">class </em><code class="sig-prename descclassname">dalio.validator.validator.</code><code class="sig-name descname">Validator</code><span class="sig-paren">(</span><em class="sig-param">fatal=True</em><span class="sig-paren">)</span><a class="headerlink" href="#dalio.validator.validator.Validator" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>Check for some characteristic of a piece of data</p>
+<p>Validators can have any attribute needed, but functionality is stored
+in u the .validate function, which returns any errors in the data.</p>
+<dl class="attribute">
+<dt id="dalio.validator.validator.Validator.fatal">
+<code class="sig-name descname">fatal</code><a class="headerlink" href="#dalio.validator.validator.Validator.fatal" title="Permalink to this definition">¶</a></dt>
+<dd><p>Whether if invalid data is fatal. Decides whether
+invalid data can still be passed on (with a warning) or if it is
+grounds to stop the execution of the graph. False by default.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p>bool</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="dalio.validator.validator.Validator.test_desc">
+<code class="sig-name descname">test_desc</code><a class="headerlink" href="#dalio.validator.validator.Validator.test_desc" title="Permalink to this definition">¶</a></dt>
+<dd><p>Description of tests performed on data</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p>str</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="attribute">
+<dt>
+<code class="sig-name descname">fatal</code><em class="property">: bool</em><em class="property"> = None</em></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="dalio.validator.validator.Validator.fatal_off">
+<code class="sig-name descname">fatal_off</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#dalio.validator.validator.Validator.fatal_off" title="Permalink to this definition">¶</a></dt>
+<dd><p>Turn fatal off and return self</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="dalio.validator.validator.Validator.fatal_on">
+<code class="sig-name descname">fatal_on</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#dalio.validator.validator.Validator.fatal_on" title="Permalink to this definition">¶</a></dt>
+<dd><p>Turn fatal on and return self</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="dalio.validator.validator.Validator.is_on">
+<code class="sig-name descname">is_on</code><em class="property">: bool</em><em class="property"> = None</em><a class="headerlink" href="#dalio.validator.validator.Validator.is_on" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt>
+<code class="sig-name descname">test_desc</code><em class="property">: str</em><em class="property"> = None</em></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="dalio.validator.validator.Validator.validate">
+<code class="sig-name descname">validate</code><span class="sig-paren">(</span><em class="sig-param">data</em><span class="sig-paren">)</span><a class="headerlink" href="#dalio.validator.validator.Validator.validate" title="Permalink to this definition">¶</a></dt>
+<dd><p>Validate data</p>
+<p>Check if data fits a certain description.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>A description of any errors in the data according to this
+specific validation condition, and None if data is valid.</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="module-dalio.validator">
+<span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-dalio.validator" title="Permalink to this headline">¶</a></h2>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="dalio.util.html" title="dalio.util"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="dalio.base.html" title="dalio.base"
+             >previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="index.html">Dal-io 0.1.1 documentation</a> &#187;</li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &#169; Copyright 2020, Renato Zimmermann.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 2.4.0.
+    </div>
+  </body>
+</html>

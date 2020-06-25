@@ -1,0 +1,377 @@
+
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta charset="utf-8" />
+    <title>dalio.application package &#8212; Dal-io 0.1.1 documentation</title>
+    <link rel="stylesheet" href="_static/sphinxdoc.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <script id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+    <script src="_static/jquery.js"></script>
+    <script src="_static/underscore.js"></script>
+    <script src="_static/doctools.js"></script>
+    <script src="_static/language_data.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="dalio.ops module" href="dalio.ops.html" />
+    <link rel="prev" title="dalio.model package" href="dalio.model.html" /> 
+  </head><body>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="dalio.ops.html" title="dalio.ops module"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="dalio.model.html" title="dalio.model package"
+             accesskey="P">previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="index.html">Dal-io 0.1.1 documentation</a> &#187;</li> 
+      </ul>
+    </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+            <p class="logo"><a href="index.html">
+              <img class="logo" src="_static/logo.png" alt="Logo"/>
+            </a></p>
+  <h3><a href="index.html">Table of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">dalio.application package</a><ul>
+<li><a class="reference internal" href="#submodules">Submodules</a></li>
+<li><a class="reference internal" href="#module-dalio.application.application">dalio.application.application</a></li>
+<li><a class="reference internal" href="#module-dalio.application.graphers">dalio.application.graphers</a></li>
+<li><a class="reference internal" href="#module-dalio.application.printers">dalio.application.printers</a></li>
+</ul>
+</li>
+</ul>
+
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="dalio.model.html"
+                        title="previous chapter">dalio.model package</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="dalio.ops.html"
+                        title="next chapter">dalio.ops module</a></p>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="_sources/dalio.application.rst.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" />
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script>$('#searchbox').show(0);</script>
+        </div>
+      </div>
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="dalio-application-package">
+<h1>dalio.application package<a class="headerlink" href="#dalio-application-package" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="submodules">
+<h2>Submodules<a class="headerlink" href="#submodules" title="Permalink to this headline">¶</a></h2>
+</div>
+<div class="section" id="module-dalio.application.application">
+<span id="dalio-application-application"></span><h2>dalio.application.application<a class="headerlink" href="#module-dalio.application.application" title="Permalink to this headline">¶</a></h2>
+<p>Define the Application class</p>
+<p>While Models are normally the last stage of the processing chain, it
+still has a single output, which might have limited value in itself.
+Applications are tools used for the interpretation of some input and
+outisde outputs. These can have a broad range of uses, from graphing to
+real-time trading. The main functionality is in the .run() method, which
+gets input data and interprets it as needed.</p>
+<dl class="class">
+<dt id="dalio.application.application.Application">
+<em class="property">class </em><code class="sig-prename descclassname">dalio.application.application.</code><code class="sig-name descname">Application</code><a class="headerlink" href="#dalio.application.application.Application" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="dalio.model.html#dalio.model.model.Model" title="dalio.model.model.Model"><code class="xref py py-class docutils literal notranslate"><span class="pre">dalio.model.model.Model</span></code></a></p>
+<p>Represent final representation of graph data through external entities.</p>
+<p>Applications are transformations with one or more internal inputs and one
+or more external outputs.</p>
+<dl class="attribute">
+<dt id="dalio.application.application.Application._out">
+<code class="sig-name descname">_out</code><a class="headerlink" href="#dalio.application.application.Application._out" title="Permalink to this definition">¶</a></dt>
+<dd><p>dictionary of outisde output connections</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p>dict</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="dalio.application.application.Application.copy">
+<code class="sig-name descname">copy</code><span class="sig-paren">(</span><em class="sig-param">*args</em>, <em class="sig-param">**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#dalio.application.application.Application.copy" title="Permalink to this definition">¶</a></dt>
+<dd><p>Makes a copy of transformer, copying its attributes to a new
+instance.</p>
+<p>This copy should essentially create a new transformation node, not an
+entire new graph, so the _source attribute of the returned instance
+should be assigned without being copied. This is also made to be built
+upon by subclasses, such that only new attributes need to be added to
+a class’ copy method.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>*args</strong> – Positional arguments to be passed to initialize copy</p></li>
+<li><p><strong>**kwargs</strong> – Keyword arguments to be passed to initialize copy</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>A copy of this _Transformer instance with copies of necessary
+attributes and empty input.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="dalio.application.application.Application.run">
+<code class="sig-name descname">run</code><span class="sig-paren">(</span><em class="sig-param">**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#dalio.application.application.Application.run" title="Permalink to this definition">¶</a></dt>
+<dd><p>Run application.</p>
+<p>This will be the bulk of subclass functionality. It is where all
+data is sourced, processed and output.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="dalio.application.application.Application.set_output">
+<code class="sig-name descname">set_output</code><span class="sig-paren">(</span><em class="sig-param">output_name</em>, <em class="sig-param">new_output</em><span class="sig-paren">)</span><a class="headerlink" href="#dalio.application.application.Application.set_output" title="Permalink to this definition">¶</a></dt>
+<dd><p>Set a new output to data definition in dictionary entry
+matching the name</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>output_name</strong> (<em>str</em>) – the name of the output from the output dict.</p></li>
+<li><p><strong>new_output</strong> – new External source to be set as the output.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Raises</dt>
+<dd class="field-even"><ul class="simple">
+<li><p><strong>KeyError</strong> – if name is not in the output dict.</p></li>
+<li><p><strong>ValueError</strong> – if the new output is not an instance of External.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="dalio.application.application.Application.with_output">
+<code class="sig-name descname">with_output</code><span class="sig-paren">(</span><em class="sig-param">output_name</em>, <em class="sig-param">new_output</em><span class="sig-paren">)</span><a class="headerlink" href="#dalio.application.application.Application.with_output" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return a copy of this model with the specified data definition
+output changed</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>output_name</strong> (<em>str</em>) – the name of the output from the output dict.</p></li>
+<li><p><strong>new_output</strong> – new External source to be set as the output.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="module-dalio.application.graphers">
+<span id="dalio-application-graphers"></span><h2>dalio.application.graphers<a class="headerlink" href="#module-dalio.application.graphers" title="Permalink to this headline">¶</a></h2>
+<p>Applications based on graphing input data</p>
+<dl class="class">
+<dt id="dalio.application.graphers.ForecastGrapher">
+<em class="property">class </em><code class="sig-prename descclassname">dalio.application.graphers.</code><code class="sig-name descname">ForecastGrapher</code><a class="headerlink" href="#dalio.application.graphers.ForecastGrapher" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#dalio.application.graphers.Grapher" title="dalio.application.graphers.Grapher"><code class="xref py py-class docutils literal notranslate"><span class="pre">dalio.application.graphers.Grapher</span></code></a></p>
+<p>Application to graph data and a forecast horizon</p>
+<p>This Application has two sources data_in and forecast_in. The data-in
+source is explained in Grapher. The forecast_in source gets a forecast
+data to be graphed.</p>
+<dl class="method">
+<dt id="dalio.application.graphers.ForecastGrapher.run">
+<code class="sig-name descname">run</code><span class="sig-paren">(</span><em class="sig-param">**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#dalio.application.graphers.ForecastGrapher.run" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get data, its forecast and plot both</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="dalio.application.graphers.Grapher">
+<em class="property">class </em><code class="sig-prename descclassname">dalio.application.graphers.</code><code class="sig-name descname">Grapher</code><a class="headerlink" href="#dalio.application.graphers.Grapher" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#dalio.application.application.Application" title="dalio.application.application.Application"><code class="xref py py-class docutils literal notranslate"><span class="pre">dalio.application.application.Application</span></code></a></p>
+<p>Base grapher class.</p>
+<p>Does basic graphing, assuming data does not require any processing before
+being passed onto an external grapher.</p>
+<p>This Application has one source: data_in. The data_in source gets
+internal data to be graphed.</p>
+<p>This Application has one output: data_out. The data_out output represents
+an external graph.</p>
+<dl class="method">
+<dt id="dalio.application.graphers.Grapher.run">
+<code class="sig-name descname">run</code><span class="sig-paren">(</span><em class="sig-param">**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#dalio.application.graphers.Grapher.run" title="Permalink to this definition">¶</a></dt>
+<dd><p>Gets data input and plots it</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="dalio.application.graphers.LMGrapher">
+<em class="property">class </em><code class="sig-prename descclassname">dalio.application.graphers.</code><code class="sig-name descname">LMGrapher</code><span class="sig-paren">(</span><em class="sig-param">legend=None</em><span class="sig-paren">)</span><a class="headerlink" href="#dalio.application.graphers.LMGrapher" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#dalio.application.graphers.Grapher" title="dalio.application.graphers.Grapher"><code class="xref py py-class docutils literal notranslate"><span class="pre">dalio.application.graphers.Grapher</span></code></a></p>
+<p>Application to graph data and a linear model fitted to it.</p>
+<p>This Application has two sources data_in and linear_model. The data-in
+source is explained in Grapher. The linear_model source is a fitted
+linear model with intercept and coefficient data.</p>
+<dl class="attribute">
+<dt id="dalio.application.graphers.LMGrapher._legend">
+<code class="sig-name descname">_legend</code><a class="headerlink" href="#dalio.application.graphers.LMGrapher._legend" title="Permalink to this definition">¶</a></dt>
+<dd><p>legend position on graph.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p>str, None</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="dalio.application.graphers.LMGrapher.run">
+<code class="sig-name descname">run</code><span class="sig-paren">(</span><em class="sig-param">**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#dalio.application.graphers.LMGrapher.run" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get data, its fitted coefficients and intercepts and graph them.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="dalio.application.graphers.PandasTSGrapher">
+<em class="property">class </em><code class="sig-prename descclassname">dalio.application.graphers.</code><code class="sig-name descname">PandasTSGrapher</code><span class="sig-paren">(</span><em class="sig-param">y=None</em>, <em class="sig-param">legend=None</em><span class="sig-paren">)</span><a class="headerlink" href="#dalio.application.graphers.PandasTSGrapher" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#dalio.application.graphers.PandasXYGrapher" title="dalio.application.graphers.PandasXYGrapher"><code class="xref py py-class docutils literal notranslate"><span class="pre">dalio.application.graphers.PandasXYGrapher</span></code></a></p>
+<p>Graphs a pandas time series</p>
+<p>Same functionality as parent class with stricter inputs.</p>
+</dd></dl>
+
+<dl class="class">
+<dt id="dalio.application.graphers.PandasXYGrapher">
+<em class="property">class </em><code class="sig-prename descclassname">dalio.application.graphers.</code><code class="sig-name descname">PandasXYGrapher</code><span class="sig-paren">(</span><em class="sig-param">x=None</em>, <em class="sig-param">y=None</em>, <em class="sig-param">legend=None</em><span class="sig-paren">)</span><a class="headerlink" href="#dalio.application.graphers.PandasXYGrapher" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#dalio.application.graphers.Grapher" title="dalio.application.graphers.Grapher"><code class="xref py py-class docutils literal notranslate"><span class="pre">dalio.application.graphers.Grapher</span></code></a></p>
+<p>Graph data from a pandas dataframe with option of selecting columns
+used as axis</p>
+<dl class="attribute">
+<dt id="dalio.application.graphers.PandasXYGrapher._x">
+<code class="sig-name descname">_x</code><a class="headerlink" href="#dalio.application.graphers.PandasXYGrapher._x" title="Permalink to this definition">¶</a></dt>
+<dd><p>name of column to be used for x-axis.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p>str</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="dalio.application.graphers.PandasXYGrapher._y">
+<code class="sig-name descname">_y</code><a class="headerlink" href="#dalio.application.graphers.PandasXYGrapher._y" title="Permalink to this definition">¶</a></dt>
+<dd><p>name of column to be used for y-axis.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p>str</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="dalio.application.graphers.PandasXYGrapher._legend">
+<code class="sig-name descname">_legend</code><a class="headerlink" href="#dalio.application.graphers.PandasXYGrapher._legend" title="Permalink to this definition">¶</a></dt>
+<dd><p>legend position. None by default</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p>str, None</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="dalio.application.graphers.PandasXYGrapher.run">
+<code class="sig-name descname">run</code><span class="sig-paren">(</span><em class="sig-param">**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#dalio.application.graphers.PandasXYGrapher.run" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get data, separate columns and feed it to data output graph</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="dalio.application.graphers.VaRGrapher">
+<em class="property">class </em><code class="sig-prename descclassname">dalio.application.graphers.</code><code class="sig-name descname">VaRGrapher</code><a class="headerlink" href="#dalio.application.graphers.VaRGrapher" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#dalio.application.graphers.Grapher" title="dalio.application.graphers.Grapher"><code class="xref py py-class docutils literal notranslate"><span class="pre">dalio.application.graphers.Grapher</span></code></a></p>
+<p>Application to visualize Value at Risk</p>
+<dl class="method">
+<dt id="dalio.application.graphers.VaRGrapher.run">
+<code class="sig-name descname">run</code><span class="sig-paren">(</span><em class="sig-param">**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#dalio.application.graphers.VaRGrapher.run" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get value at risk data, plot returns, value at risk lines and
+exceptions at their maximum exedence.</p>
+<p>Thank you for the creators of the arch package for the amazing
+visulaization idea!</p>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="module-dalio.application.printers">
+<span id="dalio-application-printers"></span><h2>dalio.application.printers<a class="headerlink" href="#module-dalio.application.printers" title="Permalink to this headline">¶</a></h2>
+<p>Print data onto an external output</p>
+<dl class="class">
+<dt id="dalio.application.printers.FilePrinter">
+<em class="property">class </em><code class="sig-prename descclassname">dalio.application.printers.</code><code class="sig-name descname">FilePrinter</code><a class="headerlink" href="#dalio.application.printers.FilePrinter" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#dalio.application.application.Application" title="dalio.application.application.Application"><code class="xref py py-class docutils literal notranslate"><span class="pre">dalio.application.application.Application</span></code></a></p>
+<p>Application to print data onto a file</p>
+<p>This application has one source: data_in. The data_in source is the data
+to be printed.</p>
+<p>This application has one output: data_out. The data_out output is the
+external output to print the data to.</p>
+<dl class="method">
+<dt id="dalio.application.printers.FilePrinter.run">
+<code class="sig-name descname">run</code><span class="sig-paren">(</span><em class="sig-param">**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#dalio.application.printers.FilePrinter.run" title="Permalink to this definition">¶</a></dt>
+<dd><p>Gets data and prints it</p>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="dalio.ops.html" title="dalio.ops module"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="dalio.model.html" title="dalio.model package"
+             >previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="index.html">Dal-io 0.1.1 documentation</a> &#187;</li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &#169; Copyright 2020, Renato Zimmermann.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 2.4.0.
+    </div>
+  </body>
+</html>

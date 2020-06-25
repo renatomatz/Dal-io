@@ -9,8 +9,7 @@ propper data checks by adding descriptions to their source.
 
 from typing import List
 
-from dalio.base import _Transformer
-from dalio.datadef import _DataDef
+from dalio.base import _Transformer, _DataDef
 
 
 class Pipe(_Transformer):

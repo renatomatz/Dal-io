@@ -1,4 +1,4 @@
-![logo](https://github.com/renatomatz/Dal-IO/blob/master/media/logo.png?raw=true)
+![logo](https://github.com/renatomatz/Dal-IO/blob/master/docs/images/logo.png?raw=true)
 
 # Understanding Graphs
 
