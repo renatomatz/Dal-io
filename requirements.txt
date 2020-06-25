@@ -1,0 +1,11 @@
+arch=4.14=pypi_0
+matplotlib=3.2.1=pypi_0
+numpy=1.18.1=py38h4f9e942_0
+pandas=0.25.3=pypi_0
+pandas-datareader=0.8.1=py_0
+pyportfolioopt=1.2.2=pypi_0
+python=3.8.3=hcff3b4d_0
+quandl=3.5.0=py38_0
+scikit-learn=0.22.1=py38hd81dba3_0
+scipy=1.4.1=py38h0b6359f_0
+sortedcontainers=2.2.2=py_0
