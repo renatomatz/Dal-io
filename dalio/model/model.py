@@ -72,11 +72,11 @@ class Model(_Transformer):
     def _source_from(self, source_name, **kwargs):
         """Helper function to get data from a specified source
 
-        args:
+        Args:
             source_name (str): initialized item in sources dict.
 
-        raise:
-            keyerror: if input name is not present in sources dict.
+        Raises:
+            KeyError: if input name is not present in sources dict.
         """
         if source_name in self._source:
             return self._source[source_name].request(**kwargs)
@@ -87,11 +87,11 @@ class Model(_Transformer):
     def _get_source(self, source_name):
         """Get a source data definition
 
-        args:
+        Args:
             source_name (str): initialized item in sources dict.
 
-        raise:
-            keyerror: if input name is not present in sources dict.
+        Raises:
+            KeyError: if input name is not present in sources dict.
         """
         if source_name in self._source:
             return self._source[source_name]
@@ -102,26 +102,22 @@ class Model(_Transformer):
     def _init_source(self, sources):
         """Initialize sources
 
-        This internal method takes in a list of source names and initializes
-        the Model instance's source dict. Only sources initialized this way,
-        explicitly on initialization can be accessed by other methods.
+        This internal method takes in an iterable of source names and
+        initializes the Model instance's source dict. Only sources
+        initialized this way, explicitly on initialization can be accessed by
+        other methods.
 
         Args:
-            sources (list): list of strings that will serve as keys in the
-                source dict.
+            sources (iterable): contains keys for the source dict.
 
         Raises:
-            TypeError: if the sources argument is not a list containing only
-                strings.
+            TypeError: if the sources argument is not an iterable
         """
-        if isinstance(sources, list):
+        if hasattr(sources, "__iter__"):
             for source in sources:
-                if isinstance(source, str):
-                    self._source[source] = _DataDef()
-                else:
-                    raise TypeError("source names must all be strings")
+                self._source[source] = _DataDef()
         else:
-            raise TypeError("please specify a list of strings to the \
+            raise TypeError("please specify an iterable to the \
                     sources argument")
 
     def __call__(self, source_name, new_input):

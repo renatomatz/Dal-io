@@ -1,8 +1,11 @@
 """Applications based on graphing input data"""
 
+from itertools import product
+
 import numpy as np
 
 from dalio.base.constants import RETURNS, MAX_EXEDENCE
+from dalio.base import _Builder
 from dalio.application import Application
 from dalio.validator import IS_PD_DF, HAS_COLS, IS_PD_TS, HAS_ATTR
 from dalio.util import process_cols
@@ -26,11 +29,11 @@ class Grapher(Application):
         super().__init__()
 
         self._init_source([
-            "data_in"
+            "data_in",
         ])
 
         self._init_output([
-            "data_out"
+            "data_out",
         ])
 
     def run(self, **kwargs):
@@ -41,6 +44,76 @@ class Grapher(Application):
 
         self._get_output("data_out").plot(data, **graph_opts)
         return self._get_output("data_out").request()
+
+
+class MultiGrapher(Application, _Builder):
+    """Grapher for multiple inputs taking in the same keyword arguments.
+
+    This is useful to greate subplots of the same data processed in
+    different ways. Sources are the data inputs and pieces are their kinds,
+    args and kwargs.
+
+    This applicaiton can N sources and pieces, where N is the total number of
+    graphs.
+    """
+
+    def __init__(self, rows=1, cols=1):
+        """Initialize instance.
+
+        This generates one source and piece per figure (product of rows and
+        cols) and one output.
+
+        Args:
+            rows (int): number of rows (starting at one).
+            cols (int): number of cols (starting at one).
+        """
+
+        self().__init__()
+
+        self._init_source(
+            product(
+                range(rows),
+                range(cols)
+            ),
+        )
+
+        self._init_output([
+            "data_out",
+        ])
+
+        self._init_piece(
+            product(
+                range(rows),
+                range(cols)
+            ),
+        )
+
+    def run(self, **kwargs):
+        """Gets data input from each source and plots it using the set
+        information in each piece
+        """
+        for coord in self._source:
+
+            data = self._source_from(coord, **kwargs)
+
+            if data is None:
+                continue
+
+            kind, _, f_kwargs = self._piece[coord]
+
+            data = self.build_model((data, f_kwargs))
+
+            graph_opts = kwargs.get("graph_opts", {})
+            graph_opts.update(f_kwargs)
+
+            self._get_output("data_out")\
+                .plot(data, coord, kind=kind, **graph_opts)
+
+        return self._get_output("data_out").request("GET")
+
+    def build_model(self, data):
+        """Return data unprocessed"""
+        return data[0]
 
 
 class PandasXYGrapher(Grapher):
@@ -147,6 +220,69 @@ class PandasTSGrapher(PandasXYGrapher):
 
         self._get_source("data_in")\
             .add_desc(IS_PD_TS())
+
+
+class PandasMultiGrapher(MultiGrapher):
+    """Multigrapher with column selection mechanisms
+
+    In this MultiGrapher, you can select any x, y and z columns as piece
+    kwargs and they will be interpreted during the run. Keep in mind that
+    this allows for any combination of these layered one on top of each other
+    regardless of name. If you specify an "x" and a "z", the "z" column will
+    be treated like a "y" column.
+
+    There are also no interpretations of what
+    is to be graphed, and thus all wanted columns should be specified.
+
+    There is one case for indexes, where the x_index, y_index or z_index
+    keyword arguments can be set to True.
+    """
+
+    def run(self, **kwargs):
+        """Gets data input from each source and plots it using the set
+        information in each piece and the columns specified.
+        """
+        for coord in self._source:
+
+            data = self._source_from(coord, **kwargs)
+
+            if data is None:
+                continue
+
+            kind, _, f_kwargs = self._piece[coord]
+
+            data = self.build_model((data, f_kwargs))
+
+            graph_opts = kwargs.get("graph_opts", {})
+            graph_opts.update(f_kwargs)
+
+            self._get_output("data_out")\
+                .plot(data, coord, kind=kind, **graph_opts)
+
+        return self._get_output("data_out").request("GET")
+
+    def build_model(self, data):
+        """Process data columns"""
+
+        data, f_kwargs = data
+
+        if data is None:
+            return None
+
+        cols = []
+
+        for ax in "xyz":
+            ax, ax_index = \
+                f_kwargs.get(ax, None), \
+                f_kwargs.get(ax+"_index", False)
+
+            if ax is None:
+                if ax_index:
+                    cols.append(data.index)
+            else:
+                cols.append(data.loc(axis=1)[ax])
+
+        return cols
 
 
 class ForecastGrapher(Grapher):
@@ -332,3 +468,8 @@ class LMGrapher(Grapher):
 
         fig.show()
         return fig
+
+
+class XYLMGrapher(LMGrapher):
+    """
+    """

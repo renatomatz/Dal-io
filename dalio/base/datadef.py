@@ -72,7 +72,10 @@ class _DataDef(_Node):
                 data and being set to "fatal"
         """
 
-        return self.check(run_kwargs=kwargs)
+        if self._connection is None:
+            return None
+
+        self.check(run_kwargs=kwargs)
 
     def check(self, **kwargs):
         """Pass data through validator list.

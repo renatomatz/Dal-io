@@ -89,6 +89,7 @@ def plot_dendrogram(hrp, show_tickers=True, ax=None, **kwargs):
 def plot_efficient_frontier(
         cla,
         points=100,
+        visible=25,
         show_assets=True,
         ax=None,
         **kwargs):
@@ -119,14 +120,17 @@ def plot_efficient_frontier(
 
     ax.plot(sigmas, mus, label="Efficient frontier", **kwargs)
 
+    sl = slice(0, None, points//visible)
+    ax.scatter(sigmas[sl], mus[sl], **kwargs)
+
     if show_assets:
-        ax.scatter(
+        zipped = zip(
             np.sqrt(np.diag(cla.cov_matrix)),
             cla.expected_returns,
-            s=30,
-            color="k",
-            label="assets"
+            np.array(cla.tickers)
         )
+        for x, y, s in zipped:
+            ax.text(x, y, s, fontsize=10)
 
     ax.scatter(
         optimal_risk,

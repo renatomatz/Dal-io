@@ -13,7 +13,7 @@ from dalio.base import _Transformer, _DataDef
 
 
 class Pipe(_Transformer):
-    """Pipes represend data modifications with one internal input and one 
+    """Pipes represend data modifications with one internal input and one
     internal output.
 
     Attributes:

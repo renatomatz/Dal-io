@@ -153,8 +153,9 @@ class StockComps(Pipe):
         )
 
 
-class LinearModel(Pipe, _Builder):
-    """Create a linear model from input data.
+class PandasLinearModel(Pipe, _Builder):
+    """Create a linear model from input pandas dataframe, using its index
+    as the X value.
 
     This builder is made up of a single piece: strategy. This piece sets
     which linear model should be used to fit the data.
@@ -200,7 +201,7 @@ class LinearModel(Pipe, _Builder):
             Unfitted linear model
         """
         strategy = self._piece["strategy"]
-        lm = LinearModel._STRATEGIES[strategy["name"]](
+        lm = PandasLinearModel._STRATEGIES[strategy["name"]](
             *strategy["args"],
             **strategy["kwargs"]
         )

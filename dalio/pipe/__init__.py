@@ -17,7 +17,7 @@ from dalio.pipe.selection import (
 
 from dalio.pipe.builders import (
     StockComps,
-    LinearModel,
+    PandasLinearModel,
     CovShrink,
     ExpectedReturns,
     MakeARCH,
@@ -37,7 +37,7 @@ __all__ = [
     "ValueAtRisk",
     "ExpectedShortfall",
     "Index",
-    "LinearModel",
+    "PandasLinearModel",
     "Period",
     "CovShrink",
     "ExpectedReturns",
