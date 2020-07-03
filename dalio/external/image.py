@@ -70,8 +70,8 @@ class _Figure(External):
 class _MultiFigure(_Figure):
     """Base MultiFigure class
 
-    These serve to implement the basic logic of a plotting multiple figures. 
-    Python packages should be standardazied in these classes to take in 
+    These serve to implement the basic logic of a plotting multiple figures.
+    Python packages should be standardazied in these classes to take in
     these broad commands.
 
     Attributes:
@@ -129,7 +129,9 @@ class PyPlotGraph(_Figure):
         """
         x, y = data if len(data) == 2 else (data, None)
 
-        if kind == "line":
+        if kind in ["hist", "histogram"]:
+            self._axis.hist(x, **graph_opts)
+        elif kind == "line":
             self._axis.plot(x, y, **graph_opts)
         elif kind == "scatter":
             self._axis.scatter(x, y, **graph_opts)
@@ -162,7 +164,7 @@ class PySubplotGraph(_MultiFigure):
     _cols = int
     _loc: np.ndarray
 
-    def __init__(self, rows=1, cols=1):
+    def __init__(self, rows, cols):
         """Initialize instance, check and set rows and columns
 
         Args:
@@ -182,10 +184,20 @@ class PySubplotGraph(_MultiFigure):
         Raises:
             ValueError: if coordinates are out of range.
         """
-        x, y = data if len(data) == 2 else (data, None)
 
-        if coords[0] > self._rows or coords[1] > self._cols:
-            self.get_loc(coords).plot(x, y, **graph_opts)
+        if coords[0] < self._rows and coords[1] < self._cols:
+            if len(data) == 3:
+                self.get_loc(coords).plot(data[0], data[1], data[2], **graph_opts)
+            if len(data) == 2:
+                if kind == "line":
+                    self.get_loc(coords).plot(data[0], data[1], **graph_opts)
+                elif kind == "scatter":
+                    self.get_loc(coords).scatter(data[0], data[1], **graph_opts)
+            if len(data) == 1:
+                if kind in ["hist", "histogram"]:
+                    self.get_loc(coords).hist(data[0].to_numpy(), **graph_opts)
+            else:
+                ValueError("No data was provided")
         else:
             raise ValueError(f"Invalid indexes, this figure has {self._rows} \
                 rows and {self._cols} columns")

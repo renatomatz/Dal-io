@@ -33,6 +33,12 @@ class Translator(_Transformer):
         super().__init__()
         self.translations = {}
 
+    def copy(self, *args, **kwargs):
+        ret = type(self)(*args, **kwargs)
+        ret.set_input(self.get_input())
+        ret.add_tag(self._tags)
+        return ret
+
     def set_input(self, new_input):
         """See base class"""
         if isinstance(new_input, External):

@@ -37,8 +37,9 @@ class Model(_Transformer):
         raise NotImplementedError()
 
     def copy(self, *args, **kwargs):
-        ret = super().copy(*args, **kwargs)
-        ret._source = self._source.copy()
+        ret = type(self)(*args, **kwargs)
+        for name, datadef in self._source.items():
+            ret.set_input(name, datadef.get_connection())
         return ret
 
     def set_input(self, source_name, new_input):
@@ -53,7 +54,11 @@ class Model(_Transformer):
             KeyError: if input name is not present in sources dict.
         """
         if source_name in self._source:
-            self._source[source_name].set_connection(new_input)
+            if isinstance(new_input, _Transformer) or new_input is None:
+                self._source[source_name].set_connection(new_input)
+            else:
+                raise TypeError(f"new input must be a _Transformer \
+                    instance, not {type(new_input)}")
         else:
             raise KeyError(f"{source_name} is not a valid source")
 
@@ -121,5 +126,5 @@ class Model(_Transformer):
                     sources argument")
 
     def __call__(self, source_name, new_input):
-        """Friendlier interface for set_input() method"""
-        return self.set_input(source_name, new_input)
+        """Alternative interface for with_input()."""
+        return self.with_input(source_name, new_input)

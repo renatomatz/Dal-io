@@ -4,7 +4,7 @@ import pandas as pd
 
 def process_cols(cols):
     """Standardize input columns"""
-    if isinstance(cols, str):
+    if isinstance(cols, (str, tuple)):
         ret = [cols]
     else:
         ret = cols

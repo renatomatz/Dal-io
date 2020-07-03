@@ -23,6 +23,7 @@ from dalio.pipe.builders import (
     MakeARCH,
     ValueAtRisk,
     ExpectedShortfall,
+    OptimumWeights,
 )
 
 __all__ = [
@@ -42,4 +43,5 @@ __all__ = [
     "CovShrink",
     "ExpectedReturns",
     "StockComps",
+    "OptimumWeights",
 ]

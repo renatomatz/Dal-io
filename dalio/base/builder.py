@@ -6,10 +6,8 @@ constrained an object's parent class.
 
 from typing import Dict, List, Union, Any
 
-from dalio.base import _Transformer
 
-
-class _Builder(_Transformer):
+class _Builder:
     """Interface for setting and assembling pieces.
 
     Builder instances are meant, as the name suggests, to be set and built at
@@ -28,7 +26,7 @@ class _Builder(_Transformer):
 
     _piece: Dict[str, Union[List[Any], Dict[str, Any]]]
 
-    def build_model(self, data):
+    def build_model(self, data, **kwargs):
         """Assemble pieces into a model given some data
 
         The data will opten be optional, but several builder models will
@@ -37,6 +35,7 @@ class _Builder(_Transformer):
 
         Args:
             data: data that might be used to build the model.
+            **kwargs: any additional argument used in building
         """
         raise NotImplementedError()
 
@@ -102,9 +101,3 @@ class _Builder(_Transformer):
         if param not in self._piece:
             raise KeyError(f"invalid parameter {param}, select one of \
                 {self._piece.keys()}")
-
-    def copy(self, *args, **kwargs):
-        """Copy self and pieces dictionary."""
-        ret = super().copy(*args, **kwargs)
-        ret._piece = self._piece.copy()
-        return ret

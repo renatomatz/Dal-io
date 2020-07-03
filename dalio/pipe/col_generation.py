@@ -49,16 +49,22 @@ class Change(Pipe):
     _strategy: Union[str, Callable[[pd.Series], pd.Series]]
     _new_cols: Union[List[str], str]
 
-    def __init__(self, strategy="pct_change", cols=None, new_cols=None):
+    def __init__(self,
+                 strategy="pct_change",
+                 cols=None,
+                 new_cols=None,
+                 rm_first=False):
         """Initialize instance and perform argument checks
 
         Args:
-            strategy: change strategy.
-            cols: specific columns to apply strategy to. If None are
-                specified, all columns from sourced data will be used.
-            new_cols: either a list of new columns or suffix to add to new
-                columns. If None are specified, original columns will be
-                dropped.
+            strategy (str): change strategy.
+            cols (str, tuple, list): specific columns to apply strategy to.
+                If None are specified, all columns from sourced data will
+                be used.
+            new_cols (str, tuple, list): either a list of new columns or
+                suffix to add to new columns. If None are specified,
+                original columns will be dropped.
+            rm_first (bool): whether to remove first row after change.
 
         Raises:
             ValueError: if strategy is not a valid string or new columns
@@ -87,6 +93,7 @@ class Change(Pipe):
                 a list with {len(self._cols)} elements")
 
         self._new_cols = new_cols
+        self._rm_first = rm_first
 
     def transform(self, data, **kwargs):
         """Applies change transformation to sourced data"""
@@ -121,7 +128,7 @@ class Change(Pipe):
                 new_col_names
             )
 
-        return data
+        return data.iloc[int(self._rm_first):]
 
     def copy(self, *args, **kwargs):
         return super().copy(
@@ -129,6 +136,7 @@ class Change(Pipe):
             strategy=self._strategy,
             cols=self._cols,
             new_cols=self._new_cols,
+            rm_first=self._rm_first,
             **kwargs
         )
 
@@ -136,11 +144,12 @@ class Change(Pipe):
 class StockReturns(Change):
     """Perform percent change and minor aesthetic changes to data"""
 
-    def __init__(self, cols=None, new_cols=False):
+    def __init__(self, cols=None, new_cols=False, rm_first=True):
         super().__init__(
             cols=cols,
             strategy="pct_change",
-            new_cols=RETURNS if new_cols else None
+            new_cols=RETURNS if new_cols else None,
+            rm_first=rm_first
         )
 
         self._source.clear_desc()

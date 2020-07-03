@@ -41,6 +41,12 @@ class Pipe(_Transformer):
         """
         return self.transform(self._source.request(**kwargs), **kwargs)
 
+    def copy(self, *args, **kwargs):
+        ret = type(self)(*args, **kwargs)
+        ret.set_input(self.get_input())
+        ret.add_tag(self._tags)
+        return ret
+
     def transform(self, data, **kwargs):
         """Apply a transformation to data returned from source.
 
@@ -51,7 +57,7 @@ class Pipe(_Transformer):
         Args:
             data: data returned by source.
         """
-        return data
+        raise NotImplementedError()
 
     def pipeline(self, *args):
         """Returns a PipeLine instance with self as the input source and any
@@ -72,6 +78,10 @@ class Pipe(_Transformer):
         """
         return other.with_input(self)
 
+    def get_input(self):
+        """Return the input transformer"""
+        return self._source.get_connection()
+
     def set_input(self, new_input):
         """Set the input data source in place.
 
@@ -82,11 +92,11 @@ class Pipe(_Transformer):
         Raises:
             TypeError: if new_input is not an instance of _Transformer.
         """
-        if isinstance(new_input, _Transformer):
+        if isinstance(new_input, _Transformer) or new_input is None:
             self._source.set_connection(new_input)
         else:
-            raise TypeError(f"new input must be an instance _Transformer \
-                not {type(new_input)}")
+            raise TypeError(f"new input must be a _Transformer \
+                instance, not {type(new_input)}")
 
         return self
 
@@ -111,7 +121,7 @@ class PipeLine(Pipe):
 
     pipeline: List[Pipe]
 
-    def __init__(self, first, *args):
+    def __init__(self, *args):
         """Initialize PipeLine with initial Pipe instances.
 
         Args:
@@ -120,9 +130,10 @@ class PipeLine(Pipe):
             *args: additional Pipe instances to be added to PipeLine.
         """
         super().__init__()
-        self._source = first._source
+        if len(args) >= 1:
+            self._source = args[0]._source
 
-        self._pipeline = [first]
+        self._pipeline = []
         self.extend(*args)
 
     def transform(self, data, **kwargs):
@@ -149,7 +160,7 @@ class PipeLine(Pipe):
         for pipe in args:
 
             if isinstance(pipe, PipeLine):
-                self._pipeline.extend(pipe.pipeline)
+                self._pipeline.extend(pipe._pipeline)
             elif isinstance(pipe, Pipe):
                 self._pipeline.append(pipe)
             else:

@@ -45,6 +45,13 @@ class Grapher(Application):
         self._get_output("data_out").plot(data, **graph_opts)
         return self._get_output("data_out").request()
 
+    def reset_out(self):
+        """Reset the output graph. Figure instances should implement the
+        .reset() method.
+        """
+        self._get_output("data_out").reset()
+        return self
+
 
 class MultiGrapher(Application, _Builder):
     """Grapher for multiple inputs taking in the same keyword arguments.
@@ -57,7 +64,7 @@ class MultiGrapher(Application, _Builder):
     graphs.
     """
 
-    def __init__(self, rows=1, cols=1):
+    def __init__(self, rows, cols):
         """Initialize instance.
 
         This generates one source and piece per figure (product of rows and
@@ -68,7 +75,7 @@ class MultiGrapher(Application, _Builder):
             cols (int): number of cols (starting at one).
         """
 
-        self().__init__()
+        super().__init__()
 
         self._init_source(
             product(
@@ -99,9 +106,7 @@ class MultiGrapher(Application, _Builder):
             if data is None:
                 continue
 
-            kind, _, f_kwargs = self._piece[coord]
-
-            data = self.build_model((data, f_kwargs))
+            data, kind, f_kwargs = self.build_model(data, coord=coord)
 
             graph_opts = kwargs.get("graph_opts", {})
             graph_opts.update(f_kwargs)
@@ -109,11 +114,12 @@ class MultiGrapher(Application, _Builder):
             self._get_output("data_out")\
                 .plot(data, coord, kind=kind, **graph_opts)
 
-        return self._get_output("data_out").request("GET")
+        return self._get_output("data_out").request()
 
-    def build_model(self, data):
+    def build_model(self, data, **kwargs):
         """Return data unprocessed"""
-        return data[0]
+        plot = self._piece[kwargs.get("coord", None)]
+        return data, plot["name"], plot["kwargs"]
 
 
 class PandasXYGrapher(Grapher):
@@ -152,17 +158,17 @@ class PandasXYGrapher(Grapher):
         self._get_source("data_in")\
             .add_desc(IS_PD_DF())
 
-        if isinstance(x, str):
+        if isinstance(x, (str, tuple)):
             self._get_source("data_in")\
                 .add_desc(HAS_COLS(x))
-            self._x = x
+            self._x = process_cols(x)
         elif x is None:
-            self._x = x
+            self._x = process_cols(x)
         else:
             raise TypeError(f"argument x must be None or of type {str} \
                     not {type(x)}")
 
-        if isinstance(y, (str, list)):
+        if isinstance(y, (str, tuple, list)):
             self._get_source("data_in")\
                 .add_desc(HAS_COLS(y))
 
@@ -185,7 +191,7 @@ class PandasXYGrapher(Grapher):
         """Get data, separate columns and feed it to data output graph"""
         data = self._source_from("data_in", **kwargs)
 
-        x = data[self._x] if self._x is not None else data.index
+        x = data[self._x].to_numpy() if self._x is not None else data.index
         y = data[self._y] if self._y is not None else data
 
         graph_opts = kwargs.get("graph_opts", {})
@@ -238,43 +244,16 @@ class PandasMultiGrapher(MultiGrapher):
     keyword arguments can be set to True.
     """
 
-    def run(self, **kwargs):
-        """Gets data input from each source and plots it using the set
-        information in each piece and the columns specified.
-        """
-        for coord in self._source:
-
-            data = self._source_from(coord, **kwargs)
-
-            if data is None:
-                continue
-
-            kind, _, f_kwargs = self._piece[coord]
-
-            data = self.build_model((data, f_kwargs))
-
-            graph_opts = kwargs.get("graph_opts", {})
-            graph_opts.update(f_kwargs)
-
-            self._get_output("data_out")\
-                .plot(data, coord, kind=kind, **graph_opts)
-
-        return self._get_output("data_out").request("GET")
-
-    def build_model(self, data):
+    def build_model(self, data, **kwargs):
         """Process data columns"""
 
-        data, f_kwargs = data
-
-        if data is None:
-            return None
-
+        data, kind, f_kwargs = super().build_model(data, **kwargs)
         cols = []
 
         for ax in "xyz":
             ax, ax_index = \
-                f_kwargs.get(ax, None), \
-                f_kwargs.get(ax+"_index", False)
+                f_kwargs.pop(ax, None), \
+                f_kwargs.pop(ax+"_index", False)
 
             if ax is None:
                 if ax_index:
@@ -282,7 +261,7 @@ class PandasMultiGrapher(MultiGrapher):
             else:
                 cols.append(data.loc(axis=1)[ax])
 
-        return cols
+        return tuple(cols), kind, f_kwargs
 
 
 class ForecastGrapher(Grapher):
@@ -379,9 +358,9 @@ class VaRGrapher(Grapher):
         # add exedence as color
         scatter_opts = graph_opts.copy()
         scatter_opts.update(
-            s=0.5,
+            s=0.7,
             c=exedence,
-            alpha=0.3
+            alpha=0.5
         )
 
         self._get_output("data_out").plot(
@@ -389,11 +368,11 @@ class VaRGrapher(Grapher):
             kind="scatter",
             **scatter_opts)
 
-        fig = self._get_output("data_out").request()
+        fig = self._get_output("data_out").request(query="GET")
         return fig
 
 
-class LMGrapher(Grapher):
+class LMGrapher(PandasXYGrapher):
     """Application to graph data and a linear model fitted to it.
 
     This Application has two sources data_in and linear_model. The data-in
@@ -404,7 +383,7 @@ class LMGrapher(Grapher):
         _legend (str, None): legend position on graph.
     """
 
-    def __init__(self, legend=None):
+    def __init__(self, x=None, y=None, legend=None):
         """Initialize instance.
 
         Defines data_in source as a pandas data frame.
@@ -412,13 +391,14 @@ class LMGrapher(Grapher):
         'intercept_'
 
         Args:
+            x, y: columns used for the x and y axes
             legend (str, None): Legend position on graph. Optional. None by
-            default. If None, legend will not be included.
+                default. If None, legend will not be included.
 
         Raises:
             TypeError: if legend is neither none or string.
         """
-        super().__init__()
+        super().__init__(x=x, y=y, legend=legend)
 
         self._init_source([
             "linear_model"
@@ -430,34 +410,31 @@ class LMGrapher(Grapher):
         self._get_source("linear_model")\
             .add_desc(HAS_ATTR(["coef_", "intercept_"]))
 
-        if legend is None or isinstance(legend, str):
-            self._legend = legend
-        else:
-            raise TypeError(f"argument legend must be None or of type \
-                {str} not {type(legend)}")
-
     def run(self, **kwargs):
         """Get data, its fitted coefficients and intercepts and graph them."""
 
         data = self._source_from("data_in", **kwargs)
         lm = self._source_from("linear_model", **kwargs)
 
-        linspace = np.arange(data.shape[0]) + 1
-
         graph_opts = kwargs.get("graph_opts", {})
+
+        x = data[self._x].to_numpy() if self._x is not None else data.index
+        linspace = x if self._x is not None else np.arange(data.shape[0]) + 1
+
+        data = data[self._y] if self._y is not None else data
 
         for i, col in enumerate(data):
 
             # graph returns
             self._get_output("data_out").plot(
-                (data.index, data[col]),
+                (x, data[col]),
                 kind="scatter",
                 s=0.5,
                 **graph_opts)
 
             # graph fitted lm
             self._get_output("data_out").plot(
-                (data.index, linspace*lm.coef_[i] + lm.intercept_[i]),
+                (x, linspace*lm.coef_[i] + lm.intercept_[i]),
                 kind="line",
                 **graph_opts)
 
@@ -468,8 +445,3 @@ class LMGrapher(Grapher):
 
         fig.show()
         return fig
-
-
-class XYLMGrapher(LMGrapher):
-    """
-    """
