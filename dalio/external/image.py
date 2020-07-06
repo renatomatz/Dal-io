@@ -27,13 +27,16 @@ class _Figure(External):
 
     Attributes:
         _connection: figure object dealt with by this class
+        _figsize (tuple): figure size ratio
     """
 
     _connection: Any
+    _figsize: tuple
 
-    def __init__(self):
+    def __init__(self, figsize=None):
         """Initializes instance and set empty figure"""
         super().__init__()
+        self._figsize = figsize
         self.reset()
 
     def request(self, **kwargs):
@@ -143,7 +146,8 @@ class PyPlotGraph(_Figure):
 
     def reset(self):
         """Set connection and axes to a single figure and axis"""
-        self._connection, self._axis = plt.subplots(1)
+        self._connection, self._axis = plt.subplots(1, 1,
+                                                    figsize=self._figsize)
 
 
 class PySubplotGraph(_MultiFigure):
@@ -187,12 +191,14 @@ class PySubplotGraph(_MultiFigure):
 
         if coords[0] < self._rows and coords[1] < self._cols:
             if len(data) == 3:
-                self.get_loc(coords).plot(data[0], data[1], data[2], **graph_opts)
+                self.get_loc(coords).plot(data[0], data[1], data[2],
+                                          **graph_opts)
             if len(data) == 2:
                 if kind == "line":
                     self.get_loc(coords).plot(data[0], data[1], **graph_opts)
                 elif kind == "scatter":
-                    self.get_loc(coords).scatter(data[0], data[1], **graph_opts)
+                    self.get_loc(coords).scatter(data[0], data[1],
+                                                 **graph_opts)
             if len(data) == 1:
                 if kind in ["hist", "histogram"]:
                     self.get_loc(coords).hist(data[0].to_numpy(), **graph_opts)
@@ -204,7 +210,8 @@ class PySubplotGraph(_MultiFigure):
 
     def reset(self):
         """Resets figure and all axes"""
-        self._connection, self._loc = plt.subplots(self._rows, self._cols)
+        self._connection, self._loc = plt.subplots(self._rows, self._cols,
+                                                   figsize=self._figsize)
 
     def get_loc(self, coords):
         """Gets a specific axis from the _loc attribute at given

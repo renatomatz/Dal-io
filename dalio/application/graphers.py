@@ -358,7 +358,6 @@ class VaRGrapher(Grapher):
         # add exedence as color
         scatter_opts = graph_opts.copy()
         scatter_opts.update(
-            s=0.7,
             c=exedence,
             alpha=0.5
         )
