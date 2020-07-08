@@ -1,0 +1,1247 @@
+
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta charset="utf-8" />
+    <title>dalio.pipe package &#8212; Dal-io 0.1.1 documentation</title>
+    <link rel="stylesheet" href="_static/sphinxdoc.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <script id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+    <script src="_static/jquery.js"></script>
+    <script src="_static/underscore.js"></script>
+    <script src="_static/doctools.js"></script>
+    <script src="_static/language_data.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="dalio.model package" href="dalio.model.html" />
+    <link rel="prev" title="dalio.translator package" href="dalio.translator.html" /> 
+  </head><body>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="dalio.model.html" title="dalio.model package"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="dalio.translator.html" title="dalio.translator package"
+             accesskey="P">previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="index.html">Dal-io 0.1.1 documentation</a> &#187;</li> 
+      </ul>
+    </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+            <p class="logo"><a href="index.html">
+              <img class="logo" src="_static/logo.png" alt="Logo"/>
+            </a></p>
+  <h3><a href="index.html">Table of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">dalio.pipe package</a><ul>
+<li><a class="reference internal" href="#submodules">Submodules</a></li>
+<li><a class="reference internal" href="#module-dalio.pipe.builders">dalio.pipe.builders</a></li>
+<li><a class="reference internal" href="#module-dalio.pipe.col_generation">dalio.pipe.col_generation</a></li>
+<li><a class="reference internal" href="#module-dalio.pipe.custom">dalio.pipe.custom</a></li>
+<li><a class="reference internal" href="#module-dalio.pipe.forecast">dalio.pipe.forecast</a></li>
+<li><a class="reference internal" href="#module-dalio.pipe.pipe">dalio.pipe.pipe</a></li>
+<li><a class="reference internal" href="#module-dalio.pipe.selection">dalio.pipe.selection</a></li>
+</ul>
+</li>
+</ul>
+
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="dalio.translator.html"
+                        title="previous chapter">dalio.translator package</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="dalio.model.html"
+                        title="next chapter">dalio.model package</a></p>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="_sources/dalio.pipe.rst.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" />
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script>$('#searchbox').show(0);</script>
+        </div>
+      </div>
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="dalio-pipe-package">
+<h1>dalio.pipe package<a class="headerlink" href="#dalio-pipe-package" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="submodules">
+<h2>Submodules<a class="headerlink" href="#submodules" title="Permalink to this headline">¶</a></h2>
+</div>
+<div class="section" id="module-dalio.pipe.builders">
+<span id="dalio-pipe-builders"></span><h2>dalio.pipe.builders<a class="headerlink" href="#module-dalio.pipe.builders" title="Permalink to this headline">¶</a></h2>
+<p>Builder Pipes</p>
+<dl class="class">
+<dt id="dalio.pipe.builders.CovShrink">
+<em class="property">class </em><code class="sig-prename descclassname">dalio.pipe.builders.</code><code class="sig-name descname">CovShrink</code><span class="sig-paren">(</span><em class="sig-param">frequency=252</em><span class="sig-paren">)</span><a class="headerlink" href="#dalio.pipe.builders.CovShrink" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#dalio.pipe.pipe.Pipe" title="dalio.pipe.pipe.Pipe"><code class="xref py py-class docutils literal notranslate"><span class="pre">dalio.pipe.pipe.Pipe</span></code></a>, <code class="xref py py-class docutils literal notranslate"><span class="pre">dalio.base.builder._Builder</span></code></p>
+<p>Perform Covariance Shrinkage on data</p>
+<p>Builder with a single piece: shirnkage. Shrinkage defines what kind of
+shrinkage to apply on a resultant covariance matrix. If none is set,
+covariance will not be shrunk.</p>
+<dl class="attribute">
+<dt id="dalio.pipe.builders.CovShrink.frequency">
+<code class="sig-name descname">frequency</code><a class="headerlink" href="#dalio.pipe.builders.CovShrink.frequency" title="Permalink to this definition">¶</a></dt>
+<dd><p>data time period frequency</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p>int</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="dalio.pipe.builders.CovShrink.build_model">
+<code class="sig-name descname">build_model</code><span class="sig-paren">(</span><em class="sig-param">data</em><span class="sig-paren">)</span><a class="headerlink" href="#dalio.pipe.builders.CovShrink.build_model" title="Permalink to this definition">¶</a></dt>
+<dd><p>Builds Covariance Srhinkage object and returns selected shrinkage
+strategy</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>Function fitted on the data.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="dalio.pipe.builders.CovShrink.check_name">
+<code class="sig-name descname">check_name</code><span class="sig-paren">(</span><em class="sig-param">param</em>, <em class="sig-param">name</em><span class="sig-paren">)</span><a class="headerlink" href="#dalio.pipe.builders.CovShrink.check_name" title="Permalink to this definition">¶</a></dt>
+<dd><p>Check if name and parameter combination is valid.</p>
+<p>This will always be called upon setting a new piece to ensure this
+piece is present dictionary and that the name is valid. Subclasses
+will often override this method to implement the name checks in
+accordance to their specific name parameter combination options.
+Notice that checks cannot be done on arguments before running the
+_Builder. This also can be called from outside of a _Builder instance
+to check for the validity of settings.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>piece</strong> (<em>str</em>) – name of the key in the piece dictionary.</p></li>
+<li><p><strong>name</strong> (<em>str</em>) – name option to be set to the piece.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="attribute">
+<dt>
+<code class="sig-name descname">frequency</code><em class="property">: int</em><em class="property"> = None</em></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="dalio.pipe.builders.CovShrink.transform">
+<code class="sig-name descname">transform</code><span class="sig-paren">(</span><em class="sig-param">data</em>, <em class="sig-param">**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#dalio.pipe.builders.CovShrink.transform" title="Permalink to this definition">¶</a></dt>
+<dd><p>Build model using data get results.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>A covariance matrix</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="dalio.pipe.builders.ExpectedReturns">
+<em class="property">class </em><code class="sig-prename descclassname">dalio.pipe.builders.</code><code class="sig-name descname">ExpectedReturns</code><a class="headerlink" href="#dalio.pipe.builders.ExpectedReturns" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#dalio.pipe.pipe.Pipe" title="dalio.pipe.pipe.Pipe"><code class="xref py py-class docutils literal notranslate"><span class="pre">dalio.pipe.pipe.Pipe</span></code></a>, <code class="xref py py-class docutils literal notranslate"><span class="pre">dalio.base.builder._Builder</span></code></p>
+<p>Get stock’s time series expected returns.</p>
+<p>Builder with a single piece: return_model. return_model is what model to
+get the expected returns from.</p>
+<dl class="method">
+<dt id="dalio.pipe.builders.ExpectedReturns.build_model">
+<code class="sig-name descname">build_model</code><span class="sig-paren">(</span><em class="sig-param">data</em><span class="sig-paren">)</span><a class="headerlink" href="#dalio.pipe.builders.ExpectedReturns.build_model" title="Permalink to this definition">¶</a></dt>
+<dd><p>Assemble pieces into a model given some data</p>
+<p>The data will opten be optional, but several builder models will
+require it to be fitted on initialization. Which further shows why
+builders are necessary for context-agnostic graphs.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>data</strong> – data that might be used to build the model.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="dalio.pipe.builders.ExpectedReturns.check_name">
+<code class="sig-name descname">check_name</code><span class="sig-paren">(</span><em class="sig-param">param</em>, <em class="sig-param">name</em><span class="sig-paren">)</span><a class="headerlink" href="#dalio.pipe.builders.ExpectedReturns.check_name" title="Permalink to this definition">¶</a></dt>
+<dd><p>Check if name and parameter combination is valid.</p>
+<p>This will always be called upon setting a new piece to ensure this
+piece is present dictionary and that the name is valid. Subclasses
+will often override this method to implement the name checks in
+accordance to their specific name parameter combination options.
+Notice that checks cannot be done on arguments before running the
+_Builder. This also can be called from outside of a _Builder instance
+to check for the validity of settings.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>piece</strong> (<em>str</em>) – name of the key in the piece dictionary.</p></li>
+<li><p><strong>name</strong> (<em>str</em>) – name option to be set to the piece.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="dalio.pipe.builders.ExpectedReturns.transform">
+<code class="sig-name descname">transform</code><span class="sig-paren">(</span><em class="sig-param">data</em>, <em class="sig-param">**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#dalio.pipe.builders.ExpectedReturns.transform" title="Permalink to this definition">¶</a></dt>
+<dd><p>Builds model using data and gets expected returns from it</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="dalio.pipe.builders.ExpectedShortfall">
+<em class="property">class </em><code class="sig-prename descclassname">dalio.pipe.builders.</code><code class="sig-name descname">ExpectedShortfall</code><span class="sig-paren">(</span><em class="sig-param">quantiles=None</em><span class="sig-paren">)</span><a class="headerlink" href="#dalio.pipe.builders.ExpectedShortfall" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#dalio.pipe.builders.ValueAtRisk" title="dalio.pipe.builders.ValueAtRisk"><code class="xref py py-class docutils literal notranslate"><span class="pre">dalio.pipe.builders.ValueAtRisk</span></code></a></p>
+<p>Get expected shortfal for given quantiles</p>
+<p>See base class for more in depth explanation.</p>
+<dl class="method">
+<dt id="dalio.pipe.builders.ExpectedShortfall.transform">
+<code class="sig-name descname">transform</code><span class="sig-paren">(</span><em class="sig-param">data</em>, <em class="sig-param">**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#dalio.pipe.builders.ExpectedShortfall.transform" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get the value at risk given by an arch model and calculate the
+expected shortfall at given quantiles.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="dalio.pipe.builders.LinearModel">
+<em class="property">class </em><code class="sig-prename descclassname">dalio.pipe.builders.</code><code class="sig-name descname">LinearModel</code><a class="headerlink" href="#dalio.pipe.builders.LinearModel" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#dalio.pipe.pipe.Pipe" title="dalio.pipe.pipe.Pipe"><code class="xref py py-class docutils literal notranslate"><span class="pre">dalio.pipe.pipe.Pipe</span></code></a>, <code class="xref py py-class docutils literal notranslate"><span class="pre">dalio.base.builder._Builder</span></code></p>
+<p>Create a linear model from input data.</p>
+<p>This builder is made up of a single piece: strategy. This piece sets
+which linear model should be used to fit the data.</p>
+<dl class="method">
+<dt id="dalio.pipe.builders.LinearModel.build_model">
+<code class="sig-name descname">build_model</code><span class="sig-paren">(</span><em class="sig-param">data</em><span class="sig-paren">)</span><a class="headerlink" href="#dalio.pipe.builders.LinearModel.build_model" title="Permalink to this definition">¶</a></dt>
+<dd><p>Build model by returning the chosen model and initialization
+parameters</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>Unfitted linear model</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="dalio.pipe.builders.LinearModel.copy">
+<code class="sig-name descname">copy</code><span class="sig-paren">(</span><em class="sig-param">*args</em>, <em class="sig-param">**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#dalio.pipe.builders.LinearModel.copy" title="Permalink to this definition">¶</a></dt>
+<dd><p>Makes a copy of transformer, copying its attributes to a new
+instance.</p>
+<p>This copy should essentially create a new transformation node, not an
+entire new graph, so the _source attribute of the returned instance
+should be assigned without being copied. This is also made to be built
+upon by subclasses, such that only new attributes need to be added to
+a class’ copy method.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>*args</strong> – Positional arguments to be passed to initialize copy</p></li>
+<li><p><strong>**kwargs</strong> – Keyword arguments to be passed to initialize copy</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>A copy of this _Transformer instance with copies of necessary
+attributes and empty input.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="dalio.pipe.builders.LinearModel.transform">
+<code class="sig-name descname">transform</code><span class="sig-paren">(</span><em class="sig-param">data</em>, <em class="sig-param">**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#dalio.pipe.builders.LinearModel.transform" title="Permalink to this definition">¶</a></dt>
+<dd><p>Set up fitting parameters and fit built model.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>Fitted linear model</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="dalio.pipe.builders.MakeARCH">
+<em class="property">class </em><code class="sig-prename descclassname">dalio.pipe.builders.</code><code class="sig-name descname">MakeARCH</code><a class="headerlink" href="#dalio.pipe.builders.MakeARCH" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#dalio.pipe.pipe.Pipe" title="dalio.pipe.pipe.Pipe"><code class="xref py py-class docutils literal notranslate"><span class="pre">dalio.pipe.pipe.Pipe</span></code></a>, <code class="xref py py-class docutils literal notranslate"><span class="pre">dalio.base.builder._Builder</span></code></p>
+<p>Build arch model and make it based on input data.</p>
+<p>This class allows for the creation of arch models by configuring three
+pieces: the mean, volatility and distribution. These are set after
+initialization through the _Builder interface.</p>
+<dl class="attribute">
+<dt id="dalio.pipe.builders.MakeARCH._piece">
+<code class="sig-name descname">_piece</code><a class="headerlink" href="#dalio.pipe.builders.MakeARCH._piece" title="Permalink to this definition">¶</a></dt>
+<dd><p>see _Builder class.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p>list</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="dalio.pipe.builders.MakeARCH.assimilate">
+<code class="sig-name descname">assimilate</code><span class="sig-paren">(</span><em class="sig-param">model</em><span class="sig-paren">)</span><a class="headerlink" href="#dalio.pipe.builders.MakeARCH.assimilate" title="Permalink to this definition">¶</a></dt>
+<dd><p>Assimilate core pieces of an existent ARCH Model.</p>
+<p>Assimilation means setting this model’s’ pieces in accordance to an
+existing model’s pieces. Assimilation is shallow, so only the main
+pieces are assimilated, not their parameters.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>model</strong> (<em>ARCHModel</em>) – Existing ARCH Model.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="dalio.pipe.builders.MakeARCH.build_model">
+<code class="sig-name descname">build_model</code><span class="sig-paren">(</span><em class="sig-param">data</em><span class="sig-paren">)</span><a class="headerlink" href="#dalio.pipe.builders.MakeARCH.build_model" title="Permalink to this definition">¶</a></dt>
+<dd><p>Build ARCH Model using data, set pieces and their arguments</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>A built arch model from the arch package.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="dalio.pipe.builders.MakeARCH.copy">
+<code class="sig-name descname">copy</code><span class="sig-paren">(</span><em class="sig-param">*args</em>, <em class="sig-param">**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#dalio.pipe.builders.MakeARCH.copy" title="Permalink to this definition">¶</a></dt>
+<dd><p>Makes a copy of transformer, copying its attributes to a new
+instance.</p>
+<p>This copy should essentially create a new transformation node, not an
+entire new graph, so the _source attribute of the returned instance
+should be assigned without being copied. This is also made to be built
+upon by subclasses, such that only new attributes need to be added to
+a class’ copy method.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>*args</strong> – Positional arguments to be passed to initialize copy</p></li>
+<li><p><strong>**kwargs</strong> – Keyword arguments to be passed to initialize copy</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>A copy of this _Transformer instance with copies of necessary
+attributes and empty input.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="dalio.pipe.builders.MakeARCH.transform">
+<code class="sig-name descname">transform</code><span class="sig-paren">(</span><em class="sig-param">data</em>, <em class="sig-param">**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#dalio.pipe.builders.MakeARCH.transform" title="Permalink to this definition">¶</a></dt>
+<dd><p>Build model with sourced data</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="dalio.pipe.builders.StockComps">
+<em class="property">class </em><code class="sig-prename descclassname">dalio.pipe.builders.</code><code class="sig-name descname">StockComps</code><span class="sig-paren">(</span><em class="sig-param">strategy='sic_code'</em>, <em class="sig-param">max_ticks=6</em><span class="sig-paren">)</span><a class="headerlink" href="#dalio.pipe.builders.StockComps" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#dalio.pipe.pipe.Pipe" title="dalio.pipe.pipe.Pipe"><code class="xref py py-class docutils literal notranslate"><span class="pre">dalio.pipe.pipe.Pipe</span></code></a></p>
+<p>Get a list of a ticker’s comparable stocks</p>
+<p>This can utilize any strategy of getting stock comparative companies and
+return up to a certain ammount of comps.</p>
+<dl class="attribute">
+<dt id="dalio.pipe.builders.StockComps._strategy">
+<code class="sig-name descname">_strategy</code><a class="headerlink" href="#dalio.pipe.builders.StockComps._strategy" title="Permalink to this definition">¶</a></dt>
+<dd><p>comparisson strategy name or function.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p>str, callable</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="dalio.pipe.builders.StockComps.max_ticks">
+<code class="sig-name descname">max_ticks</code><a class="headerlink" href="#dalio.pipe.builders.StockComps.max_ticks" title="Permalink to this definition">¶</a></dt>
+<dd><p>maximum number of tickers to return.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p>int</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="dalio.pipe.builders.StockComps.copy">
+<code class="sig-name descname">copy</code><span class="sig-paren">(</span><em class="sig-param">*args</em>, <em class="sig-param">**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#dalio.pipe.builders.StockComps.copy" title="Permalink to this definition">¶</a></dt>
+<dd><p>Makes a copy of transformer, copying its attributes to a new
+instance.</p>
+<p>This copy should essentially create a new transformation node, not an
+entire new graph, so the _source attribute of the returned instance
+should be assigned without being copied. This is also made to be built
+upon by subclasses, such that only new attributes need to be added to
+a class’ copy method.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>*args</strong> – Positional arguments to be passed to initialize copy</p></li>
+<li><p><strong>**kwargs</strong> – Keyword arguments to be passed to initialize copy</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>A copy of this _Transformer instance with copies of necessary
+attributes and empty input.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="attribute">
+<dt>
+<code class="sig-name descname">max_ticks</code><em class="property">: int</em><em class="property"> = None</em></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="dalio.pipe.builders.StockComps.run">
+<code class="sig-name descname">run</code><span class="sig-paren">(</span><em class="sig-param">**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#dalio.pipe.builders.StockComps.run" title="Permalink to this definition">¶</a></dt>
+<dd><p>Gets ticker argument and passes an empty ticker request to
+transform.</p>
+<p>Empty ticker requests are supposed to return all tickers available in
+a source, so this allows the compariisson to be made in all stocks
+from a certain source.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Raises</dt>
+<dd class="field-odd"><p><strong>ValueError</strong> – if ticker is more than a single symbol.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="dalio.pipe.builders.StockComps.transform">
+<code class="sig-name descname">transform</code><span class="sig-paren">(</span><em class="sig-param">data</em>, <em class="sig-param">**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#dalio.pipe.builders.StockComps.transform" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get comps according to the set strategy</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="dalio.pipe.builders.ValueAtRisk">
+<em class="property">class </em><code class="sig-prename descclassname">dalio.pipe.builders.</code><code class="sig-name descname">ValueAtRisk</code><span class="sig-paren">(</span><em class="sig-param">quantiles=None</em><span class="sig-paren">)</span><a class="headerlink" href="#dalio.pipe.builders.ValueAtRisk" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#dalio.pipe.pipe.Pipe" title="dalio.pipe.pipe.Pipe"><code class="xref py py-class docutils literal notranslate"><span class="pre">dalio.pipe.pipe.Pipe</span></code></a></p>
+<p>Get the value at risk for data based on an ARHC Model</p>
+<p>This takes in an ARCH Model maker, not data, which might be unintuitive,
+yet necessary, as this allows users to modify the ARCH model generating
+these values separately. A useful strategy that allows for this
+is using a pipeline with an arch model as its first input and a
+ValueAtRisk instance as its second layer. This allows us to treat the
+PipeLine as a data input with VaR output and still have control over the
+ARCH Model pieces (given you left a local variable for it behind.)</p>
+<dl class="attribute">
+<dt id="dalio.pipe.builders.ValueAtRisk._quantiles">
+<code class="sig-name descname">_quantiles</code><a class="headerlink" href="#dalio.pipe.builders.ValueAtRisk._quantiles" title="Permalink to this definition">¶</a></dt>
+<dd><p>list of quantiles to check the value at risk for.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p>list</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="dalio.pipe.builders.ValueAtRisk.copy">
+<code class="sig-name descname">copy</code><span class="sig-paren">(</span><em class="sig-param">*args</em>, <em class="sig-param">**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#dalio.pipe.builders.ValueAtRisk.copy" title="Permalink to this definition">¶</a></dt>
+<dd><p>Makes a copy of transformer, copying its attributes to a new
+instance.</p>
+<p>This copy should essentially create a new transformation node, not an
+entire new graph, so the _source attribute of the returned instance
+should be assigned without being copied. This is also made to be built
+upon by subclasses, such that only new attributes need to be added to
+a class’ copy method.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>*args</strong> – Positional arguments to be passed to initialize copy</p></li>
+<li><p><strong>**kwargs</strong> – Keyword arguments to be passed to initialize copy</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>A copy of this _Transformer instance with copies of necessary
+attributes and empty input.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="dalio.pipe.builders.ValueAtRisk.transform">
+<code class="sig-name descname">transform</code><span class="sig-paren">(</span><em class="sig-param">data</em>, <em class="sig-param">**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#dalio.pipe.builders.ValueAtRisk.transform" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get values at risk at each quantile and each results maximum
+exedence from the mean.</p>
+<p>The maximum exedence columns tells which quantile the loss is placed
+on. The word “maximum” might be misleading as it is compared to the
+minimum quantile, however, this definition is accurate as the column
+essentially answers the question: “what quantile furthest away from
+the mean does the data exeed?”</p>
+<p>Thank you for the creators of the arch package for the beautiful
+visualizations and ideas!</p>
+<dl class="field-list simple">
+<dt class="field-odd">Raises</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>ValueError</strong> – if ARCH model does not have returns. This is often
+    the case for unfitted models. Ensure your graph is complete.</p></li>
+<li><p><strong>TypeError</strong> – if ARCH model has unsuported distribution parameter.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="module-dalio.pipe.col_generation">
+<span id="dalio-pipe-col-generation"></span><h2>dalio.pipe.col_generation<a class="headerlink" href="#module-dalio.pipe.col_generation" title="Permalink to this headline">¶</a></h2>
+<p>Implement transformations that generates new colums from exising ones</p>
+<dl class="class">
+<dt id="dalio.pipe.col_generation.Change">
+<em class="property">class </em><code class="sig-prename descclassname">dalio.pipe.col_generation.</code><code class="sig-name descname">Change</code><span class="sig-paren">(</span><em class="sig-param">strategy='pct_change'</em>, <em class="sig-param">cols=None</em>, <em class="sig-param">new_cols=None</em><span class="sig-paren">)</span><a class="headerlink" href="#dalio.pipe.col_generation.Change" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#dalio.pipe.pipe.Pipe" title="dalio.pipe.pipe.Pipe"><code class="xref py py-class docutils literal notranslate"><span class="pre">dalio.pipe.pipe.Pipe</span></code></a></p>
+<p>Perform item-by-item change</p>
+<p>This has two main forms, percentage change and absolute change
+(difference).</p>
+<dl class="attribute">
+<dt id="dalio.pipe.col_generation.Change._strategy">
+<code class="sig-name descname">_strategy</code><a class="headerlink" href="#dalio.pipe.col_generation.Change._strategy" title="Permalink to this definition">¶</a></dt>
+<dd><p>change strategy.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p>str, callable</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="dalio.pipe.col_generation.Change._new_cols">
+<code class="sig-name descname">_new_cols</code><a class="headerlink" href="#dalio.pipe.col_generation.Change._new_cols" title="Permalink to this definition">¶</a></dt>
+<dd><p>either list of new columns or suffix.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p>list, str</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="dalio.pipe.col_generation.Change.copy">
+<code class="sig-name descname">copy</code><span class="sig-paren">(</span><em class="sig-param">*args</em>, <em class="sig-param">**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#dalio.pipe.col_generation.Change.copy" title="Permalink to this definition">¶</a></dt>
+<dd><p>Makes a copy of transformer, copying its attributes to a new
+instance.</p>
+<p>This copy should essentially create a new transformation node, not an
+entire new graph, so the _source attribute of the returned instance
+should be assigned without being copied. This is also made to be built
+upon by subclasses, such that only new attributes need to be added to
+a class’ copy method.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>*args</strong> – Positional arguments to be passed to initialize copy</p></li>
+<li><p><strong>**kwargs</strong> – Keyword arguments to be passed to initialize copy</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>A copy of this _Transformer instance with copies of necessary
+attributes and empty input.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="dalio.pipe.col_generation.Change.transform">
+<code class="sig-name descname">transform</code><span class="sig-paren">(</span><em class="sig-param">data</em>, <em class="sig-param">**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#dalio.pipe.col_generation.Change.transform" title="Permalink to this definition">¶</a></dt>
+<dd><p>Applies change transformation to sourced data</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="dalio.pipe.col_generation.Index">
+<em class="property">class </em><code class="sig-prename descclassname">dalio.pipe.col_generation.</code><code class="sig-name descname">Index</code><span class="sig-paren">(</span><em class="sig-param">index_at</em>, <em class="sig-param">cols=None</em>, <em class="sig-param">groupby=None</em><span class="sig-paren">)</span><a class="headerlink" href="#dalio.pipe.col_generation.Index" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#dalio.pipe.pipe.Pipe" title="dalio.pipe.pipe.Pipe"><code class="xref py py-class docutils literal notranslate"><span class="pre">dalio.pipe.pipe.Pipe</span></code></a></p>
+<p>Index data at a specified value</p>
+<dl class="attribute">
+<dt id="dalio.pipe.col_generation.Index.index_at">
+<code class="sig-name descname">index_at</code><a class="headerlink" href="#dalio.pipe.col_generation.Index.index_at" title="Permalink to this definition">¶</a></dt>
+<dd><p>value to index data at</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p>int, float</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="dalio.pipe.col_generation.Index._cols">
+<code class="sig-name descname">_cols</code><a class="headerlink" href="#dalio.pipe.col_generation.Index._cols" title="Permalink to this definition">¶</a></dt>
+<dd><p>columns to index</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p>list</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="dalio.pipe.col_generation.Index._groupby">
+<code class="sig-name descname">_groupby</code><a class="headerlink" href="#dalio.pipe.col_generation.Index._groupby" title="Permalink to this definition">¶</a></dt>
+<dd><p>columns to group data by</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p>list</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="dalio.pipe.col_generation.Index.copy">
+<code class="sig-name descname">copy</code><span class="sig-paren">(</span><em class="sig-param">*args</em>, <em class="sig-param">**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#dalio.pipe.col_generation.Index.copy" title="Permalink to this definition">¶</a></dt>
+<dd><p>Makes a copy of transformer, copying its attributes to a new
+instance.</p>
+<p>This copy should essentially create a new transformation node, not an
+entire new graph, so the _source attribute of the returned instance
+should be assigned without being copied. This is also made to be built
+upon by subclasses, such that only new attributes need to be added to
+a class’ copy method.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>*args</strong> – Positional arguments to be passed to initialize copy</p></li>
+<li><p><strong>**kwargs</strong> – Keyword arguments to be passed to initialize copy</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>A copy of this _Transformer instance with copies of necessary
+attributes and empty input.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="attribute">
+<dt>
+<code class="sig-name descname">index_at</code><em class="property">: int</em><em class="property"> = None</em></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="dalio.pipe.col_generation.Index.transform">
+<code class="sig-name descname">transform</code><span class="sig-paren">(</span><em class="sig-param">data</em>, <em class="sig-param">**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#dalio.pipe.col_generation.Index.transform" title="Permalink to this definition">¶</a></dt>
+<dd><p>Perform indexing</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="dalio.pipe.col_generation.Period">
+<em class="property">class </em><code class="sig-prename descclassname">dalio.pipe.col_generation.</code><code class="sig-name descname">Period</code><span class="sig-paren">(</span><em class="sig-param">period=None</em>, <em class="sig-param">agg_func=&lt;function mean&gt;</em><span class="sig-paren">)</span><a class="headerlink" href="#dalio.pipe.col_generation.Period" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#dalio.pipe.pipe.Pipe" title="dalio.pipe.pipe.Pipe"><code class="xref py py-class docutils literal notranslate"><span class="pre">dalio.pipe.pipe.Pipe</span></code></a></p>
+<p>Resample input time series data to a different period</p>
+<dl class="attribute">
+<dt id="dalio.pipe.col_generation.Period.agg_func">
+<code class="sig-name descname">agg_func</code><a class="headerlink" href="#dalio.pipe.col_generation.Period.agg_func" title="Permalink to this definition">¶</a></dt>
+<dd><p>function to aggregate data to one period.
+Default set to np.mean.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p>callable</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="dalio.pipe.col_generation.Period._period">
+<code class="sig-name descname">_period</code><a class="headerlink" href="#dalio.pipe.col_generation.Period._period" title="Permalink to this definition">¶</a></dt>
+<dd><p>period to resample data to. Can be either daily,
+monthly, quarterly or yearly.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p>str</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="attribute">
+<dt>
+<code class="sig-name descname">agg_func</code><em class="property">: Callable[[Iterable], Any]</em><em class="property"> = None</em></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="dalio.pipe.col_generation.Period.copy">
+<code class="sig-name descname">copy</code><span class="sig-paren">(</span><em class="sig-param">*args</em>, <em class="sig-param">**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#dalio.pipe.col_generation.Period.copy" title="Permalink to this definition">¶</a></dt>
+<dd><p>Makes a copy of transformer, copying its attributes to a new
+instance.</p>
+<p>This copy should essentially create a new transformation node, not an
+entire new graph, so the _source attribute of the returned instance
+should be assigned without being copied. This is also made to be built
+upon by subclasses, such that only new attributes need to be added to
+a class’ copy method.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>*args</strong> – Positional arguments to be passed to initialize copy</p></li>
+<li><p><strong>**kwargs</strong> – Keyword arguments to be passed to initialize copy</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>A copy of this _Transformer instance with copies of necessary
+attributes and empty input.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="dalio.pipe.col_generation.Period.transform">
+<code class="sig-name descname">transform</code><span class="sig-paren">(</span><em class="sig-param">data</em>, <em class="sig-param">**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#dalio.pipe.col_generation.Period.transform" title="Permalink to this definition">¶</a></dt>
+<dd><p>Apply data resampling</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="dalio.pipe.col_generation.Rolling">
+<em class="property">class </em><code class="sig-prename descclassname">dalio.pipe.col_generation.</code><code class="sig-name descname">Rolling</code><span class="sig-paren">(</span><em class="sig-param">window=2</em>, <em class="sig-param">rolling_func=&lt;function Rolling.&lt;lambda&gt;&gt;</em>, <em class="sig-param">cols=None</em>, <em class="sig-param">new_cols=None</em><span class="sig-paren">)</span><a class="headerlink" href="#dalio.pipe.col_generation.Rolling" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#dalio.pipe.pipe.Pipe" title="dalio.pipe.pipe.Pipe"><code class="xref py py-class docutils literal notranslate"><span class="pre">dalio.pipe.pipe.Pipe</span></code></a></p>
+<p>Apply rolling function to columns</p>
+<dl class="attribute">
+<dt id="dalio.pipe.col_generation.Rolling._rolling_func">
+<code class="sig-name descname">_rolling_func</code><a class="headerlink" href="#dalio.pipe.col_generation.Rolling._rolling_func" title="Permalink to this definition">¶</a></dt>
+<dd><p>function to be performed on a window.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p>callable</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="dalio.pipe.col_generation.Rolling._window">
+<code class="sig-name descname">_window</code><a class="headerlink" href="#dalio.pipe.col_generation.Rolling._window" title="Permalink to this definition">¶</a></dt>
+<dd><p>size of the rolling window</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p>int</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="dalio.pipe.col_generation.Rolling.copy">
+<code class="sig-name descname">copy</code><span class="sig-paren">(</span><em class="sig-param">*args</em>, <em class="sig-param">**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#dalio.pipe.col_generation.Rolling.copy" title="Permalink to this definition">¶</a></dt>
+<dd><p>Makes a copy of transformer, copying its attributes to a new
+instance.</p>
+<p>This copy should essentially create a new transformation node, not an
+entire new graph, so the _source attribute of the returned instance
+should be assigned without being copied. This is also made to be built
+upon by subclasses, such that only new attributes need to be added to
+a class’ copy method.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>*args</strong> – Positional arguments to be passed to initialize copy</p></li>
+<li><p><strong>**kwargs</strong> – Keyword arguments to be passed to initialize copy</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>A copy of this _Transformer instance with copies of necessary
+attributes and empty input.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="dalio.pipe.col_generation.Rolling.transform">
+<code class="sig-name descname">transform</code><span class="sig-paren">(</span><em class="sig-param">data</em>, <em class="sig-param">**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#dalio.pipe.col_generation.Rolling.transform" title="Permalink to this definition">¶</a></dt>
+<dd><p>Apply rolling transformation to sourced data</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="dalio.pipe.col_generation.StockReturns">
+<em class="property">class </em><code class="sig-prename descclassname">dalio.pipe.col_generation.</code><code class="sig-name descname">StockReturns</code><span class="sig-paren">(</span><em class="sig-param">cols=None</em>, <em class="sig-param">new_cols=False</em><span class="sig-paren">)</span><a class="headerlink" href="#dalio.pipe.col_generation.StockReturns" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#dalio.pipe.col_generation.Change" title="dalio.pipe.col_generation.Change"><code class="xref py py-class docutils literal notranslate"><span class="pre">dalio.pipe.col_generation.Change</span></code></a></p>
+<p>Perform percent change and minor aesthetic changes to data</p>
+<dl class="method">
+<dt id="dalio.pipe.col_generation.StockReturns.transform">
+<code class="sig-name descname">transform</code><span class="sig-paren">(</span><em class="sig-param">data</em>, <em class="sig-param">**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#dalio.pipe.col_generation.StockReturns.transform" title="Permalink to this definition">¶</a></dt>
+<dd><p>Same as base class but with relevant presets and multiplying by
+100 for aesthetic purposes</p>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="module-dalio.pipe.custom">
+<span id="dalio-pipe-custom"></span><h2>dalio.pipe.custom<a class="headerlink" href="#module-dalio.pipe.custom" title="Permalink to this headline">¶</a></h2>
+<p>Custom transformation</p>
+<dl class="class">
+<dt id="dalio.pipe.custom.Custom">
+<em class="property">class </em><code class="sig-prename descclassname">dalio.pipe.custom.</code><code class="sig-name descname">Custom</code><span class="sig-paren">(</span><em class="sig-param">t_func</em>, <em class="sig-param">*args</em>, <em class="sig-param">**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#dalio.pipe.custom.Custom" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#dalio.pipe.pipe.Pipe" title="dalio.pipe.pipe.Pipe"><code class="xref py py-class docutils literal notranslate"><span class="pre">dalio.pipe.pipe.Pipe</span></code></a></p>
+<p>Custom transformation for simple operations.</p>
+<p>These are very useful for simple operations or for testing, as no
+additional class definitions or understanding of the documentation is
+requred.</p>
+<dl class="attribute">
+<dt id="dalio.pipe.custom.Custom.t_func">
+<code class="sig-name descname">t_func</code><a class="headerlink" href="#dalio.pipe.custom.Custom.t_func" title="Permalink to this definition">¶</a></dt>
+<dd><p>function to transform data with preset arguments.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p>callable</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="dalio.pipe.custom.Custom._args">
+<code class="sig-name descname">_args</code><a class="headerlink" href="#dalio.pipe.custom.Custom._args" title="Permalink to this definition">¶</a></dt>
+<dd><p>arguments to be passed onto the function at execution time.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="dalio.pipe.custom.Custom._kwargs">
+<code class="sig-name descname">_kwargs</code><a class="headerlink" href="#dalio.pipe.custom.Custom._kwargs" title="Permalink to this definition">¶</a></dt>
+<dd><p>arguments to be passed onto the function at execution
+time.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="dalio.pipe.custom.Custom.copy">
+<code class="sig-name descname">copy</code><span class="sig-paren">(</span><em class="sig-param">*args</em>, <em class="sig-param">**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#dalio.pipe.custom.Custom.copy" title="Permalink to this definition">¶</a></dt>
+<dd><p>Makes a copy of transformer, copying its attributes to a new
+instance.</p>
+<p>This copy should essentially create a new transformation node, not an
+entire new graph, so the _source attribute of the returned instance
+should be assigned without being copied. This is also made to be built
+upon by subclasses, such that only new attributes need to be added to
+a class’ copy method.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>*args</strong> – Positional arguments to be passed to initialize copy</p></li>
+<li><p><strong>**kwargs</strong> – Keyword arguments to be passed to initialize copy</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>A copy of this _Transformer instance with copies of necessary
+attributes and empty input.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="attribute">
+<dt>
+<code class="sig-name descname">t_func</code><em class="property">: callable</em><em class="property"> = None</em></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="dalio.pipe.custom.Custom.transform">
+<code class="sig-name descname">transform</code><span class="sig-paren">(</span><em class="sig-param">data</em>, <em class="sig-param">**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#dalio.pipe.custom.Custom.transform" title="Permalink to this definition">¶</a></dt>
+<dd><p>Apply a transformation to data returned from source.</p>
+<p>This is where the bulk of funtionality in a Pipe lies. And allows it
+to be highly customizable. This will often be the only method needed
+to be overwriten in subclasses.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>data</strong> – data returned by source.</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="module-dalio.pipe.forecast">
+<span id="dalio-pipe-forecast"></span><h2>dalio.pipe.forecast<a class="headerlink" href="#module-dalio.pipe.forecast" title="Permalink to this headline">¶</a></h2>
+<p>Transformations makes forecasts based on data</p>
+<dl class="class">
+<dt id="dalio.pipe.forecast.Forecast">
+<em class="property">class </em><code class="sig-prename descclassname">dalio.pipe.forecast.</code><code class="sig-name descname">Forecast</code><span class="sig-paren">(</span><em class="sig-param">horizon=10</em><span class="sig-paren">)</span><a class="headerlink" href="#dalio.pipe.forecast.Forecast" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#dalio.pipe.pipe.Pipe" title="dalio.pipe.pipe.Pipe"><code class="xref py py-class docutils literal notranslate"><span class="pre">dalio.pipe.pipe.Pipe</span></code></a></p>
+<p>Generalized forecasting class.</p>
+<p>This should be used mostly for subclassing or very generic forecasting
+interfaces.</p>
+<dl class="attribute">
+<dt id="dalio.pipe.forecast.Forecast.horizon">
+<code class="sig-name descname">horizon</code><a class="headerlink" href="#dalio.pipe.forecast.Forecast.horizon" title="Permalink to this definition">¶</a></dt>
+<dd><p>how many steps ahead to forecast</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p>int</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="attribute">
+<dt>
+<code class="sig-name descname">horizon</code><em class="property">: int</em><em class="property"> = None</em></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="dalio.pipe.forecast.Forecast.transform">
+<code class="sig-name descname">transform</code><span class="sig-paren">(</span><em class="sig-param">data</em>, <em class="sig-param">**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#dalio.pipe.forecast.Forecast.transform" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return forecast of data</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="dalio.pipe.forecast.GARCHForecast">
+<em class="property">class </em><code class="sig-prename descclassname">dalio.pipe.forecast.</code><code class="sig-name descname">GARCHForecast</code><span class="sig-paren">(</span><em class="sig-param">start=None</em>, <em class="sig-param">horizon=1</em><span class="sig-paren">)</span><a class="headerlink" href="#dalio.pipe.forecast.GARCHForecast" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#dalio.pipe.forecast.Forecast" title="dalio.pipe.forecast.Forecast"><code class="xref py py-class docutils literal notranslate"><span class="pre">dalio.pipe.forecast.Forecast</span></code></a></p>
+<p>Forecast data based on a fitted GARCH model</p>
+<dl class="attribute">
+<dt id="dalio.pipe.forecast.GARCHForecast._start">
+<code class="sig-name descname">_start</code><a class="headerlink" href="#dalio.pipe.forecast.GARCHForecast._start" title="Permalink to this definition">¶</a></dt>
+<dd><p>forecast start time and date.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p>pd.Timestamp</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="dalio.pipe.forecast.GARCHForecast.transform">
+<code class="sig-name descname">transform</code><span class="sig-paren">(</span><em class="sig-param">data</em>, <em class="sig-param">**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#dalio.pipe.forecast.GARCHForecast.transform" title="Permalink to this definition">¶</a></dt>
+<dd><p>Make a mean, variance and residual variance forecast.</p>
+<p>Forecast will be made for the specified horizon starting at the
+specified time. This means that will only get data for the steps
+starting at the specified start date and the steps after it.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>A DataFrame with the columns MEAN, VARIANCE and RESIDUAL_VARIANCE
+for the time horizon after the start date.</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="module-dalio.pipe.pipe">
+<span id="dalio-pipe-pipe"></span><h2>dalio.pipe.pipe<a class="headerlink" href="#module-dalio.pipe.pipe" title="Permalink to this headline">¶</a></h2>
+<p>Defines the Pipe and PipeLine classes</p>
+<p>Pipes are perhaps the most common classes in graphs and represent any
+transformation with one input and one output. Pipes` main functionality
+revolves around the .transform() method, which actually applies a
+transformation to data retrieved from a source. Pipes must also implement
+propper data checks by adding descriptions to their source.</p>
+<dl class="class">
+<dt id="dalio.pipe.pipe.Pipe">
+<em class="property">class </em><code class="sig-prename descclassname">dalio.pipe.pipe.</code><code class="sig-name descname">Pipe</code><a class="headerlink" href="#dalio.pipe.pipe.Pipe" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">dalio.base.transformer._Transformer</span></code></p>
+<p>Pipes represend data modifications with one internal input and one
+internal output.</p>
+<dl class="attribute">
+<dt id="dalio.pipe.pipe.Pipe._source">
+<code class="sig-name descname">_source</code><a class="headerlink" href="#dalio.pipe.pipe.Pipe._source" title="Permalink to this definition">¶</a></dt>
+<dd><p>input data definition</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p>_DataDef</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="dalio.pipe.pipe.Pipe.pipeline">
+<code class="sig-name descname">pipeline</code><span class="sig-paren">(</span><em class="sig-param">*args</em><span class="sig-paren">)</span><a class="headerlink" href="#dalio.pipe.pipe.Pipe.pipeline" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns a PipeLine instance with self as the input source and any
+other Pipe instances as part of its pipeline.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>*args</strong> – any additional Pipe to be added to the pipeline, in that
+order.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="dalio.pipe.pipe.Pipe.run">
+<code class="sig-name descname">run</code><span class="sig-paren">(</span><em class="sig-param">**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#dalio.pipe.pipe.Pipe.run" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get data from source, transform it, and return it</p>
+<p>This will often be left alone unless there are specific keyword
+arguments or checks done in addition to the actual transformation.
+Keep in mind this is rare, as keyword arguments are often required
+by Translators, and checks are performed by DataDefs.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="dalio.pipe.pipe.Pipe.set_input">
+<code class="sig-name descname">set_input</code><span class="sig-paren">(</span><em class="sig-param">new_input</em><span class="sig-paren">)</span><a class="headerlink" href="#dalio.pipe.pipe.Pipe.set_input" title="Permalink to this definition">¶</a></dt>
+<dd><p>Set the input data source in place.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>new_input</strong> (<em>_Transformer</em>) – new transformer to be set as input to
+source connection.</p>
+</dd>
+<dt class="field-even">Raises</dt>
+<dd class="field-even"><p><strong>TypeError</strong> – if new_input is not an instance of _Transformer.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="dalio.pipe.pipe.Pipe.transform">
+<code class="sig-name descname">transform</code><span class="sig-paren">(</span><em class="sig-param">data</em>, <em class="sig-param">**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#dalio.pipe.pipe.Pipe.transform" title="Permalink to this definition">¶</a></dt>
+<dd><p>Apply a transformation to data returned from source.</p>
+<p>This is where the bulk of funtionality in a Pipe lies. And allows it
+to be highly customizable. This will often be the only method needed
+to be overwriten in subclasses.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>data</strong> – data returned by source.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="dalio.pipe.pipe.Pipe.with_input">
+<code class="sig-name descname">with_input</code><span class="sig-paren">(</span><em class="sig-param">new_input</em><span class="sig-paren">)</span><a class="headerlink" href="#dalio.pipe.pipe.Pipe.with_input" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return copy of this transformer with the new data source.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="dalio.pipe.pipe.PipeLine">
+<em class="property">class </em><code class="sig-prename descclassname">dalio.pipe.pipe.</code><code class="sig-name descname">PipeLine</code><span class="sig-paren">(</span><em class="sig-param">first</em>, <em class="sig-param">*args</em><span class="sig-paren">)</span><a class="headerlink" href="#dalio.pipe.pipe.PipeLine" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#dalio.pipe.pipe.Pipe" title="dalio.pipe.pipe.Pipe"><code class="xref py py-class docutils literal notranslate"><span class="pre">dalio.pipe.pipe.Pipe</span></code></a></p>
+<p>Collection of Pipe transformations.</p>
+<p>PipeLine instances represent multiple Pipe transformations being
+performed consecutively. Pipelines essentially execute multiple
+transformations one after the other, and thus do not check for data
+integrity in between them; so keep in mind that order matters and only
+the first data definition will be enforced.</p>
+<dl class="attribute">
+<dt id="dalio.pipe.pipe.PipeLine.pipeline">
+<code class="sig-name descname">pipeline</code><a class="headerlink" href="#dalio.pipe.pipe.PipeLine.pipeline" title="Permalink to this definition">¶</a></dt>
+<dd><p>list of Pipe instaces this pipeline is composed of</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p>list</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="dalio.pipe.pipe.PipeLine.copy">
+<code class="sig-name descname">copy</code><span class="sig-paren">(</span><em class="sig-param">*args</em>, <em class="sig-param">**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#dalio.pipe.pipe.PipeLine.copy" title="Permalink to this definition">¶</a></dt>
+<dd><p>Make a copy of this Pipeline</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="dalio.pipe.pipe.PipeLine.extend">
+<code class="sig-name descname">extend</code><span class="sig-paren">(</span><em class="sig-param">*args</em><span class="sig-paren">)</span><a class="headerlink" href="#dalio.pipe.pipe.PipeLine.extend" title="Permalink to this definition">¶</a></dt>
+<dd><p>Extend existing pipeline with one or more Pipe instances</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="dalio.pipe.pipe.PipeLine.transform">
+<code class="sig-name descname">transform</code><span class="sig-paren">(</span><em class="sig-param">data</em>, <em class="sig-param">**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#dalio.pipe.pipe.PipeLine.transform" title="Permalink to this definition">¶</a></dt>
+<dd><p>Pass data sourced from first pipe through every Pipe`s
+.transform() method in order.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>data</strong> – data sourced and checked from first source.</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="module-dalio.pipe.selection">
+<span id="dalio-pipe-selection"></span><h2>dalio.pipe.selection<a class="headerlink" href="#module-dalio.pipe.selection" title="Permalink to this headline">¶</a></h2>
+<p>Defines various ways of getting a subset of data based on some condition</p>
+<dl class="class">
+<dt id="dalio.pipe.selection.ColSelect">
+<em class="property">class </em><code class="sig-prename descclassname">dalio.pipe.selection.</code><code class="sig-name descname">ColSelect</code><span class="sig-paren">(</span><em class="sig-param">cols=None</em><span class="sig-paren">)</span><a class="headerlink" href="#dalio.pipe.selection.ColSelect" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#dalio.pipe.pipe.Pipe" title="dalio.pipe.pipe.Pipe"><code class="xref py py-class docutils literal notranslate"><span class="pre">dalio.pipe.pipe.Pipe</span></code></a></p>
+<p>Select columns.</p>
+<dl class="attribute">
+<dt id="dalio.pipe.selection.ColSelect._cols">
+<code class="sig-name descname">_cols</code><a class="headerlink" href="#dalio.pipe.selection.ColSelect._cols" title="Permalink to this definition">¶</a></dt>
+<dd><p>names of columns to select.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p>list</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="dalio.pipe.selection.ColSelect.copy">
+<code class="sig-name descname">copy</code><span class="sig-paren">(</span><em class="sig-param">*args</em>, <em class="sig-param">**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#dalio.pipe.selection.ColSelect.copy" title="Permalink to this definition">¶</a></dt>
+<dd><p>Makes a copy of transformer, copying its attributes to a new
+instance.</p>
+<p>This copy should essentially create a new transformation node, not an
+entire new graph, so the _source attribute of the returned instance
+should be assigned without being copied. This is also made to be built
+upon by subclasses, such that only new attributes need to be added to
+a class’ copy method.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>*args</strong> – Positional arguments to be passed to initialize copy</p></li>
+<li><p><strong>**kwargs</strong> – Keyword arguments to be passed to initialize copy</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>A copy of this _Transformer instance with copies of necessary
+attributes and empty input.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="dalio.pipe.selection.ColSelect.transform">
+<code class="sig-name descname">transform</code><span class="sig-paren">(</span><em class="sig-param">data</em>, <em class="sig-param">**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#dalio.pipe.selection.ColSelect.transform" title="Permalink to this definition">¶</a></dt>
+<dd><p>Selects the specified columns or returns data as is if no column
+was specified.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>Data of the same format as before but only only containing the
+specified columns.</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="dalio.pipe.selection.DateSelect">
+<em class="property">class </em><code class="sig-prename descclassname">dalio.pipe.selection.</code><code class="sig-name descname">DateSelect</code><span class="sig-paren">(</span><em class="sig-param">start=None</em>, <em class="sig-param">end=None</em><span class="sig-paren">)</span><a class="headerlink" href="#dalio.pipe.selection.DateSelect" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#dalio.pipe.pipe.Pipe" title="dalio.pipe.pipe.Pipe"><code class="xref py py-class docutils literal notranslate"><span class="pre">dalio.pipe.pipe.Pipe</span></code></a></p>
+<p>Select a date range.</p>
+<p>This is commonly left as a local variable to control date range being
+used at a piece of a graph.</p>
+<dl class="attribute">
+<dt id="dalio.pipe.selection.DateSelect._start">
+<code class="sig-name descname">_start</code><a class="headerlink" href="#dalio.pipe.selection.DateSelect._start" title="Permalink to this definition">¶</a></dt>
+<dd><p>start date.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p>pd.Timestamp</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="dalio.pipe.selection.DateSelect._end">
+<code class="sig-name descname">_end</code><a class="headerlink" href="#dalio.pipe.selection.DateSelect._end" title="Permalink to this definition">¶</a></dt>
+<dd><p>end date.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p>pd.Timestamp</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="dalio.pipe.selection.DateSelect.copy">
+<code class="sig-name descname">copy</code><span class="sig-paren">(</span><em class="sig-param">*args</em>, <em class="sig-param">**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#dalio.pipe.selection.DateSelect.copy" title="Permalink to this definition">¶</a></dt>
+<dd><p>Makes a copy of transformer, copying its attributes to a new
+instance.</p>
+<p>This copy should essentially create a new transformation node, not an
+entire new graph, so the _source attribute of the returned instance
+should be assigned without being copied. This is also made to be built
+upon by subclasses, such that only new attributes need to be added to
+a class’ copy method.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>*args</strong> – Positional arguments to be passed to initialize copy</p></li>
+<li><p><strong>**kwargs</strong> – Keyword arguments to be passed to initialize copy</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>A copy of this _Transformer instance with copies of necessary
+attributes and empty input.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="dalio.pipe.selection.DateSelect.set_end">
+<code class="sig-name descname">set_end</code><span class="sig-paren">(</span><em class="sig-param">end</em><span class="sig-paren">)</span><a class="headerlink" href="#dalio.pipe.selection.DateSelect.set_end" title="Permalink to this definition">¶</a></dt>
+<dd><p>Set the _end attribute</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="dalio.pipe.selection.DateSelect.set_start">
+<code class="sig-name descname">set_start</code><span class="sig-paren">(</span><em class="sig-param">start</em><span class="sig-paren">)</span><a class="headerlink" href="#dalio.pipe.selection.DateSelect.set_start" title="Permalink to this definition">¶</a></dt>
+<dd><p>Set the _start attribute</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="dalio.pipe.selection.DateSelect.transform">
+<code class="sig-name descname">transform</code><span class="sig-paren">(</span><em class="sig-param">data</em>, <em class="sig-param">**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#dalio.pipe.selection.DateSelect.transform" title="Permalink to this definition">¶</a></dt>
+<dd><p>Slices time series into selected date range.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>Time series of the same format as input containing a subset of
+the original dates.</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="dalio.model.html" title="dalio.model package"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="dalio.translator.html" title="dalio.translator package"
+             >previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="index.html">Dal-io 0.1.1 documentation</a> &#187;</li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &#169; Copyright 2020, Renato Zimmermann.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 2.4.0.
+    </div>
+  </body>
+</html>

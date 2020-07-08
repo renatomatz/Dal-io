@@ -4,6 +4,7 @@ sys.path.append("/home/renatomz/Documents/Projects/Dal-io")
 import numpy as np
 
 from dalio.base.constants import *
+from dalio.ops import *
 from dalio.external import * 
 from dalio.translator import *
 from dalio.pipe import *
@@ -18,21 +19,28 @@ ticker = ["NVDA", "RL", "GPS", "WMT"]
 y_api = YahooDR()
 y_in = YahooStockTranslator()(y_api)
 
-# tickers = ["MSFT", "AAPL"]
-# y_data_raw = y_in.run(ticker=tickers)
+tickers = ["MSFT", "AAPL"]
+y_data_raw = y_in.run(ticker=tickers)
 
-# cols=["close", "high"]
-# y_change = Change(cols)(y_in)
-# y_col_select = ColSelect(cols)(y_in)
-# y_custom = Custom(lambda x: x / x)(y_in)
-# y_index = Index(index_at=100, cols=cols)(y_in)
-# y_period = Period(period="Y")(y_in)
+cols=["close", "high"]
+y_change = Change(cols=cols)(y_in)
+res = y_change.run(ticker=tickers)
 
-# y_data_change = y_change.run(ticker=tickers)
-# y_data_col_select = y_col_select.run(ticker=tickers)
-# y_data_custom = y_custom.run(ticker=tickers)
-# y_data_index = y_index.run(ticker=tickers)
-# y_data_period = y_period.run(ticker=tickers)
+y_col_select = ColSelect(cols)(y_in)
+res = y_col_select.run(ticker=tickers)
+
+y_custom = Custom(lambda x: x / x)(y_in)
+res = y_custom.run(ticker=tickers)
+
+risk_cust = Custom(risk_metrics, 0.94)(y_change)
+res = risk_cust.run(ticker=tickers)
+
+y_index = Index(index_at=100, cols=cols)(y_in)
+res = y_index.run(ticker=tickers)
+
+y_period = Period(period="Y")(y_in)
+res = y_period.run(ticker=tickers)
+
 
 # Quandl Input
 q_api = QuandlAPI("/home/renatomz/Documents/Projects/Dal-io/dalio/external/config/quandl_config.json")
@@ -84,69 +92,61 @@ tickers = ["MSFT", "AAPL", "IBM", "TSLA", "XOM", "BP", "JPM"]
 # adj_close_in = ColSelect(cols=("adj_close"))(y_in)
 # returns = StockReturns(cols="adj_close")(adj_close_in)
 
-# garch = MakeARCH()(returns)
-# fit_garch = FitARCHModel()(garch)
-
-# garch\
-#     .set_piece("mean", "ARX", lags=[1, 3, 12])\
-#     .set_piece("volatility", "ARCH", p=5)\
-#     .set_piece("distribution", "StudentsT")
+garch = MakeARCH()(returns)\
+    .set_piece("mean", "ARX", lags=[1, 3, 12])\
+    .set_piece("volatility", "ARCH", p=5)\
+    .set_piece("distribution", "StudentsT")
 
 # am = garch.run(ticker="MSFT")
-# res = fit_garch.run(ticker="MSFT")
-
-# var = ValueAtRisk(quantiles=[0.1, 0.01, 0.05])(garch)
+# am.fit()
+var = ValueAtRisk(quantiles=[0.1, 0.01, 0.05])(garch)
 # var_res = var.run(ticker="MSFT")
 
-# pyplot_grapher = PyPlotGraph()
+pyplot_grapher = PyPlotGraph()
 
-# var_graph = VaRGrapher()\
-#     .set_input("data_in", var)\
-#     .set_output("data_out", pyplot_grapher)
+var_graph = VaRGrapher()\
+    .set_input("data_in", var)\
+    .set_output("data_out", pyplot_grapher)
 
 # fig = var_graph.run(ticker="MSFT")
 
 # S = CovShrink()(adj_close_in)
 # S.set_piece("shrinkage", "ledoit_wolf")
 
-# mu = ExpectedReturn()(adj_close_in)
-# mu.set_piece("return_model", "mean_historical_return")
+mu = ExpectedReturns()(adj_close_in)
+mu.set_piece("return_model", "mean_historical_return")
 
 # S_data = S.run(ticker=tickers)
 # mu_data = mu.run(ticker=tickers)
 
-# port_ef = OptimumWeights()\
-#     .set_input("sample_covariance", S)\
-#     .set_input("expected_returns", mu)
-
-# port_ef\
-#     .add_objective("L2_reg")\
-#     .add_constraint(lambda x: x[1] <= 0.5)\
-#     .add_stock_weight_constraint(
-#         ticker="MSFT",
-#         comparisson="==",
-#         weight=0.3
-#     )\
-#     .set_piece("strategy", "max_sharpe")
+port_ef = OptimumWeights()\
+    .set_input("sample_covariance", S)\
+    .set_input("expected_returns", mu)\
+    .add_objective("L2_reg")\
+    .add_constraint(lambda x: x[1] <= 0.5)\
+    .add_stock_weight_constraint(
+        ticker="MSFT",
+        comparisson="==",
+        weight=0.3
+    )\
+    .set_piece("strategy", "max_sharpe")
 
 # ef = port_ef.run(ticker=tickers)
 
-# opt_port = MakeOptPort()
-# opt_port\
-#     .set_input("data_in", adj_close_in)\
-#     .set_input("weights_in", port_ef)
+opt_port = OptimumPortfolio()\
+    .set_input("data_in", adj_close_in)\
+    .set_input("weights_in", port_ef)
 
 # port = opt_port.run(ticker=tickers)
 
-# lm = TSLinearModel()(adj_close_in)
-# lm\
-#     .set_piece("strategy", "LinearRegression")
+lm = LinearModel()(adj_close_in)\
+    .set_piece("strategy", "LinearRegression")
 
 # lm_fitted = lm.run(ticker="MSFT")
 
-# port_cla = MakeCriticalLine()\
-#     .set_input("sample_covariance", S)\
-#     .set_input("expected_returns", mu)
+port_cla = MakeCriticalLine()\
+    .set_input("sample_covariance", S)\
+    .set_input("expected_returns", mu)
 
 # cla = port_cla.run(ticker=tickers)
 

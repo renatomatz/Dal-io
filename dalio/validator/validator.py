@@ -1,68 +1,51 @@
-'''Define Validator class'''
+"""Define Validator class
+
+Validators are the building blocks of data integrity in the graph. As
+modularity is key, validators ensure that the data that enters a node is what
+it is mean to be or that errors are targeted to make debugging easier.
+"""
 
 
 class Validator:
-    '''Validators are the building blocks of data integrity in the model. As
-    modularity is key, validators ensure that the data that leaves a node is
-    what it is mean to be or that errors are targeted to make debugging easier.
-    Validators can have any attribute needed, but functionality is stored in u
-    the .validate function, which either passes data on or stops execution with
-    an error.
+    """Check for some characteristic of a piece of data
 
-    === Attributes ===
+    Validators can have any attribute needed, but functionality is stored
+    in u the .validate function, which returns any errors in the data.
 
-    fatal: whether to throw an exception and stop the program if data is found
-    not to be valid.
-    False by default.
-    Non-fatal errors will be reported as warnings on DataDef and will not stop
-    the graph's execution. Fatal errors will stop the whole graph from being
-    executed and be repored as an exception in DataDef.
+    Attributes:
+        fatal (bool): Whether if invalid data is fatal. Decides whether
+            invalid data can still be passed on (with a warning) or if it is
+            grounds to stop the execution of the graph. False by default.
+        test_desc (str): Description of tests performed on data
+    """
 
-    is_on: whether validator is turned on
-
-    test_desc: description of tests performed on data
-
-    === Methods ===
-
-    validate: validate input
-    - returns False if input is valid and a warn_report if it is not
-
-    warn_report: return a string reporting a warning to be included in the
-    DataDef warning report
-
-    '''
-
-    _fatal: bool
+    fatal: bool
     is_on: bool
     test_desc: str
 
-    def __init__(self):
-        self._fatal = False
+    def __init__(self, fatal=True):
+        """Initialize validator and set default attributes"""
+        self.fatal = fatal
         self.is_on = True
         self.test_desc = "Validates condition"
 
     def validate(self, data):
-        '''Validate data to see if it fits a description
-        '''
-        return data is not None
+        """Validate data
 
-    def _error_report(self, exception, data, *args, **kwargs):
-        return exception(self._warn_report(data, *args, **kwargs))
+        Check if data fits a certain description.
 
-    def _warn_report(self, data):
-        return f"Invalid data: {data}"
-
-    def val_on(self):
-        self.is_on = True
-
-    def val_off(self):
-        self.is_on = False
+        Returns:
+            A description of any errors in the data according to this
+            specific validation condition, and None if data is valid.
+        """
+        raise NotImplementedError()
 
     def fatal_on(self):
-        self._fatal = True
+        """Turn fatal on and return self"""
+        self.fatal = True
+        return self
 
     def fatal_off(self):
-        self._fatal = False
-
-    def is_fatal(self):
-        return self._fatal
+        """Turn fatal off and return self"""
+        self.fatal = False
+        return self

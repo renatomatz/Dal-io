@@ -1,0 +1,442 @@
+\begin{sphinxtheindex}
+\let\bigletter\sphinxstyleindexlettergroup
+\let\spxpagem \sphinxstyleindexpagemain
+\let\spxentry \sphinxstyleindexentry
+\let\spxextra \sphinxstyleindexextra
+
+  \bigletter {\sphinxsymbolsname}
+  \item \spxentry{\_args}\spxextra{dalio.pipe.custom.Custom attribute}, \hyperpage{18}
+  \item \spxentry{\_attr}\spxextra{dalio.validator.base\_val.HAS\_ATTR attribute}, \hyperpage{36}
+  \item \spxentry{\_axes}\spxextra{dalio.external.image.PyPlotGraph attribute}, \hyperpage{3}
+  \item \spxentry{\_axes}\spxextra{dalio.external.image.PySubplotGraph attribute}, \hyperpage{4}
+  \item \spxentry{\_axis}\spxextra{dalio.validator.pandas\_val.HAS\_INDEX\_NAMES attribute}, 
+		\hyperpage{36}
+  \item \spxentry{\_cols}\spxextra{dalio.external.image.PySubplotGraph attribute}, \hyperpage{4}
+  \item \spxentry{\_cols}\spxextra{dalio.pipe.col\_generation.Index attribute}, \hyperpage{16}
+  \item \spxentry{\_cols}\spxextra{dalio.pipe.selection.ColSelect attribute}, \hyperpage{20}
+  \item \spxentry{\_cols}\spxextra{dalio.validator.pandas\_val.HAS\_COLS attribute}, \hyperpage{36}
+  \item \spxentry{\_cols}\spxextra{dalio.validator.pandas\_val.HAS\_IN\_COLS attribute}, 
+		\hyperpage{36}
+  \item \spxentry{\_comparisson}\spxextra{dalio.validator.array\_val.HAS\_DIMS attribute}, 
+		\hyperpage{35}
+  \item \spxentry{\_config}\spxextra{dalio.external.external.External attribute}, \hyperpage{1}
+  \item \spxentry{\_connection}\spxextra{dalio.external.external.External attribute}, \hyperpage{1}
+  \item \spxentry{\_connection}\spxextra{dalio.external.file.FileWriter attribute}, \hyperpage{2}
+  \item \spxentry{\_connection}\spxextra{dalio.external.file.PandasInFile attribute}, \hyperpage{2}
+  \item \spxentry{\_connection}\spxextra{dalio.external.image.Figure attribute}, \hyperpage{3}
+  \item \spxentry{\_connection}\spxextra{dalio.external.image.PyPlotGraph attribute}, \hyperpage{3}
+  \item \spxentry{\_dims}\spxextra{dalio.validator.array\_val.HAS\_DIMS attribute}, \hyperpage{35}
+  \item \spxentry{\_end}\spxextra{dalio.pipe.selection.DateSelect attribute}, \hyperpage{21}
+  \item \spxentry{\_groupby}\spxextra{dalio.pipe.col\_generation.Index attribute}, \hyperpage{16}
+  \item \spxentry{\_items}\spxextra{dalio.validator.pandas\_val.HAS\_IN\_COLS attribute}, 
+		\hyperpage{36}
+  \item \spxentry{\_kwargs}\spxextra{dalio.pipe.custom.Custom attribute}, \hyperpage{18}
+  \item \spxentry{\_legend}\spxextra{dalio.application.graphers.LMGrapher attribute}, 
+		\hyperpage{28}
+  \item \spxentry{\_legend}\spxextra{dalio.application.graphers.PandasXYGrapher attribute}, 
+		\hyperpage{29}
+  \item \spxentry{\_names}\spxextra{dalio.validator.pandas\_val.HAS\_INDEX\_NAMES attribute}, 
+		\hyperpage{36}
+  \item \spxentry{\_new\_cols}\spxextra{dalio.pipe.col\_generation.Change attribute}, 
+		\hyperpage{15}
+  \item \spxentry{\_out}\spxextra{dalio.application.application.Application attribute}, 
+		\hyperpage{27}
+  \item \spxentry{\_period}\spxextra{dalio.pipe.col\_generation.Period attribute}, \hyperpage{16}
+  \item \spxentry{\_piece}\spxextra{dalio.pipe.builders.MakeARCH attribute}, \hyperpage{13}
+  \item \spxentry{\_quandl\_conf}\spxextra{dalio.external.web.QuandlAPI attribute}, \hyperpage{5}
+  \item \spxentry{\_quantiles}\spxextra{dalio.pipe.builders.ValueAtRisk attribute}, \hyperpage{14}
+  \item \spxentry{\_rolling\_func}\spxextra{dalio.pipe.col\_generation.Rolling attribute}, 
+		\hyperpage{17}
+  \item \spxentry{\_rows}\spxextra{dalio.external.image.PySubplotGraph attribute}, \hyperpage{4}
+  \item \spxentry{\_source}\spxextra{dalio.model.model.Model attribute}, \hyperpage{25}
+  \item \spxentry{\_source}\spxextra{dalio.pipe.pipe.Pipe attribute}, \hyperpage{19}
+  \item \spxentry{\_source}\spxextra{dalio.translator.translator.Translator attribute}, 
+		\hyperpage{9}
+  \item \spxentry{\_start}\spxextra{dalio.pipe.forecast.GARCHForecast attribute}, \hyperpage{18}
+  \item \spxentry{\_start}\spxextra{dalio.pipe.selection.DateSelect attribute}, \hyperpage{21}
+  \item \spxentry{\_strategy}\spxextra{dalio.pipe.builders.StockComps attribute}, \hyperpage{13}
+  \item \spxentry{\_strategy}\spxextra{dalio.pipe.col\_generation.Change attribute}, \hyperpage{15}
+  \item \spxentry{\_t}\spxextra{dalio.validator.base\_val.ELEMS\_TYPE attribute}, \hyperpage{35}
+  \item \spxentry{\_window}\spxextra{dalio.pipe.col\_generation.Rolling attribute}, \hyperpage{17}
+  \item \spxentry{\_x}\spxextra{dalio.application.graphers.PandasXYGrapher attribute}, 
+		\hyperpage{29}
+  \item \spxentry{\_y}\spxextra{dalio.application.graphers.PandasXYGrapher attribute}, 
+		\hyperpage{29}
+
+  \indexspace
+  \bigletter A
+  \item \spxentry{add\_constraint()}\spxextra{dalio.model.financial.MakeEfficientFrontier method}, 
+		\hyperpage{23}
+  \item \spxentry{add\_objective()}\spxextra{dalio.model.financial.MakeEfficientFrontier method}, 
+		\hyperpage{24}
+  \item \spxentry{add\_sector\_definitions()}\spxextra{dalio.model.financial.MakeEfficientFrontier method}, 
+		\hyperpage{24}
+  \item \spxentry{add\_sector\_weight\_constraint()}\spxextra{dalio.model.financial.MakeEfficientFrontier method}, 
+		\hyperpage{24}
+  \item \spxentry{add\_stock\_weight\_constraint()}\spxextra{dalio.model.financial.MakeEfficientFrontier method}, 
+		\hyperpage{24}
+  \item \spxentry{agg\_func}\spxextra{dalio.pipe.col\_generation.Period attribute}, \hyperpage{16}
+  \item \spxentry{Application}\spxextra{class in dalio.application.application}, \hyperpage{27}
+  \item \spxentry{assimilate()}\spxextra{dalio.pipe.builders.MakeARCH method}, \hyperpage{13}
+  \item \spxentry{att\_name}\spxextra{dalio.translator.file.StockStreamFileTranslator attribute}, 
+		\hyperpage{7}
+  \item \spxentry{authenticate()}\spxextra{dalio.external.external.External method}, \hyperpage{1}
+  \item \spxentry{authenticate()}\spxextra{dalio.external.web.QuandlAPI method}, \hyperpage{5}
+
+  \indexspace
+  \bigletter B
+  \item \spxentry{build\_model()}\spxextra{dalio.model.financial.OptimumWeights method}, 
+		\hyperpage{24}
+  \item \spxentry{build\_model()}\spxextra{dalio.pipe.builders.CovShrink method}, \hyperpage{11}
+  \item \spxentry{build\_model()}\spxextra{dalio.pipe.builders.ExpectedReturns method}, 
+		\hyperpage{12}
+  \item \spxentry{build\_model()}\spxextra{dalio.pipe.builders.LinearModel method}, \hyperpage{12}
+  \item \spxentry{build\_model()}\spxextra{dalio.pipe.builders.MakeARCH method}, \hyperpage{13}
+
+  \indexspace
+  \bigletter C
+  \item \spxentry{Change}\spxextra{class in dalio.pipe.col\_generation}, \hyperpage{15}
+  \item \spxentry{check()}\spxextra{dalio.external.external.External method}, \hyperpage{1}
+  \item \spxentry{check()}\spxextra{dalio.external.file.FileWriter method}, \hyperpage{2}
+  \item \spxentry{check()}\spxextra{dalio.external.file.PandasInFile method}, \hyperpage{2}
+  \item \spxentry{check()}\spxextra{dalio.external.image.Figure method}, \hyperpage{3}
+  \item \spxentry{check()}\spxextra{dalio.external.web.QuandlAPI method}, \hyperpage{5}
+  \item \spxentry{check\_name()}\spxextra{dalio.model.financial.OptimumWeights method}, 
+		\hyperpage{24}
+  \item \spxentry{check\_name()}\spxextra{dalio.pipe.builders.CovShrink method}, \hyperpage{11}
+  \item \spxentry{check\_name()}\spxextra{dalio.pipe.builders.ExpectedReturns method}, 
+		\hyperpage{12}
+  \item \spxentry{ColSelect}\spxextra{class in dalio.pipe.selection}, \hyperpage{20}
+  \item \spxentry{CompsData}\spxextra{class in dalio.model.financial}, \hyperpage{23}
+  \item \spxentry{CompsFinancials}\spxextra{class in dalio.model.financial}, \hyperpage{23}
+  \item \spxentry{CompsInfo}\spxextra{class in dalio.model.financial}, \hyperpage{23}
+  \item \spxentry{copy()}\spxextra{dalio.application.application.Application method}, 
+		\hyperpage{27}
+  \item \spxentry{copy()}\spxextra{dalio.model.financial.MakeEfficientFrontier method}, 
+		\hyperpage{24}
+  \item \spxentry{copy()}\spxextra{dalio.model.model.Model method}, \hyperpage{25}
+  \item \spxentry{copy()}\spxextra{dalio.pipe.builders.LinearModel method}, \hyperpage{12}
+  \item \spxentry{copy()}\spxextra{dalio.pipe.builders.MakeARCH method}, \hyperpage{13}
+  \item \spxentry{copy()}\spxextra{dalio.pipe.builders.StockComps method}, \hyperpage{14}
+  \item \spxentry{copy()}\spxextra{dalio.pipe.builders.ValueAtRisk method}, \hyperpage{14}
+  \item \spxentry{copy()}\spxextra{dalio.pipe.col\_generation.Change method}, \hyperpage{15}
+  \item \spxentry{copy()}\spxextra{dalio.pipe.col\_generation.Index method}, \hyperpage{16}
+  \item \spxentry{copy()}\spxextra{dalio.pipe.col\_generation.Period method}, \hyperpage{16}
+  \item \spxentry{copy()}\spxextra{dalio.pipe.col\_generation.Rolling method}, \hyperpage{17}
+  \item \spxentry{copy()}\spxextra{dalio.pipe.custom.Custom method}, \hyperpage{18}
+  \item \spxentry{copy()}\spxextra{dalio.pipe.pipe.PipeLine method}, \hyperpage{20}
+  \item \spxentry{copy()}\spxextra{dalio.pipe.selection.ColSelect method}, \hyperpage{20}
+  \item \spxentry{copy()}\spxextra{dalio.pipe.selection.DateSelect method}, \hyperpage{21}
+  \item \spxentry{copy()}\spxextra{dalio.translator.file.StockStreamFileTranslator method}, 
+		\hyperpage{7}
+  \item \spxentry{CovShrink}\spxextra{class in dalio.pipe.builders}, \hyperpage{11}
+  \item \spxentry{Custom}\spxextra{class in dalio.pipe.custom}, \hyperpage{17}
+
+  \indexspace
+  \bigletter D
+  \item \spxentry{dalio.application.application}\spxextra{module}, \hyperpage{27}
+  \item \spxentry{dalio.application.graphers}\spxextra{module}, \hyperpage{28}
+  \item \spxentry{dalio.application.printers}\spxextra{module}, \hyperpage{29}
+  \item \spxentry{dalio.base}\spxextra{module}, \hyperpage{34}
+  \item \spxentry{dalio.base.builder}\spxextra{module}, \hyperpage{33}
+  \item \spxentry{dalio.base.constants}\spxextra{module}, \hyperpage{33}
+  \item \spxentry{dalio.base.datadef}\spxextra{module}, \hyperpage{33}
+  \item \spxentry{dalio.base.node}\spxextra{module}, \hyperpage{33}
+  \item \spxentry{dalio.base.transformer}\spxextra{module}, \hyperpage{34}
+  \item \spxentry{dalio.external.external}\spxextra{module}, \hyperpage{1}
+  \item \spxentry{dalio.external.file}\spxextra{module}, \hyperpage{2}
+  \item \spxentry{dalio.external.image}\spxextra{module}, \hyperpage{3}
+  \item \spxentry{dalio.external.web}\spxextra{module}, \hyperpage{5}
+  \item \spxentry{dalio.model.financial}\spxextra{module}, \hyperpage{23}
+  \item \spxentry{dalio.model.model}\spxextra{module}, \hyperpage{25}
+  \item \spxentry{dalio.ops}\spxextra{module}, \hyperpage{31}
+  \item \spxentry{dalio.pipe.builders}\spxextra{module}, \hyperpage{11}
+  \item \spxentry{dalio.pipe.col\_generation}\spxextra{module}, \hyperpage{15}
+  \item \spxentry{dalio.pipe.custom}\spxextra{module}, \hyperpage{17}
+  \item \spxentry{dalio.pipe.forecast}\spxextra{module}, \hyperpage{18}
+  \item \spxentry{dalio.pipe.pipe}\spxextra{module}, \hyperpage{19}
+  \item \spxentry{dalio.pipe.selection}\spxextra{module}, \hyperpage{20}
+  \item \spxentry{dalio.translator.file}\spxextra{module}, \hyperpage{7}
+  \item \spxentry{dalio.translator.pdr}\spxextra{module}, \hyperpage{8}
+  \item \spxentry{dalio.translator.quandl}\spxextra{module}, \hyperpage{8}
+  \item \spxentry{dalio.translator.translator}\spxextra{module}, \hyperpage{9}
+  \item \spxentry{dalio.util}\spxextra{module}, \hyperpage{41}
+  \item \spxentry{dalio.util.plotting\_utils}\spxextra{module}, \hyperpage{39}
+  \item \spxentry{dalio.util.processing\_utils}\spxextra{module}, \hyperpage{40}
+  \item \spxentry{dalio.util.translation\_utils}\spxextra{module}, \hyperpage{41}
+  \item \spxentry{dalio.validator}\spxextra{module}, \hyperpage{38}
+  \item \spxentry{dalio.validator.array\_val}\spxextra{module}, \hyperpage{35}
+  \item \spxentry{dalio.validator.base\_val}\spxextra{module}, \hyperpage{35}
+  \item \spxentry{dalio.validator.pandas\_val}\spxextra{module}, \hyperpage{36}
+  \item \spxentry{dalio.validator.presets}\spxextra{module}, \hyperpage{37}
+  \item \spxentry{dalio.validator.validator}\spxextra{module}, \hyperpage{37}
+  \item \spxentry{date\_col}\spxextra{dalio.translator.file.StockStreamFileTranslator attribute}, 
+		\hyperpage{7}
+  \item \spxentry{DateSelect}\spxextra{class in dalio.pipe.selection}, \hyperpage{20}
+
+  \indexspace
+  \bigletter E
+  \item \spxentry{ELEMS\_TYPE}\spxextra{class in dalio.validator.base\_val}, \hyperpage{35}
+  \item \spxentry{ExpectedReturns}\spxextra{class in dalio.pipe.builders}, \hyperpage{11}
+  \item \spxentry{ExpectedShortfall}\spxextra{class in dalio.pipe.builders}, \hyperpage{12}
+  \item \spxentry{extend()}\spxextra{dalio.pipe.pipe.PipeLine method}, \hyperpage{20}
+  \item \spxentry{External}\spxextra{class in dalio.external.external}, \hyperpage{1}
+
+  \indexspace
+  \bigletter F
+  \item \spxentry{fatal}\spxextra{dalio.validator.validator.Validator attribute}, \hyperpage{37}
+  \item \spxentry{fatal\_off()}\spxextra{dalio.validator.validator.Validator method}, 
+		\hyperpage{37}
+  \item \spxentry{fatal\_on()}\spxextra{dalio.validator.validator.Validator method}, \hyperpage{37}
+  \item \spxentry{Figure}\spxextra{class in dalio.external.image}, \hyperpage{3}
+  \item \spxentry{FilePrinter}\spxextra{class in dalio.application.printers}, \hyperpage{29}
+  \item \spxentry{FileWriter}\spxextra{class in dalio.external.file}, \hyperpage{2}
+  \item \spxentry{Forecast}\spxextra{class in dalio.pipe.forecast}, \hyperpage{18}
+  \item \spxentry{ForecastGrapher}\spxextra{class in dalio.application.graphers}, \hyperpage{28}
+  \item \spxentry{frequency}\spxextra{dalio.pipe.builders.CovShrink attribute}, \hyperpage{11}
+
+  \indexspace
+  \bigletter G
+  \item \spxentry{gamma}\spxextra{dalio.model.financial.MakeEfficientFrontier attribute}, 
+		\hyperpage{24}
+  \item \spxentry{gamma}\spxextra{dalio.model.financial.OptimumWeights attribute}, \hyperpage{25}
+  \item \spxentry{GARCHForecast}\spxextra{class in dalio.pipe.forecast}, \hyperpage{18}
+  \item \spxentry{get\_axis()}\spxextra{dalio.external.image.PySubplotGraph method}, \hyperpage{4}
+  \item \spxentry{get\_comps\_by\_sic()}\spxextra{in module dalio.ops}, \hyperpage{31}
+  \item \spxentry{Grapher}\spxextra{class in dalio.application.graphers}, \hyperpage{28}
+
+  \indexspace
+  \bigletter H
+  \item \spxentry{HAS\_ATTR}\spxextra{class in dalio.validator.base\_val}, \hyperpage{36}
+  \item \spxentry{HAS\_COLS}\spxextra{class in dalio.validator.pandas\_val}, \hyperpage{36}
+  \item \spxentry{HAS\_DIMS}\spxextra{class in dalio.validator.array\_val}, \hyperpage{35}
+  \item \spxentry{HAS\_IN\_COLS}\spxextra{class in dalio.validator.pandas\_val}, \hyperpage{36}
+  \item \spxentry{HAS\_INDEX\_NAMES}\spxextra{class in dalio.validator.pandas\_val}, \hyperpage{36}
+  \item \spxentry{horizon}\spxextra{dalio.pipe.forecast.Forecast attribute}, \hyperpage{18}
+
+  \indexspace
+  \bigletter I
+  \item \spxentry{Index}\spxextra{class in dalio.pipe.col\_generation}, \hyperpage{15}
+  \item \spxentry{index\_at}\spxextra{dalio.pipe.col\_generation.Index attribute}, 
+		\hyperpage{15, 16}
+  \item \spxentry{index\_cols()}\spxextra{in module dalio.ops}, \hyperpage{31}
+  \item \spxentry{is\_on}\spxextra{dalio.validator.validator.Validator attribute}, \hyperpage{37}
+  \item \spxentry{IS\_PD\_DF}\spxextra{class in dalio.validator.pandas\_val}, \hyperpage{37}
+  \item \spxentry{IS\_PD\_TS}\spxextra{class in dalio.validator.pandas\_val}, \hyperpage{37}
+  \item \spxentry{IS\_TYPE}\spxextra{class in dalio.validator.base\_val}, \hyperpage{36}
+
+  \indexspace
+  \bigletter L
+  \item \spxentry{LinearModel}\spxextra{class in dalio.pipe.builders}, \hyperpage{12}
+  \item \spxentry{LMGrapher}\spxextra{class in dalio.application.graphers}, \hyperpage{28}
+
+  \indexspace
+  \bigletter M
+  \item \spxentry{make\_manager()}\spxextra{dalio.external.image.PySubplotGraph method}, 
+		\hyperpage{4}
+  \item \spxentry{MakeARCH}\spxextra{class in dalio.pipe.builders}, \hyperpage{13}
+  \item \spxentry{MakeCriticalLine}\spxextra{class in dalio.model.financial}, \hyperpage{23}
+  \item \spxentry{MakeEfficientFrontier}\spxextra{class in dalio.model.financial}, \hyperpage{23}
+  \item \spxentry{max\_ticks}\spxextra{dalio.pipe.builders.StockComps attribute}, \hyperpage{14}
+  \item \spxentry{Model}\spxextra{class in dalio.model.model}, \hyperpage{25}
+
+  \indexspace
+  \bigletter O
+  \item \spxentry{OptimumPortfolio}\spxextra{class in dalio.model.financial}, \hyperpage{24}
+  \item \spxentry{OptimumWeights}\spxextra{class in dalio.model.financial}, \hyperpage{24}
+
+  \indexspace
+  \bigletter P
+  \item \spxentry{PandasInFile}\spxextra{class in dalio.external.file}, \hyperpage{2}
+  \item \spxentry{PandasTSGrapher}\spxextra{class in dalio.application.graphers}, \hyperpage{29}
+  \item \spxentry{PandasXYGrapher}\spxextra{class in dalio.application.graphers}, \hyperpage{29}
+  \item \spxentry{Period}\spxextra{class in dalio.pipe.col\_generation}, \hyperpage{16}
+  \item \spxentry{Pipe}\spxextra{class in dalio.pipe.pipe}, \hyperpage{19}
+  \item \spxentry{PipeLine}\spxextra{class in dalio.pipe.pipe}, \hyperpage{19}
+  \item \spxentry{pipeline}\spxextra{dalio.pipe.pipe.PipeLine attribute}, \hyperpage{20}
+  \item \spxentry{pipeline()}\spxextra{dalio.pipe.pipe.Pipe method}, \hyperpage{19}
+  \item \spxentry{plot()}\spxextra{dalio.external.image.Figure method}, \hyperpage{3}
+  \item \spxentry{plot()}\spxextra{dalio.external.image.PyPfOptGraph method}, \hyperpage{3}
+  \item \spxentry{plot()}\spxextra{dalio.external.image.PyPlotGraph method}, \hyperpage{4}
+  \item \spxentry{plot()}\spxextra{dalio.external.image.PySubplotGraph method}, \hyperpage{4}
+  \item \spxentry{plot\_covariance()}\spxextra{in module dalio.util}, \hyperpage{42}
+  \item \spxentry{plot\_covariance()}\spxextra{in module dalio.util.plotting\_utils}, 
+		\hyperpage{39}
+  \item \spxentry{plot\_dendrogram()}\spxextra{in module dalio.util.plotting\_utils}, 
+		\hyperpage{39}
+  \item \spxentry{plot\_efficient\_frontier()}\spxextra{in module dalio.util}, \hyperpage{41}
+  \item \spxentry{plot\_efficient\_frontier()}\spxextra{in module dalio.util.plotting\_utils}, 
+		\hyperpage{39}
+  \item \spxentry{plot\_weights()}\spxextra{in module dalio.util}, \hyperpage{42}
+  \item \spxentry{plot\_weights()}\spxextra{in module dalio.util.plotting\_utils}, \hyperpage{40}
+  \item \spxentry{process\_cols()}\spxextra{in module dalio.util}, \hyperpage{41}
+  \item \spxentry{process\_cols()}\spxextra{in module dalio.util.processing\_utils}, \hyperpage{40}
+  \item \spxentry{process\_date()}\spxextra{in module dalio.util}, \hyperpage{41}
+  \item \spxentry{process\_date()}\spxextra{in module dalio.util.processing\_utils}, \hyperpage{40}
+  \item \spxentry{process\_new\_colnames()}\spxextra{in module dalio.util}, \hyperpage{41}
+  \item \spxentry{process\_new\_colnames()}\spxextra{in module dalio.util.processing\_utils}, 
+		\hyperpage{40}
+  \item \spxentry{process\_new\_df()}\spxextra{in module dalio.util}, \hyperpage{41}
+  \item \spxentry{process\_new\_df()}\spxextra{in module dalio.util.processing\_utils}, 
+		\hyperpage{40}
+  \item \spxentry{PyPfOptGraph}\spxextra{class in dalio.external.image}, \hyperpage{3}
+  \item \spxentry{PyPlotGraph}\spxextra{class in dalio.external.image}, \hyperpage{3}
+  \item \spxentry{PySubplotGraph}\spxextra{class in dalio.external.image}, \hyperpage{4}
+
+  \indexspace
+  \bigletter Q
+  \item \spxentry{QuandlAPI}\spxextra{class in dalio.external.web}, \hyperpage{5}
+  \item \spxentry{QuandlSharadarSF1Translator}\spxextra{class in dalio.translator.quandl}, 
+		\hyperpage{8}
+  \item \spxentry{QuandlTickerInfoTranslator}\spxextra{class in dalio.translator.quandl}, 
+		\hyperpage{8}
+
+  \indexspace
+  \bigletter R
+  \item \spxentry{request()}\spxextra{dalio.external.external.External method}, \hyperpage{1}
+  \item \spxentry{request()}\spxextra{dalio.external.file.FileWriter method}, \hyperpage{2}
+  \item \spxentry{request()}\spxextra{dalio.external.file.PandasInFile method}, \hyperpage{2}
+  \item \spxentry{request()}\spxextra{dalio.external.image.Figure method}, \hyperpage{3}
+  \item \spxentry{request()}\spxextra{dalio.external.image.PyPlotGraph method}, \hyperpage{4}
+  \item \spxentry{request()}\spxextra{dalio.external.web.QuandlAPI method}, \hyperpage{5}
+  \item \spxentry{request()}\spxextra{dalio.external.web.YahooDR method}, \hyperpage{5}
+  \item \spxentry{reset()}\spxextra{dalio.external.image.Figure method}, \hyperpage{3}
+  \item \spxentry{reset()}\spxextra{dalio.external.image.PyPlotGraph method}, \hyperpage{4}
+  \item \spxentry{reset()}\spxextra{dalio.external.image.PySubplotGraph method}, \hyperpage{4}
+  \item \spxentry{reset()}\spxextra{dalio.external.image.SubplotManager method}, \hyperpage{5}
+  \item \spxentry{risk\_metrics()}\spxextra{in module dalio.ops}, \hyperpage{31}
+  \item \spxentry{Rolling}\spxextra{class in dalio.pipe.col\_generation}, \hyperpage{17}
+  \item \spxentry{run()}\spxextra{dalio.application.application.Application method}, \hyperpage{27}
+  \item \spxentry{run()}\spxextra{dalio.application.graphers.ForecastGrapher method}, 
+		\hyperpage{28}
+  \item \spxentry{run()}\spxextra{dalio.application.graphers.Grapher method}, \hyperpage{28}
+  \item \spxentry{run()}\spxextra{dalio.application.graphers.LMGrapher method}, \hyperpage{28}
+  \item \spxentry{run()}\spxextra{dalio.application.graphers.PandasXYGrapher method}, 
+		\hyperpage{29}
+  \item \spxentry{run()}\spxextra{dalio.application.graphers.VaRGrapher method}, \hyperpage{29}
+  \item \spxentry{run()}\spxextra{dalio.application.printers.FilePrinter method}, \hyperpage{29}
+  \item \spxentry{run()}\spxextra{dalio.model.financial.CompsData method}, \hyperpage{23}
+  \item \spxentry{run()}\spxextra{dalio.model.financial.MakeCriticalLine method}, \hyperpage{23}
+  \item \spxentry{run()}\spxextra{dalio.model.financial.MakeEfficientFrontier method}, 
+		\hyperpage{24}
+  \item \spxentry{run()}\spxextra{dalio.model.financial.OptimumPortfolio method}, \hyperpage{24}
+  \item \spxentry{run()}\spxextra{dalio.model.financial.OptimumWeights method}, \hyperpage{25}
+  \item \spxentry{run()}\spxextra{dalio.model.model.Model method}, \hyperpage{25}
+  \item \spxentry{run()}\spxextra{dalio.pipe.builders.StockComps method}, \hyperpage{14}
+  \item \spxentry{run()}\spxextra{dalio.pipe.pipe.Pipe method}, \hyperpage{19}
+  \item \spxentry{run()}\spxextra{dalio.translator.file.StockStreamFileTranslator method}, 
+		\hyperpage{8}
+  \item \spxentry{run()}\spxextra{dalio.translator.pdr.YahooStockTranslator method}, \hyperpage{8}
+  \item \spxentry{run()}\spxextra{dalio.translator.quandl.QuandlSharadarSF1Translator method}, 
+		\hyperpage{8}
+  \item \spxentry{run()}\spxextra{dalio.translator.quandl.QuandlTickerInfoTranslator method}, 
+		\hyperpage{8}
+
+  \indexspace
+  \bigletter S
+  \item \spxentry{set\_connection()}\spxextra{dalio.external.file.FileWriter method}, \hyperpage{2}
+  \item \spxentry{set\_end()}\spxextra{dalio.pipe.selection.DateSelect method}, \hyperpage{21}
+  \item \spxentry{set\_input()}\spxextra{dalio.model.model.Model method}, \hyperpage{25}
+  \item \spxentry{set\_input()}\spxextra{dalio.pipe.pipe.Pipe method}, \hyperpage{19}
+  \item \spxentry{set\_input()}\spxextra{dalio.translator.translator.Translator method}, 
+		\hyperpage{9}
+  \item \spxentry{set\_output()}\spxextra{dalio.application.application.Application method}, 
+		\hyperpage{27}
+  \item \spxentry{set\_start()}\spxextra{dalio.pipe.selection.DateSelect method}, \hyperpage{21}
+  \item \spxentry{StockComps}\spxextra{class in dalio.pipe.builders}, \hyperpage{13}
+  \item \spxentry{StockReturns}\spxextra{class in dalio.pipe.col\_generation}, \hyperpage{17}
+  \item \spxentry{StockStreamFileTranslator}\spxextra{class in dalio.translator.file}, 
+		\hyperpage{7}
+  \item \spxentry{SubplotManager}\spxextra{class in dalio.external.image}, \hyperpage{4}
+
+  \indexspace
+  \bigletter T
+  \item \spxentry{t\_func}\spxextra{dalio.pipe.custom.Custom attribute}, \hyperpage{17, 18}
+  \item \spxentry{test\_desc}\spxextra{dalio.validator.validator.Validator attribute}, 
+		\hyperpage{37}
+  \item \spxentry{transform()}\spxextra{dalio.pipe.builders.CovShrink method}, \hyperpage{11}
+  \item \spxentry{transform()}\spxextra{dalio.pipe.builders.ExpectedReturns method}, \hyperpage{12}
+  \item \spxentry{transform()}\spxextra{dalio.pipe.builders.ExpectedShortfall method}, 
+		\hyperpage{12}
+  \item \spxentry{transform()}\spxextra{dalio.pipe.builders.LinearModel method}, \hyperpage{13}
+  \item \spxentry{transform()}\spxextra{dalio.pipe.builders.MakeARCH method}, \hyperpage{13}
+  \item \spxentry{transform()}\spxextra{dalio.pipe.builders.StockComps method}, \hyperpage{14}
+  \item \spxentry{transform()}\spxextra{dalio.pipe.builders.ValueAtRisk method}, \hyperpage{15}
+  \item \spxentry{transform()}\spxextra{dalio.pipe.col\_generation.Change method}, \hyperpage{15}
+  \item \spxentry{transform()}\spxextra{dalio.pipe.col\_generation.Index method}, \hyperpage{16}
+  \item \spxentry{transform()}\spxextra{dalio.pipe.col\_generation.Period method}, \hyperpage{17}
+  \item \spxentry{transform()}\spxextra{dalio.pipe.col\_generation.Rolling method}, \hyperpage{17}
+  \item \spxentry{transform()}\spxextra{dalio.pipe.col\_generation.StockReturns method}, 
+		\hyperpage{17}
+  \item \spxentry{transform()}\spxextra{dalio.pipe.custom.Custom method}, \hyperpage{18}
+  \item \spxentry{transform()}\spxextra{dalio.pipe.forecast.Forecast method}, \hyperpage{18}
+  \item \spxentry{transform()}\spxextra{dalio.pipe.forecast.GARCHForecast method}, \hyperpage{19}
+  \item \spxentry{transform()}\spxextra{dalio.pipe.pipe.Pipe method}, \hyperpage{19}
+  \item \spxentry{transform()}\spxextra{dalio.pipe.pipe.PipeLine method}, \hyperpage{20}
+  \item \spxentry{transform()}\spxextra{dalio.pipe.selection.ColSelect method}, \hyperpage{20}
+  \item \spxentry{transform()}\spxextra{dalio.pipe.selection.DateSelect method}, \hyperpage{21}
+  \item \spxentry{translate\_df()}\spxextra{in module dalio.util}, \hyperpage{41}
+  \item \spxentry{translate\_df()}\spxextra{in module dalio.util.translation\_utils}, 
+		\hyperpage{41}
+  \item \spxentry{translate\_item()}\spxextra{dalio.translator.translator.Translator method}, 
+		\hyperpage{9}
+  \item \spxentry{translations}\spxextra{dalio.translator.file.StockStreamFileTranslator attribute}, 
+		\hyperpage{8}
+  \item \spxentry{translations}\spxextra{dalio.translator.pdr.YahooStockTranslator attribute}, 
+		\hyperpage{8}
+  \item \spxentry{translations}\spxextra{dalio.translator.quandl.QuandlSharadarSF1Translator attribute}, 
+		\hyperpage{8}
+  \item \spxentry{translations}\spxextra{dalio.translator.quandl.QuandlTickerInfoTranslator attribute}, 
+		\hyperpage{8}
+  \item \spxentry{translations}\spxextra{dalio.translator.translator.Translator attribute}, 
+		\hyperpage{9}
+  \item \spxentry{Translator}\spxextra{class in dalio.translator.translator}, \hyperpage{9}
+
+  \indexspace
+  \bigletter U
+  \item \spxentry{update\_config()}\spxextra{dalio.external.external.External method}, 
+		\hyperpage{1}
+  \item \spxentry{update\_translations()}\spxextra{dalio.translator.translator.Translator method}, 
+		\hyperpage{9}
+
+  \indexspace
+  \bigletter V
+  \item \spxentry{validate()}\spxextra{dalio.validator.array\_val.HAS\_DIMS method}, \hyperpage{35}
+  \item \spxentry{validate()}\spxextra{dalio.validator.base\_val.ELEMS\_TYPE method}, 
+		\hyperpage{35}
+  \item \spxentry{validate()}\spxextra{dalio.validator.base\_val.HAS\_ATTR method}, \hyperpage{36}
+  \item \spxentry{validate()}\spxextra{dalio.validator.base\_val.IS\_TYPE method}, \hyperpage{36}
+  \item \spxentry{validate()}\spxextra{dalio.validator.pandas\_val.HAS\_COLS method}, 
+		\hyperpage{36}
+  \item \spxentry{validate()}\spxextra{dalio.validator.pandas\_val.HAS\_IN\_COLS method}, 
+		\hyperpage{36}
+  \item \spxentry{validate()}\spxextra{dalio.validator.pandas\_val.HAS\_INDEX\_NAMES method}, 
+		\hyperpage{36}
+  \item \spxentry{validate()}\spxextra{dalio.validator.pandas\_val.IS\_PD\_TS method}, 
+		\hyperpage{37}
+  \item \spxentry{validate()}\spxextra{dalio.validator.validator.Validator method}, \hyperpage{38}
+  \item \spxentry{Validator}\spxextra{class in dalio.validator.validator}, \hyperpage{37}
+  \item \spxentry{ValueAtRisk}\spxextra{class in dalio.pipe.builders}, \hyperpage{14}
+  \item \spxentry{VaRGrapher}\spxextra{class in dalio.application.graphers}, \hyperpage{29}
+
+  \indexspace
+  \bigletter W
+  \item \spxentry{weight\_bounds}\spxextra{dalio.model.financial.MakeCriticalLine attribute}, 
+		\hyperpage{23}
+  \item \spxentry{weight\_bounds}\spxextra{dalio.model.financial.MakeEfficientFrontier attribute}, 
+		\hyperpage{24}
+  \item \spxentry{weight\_bounds}\spxextra{dalio.model.financial.OptimumWeights attribute}, 
+		\hyperpage{25}
+  \item \spxentry{with\_input()}\spxextra{dalio.model.model.Model method}, \hyperpage{26}
+  \item \spxentry{with\_input()}\spxextra{dalio.pipe.pipe.Pipe method}, \hyperpage{19}
+  \item \spxentry{with\_input()}\spxextra{dalio.translator.translator.Translator method}, 
+		\hyperpage{9}
+  \item \spxentry{with\_output()}\spxextra{dalio.application.application.Application method}, 
+		\hyperpage{28}
+
+  \indexspace
+  \bigletter Y
+  \item \spxentry{YahooDR}\spxextra{class in dalio.external.web}, \hyperpage{5}
+  \item \spxentry{YahooStockTranslator}\spxextra{class in dalio.translator.pdr}, \hyperpage{8}
+
+\end{sphinxtheindex}

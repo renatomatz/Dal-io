@@ -1,0 +1,393 @@
+
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta charset="utf-8" />
+    <title>dalio.util &#8212; Dal-io 0.1.1 documentation</title>
+    <link rel="stylesheet" href="_static/sphinxdoc.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <script id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+    <script src="_static/jquery.js"></script>
+    <script src="_static/underscore.js"></script>
+    <script src="_static/doctools.js"></script>
+    <script src="_static/language_data.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="prev" title="dalio.validator" href="dalio.validator.html" /> 
+  </head><body>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="dalio.validator.html" title="dalio.validator"
+             accesskey="P">previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="index.html">Dal-io 0.1.1 documentation</a> &#187;</li> 
+      </ul>
+    </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+            <p class="logo"><a href="index.html">
+              <img class="logo" src="_static/logo.png" alt="Logo"/>
+            </a></p>
+  <h3><a href="index.html">Table of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">dalio.util</a><ul>
+<li><a class="reference internal" href="#submodules">Submodules</a></li>
+<li><a class="reference internal" href="#module-dalio.util.plotting_utils">dalio.util.plotting_utils module</a></li>
+<li><a class="reference internal" href="#module-dalio.util.processing_utils">dalio.util.processing_utils module</a></li>
+<li><a class="reference internal" href="#module-dalio.util.translation_utils">dalio.util.translation_utils module</a></li>
+<li><a class="reference internal" href="#module-dalio.util">Module contents</a></li>
+</ul>
+</li>
+</ul>
+
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="dalio.validator.html"
+                        title="previous chapter">dalio.validator</a></p>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="_sources/dalio.util.rst.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" />
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script>$('#searchbox').show(0);</script>
+        </div>
+      </div>
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="dalio-util">
+<h1>dalio.util<a class="headerlink" href="#dalio-util" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="submodules">
+<h2>Submodules<a class="headerlink" href="#submodules" title="Permalink to this headline">¶</a></h2>
+</div>
+<div class="section" id="module-dalio.util.plotting_utils">
+<span id="dalio-util-plotting-utils-module"></span><h2>dalio.util.plotting_utils module<a class="headerlink" href="#module-dalio.util.plotting_utils" title="Permalink to this headline">¶</a></h2>
+<p>Plotting utilities</p>
+<p>Thank you for the creators of pypfopt for the wonderful code!</p>
+<dl class="function">
+<dt id="dalio.util.plotting_utils.plot_covariance">
+<code class="sig-prename descclassname">dalio.util.plotting_utils.</code><code class="sig-name descname">plot_covariance</code><span class="sig-paren">(</span><em class="sig-param">cov_matrix</em>, <em class="sig-param">plot_correlation=False</em>, <em class="sig-param">show_tickers=True</em>, <em class="sig-param">ax=None</em><span class="sig-paren">)</span><a class="headerlink" href="#dalio.util.plotting_utils.plot_covariance" title="Permalink to this definition">¶</a></dt>
+<dd><p>Generate a basic plot of the covariance (or correlation) matrix,
+given a covariance matrix.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>cov_matrix</strong> (<em>pd.DataFrame</em><em>, </em><em>np.ndarray</em>) – covariance matrix</p></li>
+<li><p><strong>plot_correlation</strong> (<em>bool</em>) – whether to plot the correlation matrix
+instead, defaults to False. Optional.</p></li>
+<li><p><strong>show_tickers</strong> (<em>bool</em>) – whether to use tickers as labels (not
+recommended for large portfolios). Optional. Defaults to True.</p></li>
+<li><p><strong>ax</strong> (<em>matplolib.axis</em><em>, </em><em>None</em>) – Axis to plot on. Optional. New axis will
+be created if none is specified.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>matplotlib axis</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
+<dt id="dalio.util.plotting_utils.plot_dendrogram">
+<code class="sig-prename descclassname">dalio.util.plotting_utils.</code><code class="sig-name descname">plot_dendrogram</code><span class="sig-paren">(</span><em class="sig-param">hrp</em>, <em class="sig-param">show_tickers=True</em>, <em class="sig-param">ax=None</em>, <em class="sig-param">**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#dalio.util.plotting_utils.plot_dendrogram" title="Permalink to this definition">¶</a></dt>
+<dd><p>Plot the clusters in the form of a dendrogram.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>hrp</strong> – HRPpt object that has already been optimized.</p></li>
+<li><p><strong>show_tickers</strong> (<em>bool</em>) – whether to use tickers as labels (not
+recommended for large portfolios). Optional. Defaults to True.</p></li>
+<li><p><strong>ax</strong> (<em>matplolib.axis</em><em>, </em><em>None</em>) – Axis to plot on. Optional. New axis will
+be created if none is specified.</p></li>
+<li><p><strong>**kwargs</strong> – optional parameters for main graph.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>matplotlib axis</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
+<dt id="dalio.util.plotting_utils.plot_efficient_frontier">
+<code class="sig-prename descclassname">dalio.util.plotting_utils.</code><code class="sig-name descname">plot_efficient_frontier</code><span class="sig-paren">(</span><em class="sig-param">cla</em>, <em class="sig-param">points=100</em>, <em class="sig-param">show_assets=True</em>, <em class="sig-param">ax=None</em>, <em class="sig-param">**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#dalio.util.plotting_utils.plot_efficient_frontier" title="Permalink to this definition">¶</a></dt>
+<dd><p>Plot the efficient frontier based on a CLA object</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>points</strong> (<em>int</em>) – number of points to plot. Optional. Defaults to 100</p></li>
+<li><p><strong>show_assets</strong> (<em>bool</em>) – whether we should plot the asset risks/returns
+also. Optional. Defaults to True.</p></li>
+<li><p><strong>ax</strong> (<em>matplolib.axis</em><em>, </em><em>None</em>) – Axis to plot on. Optional. New axis will
+be created if none is specified.</p></li>
+<li><p><strong>**kwargs</strong> – optional parameters for main graph.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>matplotlib axis</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
+<dt id="dalio.util.plotting_utils.plot_weights">
+<code class="sig-prename descclassname">dalio.util.plotting_utils.</code><code class="sig-name descname">plot_weights</code><span class="sig-paren">(</span><em class="sig-param">weights</em>, <em class="sig-param">ax=None</em>, <em class="sig-param">**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#dalio.util.plotting_utils.plot_weights" title="Permalink to this definition">¶</a></dt>
+<dd><p>Plot the portfolio weights as a horizontal bar chart</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>weights</strong> (<em>dict</em>) – the weights outputted by any PyPortfolioOpt
+optimiser.</p></li>
+<li><p><strong>ax</strong> (<em>matplolib.axis</em><em>, </em><em>None</em>) – Axis to plot on. Optional. New axis will
+be created if none is specified.</p></li>
+<li><p><strong>**kwargs</strong> – optional parameters for main graph.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>matplotlib axis</p>
+</dd>
+</dl>
+</dd></dl>
+
+</div>
+<div class="section" id="module-dalio.util.processing_utils">
+<span id="dalio-util-processing-utils-module"></span><h2>dalio.util.processing_utils module<a class="headerlink" href="#module-dalio.util.processing_utils" title="Permalink to this headline">¶</a></h2>
+<p>Data processing utilities</p>
+<dl class="function">
+<dt id="dalio.util.processing_utils.process_cols">
+<code class="sig-prename descclassname">dalio.util.processing_utils.</code><code class="sig-name descname">process_cols</code><span class="sig-paren">(</span><em class="sig-param">cols</em><span class="sig-paren">)</span><a class="headerlink" href="#dalio.util.processing_utils.process_cols" title="Permalink to this definition">¶</a></dt>
+<dd><p>Standardize input columns</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="dalio.util.processing_utils.process_date">
+<code class="sig-prename descclassname">dalio.util.processing_utils.</code><code class="sig-name descname">process_date</code><span class="sig-paren">(</span><em class="sig-param">date</em><span class="sig-paren">)</span><a class="headerlink" href="#dalio.util.processing_utils.process_date" title="Permalink to this definition">¶</a></dt>
+<dd><p>Standardize input date</p>
+<dl class="field-list simple">
+<dt class="field-odd">Raises</dt>
+<dd class="field-odd"><p><strong>TypeError</strong> – if the type of the date parameter cannot be converted to
+    a pandas timestamp</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
+<dt id="dalio.util.processing_utils.process_new_colnames">
+<code class="sig-prename descclassname">dalio.util.processing_utils.</code><code class="sig-name descname">process_new_colnames</code><span class="sig-paren">(</span><em class="sig-param">cols</em>, <em class="sig-param">new_cols</em><span class="sig-paren">)</span><a class="headerlink" href="#dalio.util.processing_utils.process_new_colnames" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get new column names based on the column parameter</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="dalio.util.processing_utils.process_new_df">
+<code class="sig-prename descclassname">dalio.util.processing_utils.</code><code class="sig-name descname">process_new_df</code><span class="sig-paren">(</span><em class="sig-param">df1</em>, <em class="sig-param">df2</em>, <em class="sig-param">cols</em>, <em class="sig-param">new_cols</em><span class="sig-paren">)</span><a class="headerlink" href="#dalio.util.processing_utils.process_new_df" title="Permalink to this definition">¶</a></dt>
+<dd><p>Process new dataframe given columns and new column names</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>df1</strong> (<em>pd.DataFrame</em>) – first dataframe.</p></li>
+<li><p><strong>df2</strong> (<em>pd.DataFrame</em>) – dataframe to join or get columns from</p></li>
+<li><p><strong>cols</strong> (<em>iterable</em>) – iterable of columns being targetted.</p></li>
+<li><p><strong>new_cols</strong> (<em>iterable</em>) – iterable of new column names.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+</div>
+<div class="section" id="module-dalio.util.translation_utils">
+<span id="dalio-util-translation-utils-module"></span><h2>dalio.util.translation_utils module<a class="headerlink" href="#module-dalio.util.translation_utils" title="Permalink to this headline">¶</a></h2>
+<p>Translation utilities</p>
+<dl class="function">
+<dt id="dalio.util.translation_utils.translate_df">
+<code class="sig-prename descclassname">dalio.util.translation_utils.</code><code class="sig-name descname">translate_df</code><span class="sig-paren">(</span><em class="sig-param">translator</em>, <em class="sig-param">df</em>, <em class="sig-param">inplace=False</em><span class="sig-paren">)</span><a class="headerlink" href="#dalio.util.translation_utils.translate_df" title="Permalink to this definition">¶</a></dt>
+<dd><p>Translate dataframe column and index names in accordance to translator
+dictionary.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>translator</strong> (<em>dict</em>) – dictionary of {original: translated} key value
+pairs.</p></li>
+<li><p><strong>df</strong> (<em>pd.DataFrame</em>) – dataframe to have rows and columns translated.</p></li>
+<li><p><strong>inplace</strong> (<em>bool</em>) – whether to perform operation inplace or return a
+translated copy. Optional. Defaults to False.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+</div>
+<div class="section" id="module-dalio.util">
+<span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-dalio.util" title="Permalink to this headline">¶</a></h2>
+<dl class="function">
+<dt id="dalio.util.process_cols">
+<code class="sig-prename descclassname">dalio.util.</code><code class="sig-name descname">process_cols</code><span class="sig-paren">(</span><em class="sig-param">cols</em><span class="sig-paren">)</span><a class="headerlink" href="#dalio.util.process_cols" title="Permalink to this definition">¶</a></dt>
+<dd><p>Standardize input columns</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="dalio.util.process_new_colnames">
+<code class="sig-prename descclassname">dalio.util.</code><code class="sig-name descname">process_new_colnames</code><span class="sig-paren">(</span><em class="sig-param">cols</em>, <em class="sig-param">new_cols</em><span class="sig-paren">)</span><a class="headerlink" href="#dalio.util.process_new_colnames" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get new column names based on the column parameter</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="dalio.util.process_date">
+<code class="sig-prename descclassname">dalio.util.</code><code class="sig-name descname">process_date</code><span class="sig-paren">(</span><em class="sig-param">date</em><span class="sig-paren">)</span><a class="headerlink" href="#dalio.util.process_date" title="Permalink to this definition">¶</a></dt>
+<dd><p>Standardize input date</p>
+<dl class="field-list simple">
+<dt class="field-odd">Raises</dt>
+<dd class="field-odd"><p><strong>TypeError</strong> – if the type of the date parameter cannot be converted to
+    a pandas timestamp</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
+<dt id="dalio.util.process_new_df">
+<code class="sig-prename descclassname">dalio.util.</code><code class="sig-name descname">process_new_df</code><span class="sig-paren">(</span><em class="sig-param">df1</em>, <em class="sig-param">df2</em>, <em class="sig-param">cols</em>, <em class="sig-param">new_cols</em><span class="sig-paren">)</span><a class="headerlink" href="#dalio.util.process_new_df" title="Permalink to this definition">¶</a></dt>
+<dd><p>Process new dataframe given columns and new column names</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>df1</strong> (<em>pd.DataFrame</em>) – first dataframe.</p></li>
+<li><p><strong>df2</strong> (<em>pd.DataFrame</em>) – dataframe to join or get columns from</p></li>
+<li><p><strong>cols</strong> (<em>iterable</em>) – iterable of columns being targetted.</p></li>
+<li><p><strong>new_cols</strong> (<em>iterable</em>) – iterable of new column names.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
+<dt id="dalio.util.translate_df">
+<code class="sig-prename descclassname">dalio.util.</code><code class="sig-name descname">translate_df</code><span class="sig-paren">(</span><em class="sig-param">translator</em>, <em class="sig-param">df</em>, <em class="sig-param">inplace=False</em><span class="sig-paren">)</span><a class="headerlink" href="#dalio.util.translate_df" title="Permalink to this definition">¶</a></dt>
+<dd><p>Translate dataframe column and index names in accordance to translator
+dictionary.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>translator</strong> (<em>dict</em>) – dictionary of {original: translated} key value
+pairs.</p></li>
+<li><p><strong>df</strong> (<em>pd.DataFrame</em>) – dataframe to have rows and columns translated.</p></li>
+<li><p><strong>inplace</strong> (<em>bool</em>) – whether to perform operation inplace or return a
+translated copy. Optional. Defaults to False.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
+<dt id="dalio.util.plot_efficient_frontier">
+<code class="sig-prename descclassname">dalio.util.</code><code class="sig-name descname">plot_efficient_frontier</code><span class="sig-paren">(</span><em class="sig-param">cla</em>, <em class="sig-param">points=100</em>, <em class="sig-param">show_assets=True</em>, <em class="sig-param">ax=None</em>, <em class="sig-param">**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#dalio.util.plot_efficient_frontier" title="Permalink to this definition">¶</a></dt>
+<dd><p>Plot the efficient frontier based on a CLA object</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>points</strong> (<em>int</em>) – number of points to plot. Optional. Defaults to 100</p></li>
+<li><p><strong>show_assets</strong> (<em>bool</em>) – whether we should plot the asset risks/returns
+also. Optional. Defaults to True.</p></li>
+<li><p><strong>ax</strong> (<em>matplolib.axis</em><em>, </em><em>None</em>) – Axis to plot on. Optional. New axis will
+be created if none is specified.</p></li>
+<li><p><strong>**kwargs</strong> – optional parameters for main graph.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>matplotlib axis</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
+<dt id="dalio.util.plot_covariance">
+<code class="sig-prename descclassname">dalio.util.</code><code class="sig-name descname">plot_covariance</code><span class="sig-paren">(</span><em class="sig-param">cov_matrix</em>, <em class="sig-param">plot_correlation=False</em>, <em class="sig-param">show_tickers=True</em>, <em class="sig-param">ax=None</em><span class="sig-paren">)</span><a class="headerlink" href="#dalio.util.plot_covariance" title="Permalink to this definition">¶</a></dt>
+<dd><p>Generate a basic plot of the covariance (or correlation) matrix,
+given a covariance matrix.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>cov_matrix</strong> (<em>pd.DataFrame</em><em>, </em><em>np.ndarray</em>) – covariance matrix</p></li>
+<li><p><strong>plot_correlation</strong> (<em>bool</em>) – whether to plot the correlation matrix
+instead, defaults to False. Optional.</p></li>
+<li><p><strong>show_tickers</strong> (<em>bool</em>) – whether to use tickers as labels (not
+recommended for large portfolios). Optional. Defaults to True.</p></li>
+<li><p><strong>ax</strong> (<em>matplolib.axis</em><em>, </em><em>None</em>) – Axis to plot on. Optional. New axis will
+be created if none is specified.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>matplotlib axis</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
+<dt id="dalio.util.plot_weights">
+<code class="sig-prename descclassname">dalio.util.</code><code class="sig-name descname">plot_weights</code><span class="sig-paren">(</span><em class="sig-param">weights</em>, <em class="sig-param">ax=None</em>, <em class="sig-param">**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#dalio.util.plot_weights" title="Permalink to this definition">¶</a></dt>
+<dd><p>Plot the portfolio weights as a horizontal bar chart</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>weights</strong> (<em>dict</em>) – the weights outputted by any PyPortfolioOpt
+optimiser.</p></li>
+<li><p><strong>ax</strong> (<em>matplolib.axis</em><em>, </em><em>None</em>) – Axis to plot on. Optional. New axis will
+be created if none is specified.</p></li>
+<li><p><strong>**kwargs</strong> – optional parameters for main graph.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>matplotlib axis</p>
+</dd>
+</dl>
+</dd></dl>
+
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="dalio.validator.html" title="dalio.validator"
+             >previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="index.html">Dal-io 0.1.1 documentation</a> &#187;</li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &#169; Copyright 2020, Renato Zimmermann.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 2.4.0.
+    </div>
+  </body>
+</html>

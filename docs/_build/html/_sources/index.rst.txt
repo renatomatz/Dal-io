@@ -1,0 +1,33 @@
+.. Dal-io documentation master file, created by
+   sphinx-quickstart on Wed Jun 24 18:28:10 2020.
+   You can adapt this file completely to your liking, but it should at least
+   contain the root `toctree` directive.
+
+Welcome to Dal-io's documentation!
+==================================
+
+.. toctree::
+   :maxdepth: 2
+   :caption: User Modules:
+
+   External <dalio.external>
+   Translator <dalio.translator>
+   Pipe <dalio.pipe>
+   Model <dalio.model>
+   Application <dalio.application>
+
+.. toctree::
+   :maxdepth: 2
+   :caption: Developper Modules:
+
+   dalio.ops
+   dalio.base
+   dalio.validator
+   dalio.util
+
+Indices and tables
+==================
+
+* :ref:`genindex`
+* :ref:`modindex`
+* :ref:`search`

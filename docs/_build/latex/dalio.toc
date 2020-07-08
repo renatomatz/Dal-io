@@ -1,0 +1,56 @@
+\babel@toc {english}{}
+\contentsline {chapter}{\numberline {1}dalio.external package}{1}{chapter.1}% 
+\contentsline {section}{\numberline {1.1}Submodules}{1}{section.1.1}% 
+\contentsline {section}{\numberline {1.2}dalio.external.external}{1}{section.1.2}% 
+\contentsline {section}{\numberline {1.3}dalio.external.file}{2}{section.1.3}% 
+\contentsline {section}{\numberline {1.4}dalio.external.image}{3}{section.1.4}% 
+\contentsline {section}{\numberline {1.5}dalio.external.web}{5}{section.1.5}% 
+\contentsline {chapter}{\numberline {2}dalio.translator package}{7}{chapter.2}% 
+\contentsline {section}{\numberline {2.1}Submodules}{7}{section.2.1}% 
+\contentsline {section}{\numberline {2.2}dalio.translator.file}{7}{section.2.2}% 
+\contentsline {section}{\numberline {2.3}dalio.translator.pdr}{8}{section.2.3}% 
+\contentsline {section}{\numberline {2.4}dalio.translator.quandl}{8}{section.2.4}% 
+\contentsline {section}{\numberline {2.5}dalio.translator.translator}{9}{section.2.5}% 
+\contentsline {chapter}{\numberline {3}dalio.pipe package}{11}{chapter.3}% 
+\contentsline {section}{\numberline {3.1}Submodules}{11}{section.3.1}% 
+\contentsline {section}{\numberline {3.2}dalio.pipe.builders}{11}{section.3.2}% 
+\contentsline {section}{\numberline {3.3}dalio.pipe.col\_generation}{15}{section.3.3}% 
+\contentsline {section}{\numberline {3.4}dalio.pipe.custom}{17}{section.3.4}% 
+\contentsline {section}{\numberline {3.5}dalio.pipe.forecast}{18}{section.3.5}% 
+\contentsline {section}{\numberline {3.6}dalio.pipe.pipe}{19}{section.3.6}% 
+\contentsline {section}{\numberline {3.7}dalio.pipe.selection}{20}{section.3.7}% 
+\contentsline {chapter}{\numberline {4}dalio.model package}{23}{chapter.4}% 
+\contentsline {section}{\numberline {4.1}Submodules}{23}{section.4.1}% 
+\contentsline {section}{\numberline {4.2}dalio.model.financial}{23}{section.4.2}% 
+\contentsline {section}{\numberline {4.3}dalio.model.model}{25}{section.4.3}% 
+\contentsline {chapter}{\numberline {5}dalio.application package}{27}{chapter.5}% 
+\contentsline {section}{\numberline {5.1}Submodules}{27}{section.5.1}% 
+\contentsline {section}{\numberline {5.2}dalio.application.application}{27}{section.5.2}% 
+\contentsline {section}{\numberline {5.3}dalio.application.graphers}{28}{section.5.3}% 
+\contentsline {section}{\numberline {5.4}dalio.application.printers}{29}{section.5.4}% 
+\contentsline {chapter}{\numberline {6}dalio.ops module}{31}{chapter.6}% 
+\contentsline {chapter}{\numberline {7}dalio.base}{33}{chapter.7}% 
+\contentsline {section}{\numberline {7.1}Submodules}{33}{section.7.1}% 
+\contentsline {section}{\numberline {7.2}dalio.base.builder module}{33}{section.7.2}% 
+\contentsline {section}{\numberline {7.3}dalio.base.constants module}{33}{section.7.3}% 
+\contentsline {section}{\numberline {7.4}dalio.base.datadef module}{33}{section.7.4}% 
+\contentsline {section}{\numberline {7.5}dalio.base.node module}{33}{section.7.5}% 
+\contentsline {section}{\numberline {7.6}dalio.base.transformer module}{34}{section.7.6}% 
+\contentsline {section}{\numberline {7.7}Module contents}{34}{section.7.7}% 
+\contentsline {chapter}{\numberline {8}dalio.validator}{35}{chapter.8}% 
+\contentsline {section}{\numberline {8.1}Submodules}{35}{section.8.1}% 
+\contentsline {section}{\numberline {8.2}dalio.validator.array\_val module}{35}{section.8.2}% 
+\contentsline {section}{\numberline {8.3}dalio.validator.base\_val module}{35}{section.8.3}% 
+\contentsline {section}{\numberline {8.4}dalio.validator.pandas\_val module}{36}{section.8.4}% 
+\contentsline {section}{\numberline {8.5}dalio.validator.presets module}{37}{section.8.5}% 
+\contentsline {section}{\numberline {8.6}dalio.validator.validator module}{37}{section.8.6}% 
+\contentsline {section}{\numberline {8.7}Module contents}{38}{section.8.7}% 
+\contentsline {chapter}{\numberline {9}dalio.util}{39}{chapter.9}% 
+\contentsline {section}{\numberline {9.1}Submodules}{39}{section.9.1}% 
+\contentsline {section}{\numberline {9.2}dalio.util.plotting\_utils module}{39}{section.9.2}% 
+\contentsline {section}{\numberline {9.3}dalio.util.processing\_utils module}{40}{section.9.3}% 
+\contentsline {section}{\numberline {9.4}dalio.util.translation\_utils module}{41}{section.9.4}% 
+\contentsline {section}{\numberline {9.5}Module contents}{41}{section.9.5}% 
+\contentsline {chapter}{\numberline {10}Indices and tables}{43}{chapter.10}% 
+\contentsline {chapter}{Python Module Index}{45}{section*.268}% 
+\contentsline {chapter}{Index}{47}{section*.269}% 

@@ -1,0 +1,21 @@
+dalio package
+=============
+
+Submodules
+----------
+
+dalio.datadef module
+--------------------
+
+.. automodule:: dalio.datadef
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+dalio.ops module
+----------------
+
+.. automodule:: dalio.ops
+   :members:
+   :undoc-members:
+   :show-inheritance:

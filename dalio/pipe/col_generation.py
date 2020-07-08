@@ -1,45 +1,375 @@
+"""Implement transformations that generates new colums from exising ones"""
+
+from typing import (
+    Any,
+    List,
+    Union,
+    Callable,
+    Iterable,
+)
+
 import numpy as np
 import pandas as pd
 
-from dalio.pipe import Pipe
+from dalio.base.constants import RETURNS
 
-from dalio.pipe.extra_classes import (
-    _ColSelection, 
-    _ColMapSelection, 
-    _ColValSelection
-)
+from dalio.pipe import Pipe, Custom
 
 from dalio.util import (
-        out_of_place_col_insert,
-        get_numeric_column_names,
-        process_cols
+    process_cols,
+    process_new_colnames,
+    process_new_df,
 )
 
-from dalio.validator import HAS_LEVELS
+from dalio.ops import index_cols
+
+from dalio.validator import (
+    IS_PD_DF,
+    IS_PD_TS,
+    HAS_COLS,
+)
+
+from dalio.validator.presets import STOCK_STREAM
 
 
-class Bin(_ColMapSelection):
+class Change(Pipe):
+    """Perform item-by-item change
+
+    This has two main forms, percentage change and absolute change
+    (difference).
+
+    Attributes:
+        _strategy (str, callable): change strategy.
+        _new_cols (list, str): either list of new columns or suffix.
+    """
+
+    _PANDAS_PRESETS = ["pct_change", "diff"]
+
+    _cols: List[str]
+    _strategy: Union[str, Callable[[pd.Series], pd.Series]]
+    _new_cols: Union[List[str], str]
+
+    def __init__(self, strategy="pct_change", cols=None, new_cols=None):
+        """Initialize instance and perform argument checks
+
+        Args:
+            strategy: change strategy.
+            cols: specific columns to apply strategy to. If None are
+                specified, all columns from sourced data will be used.
+            new_cols: either a list of new columns or suffix to add to new
+                columns. If None are specified, original columns will be
+                dropped.
+
+        Raises:
+            ValueError: if strategy is not a valid string or new columns
+                are not the same length as the columns to be transformed.
+        """
+        super().__init__()
+
+        self._source\
+            .add_desc(IS_PD_DF())
+
+        if cols is not None:
+            self._source\
+                .add_desc(HAS_COLS(cols))
+
+        self._cols = process_cols(cols)
+
+        if isinstance(strategy, str)\
+                and strategy not in Change._PANDAS_PRESETS:
+            raise ValueError(f"Argument strategy must be one of\
+                {Change._PANDAS_PRESETS}")
+
+        self._strategy = strategy
+
+        if isinstance(new_cols, list) and len(new_cols) != len(self._cols):
+            raise ValueError(f"argument new_cols must either be a string or\
+                a list with {len(self._cols)} elements")
+
+        self._new_cols = new_cols
+
+    def transform(self, data, **kwargs):
+        """Applies change transformation to sourced data"""
+
+        data = data.copy()
+
+        col_names = self._cols if self._cols is not None \
+            else data.columns.to_list()
+
+        new_col_names = process_new_colnames(col_names, self._new_cols)
+
+        if self._strategy == "pct_change":
+            data = process_new_df(
+                data,
+                data[col_names].pct_change().fillna(0),
+                col_names,
+                new_col_names
+            )
+
+        elif self._strategy == "diff":
+            data = process_new_df(
+                data,
+                data[col_names].diff().fillna(0),
+                col_names,
+                new_col_names
+            )
+        else:
+            data = process_new_df(
+                data,
+                data[col_names].apply(self._strategy),
+                col_names,
+                new_col_names
+            )
+
+        return data
+
+    def copy(self, *args, **kwargs):
+        return super().copy(
+            *args,
+            strategy=self._strategy,
+            cols=self._cols,
+            new_cols=self._new_cols,
+            **kwargs
+        )
+
+
+class StockReturns(Change):
+    """Perform percent change and minor aesthetic changes to data"""
+
+    def __init__(self, cols=None, new_cols=False):
+        super().__init__(
+            cols=cols,
+            strategy="pct_change",
+            new_cols=RETURNS if new_cols else None
+        )
+
+        self._source.clear_desc()
+        self._source.add_desc(STOCK_STREAM)
+
+    def transform(self, data, **kwargs):
+        """Same as base class but with relevant presets and multiplying by
+        100 for aesthetic purposes
+        """
+        data = super().transform(data, **kwargs)
+
+        col_names = self._cols if self._cols is not None \
+            else data.columns.to_list()
+
+        new_col_names = process_new_colnames(col_names, self._new_cols)
+
+        data.loc(axis=1)[new_col_names] = \
+            data[col_names].apply(lambda x: x * 100)
+
+        return data
+
+
+class Rolling(Pipe):
+    """Apply rolling function to columns
+
+    Attributes:
+        _rolling_func (callable): function to be performed on a window.
+        _window (int): size of the rolling window
+    """
+
+    _rolling_func: Callable
+    _window: int
+
+    def __init__(self,
+                 window=2,
+                 rolling_func=lambda x: x,
+                 cols=None,
+                 new_cols=None):
+        """Initialize instance
+
+        Args:
+            window (int): rolling window size.
+            rolling_func (callable): function to apply to rolling window.
+            cols, new_cols: See base class.
+
+        Raise:
+            ValueError: See base class
+        """
+
+        super().__init__()
+
+        self._source\
+            .add_desc(IS_PD_DF())\
+            .add_desc(HAS_COLS(cols))
+
+        self._window = window
+
+        # TODO: Place additional checks on these
+        self._rolling_func = rolling_func
+
+        self._cols = process_cols(cols)
+
+        if isinstance(new_cols, list) and len(new_cols) != len(self._cols):
+            raise ValueError(f"argument new_cols must either be a string or\
+                a list with {len(self._cols)} elements")
+
+        self._new_cols = new_cols
+
+    def transform(self, data, **kwargs):
+        """Apply rolling transformation to sourced data"""
+
+        data = data.copy()
+
+        col_names = self._cols if self._cols is not None \
+            else data.columns.to_list()
+
+        new_col_names = process_new_colnames(col_names, self._new_cols)
+
+        data.loc(axis=1)[new_col_names] = \
+            data[col_names]\
+            .rolling(window=self._window)\
+            .apply(self._rolling_func)
+
+        return data
+
+    def copy(self, *args, **kwargs):
+        return super().copy(
+            *args,
+            window=self._window,
+            rolling_func=self._rolling_func,
+            **kwargs
+        )
+
+
+class Index(Pipe):
+    """Index data at a specified value
+
+    Attributes:
+        index_at (int, float): value to index data at
+        _cols (list): columns to index
+        _groupby (list): columns to group data by
+    """
+
+    index_at: int
+    _cols: List[str]
+    _groupby: List[str]
+
+    def __init__(self, index_at, cols=None, groupby=None):
+        """Initialize instance
+
+        Source must be a pandas time-series dataframe
+
+        Args:
+            See attributes
+        """
+        super().__init__()
+
+        self._source\
+            .add_desc(IS_PD_TS())\
+            .add_desc(IS_PD_DF())
+
+        self.index_at = index_at
+        self._cols = process_cols(cols)
+        self._groupby = process_cols(groupby)
+
+    def transform(self, data, **kwargs):
+        """Perform indexing"""
+
+        cols_to_change = self._cols if self._cols is not None \
+            else data.columns.to_list()
+
+        if self._groupby is None:
+            data.loc(axis=1)[cols_to_change] = \
+                    data[cols_to_change].transform(index_cols, i=self.index_at)
+        else:
+            data[cols_to_change] = \
+                    data[cols_to_change + self._groupby]\
+                    .groupby(self._groupby)\
+                    .transform(index_cols, i=self.index_at)
+
+        return data
+
+    def copy(self, *args, **kwargs):
+        return super().copy(
+            self.index_at,
+            *args,
+            cols=self._cols,
+            groupby=self._groupby,
+            **kwargs
+        )
+
+
+class Period(Pipe):
+    """Resample input time series data to a different period
+
+    Attributes:
+        agg_func (callable): function to aggregate data to one period.
+            Default set to np.mean.
+        _period (str): period to resample data to. Can be either daily,
+            monthly, quarterly or yearly.
+    """
+
+    agg_func: Callable[[Iterable], Any]
+    _period: str
+
+    def __init__(self, period=None, agg_func=np.mean):
+        """Initialize instance.
+
+        Describes source data as a time series.
+        Check that provided period is valid to some preset standards.
+
+        Raises:
+            TypeError: if aggregation function is not callable.
+        """
+        super().__init__()
+
+        self._source\
+            .add_desc(IS_PD_TS())
+
+        if period is None:
+            raise NameError("Please specify a period or use Period subclasses\
+                    instead")
+
+        if not isinstance(period, str):
+            raise TypeError("Argument period must be of type string")
+
+        if period.upper() in ["DAILY", "DAY"]:
+            self._period = "D"
+        elif period.upper() in ["MONTHLY", "MONTH"]:
+            self._period = "M"
+        elif period.upper() in ["QUARTERLY", "QUARTER"]:
+            self._period = "Q"
+        elif period.upper() in ["YEARLY", "YEAR"]:
+            self._period = "Y"
+        else:
+            self._period = period
+
+        if not callable(agg_func):
+            raise TypeError("Argument agg_func must be callable")
+
+        self.agg_func = agg_func
+
+    def transform(self, data, **kwargs):
+        """Apply data resampling"""
+        return data.resample(self._period).apply(self.agg_func)
+
+    def copy(self, *args, **kwargs):
+        return super().copy(
+            *args,
+            period=self._period,
+            agg_func=self.agg_func,
+            **kwargs
+        )
+
+
+class Bin(Custom):
     """A pipeline stage that adds a binned version of a column or columns.
 
     If drop is set to True the new columns retain the names of the source
     columns; otherwise, the resulting column gain the suffix '_bin'
 
-    Parameters
-    ----------
-    bin_map : dict
-        Maps column labels to bin arrays. The bin array is interpreted as
-        containing start points of consecutive bins, except for the final
-        point, assumed to be the end point of the last bin. Additionally, a
-        bin array implicitly projects a left-most bin containing all elements
-        smaller than the left-most end point and a right-most bin containing
-        all elements larger that the right-most end point. For example, the
-        list [0, 5, 8] is interpreted as the bins (-∞, 0),
-        [0-5), [5-8) and [8, ∞).
-    drop : bool, default True
-        If set to True, the source columns are dropped after being binned.
+    Attributes:
+        bin_map (array-like): implicitly projects a left-most bin containing
+            all elements smaller than the left-most end point and a right-most
+            bin containing all elements larger that the right-most end point.
+            For example, the list [0, 5, 8] is interpreted as
+            the bins (-∞, 0), [0-5), [5-8) and [8, ∞).
 
-    Example
-    -------
+    Example:
         >>> import pandas as pd; import pdpipe as pdp;
         >>> df = pd.DataFrame([[-3],[4],[5], [9]], [1,2,3, 4], ['speed'])
         >>> pdp.Bin({'speed': [5]}, drop=False).apply(df)
@@ -56,200 +386,44 @@ class Bin(_ColMapSelection):
         4      9        8≤
     """
 
-    def __init__(self, bin_map, level=None, drop=True):
-        super().__init__(bin_map, level=level)
-        self._drop = drop
+    def __init__(self,
+                 bin_map,
+                 *args,
+                 columns=None,
+                 new_cols=None,
+                 drop=True,
+                 replace=False,
+                 **kwargs):
 
-    def transform(self, data, **kwargs):
-
-        inter_df = data.copy()
-        _, levels = self._extract_col_names(data, filter_cols=False)
-
-        for colname in self._cols:
-
-            new_col = self._extract_col(inter_df, colname)\
-                    .transform(pd.cut, axis=1, bins=(self._map_dict[colname]))
-
-            if self._drop:
-                self._insert_col(inter_df, new_col, colname)
-            else:
-                new_name = colname + "_bin"
-
-                if self._level is not None:
-                    levels[self._level] = [new_name]
-                    new_col.columns = pd.MultiIndex.from_product(
-                        list(levels.values()))
-                else:
-                    new_col.colname = new_name
-
-                inter_df = self._add_col(inter_df, new_col)
-
-        return inter_df
+        super().__init__(
+            self,
+            lambda col: col.transform(
+                pd.cut,
+                axis=1,
+                bins=bin_map,
+                args=args,
+                **kwargs
+            ),
+            columns,
+            new_cols=new_cols,
+            strategy="apply",
+            axis=0,
+            drop=drop,
+            replace=replace
+        )
 
 
-class OneHotEncode(_ColSelection):
-    """A pipeline stage that one-hot-encodes categorical columns.
-
-    By default only k-1 dummies are created fo k categorical levels, as to
-    avoid perfect multicollinearity between the dummy features (also called
-    the dummy variabletrap). This is done since features are usually one-hot
-    encoded for use with linear models, which require this behaviour.
-
-    Parameters
-    ----------
-    columns : single label or list-like, default None
-        Column labels in the DataFrame to be encoded. If columns is None then
-        all the columns with object or category dtype will be converted, except
-        those given in the exclude_columns parameter.
-    dummy_na : bool, default False
-        Add a column to indicate NaNs, if False NaNs are ignored.
-    exclude_columns : str or list-like, default None
-        Name or names of categorical columns to be excluded from encoding
-        when the columns parameter is not given. If None no column is excluded.
-        Ignored if the columns parameter is given.
-    col_subset : bool, default False
-        If set to True, and only a subset of given columns is found, they are
-        encoded (if the missing columns are encoutered after the stage is
-        fitted they will be ignored). Otherwise, the stage will fail on the
-        precondition requiring all given columns are in input dataframes.
-    drop_first : bool or single label, default True
-        Whether to get k-1 dummies out of k categorical levels by removing the
-        first level. If a non bool argument matching one of the categories is
-        provided, the dummy column corresponding to this value is dropped
-        instead of the first level; if it matches no category the first
-        category will still be dropped.
-    drop : bool, default True
-        If set to True, the source columns are dropped after being encoded.
-
-    Example
-    -------
-        >>> import pandas as pd; import pdpipe as pdp;
-        >>> df = pd.DataFrame([['USA'], ['UK'], ['Greece']], [1,2,3], ['Born'])
-        >>> pdp.OneHotEncode().apply(df)
-           Born_UK  Born_USA
-        1        0         1
-        2        1         0
-        3        0         0
-    """
-
-    class _FitterEncoder:
-        def __init__(self, col_name, dummy_columns):
-            self.col_name = col_name
-            self.dummy_columns = dummy_columns
-
-        def __call__(self, value):
-            this_dummy = "{}_{}".format(self.col_name, value)
-            return pd.Series(
-                data=[
-                    int(this_dummy == dummy_col)
-                    for dummy_col in self.dummy_columns
-                ],
-                index=self.dummy_columns,
-            )
-
-    def __init__(
-        self,
-        columns=None,
-        level=None,
-        dummy_na=False,
-        exclude_columns=None,
-        col_subset=False,
-        drop_first=True,
-        drop=True,
-        **kwargs
-    ):
-        super().__init__(columns, level=level)
-
-        if self._level is not None:
-            # this operation will change datafram shapes, which means that it
-            # can only be performed on the last level of an index
-            self._source\
-                .add_desc(HAS_LEVELS(level, axis=1, comparisson="=="))
-
-        self._dummy_na = dummy_na
-
-        if exclude_columns is None:
-            self._exclude_columns = []
-        else:
-            self._exclude_columns = process_cols(exclude_columns)
-
-        self._col_subset = col_subset
-        self._drop_first = drop_first
-        self._drop = drop
-
-    def transform(self, data, **kwargs):
-
-        inter_df = data.copy()
-
-        columns_to_encode, levels = \
-            self._extract_col_names(data, filter_cols=False)
-        
-        # TODO: standardize exclusion mechanics
-        if self._cols is None:
-            columns_to_encode = list(
-                set(
-                    data.select_dtypes(include=["object", "category"]).columns
-                ).difference(self._exclude_columns)
-            )
-
-        if self._col_subset:
-            columns_to_encode = [
-                x for x in columns_to_encode if x in data.columns
-            ]
-
-        for colname in columns_to_encode:
-
-            new_col = pd.get_dummies(
-                self._extract_col(inter_df, colname),
-                columns=colname,
-                drop_first=self._drop_first,
-                dummy_na=self._dummy_na,
-                prefix=colname,
-                prefix_sep="_",
-            )
-
-            if self._drop:
-                self._insert_col(inter_df, new_col, colname)
-            else:
-                new_name = colname + "_dummy"
-
-                if self._level is not None:
-                    levels[self._level] = [new_name]
-                    new_col.columns = pd.MultiIndex.from_product(
-                        list(levels.values()))
-                else:
-                    new_col.colname = new_name
-
-                inter_df = self._add_col(inter_df, new_col)
-
-        return inter_df
-
-
-class MapColVals(_ColValSelection):
+class MapColVals(Custom):
     """A pipeline stage that replaces the values of a column by a map.
 
-    Parameters
-    ----------
-    columns : single label or list-like
-        Column labels in the DataFrame to be mapped.
-    value_map : dict, function or pandas.Series
-        A dictionary mapping existing values to new ones. Values not in the
-        dictionary as keys will be converted to NaN. If a function is given, it
-        is applied element-wise to given columns. If a Series is given, values
-        are mapped by its index to its values.
-    result_columns : single label or list-like, default None
-        Labels for the new columns resulting from the mapping operation. Must
-        be of the same length as columns. If None, behavior depends on the
-        drop parameter: If drop is True, then the label of the source column is
-        used; otherwise, the label of the source column is used with the suffix
-        '_map'.
-    drop : bool, default True
-        If set to True, source columns are dropped after being mapped.
-    suffix : str, default '_map'
-        The suffix mapped columns gain if no new column labels are given.
+    Attributes:
+        value_map (dict, function or pandas.Series): A dictionary mapping
+            existing values to new ones. Values not in the dictionary as keys
+            will be converted to NaN. If a function is given, it is applied
+            element-wise to given columns. If a Series is given, values are
+            mapped by its index to its values.
 
-    Example
-    -------
+    Example:
         >>> import pandas as pd; import pdpipe as pdp;
         >>> df = pd.DataFrame([[1], [3], [2]], ['UK', 'USSR', 'US'], ['Medal'])
         >>> value_map = {1: 'Gold', 2: 'Silver', 3: 'Bronze'}
@@ -260,189 +434,39 @@ class MapColVals(_ColValSelection):
         US    Silver
     """
 
-    def __init__(
-        self,
-        columns,
-        value_map,
-        result_columns=None,
-        drop=True,
-        suffix=None,
-    ):
-        super().__init__(columns, value_map)
+    def __init__(self,
+                 value_map,
+                 *args,
+                 columns=None,
+                 new_cols=None,
+                 drop=True,
+                 replace=False,
+                 **kwargs):
 
-        if suffix is None:
-            suffix = "_map"
-        self.suffix = suffix
-
-        if result_columns is None:
-            if drop:
-                self._result_columns = self._cols
-            else:
-                self._result_columns = [
-                    col + self.suffix for col in self._cols
-                ]
-        else:
-            self._result_columns = process_cols(result_columns)
-            if len(self._result_columns) != len(self._cols):
-                raise ValueError(
-                    "columns and result_columns parameters must"
-                    " be string lists of the same length!"
-                )
-
-        self._drop = drop
-
-    def transform(self, data, verbose):
-
-        inter_df = data.copy()
-        _, levels = self._extract_col_names(data, filter_cols=False)
-
-        for colname in self._cols:
-
-            new_col = self._extract_col(inter_df, colname)\
-                    .transform(lambda x: x.map(self._values), axis=1)
-
-            if self._drop:
-                self._insert_col(inter_df, new_col, colname)
-            else:
-                new_name = colname + "_map"
-
-                if self._level is not None:
-                    levels[self._level] = [new_name]
-                    new_col.columns = pd.MultiIndex.from_product(
-                        list(levels.values()))
-                else:
-                    new_col.colname = new_name
-
-                inter_df = self._add_col(inter_df, new_col)
-
-        return inter_df
-
-class ApplyToRows(Pipe):
-    """A pipeline stage generating columns by applying a function to each row.
-
-    Parameters
-    ----------
-    func : function
-        The function to be applied to each row of the processed DataFrame.
-    colname : single label, default None
-        The label of the new column resulting from the function application. If
-        None, 'new_col' is used. Ignored if a DataFrame is generated by the
-        function (i.e. each row generates a Series rather than a value), in
-        which case the laebl of each column in the resulting DataFrame is used.
-    follow_column : str, default None
-        Resulting columns will be inserted after this column. If None, new
-        columns are inserted at the end of the processed DataFrame.
-
-    Example
-    -------
-        >>> import pandas as pd; import pdpipe as pdp;
-        >>> data = [[3, 2143], [10, 1321], [7, 1255]]
-        >>> df = pd.DataFrame(data, [1,2,3], ['years', 'avg_revenue'])
-        >>> total_rev = lambda row: row['years'] * row['avg_revenue']
-        >>> add_total_rev = pdp.ApplyToRows(total_rev, 'total_revenue')
-        >>> add_total_rev(df)
-           years  avg_revenue  total_revenue
-        1      3         2143           6429
-        2     10         1321          13210
-        3      7         1255           8785
-        >>> def halfer(row):
-        ...     new = {'year/2': row['years']/2, 'rev/2': row['avg_revenue']/2}
-        ...     return pd.Series(new)
-        >>> half_cols = pdp.ApplyToRows(halfer, follow_column='years')
-        >>> half_cols(df)
-           years   rev/2  year/2  avg_revenue
-        1      3  1071.5     1.5         2143
-        2     10   660.5     5.0         1321
-        3      7   627.5     3.5         1255
-    """
-
-    def __init__(
-        self,
-        func,
-        colname=None,
-        follow_column=None,
-        **kwargs
-    ):
-        super().__init__()
-
-        self._func = func
-        self._colname = colname if colname is not None else "new_col"
-        self._follow_column = follow_column
-
-    def transform(self, data, **kwargs):
-
-        new_cols = data.apply(self._func, axis=1)
-
-        if isinstance(new_cols, pd.Series):
-            loc = len(data.columns)
-
-            if self._follow_column:
-                loc = data.columns.get_loc(self._follow_column) + 1
-
-            return out_of_place_col_insert(
-                df=data,
-                series=new_cols,
-                loc=loc,
-                column_name=self._colname
-            )
-
-        elif isinstance(new_cols, pd.DataFrame):
-
-            sorted_cols = sorted(list(new_cols.columns))
-            new_cols = new_cols[sorted_cols]
-
-            if self._follow_column:
-
-                inter_df = data
-                loc = data.columns.get_loc(self._follow_column) + 1
-
-                for colname in new_cols.columns:
-                    inter_df = out_of_place_col_insert(
-                        df=inter_df,
-                        series=new_cols[colname],
-                        loc=loc,
-                        column_name=colname,
-                    )
-                    loc += 1
-
-                return inter_df
-
-            assign_map = {
-                colname: new_cols[colname] for colname in new_cols.columns
-            }
-
-            return data.assign(**assign_map)
-
-        raise TypeError(  # pragma: no cover
-            "Unexpected type generated by applying a function to a DataFrame."
-            " Only Series and DataFrame are allowed."
+        super().__init__(
+            self,
+            lambda col: col.map(
+                value_map,
+                *args,
+                **kwargs
+            ),
+            columns,
+            new_cols=new_cols,
+            strategy="apply",
+            axis=0,
+            drop=drop,
+            replace=replace
         )
 
 
-class ApplyByCols(_ColSelection):
+class ApplyByCols(Custom):
     """A pipeline stage applying an element-wise function to columns.
 
-    Parameters
-    ----------
-    columns : str or list-like
-        Names of columns on which to apply the given function.
-    func : function
-        The function to be applied to each element of the given columns.
-    result_columns : str or list-like, default None
-        The names of the new columns resulting from the mapping operation. Must
-        be of the same length as columns. If None, behavior depends on the
-        drop parameter: If drop is True, the name of the source column is used;
-        otherwise, the name of the source column is used with the suffix
-        '_app'.
-    drop : bool, default True
-        If set to True, source columns are dropped after being mapped.
-    func_desc : str, default None
-        A function description of the given function; e.g. 'normalizing revenue
-        by company size'. A default description is used if None is given.
+    Attributes:
+        func (function): The function to be applied to each element of the
+            given columns.
 
-
-    Example
-    -------
+    Example:
         >>> import pandas as pd; import pdpipe as pdp; import math;
         >>> data = [[3.2, "acd"], [7.2, "alk"], [12.1, "alk"]]
         >>> df = pd.DataFrame(data, [1,2,3], ["ph","lbl"])
@@ -453,150 +477,39 @@ class ApplyByCols(_ColSelection):
         2   8  alk
         3  13  alk
     """
+    def __init__(self,
+                 func,
+                 *args,
+                 columns=None,
+                 new_cols=None,
+                 drop=True,
+                 replace=False,
+                 **kwargs):
 
-    def __init__(
-        self,
-        columns,
-        func,
-        result_columns=None,
-        drop=True,
-        **kwargs
-    ):
-        super().__init__(columns)
-
-        self._func = func
-
-        if result_columns is None:
-            if drop:
-                self._result_columns = self._cols
-            else:
-                self._result_columns = [col + "_app" for col in self._cols]
-        else:
-            self._result_columns = process_cols(result_columns)
-
-            if len(self._result_columns) != len(self._cols):
-                raise ValueError(
-                    "columns and result_columns parameters must"
-                    " be string lists of the same length!"
-                )
-
-        self._drop = drop
-
-    def transform(self, data, **kwargs):
-
-        inter_df = data
-
-        for i, colname in enumerate(self._cols):
-
-            source_col = data[colname]
-            loc = data.columns.get_loc(colname) + 1
-            new_name = self._result_columns[i]
-
-            if self._drop:
-                inter_df = inter_df.drop(colname, axis=1)
-                loc -= 1
-
-            inter_df = out_of_place_col_insert(
-                df=inter_df,
-                series=source_col.apply(self._func),
-                loc=loc,
-                column_name=new_name,
-            )
-
-        return inter_df
-
-
-class ColByFrameFunc(Pipe):
-    """A pipeline stage adding a column by applying a dataframw-wide function.
-
-    Parameters
-    ----------
-    column : str
-        The name of the resulting column.
-    func : function
-        The function to be applied to the input dataframe. The function should
-        return a pandas.Series object.
-    follow_column : str, default None
-        Resulting columns will be inserted after this column. If None, new
-        columns are inserted at the end of the processed DataFrame.
-
-    Example
-    -------
-        >>> import pandas as pd; import pdpipe as pdp;
-        >>> data = [[3, 3], [2, 4], [1, 5]]
-        >>> df = pd.DataFrame(data, [1,2,3], ["A","B"])
-        >>> func = lambda df: df['A'] == df['B']
-        >>> add_equal = pdp.ColByFrameFunc("A==B", func)
-        >>> add_equal(df)
-           A  B   A==B
-        1  3  3   True
-        2  2  4  False
-        3  1  5  False
-    """
-
-    def __init__(
-        self,
-        column,
-        func,
-        follow_column=None,
-        **kwargs
-    ):
-        super().__init__()
-        self._cols = column
-
-        self._func = func
-        self._follow_column = follow_column
-
-    def transform(self, data, **kwargs):
-        inter_df = data
-
-        try:
-            new_col = self._func(data)
-        except Exception:
-            raise RuntimeError(
-                "Exception raised applying function{} to dataframe.".format(
-                    self._func_desc
-                )
-            )
-
-        if self._follow_column:
-            loc = data.columns.get_loc(self._follow_column) + 1
-        else:
-            loc = len(data.columns)
-
-        inter_df = out_of_place_col_insert(
-            df=inter_df,
-            series=new_col,
-            loc=loc,
-            column_name=self._column
+        super().__init__(
+            self,
+            lambda col: col.apply(
+                func,
+                axis=0,
+                args=args,
+                **kwargs
+            ),
+            columns,
+            new_cols=new_cols,
+            strategy="apply",
+            axis=0,
+            drop=drop,
+            replace=replace
         )
 
-        return inter_df
 
-
-class AggByCols(_ColSelection):
+class AggByCols(Custom):
     """A pipeline stage applying a series-wise function to columns.
 
-    Parameters
+    Attributes:
     ----------
-    columns : str or list-like
-        Names of columns on which to apply the given function.
     func : function
         The function to be applied to each element of the given columns.
-    result_columns : str or list-like, default None
-        The names of the new columns resulting from the mapping operation. Must
-        be of the same length as columns. If None, behavior depends on the
-        drop parameter: If drop is True, the name of the source column is used;
-        otherwise, the name of the source column is used with a defined suffix.
-    drop : bool, default True
-        If set to True, source columns are dropped after being mapped.
-    func_desc : str, default None
-        A function description of the given function; e.g. 'normalizing revenue
-        by company size'. A default description is used if None is given.
-    suffix : str, optional
-        The suffix to add to resulting columns in case where results_columns
-        is None and drop is set to False. Of not given, defaults to '_agg'.
-
 
     Example
     -------
@@ -610,87 +523,44 @@ class AggByCols(_ColSelection):
         2  1.974081  alk
         3  2.493205  alk
     """
+    def __init__(self,
+                 func,
+                 *args,
+                 columns=None,
+                 new_cols=None,
+                 drop=True,
+                 replace=False,
+                 **kwargs):
 
-    def __init__(
-        self,
-        columns,
-        func,
-        result_columns=None,
-        drop=True,
-        suffix=None,
-        **kwargs
-    ):
-        super.__init__(columns)
-        # TODO: deal with simplifying suffix additions
-        self._suffix = suffix if suffix is not None else "_agg"
-        self._func = func
-
-        if result_columns is None:
-            if drop:
-                self._result_columns = self._cols
-            else:
-                self._result_columns = [col + suffix for col in self._cols]
-        else:
-            self._result_columns = process_cols(result_columns)
-            if len(self._result_columns) != len(self._cols):
-                raise ValueError(
-                    "columns and result_columns parameters must"
-                    " be string lists of the same length!"
-                )
-
-        self._drop = drop
-
-    def transform(self, data, **kwargs):
-
-        inter_df = data
-
-        for i, colname in enumerate(self._cols):
-
-            source_col = data[colname]
-            loc = data.columns.get_loc(colname) + 1
-            new_name = self._result_columns[i]
-
-            if self._drop:
-                inter_df = inter_df.drop(colname, axis=1)
-                loc -= 1
-
-            inter_df = out_of_place_col_insert(
-                df=inter_df,
-                series=source_col.agg(self._func),
-                loc=loc,
-                column_name=new_name,
-            )
-
-        return inter_df
+        super().__init__(
+            self,
+            lambda col: col.agg(
+                func,
+                *args,
+                **kwargs
+            ),
+            columns,
+            new_cols=new_cols,
+            strategy="apply",
+            axis=0,
+            drop=drop,
+            replace=replace
+        )
 
 
-class Log(_ColSelection):
+class Log(Custom):
     """A pipeline stage that log-transforms numeric data.
 
-    Parameters
-    ----------
-    columns : str or list-like, default None
-        Column names in the DataFrame to be encoded. If columns is None then
-        all the columns with a numeric dtype will be transformed, except those
-        given in the exclude_columns parameter.
-    exclude : str or list-like, default None
-        Name or names of numeric columns to be excluded from log-transforming
-        when the columns parameter is not given. If None no column is excluded.
-        Ignored if the columns parameter is given.
-    drop : bool, default False
-        If set to True, the source columns are dropped after being encoded,
-        and the resulting encoded columns retain the names of the source
-        columns. Otherwise, encoded columns gain the suffix '_log'.
-    non_neg : bool, default False
-        If True, each transformed column is first shifted by smallest negative
-        value it includes (non-negative columns are thus not shifted).
-    const_shift : int, optional
-        If given, each transformed column is first shifted by this constant. If
-        non_neg is True then that transformation is applied first, and only
-        then is the column shifted by this constant.
+    Attributes:
+        non_neg (bool, default False): If True, each transformed column is
+            first shifted by smallest negative value it includes
+            (non-negative columns are thus not shifted).
+        const_shift (int, optional): If given, each transformed column is
+            first shifted by this constant. If non_neg is True then that
+            transformation is applied first, and only then is the column
+            shifted by this constant.
 
-    Example
-    -------
+    Example:
         >>> import pandas as pd; import pdpipe as pdp;
         >>> data = [[3.2, "acd"], [7.2, "alk"], [12.1, "alk"]]
         >>> df = pd.DataFrame(data, [1,2,3], ["ph","lbl"])
@@ -702,71 +572,44 @@ class Log(_ColSelection):
         3  2.493205  alk
     """
 
-    def __init__(
-        self,
-        columns=None,
-        exclude=None,
-        drop=False,
-        non_neg=False,
-        const_shift=None,
-        **kwargs
-    ):
-        super().__init__(columns)
+    @staticmethod
+    def _cust_log(data, *args, non_neg=False, const_shift=None, **kwargs):
 
-        self._exclude = process_cols(exclude) if exclude is not None else []
-        self._drop = drop
-        self._non_neg = non_neg
-        self._const_shift = const_shift
-        self._col_to_minval = {}
+        if non_neg:
+            minval = min(data)
+            if minval < 0:
+                data = data + abs(minval)
 
-    def transform(self, data, **kwargs):
-        columns_to_transform = self._cols
+        # must check not None as neg numbers eval to False
+        if const_shift is not None:
+            data = data + const_shift
 
-        if self._cols is None:
-            columns_to_transform = get_numeric_column_names(data)
+        np.log(data, *args, **kwargs)
 
-        columns_to_transform = list(
-            set(columns_to_transform).difference(self._exclude)
+    def __init__(self,
+                 *args,
+                 columns=None,
+                 new_cols=None,
+                 non_neg=False,
+                 const_shift=None,
+                 drop=True,
+                 replace=False,
+                 **kwargs):
+
+        super().__init__(
+            self,
+            lambda col: col.apply(
+                Log._cust_log,
+                axis=0,
+                non_neg=non_neg,
+                const_shift=const_shift,
+                args=args,
+                **kwargs
+            ),
+            columns,
+            new_cols=new_cols,
+            strategy="apply",
+            axis=0,
+            drop=drop,
+            replace=replace
         )
-
-        inter_df = data
-
-        for colname in columns_to_transform:
-
-            source_col = data[colname]
-            loc = data.columns.get_loc(colname) + 1
-            new_name = colname + "_log"
-
-            if self._drop:
-                inter_df = inter_df.drop(colname, axis=1)
-                new_name = colname
-                loc -= 1
-
-            new_col = source_col
-
-            if self._non_neg:
-                minval = min(new_col)
-                if minval < 0:
-                    new_col = new_col + abs(minval)
-                    self._col_to_minval[colname] = abs(minval)
-
-            # must check not None as neg numbers eval to False
-            if self._const_shift is not None:
-                new_col = new_col + self._const_shift
-
-            new_col = np.log(new_col)
-
-            inter_df = out_of_place_col_insert(
-                df=inter_df,
-                series=new_col,
-                loc=loc,
-                column_name=new_name
-            )
-
-        return inter_df
-
-# TODO create copy functions
-# TODO create better _ColSelection subclasses and simplify initialization
-# of these
-# TODO exclude fitting attributes
-# TODO simplify transformation processes (many repeated steps as it is)

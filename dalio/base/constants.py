@@ -1,4 +1,11 @@
-'''Define constant terms'''
+"""Define constant terms
+
+In order to maintain name integrity throughout graphs, constants are used 
+instead of any string name for variables that were created or will be usued in
+any _Transformer instance before or after the current one. These are often 
+column names for pandas DataFrames, though can be anything that is or will be
+used to identify data throughout the graph.
+"""
 
 ADJ_CLOSE = "adj_close"
 ATTRIBUTE = "attribute"

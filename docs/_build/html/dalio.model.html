@@ -1,0 +1,445 @@
+
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta charset="utf-8" />
+    <title>dalio.model package &#8212; Dal-io 0.1.1 documentation</title>
+    <link rel="stylesheet" href="_static/sphinxdoc.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <script id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+    <script src="_static/jquery.js"></script>
+    <script src="_static/underscore.js"></script>
+    <script src="_static/doctools.js"></script>
+    <script src="_static/language_data.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="dalio.application package" href="dalio.application.html" />
+    <link rel="prev" title="dalio.pipe package" href="dalio.pipe.html" /> 
+  </head><body>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="dalio.application.html" title="dalio.application package"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="dalio.pipe.html" title="dalio.pipe package"
+             accesskey="P">previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="index.html">Dal-io 0.1.1 documentation</a> &#187;</li> 
+      </ul>
+    </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+            <p class="logo"><a href="index.html">
+              <img class="logo" src="_static/logo.png" alt="Logo"/>
+            </a></p>
+  <h3><a href="index.html">Table of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">dalio.model package</a><ul>
+<li><a class="reference internal" href="#submodules">Submodules</a></li>
+<li><a class="reference internal" href="#module-dalio.model.financial">dalio.model.financial</a></li>
+<li><a class="reference internal" href="#module-dalio.model.model">dalio.model.model</a></li>
+</ul>
+</li>
+</ul>
+
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="dalio.pipe.html"
+                        title="previous chapter">dalio.pipe package</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="dalio.application.html"
+                        title="next chapter">dalio.application package</a></p>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="_sources/dalio.model.rst.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" />
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script>$('#searchbox').show(0);</script>
+        </div>
+      </div>
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="dalio-model-package">
+<h1>dalio.model package<a class="headerlink" href="#dalio-model-package" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="submodules">
+<h2>Submodules<a class="headerlink" href="#submodules" title="Permalink to this headline">¶</a></h2>
+</div>
+<div class="section" id="module-dalio.model.financial">
+<span id="dalio-model-financial"></span><h2>dalio.model.financial<a class="headerlink" href="#module-dalio.model.financial" title="Permalink to this headline">¶</a></h2>
+<p>Define comps analysis models</p>
+<dl class="class">
+<dt id="dalio.model.financial.CompsData">
+<em class="property">class </em><code class="sig-prename descclassname">dalio.model.financial.</code><code class="sig-name descname">CompsData</code><a class="headerlink" href="#dalio.model.financial.CompsData" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#dalio.model.model.Model" title="dalio.model.model.Model"><code class="xref py py-class docutils literal notranslate"><span class="pre">dalio.model.model.Model</span></code></a></p>
+<p>Get a ticker’s comps and their data.</p>
+<p>This model has two sources: comps_in and data_in. comps_in gets a
+ticker’s comparative stocks. data_in sources ticker data given a “TICKER”
+keyword argument.</p>
+<dl class="method">
+<dt id="dalio.model.financial.CompsData.run">
+<code class="sig-name descname">run</code><span class="sig-paren">(</span><em class="sig-param">**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#dalio.model.financial.CompsData.run" title="Permalink to this definition">¶</a></dt>
+<dd><p>Run model.</p>
+<p>This will be the bulk of subclass functionality. It is where all
+data is sourced and processed.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="dalio.model.financial.CompsFinancials">
+<em class="property">class </em><code class="sig-prename descclassname">dalio.model.financial.</code><code class="sig-name descname">CompsFinancials</code><a class="headerlink" href="#dalio.model.financial.CompsFinancials" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#dalio.model.financial.CompsData" title="dalio.model.financial.CompsData"><code class="xref py py-class docutils literal notranslate"><span class="pre">dalio.model.financial.CompsData</span></code></a></p>
+<p>Subclass to CompsData for getting stock price information</p>
+</dd></dl>
+
+<dl class="class">
+<dt id="dalio.model.financial.CompsInfo">
+<em class="property">class </em><code class="sig-prename descclassname">dalio.model.financial.</code><code class="sig-name descname">CompsInfo</code><a class="headerlink" href="#dalio.model.financial.CompsInfo" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#dalio.model.financial.CompsData" title="dalio.model.financial.CompsData"><code class="xref py py-class docutils literal notranslate"><span class="pre">dalio.model.financial.CompsData</span></code></a></p>
+<p>Subclass to CompsData for getting comps stock information</p>
+</dd></dl>
+
+<dl class="class">
+<dt id="dalio.model.financial.MakeCriticalLine">
+<em class="property">class </em><code class="sig-prename descclassname">dalio.model.financial.</code><code class="sig-name descname">MakeCriticalLine</code><span class="sig-paren">(</span><em class="sig-param">weight_bounds=(-1</em>, <em class="sig-param">1)</em><span class="sig-paren">)</span><a class="headerlink" href="#dalio.model.financial.MakeCriticalLine" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#dalio.model.model.Model" title="dalio.model.model.Model"><code class="xref py py-class docutils literal notranslate"><span class="pre">dalio.model.model.Model</span></code></a></p>
+<p>Fit a critical line algorithm
+This model takes in two sources: sample_covariance and expected_returns.
+These are self-explanatory. The model calculates the algorithm for a set
+of weight bounds.
+.. attribute:: weight_bounds</p>
+<blockquote>
+<div><p>lower and upper bound for portfolio weights.</p>
+<dl class="field-list simple">
+<dt class="field-odd">type</dt>
+<dd class="field-odd"><p>tuple</p>
+</dd>
+</dl>
+</div></blockquote>
+<dl class="method">
+<dt id="dalio.model.financial.MakeCriticalLine.run">
+<code class="sig-name descname">run</code><span class="sig-paren">(</span><em class="sig-param">**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#dalio.model.financial.MakeCriticalLine.run" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get source data and create critical line algorithm</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="dalio.model.financial.MakeCriticalLine.weight_bounds">
+<code class="sig-name descname">weight_bounds</code><em class="property">: Tuple[int]</em><em class="property"> = None</em><a class="headerlink" href="#dalio.model.financial.MakeCriticalLine.weight_bounds" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="dalio.model.financial.MakeEfficientFrontier">
+<em class="property">class </em><code class="sig-prename descclassname">dalio.model.financial.</code><code class="sig-name descname">MakeEfficientFrontier</code><span class="sig-paren">(</span><em class="sig-param">weight_bounds=(0</em>, <em class="sig-param">1)</em>, <em class="sig-param">gamma=0</em><span class="sig-paren">)</span><a class="headerlink" href="#dalio.model.financial.MakeEfficientFrontier" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#dalio.model.financial.MakeCriticalLine" title="dalio.model.financial.MakeCriticalLine"><code class="xref py py-class docutils literal notranslate"><span class="pre">dalio.model.financial.MakeCriticalLine</span></code></a></p>
+<p>Make an efficient frontier algorithm.
+:param gamma: gamma optimization parameter.
+:type gamma: int</p>
+<dl class="method">
+<dt id="dalio.model.financial.MakeEfficientFrontier.add_constraint">
+<code class="sig-name descname">add_constraint</code><span class="sig-paren">(</span><em class="sig-param">new_constraint</em><span class="sig-paren">)</span><a class="headerlink" href="#dalio.model.financial.MakeEfficientFrontier.add_constraint" title="Permalink to this definition">¶</a></dt>
+<dd><p>Wrapper to PyPortfolioOpt BaseConvexOptimizer function
+Add a new constraint to the optimisation problem. This constraint must
+be linear and must be either an equality or simple inequality.
+:param new_constraint: the constraint to be added
+:type new_constraint: callable</p>
+<dl class="field-list simple">
+<dt class="field-odd">Raises</dt>
+<dd class="field-odd"><p><strong>AttributeError</strong> – if new objective is not callable.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="dalio.model.financial.MakeEfficientFrontier.add_objective">
+<code class="sig-name descname">add_objective</code><span class="sig-paren">(</span><em class="sig-param">new_objective</em>, <em class="sig-param">*args</em>, <em class="sig-param">**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#dalio.model.financial.MakeEfficientFrontier.add_objective" title="Permalink to this definition">¶</a></dt>
+<dd><p>Wrapper to PyPortfolioOpt BaseConvexOptimizer function
+Add a new term into the objective function. This term must be convex,
+and built from cvxpy atomic functions.
+:param new_objective: the objective to be added
+:type new_objective: cp.Expression</p>
+<dl class="field-list simple">
+<dt class="field-odd">Raises</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>ValueError</strong> – if the new objective is not supported.</p></li>
+<li><p><strong>AttributeError</strong> – if new objective is not callable.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="dalio.model.financial.MakeEfficientFrontier.add_sector_definitions">
+<code class="sig-name descname">add_sector_definitions</code><span class="sig-paren">(</span><em class="sig-param">sector_defs=None</em>, <em class="sig-param">**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#dalio.model.financial.MakeEfficientFrontier.add_sector_definitions" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="dalio.model.financial.MakeEfficientFrontier.add_sector_weight_constraint">
+<code class="sig-name descname">add_sector_weight_constraint</code><span class="sig-paren">(</span><em class="sig-param">sector=None</em>, <em class="sig-param">constraint='is'</em>, <em class="sig-param">weight=0.5</em><span class="sig-paren">)</span><a class="headerlink" href="#dalio.model.financial.MakeEfficientFrontier.add_sector_weight_constraint" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="dalio.model.financial.MakeEfficientFrontier.add_stock_weight_constraint">
+<code class="sig-name descname">add_stock_weight_constraint</code><span class="sig-paren">(</span><em class="sig-param">ticker=None</em>, <em class="sig-param">comparisson='is'</em>, <em class="sig-param">weight=0.5</em><span class="sig-paren">)</span><a class="headerlink" href="#dalio.model.financial.MakeEfficientFrontier.add_stock_weight_constraint" title="Permalink to this definition">¶</a></dt>
+<dd><p>Wrapper to add_constraint method. Adds constraing on a named
+ticker.
+This is a much more intuitive interface to add constraints, as these
+will often be stocks of an unknown order in a dataframe.
+:param ticker: stock ticker or location to be constrained.
+:type ticker: str, int
+:param comparisson: constraing comparisson.
+:type comparisson: str
+:param weight: weight to constrain.
+:type weight: float</p>
+<dl class="field-list simple">
+<dt class="field-odd">Raises</dt>
+<dd class="field-odd"><p><strong>TypeError</strong> – if any of the arguments are of an invalid type</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="dalio.model.financial.MakeEfficientFrontier.copy">
+<code class="sig-name descname">copy</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#dalio.model.financial.MakeEfficientFrontier.copy" title="Permalink to this definition">¶</a></dt>
+<dd><p>Copy superclass, objectives and constraints.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="dalio.model.financial.MakeEfficientFrontier.gamma">
+<code class="sig-name descname">gamma</code><em class="property">: int</em><em class="property"> = None</em><a class="headerlink" href="#dalio.model.financial.MakeEfficientFrontier.gamma" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="dalio.model.financial.MakeEfficientFrontier.run">
+<code class="sig-name descname">run</code><span class="sig-paren">(</span><em class="sig-param">**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#dalio.model.financial.MakeEfficientFrontier.run" title="Permalink to this definition">¶</a></dt>
+<dd><p>Make efficient frontier.
+Create efficient frontier given a set of weight constraints.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="dalio.model.financial.MakeEfficientFrontier.weight_bounds">
+<code class="sig-name descname">weight_bounds</code><em class="property">: Tuple[int]</em><em class="property"> = None</em><a class="headerlink" href="#dalio.model.financial.MakeEfficientFrontier.weight_bounds" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="dalio.model.financial.OptimumPortfolio">
+<em class="property">class </em><code class="sig-prename descclassname">dalio.model.financial.</code><code class="sig-name descname">OptimumPortfolio</code><a class="headerlink" href="#dalio.model.financial.OptimumPortfolio" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#dalio.model.model.Model" title="dalio.model.model.Model"><code class="xref py py-class docutils literal notranslate"><span class="pre">dalio.model.model.Model</span></code></a></p>
+<p>Create optimum portfolio of stocks given dictionary of weights.
+This model has two sources: weights_in and data_in. The weights_in source
+gets optimum weights for a set of tickers. The data_in source gets price
+data for these same tickers.</p>
+<dl class="method">
+<dt id="dalio.model.financial.OptimumPortfolio.run">
+<code class="sig-name descname">run</code><span class="sig-paren">(</span><em class="sig-param">**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#dalio.model.financial.OptimumPortfolio.run" title="Permalink to this definition">¶</a></dt>
+<dd><p>Gets weights and uses them to create portfolio prices if weights
+were kept constant.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="dalio.model.financial.OptimumWeights">
+<em class="property">class </em><code class="sig-prename descclassname">dalio.model.financial.</code><code class="sig-name descname">OptimumWeights</code><span class="sig-paren">(</span><em class="sig-param">weight_bounds=(0</em>, <em class="sig-param">1)</em>, <em class="sig-param">gamma=0</em><span class="sig-paren">)</span><a class="headerlink" href="#dalio.model.financial.OptimumWeights" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#dalio.model.financial.MakeEfficientFrontier" title="dalio.model.financial.MakeEfficientFrontier"><code class="xref py py-class docutils literal notranslate"><span class="pre">dalio.model.financial.MakeEfficientFrontier</span></code></a>, <code class="xref py py-class docutils literal notranslate"><span class="pre">dalio.base.builder._Builder</span></code></p>
+<p>Get optimum portfolio weights from an efficient frontier.
+This is also a builder with one piece: strategy. The strategy piece
+refers to the optimization strategy.</p>
+<dl class="method">
+<dt id="dalio.model.financial.OptimumWeights.build_model">
+<code class="sig-name descname">build_model</code><span class="sig-paren">(</span><em class="sig-param">data</em><span class="sig-paren">)</span><a class="headerlink" href="#dalio.model.financial.OptimumWeights.build_model" title="Permalink to this definition">¶</a></dt>
+<dd><p>Assemble pieces into a model given some data</p>
+<p>The data will opten be optional, but several builder models will
+require it to be fitted on initialization. Which further shows why
+builders are necessary for context-agnostic graphs.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>data</strong> – data that might be used to build the model.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="dalio.model.financial.OptimumWeights.check_name">
+<code class="sig-name descname">check_name</code><span class="sig-paren">(</span><em class="sig-param">param</em>, <em class="sig-param">name</em><span class="sig-paren">)</span><a class="headerlink" href="#dalio.model.financial.OptimumWeights.check_name" title="Permalink to this definition">¶</a></dt>
+<dd><p>Check if name and parameter combination is valid.</p>
+<p>This will always be called upon setting a new piece to ensure this
+piece is present dictionary and that the name is valid. Subclasses
+will often override this method to implement the name checks in
+accordance to their specific name parameter combination options.
+Notice that checks cannot be done on arguments before running the
+_Builder. This also can be called from outside of a _Builder instance
+to check for the validity of settings.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>piece</strong> (<em>str</em>) – name of the key in the piece dictionary.</p></li>
+<li><p><strong>name</strong> (<em>str</em>) – name option to be set to the piece.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="dalio.model.financial.OptimumWeights.gamma">
+<code class="sig-name descname">gamma</code><em class="property"> = None</em><a class="headerlink" href="#dalio.model.financial.OptimumWeights.gamma" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="dalio.model.financial.OptimumWeights.run">
+<code class="sig-name descname">run</code><span class="sig-paren">(</span><em class="sig-param">**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#dalio.model.financial.OptimumWeights.run" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get efficient frontier, fit it to model and get weights</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="dalio.model.financial.OptimumWeights.weight_bounds">
+<code class="sig-name descname">weight_bounds</code><em class="property"> = None</em><a class="headerlink" href="#dalio.model.financial.OptimumWeights.weight_bounds" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="module-dalio.model.model">
+<span id="dalio-model-model"></span><h2>dalio.model.model<a class="headerlink" href="#module-dalio.model.model" title="Permalink to this headline">¶</a></h2>
+<p>Define Model class</p>
+<p>Models are transformers that take in multiple inputs and has a single output.
+Model instance can be much more flexible with additional options for differen
+strategies of data processing and collection.</p>
+<dl class="class">
+<dt id="dalio.model.model.Model">
+<em class="property">class </em><code class="sig-prename descclassname">dalio.model.model.</code><code class="sig-name descname">Model</code><a class="headerlink" href="#dalio.model.model.Model" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">dalio.base.transformer._Transformer</span></code></p>
+<p>Models represent data modification with multiple internal inputs and a
+single internal output.</p>
+<dl class="attribute">
+<dt id="dalio.model.model.Model._source">
+<code class="sig-name descname">_source</code><a class="headerlink" href="#dalio.model.model.Model._source" title="Permalink to this definition">¶</a></dt>
+<dd><p>dictionary of input data definitions</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="dalio.model.model.Model.copy">
+<code class="sig-name descname">copy</code><span class="sig-paren">(</span><em class="sig-param">*args</em>, <em class="sig-param">**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#dalio.model.model.Model.copy" title="Permalink to this definition">¶</a></dt>
+<dd><p>Makes a copy of transformer, copying its attributes to a new
+instance.</p>
+<p>This copy should essentially create a new transformation node, not an
+entire new graph, so the _source attribute of the returned instance
+should be assigned without being copied. This is also made to be built
+upon by subclasses, such that only new attributes need to be added to
+a class’ copy method.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>*args</strong> – Positional arguments to be passed to initialize copy</p></li>
+<li><p><strong>**kwargs</strong> – Keyword arguments to be passed to initialize copy</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>A copy of this _Transformer instance with copies of necessary
+attributes and empty input.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="dalio.model.model.Model.run">
+<code class="sig-name descname">run</code><span class="sig-paren">(</span><em class="sig-param">**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#dalio.model.model.Model.run" title="Permalink to this definition">¶</a></dt>
+<dd><p>Run model.</p>
+<p>This will be the bulk of subclass functionality. It is where all
+data is sourced and processed.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="dalio.model.model.Model.set_input">
+<code class="sig-name descname">set_input</code><span class="sig-paren">(</span><em class="sig-param">source_name</em>, <em class="sig-param">new_input</em><span class="sig-paren">)</span><a class="headerlink" href="#dalio.model.model.Model.set_input" title="Permalink to this definition">¶</a></dt>
+<dd><p>Set a new connection to a data definition in dictionary entry
+matching the key name.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>source_name</strong> (<em>str</em>) – initialized item in sources dict.</p></li>
+<li><p><strong>new_input</strong> – new source connection.</p></li>
+</ul>
+</dd>
+</dl>
+<dl class="simple">
+<dt>Raise:</dt><dd><p>KeyError: if input name is not present in sources dict.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="dalio.model.model.Model.with_input">
+<code class="sig-name descname">with_input</code><span class="sig-paren">(</span><em class="sig-param">source_name</em>, <em class="sig-param">new_input</em><span class="sig-paren">)</span><a class="headerlink" href="#dalio.model.model.Model.with_input" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return a copy of this model with the specified data definition
+connection changed</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>source_name</strong> (<em>str</em>) – initialized item in sources dict.</p></li>
+<li><p><strong>new_input</strong> – new source connection.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="dalio.application.html" title="dalio.application package"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="dalio.pipe.html" title="dalio.pipe package"
+             >previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="index.html">Dal-io 0.1.1 documentation</a> &#187;</li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &#169; Copyright 2020, Renato Zimmermann.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 2.4.0.
+    </div>
+  </body>
+</html>
