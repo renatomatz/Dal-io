@@ -43,13 +43,13 @@ res = y_period.run(ticker=tickers)
 
 
 # Quandl Input
-q_api = QuandlAPI("/home/renatomz/Documents/Projects/Dal-io/dalio/external/config/quandl_config.json")
-q_api.authenticate()
+# q_api = QuandlAPI("/home/renatomz/Documents/Projects/Dal-io/dalio/external/config/quandl_config.json")
+# q_api.authenticate()
 
-q_sf1_in = QuandlSharadarSF1Translator()(q_api)
-q_tick_in = QuandlTickerInfoTranslator()(q_api)
+# q_sf1_in = QuandlSharadarSF1Translator()(q_api)
+# q_tick_in = QuandlTickerInfoTranslator()(q_api)
 
-tickers = ["MSFT", "AAPL", "IBM", "TSLA", "XOM", "BP", "JPM"]
+# tickers = ["MSFT", "AAPL", "IBM", "TSLA", "XOM", "BP", "JPM"]
 
 # q_data_raw = q_sf1_in.run(ticker=tickers)
 
@@ -89,18 +89,18 @@ tickers = ["MSFT", "AAPL", "IBM", "TSLA", "XOM", "BP", "JPM"]
 
 # q_comps_grapher.run(ticker=tickers)
 
-# adj_close_in = ColSelect(cols=("adj_close"))(y_in)
-# returns = StockReturns(cols="adj_close")(adj_close_in)
+adj_close_in = ColSelect(columns="adj_close")(y_in)
+returns = StockReturns(columns="adj_close")(adj_close_in)
 
 garch = MakeARCH()(returns)\
     .set_piece("mean", "ARX", lags=[1, 3, 12])\
     .set_piece("volatility", "ARCH", p=5)\
     .set_piece("distribution", "StudentsT")
 
-# am = garch.run(ticker="MSFT")
-# am.fit()
+am = garch.run(ticker="MSFT")
+am.fit()
 var = ValueAtRisk(quantiles=[0.1, 0.01, 0.05])(garch)
-# var_res = var.run(ticker="MSFT")
+var_res = var.run(ticker="MSFT")
 
 pyplot_grapher = PyPlotGraph()
 
@@ -108,16 +108,16 @@ var_graph = VaRGrapher()\
     .set_input("data_in", var)\
     .set_output("data_out", pyplot_grapher)
 
-# fig = var_graph.run(ticker="MSFT")
+fig = var_graph.run(ticker="MSFT")
 
-# S = CovShrink()(adj_close_in)
-# S.set_piece("shrinkage", "ledoit_wolf")
+S = CovShrink()(adj_close_in)
+S.set_piece("shrinkage", "ledoit_wolf")
 
 mu = ExpectedReturns()(adj_close_in)
 mu.set_piece("return_model", "mean_historical_return")
 
-# S_data = S.run(ticker=tickers)
-# mu_data = mu.run(ticker=tickers)
+S_data = S.run(ticker=tickers)
+mu_data = mu.run(ticker=tickers)
 
 port_ef = OptimumWeights()\
     .set_input("sample_covariance", S)\
@@ -137,46 +137,46 @@ opt_port = OptimumPortfolio()\
     .set_input("data_in", adj_close_in)\
     .set_input("weights_in", port_ef)
 
-# port = opt_port.run(ticker=tickers)
+port = opt_port.run(ticker=tickers)
 
 lm = LinearModel()(adj_close_in)\
     .set_piece("strategy", "LinearRegression")
 
-# lm_fitted = lm.run(ticker="MSFT")
+lm_fitted = lm.run(ticker="MSFT")
 
 port_cla = MakeCriticalLine()\
     .set_input("sample_covariance", S)\
     .set_input("expected_returns", mu)
 
-# cla = port_cla.run(ticker=tickers)
+cla = port_cla.run(ticker=tickers)
 
 time = DateSelect()
 price = time.set_input(y_in)
 
 # Select
 pipe = ColDrop("close").set_input(price)
-# res = pipe.run(ticker=ticker)
+res = pipe.run(ticker=ticker)
 
 val_drop = ValDrop(12855900, cols="volume").set_input(price)
-# res = pipe.run(ticker=ticker)
+res = pipe.run(ticker=ticker)
 
 pipe = ValKeep(12855900, cols="volume").set_input(price)
-# res = pipe.run(ticker=ticker)
+res = pipe.run(ticker=ticker)
 
 pipe = ColRename({"close": "CLOSE"}).set_input(price)
-# res = pipe.run(ticker=ticker)
+res = pipe.run(ticker=ticker)
 
 pipe = DropNa().set_input(val_drop)
-# res = pipe.run(ticker=ticker)
+res = pipe.run(ticker=ticker)
 
 pipe = FreqDrop(3, [("adj_close", "NVDA")]).set_input(price)
-# res = pipe.run(ticker=ticker)
+res = pipe.run(ticker=ticker)
 
 pipe = ColReorder({"open":0}, level=0).set_input(price)
-# res = pipe.run(ticker=ticker)
+res = pipe.run(ticker=ticker)
 
 pipe = RowDrop({("adj_close", "NVDA"): (lambda x: x < 100)}).set_input(price)
-# res = pipe.run(ticker=ticker)
+res = pipe.run(ticker=ticker)
 
 # Generate
 pipe = Bin({"NVDA": 3}, level=1, drop=False).set_input(price)

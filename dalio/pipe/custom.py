@@ -1,7 +1,5 @@
 """Custom transformation"""
-from pandas import MultiIndex
-
-from dalio.pipe import Pipe
+from dalio.pipe import ColSelect
 
 from dalio.util import (
     process_cols,
@@ -20,13 +18,12 @@ from dalio.validator import (
 )
 
 
-class Custom(Pipe):
-    """Custom transformation on dataframe.
+class _ColGenerate(ColSelect):
+    """Generate column based on a selection from a dataframe.
 
     These are very useful for simple operations or for testing, as no
     additional class definitions or understanding of the documentation is
-    requred.
-
+    requred.  
     Attributes:
         columns (single label or list-like): Column labels in the DataFrame
             to be mapped.
@@ -37,10 +34,6 @@ class Custom(Pipe):
             of the same length as columns. If str, the suffix mapped columns
             gain if no new column labels are given. If None, behavior depends
             on the replace parameter.
-        strategy (str, default "pipe"): strategy for applying value function.
-            One of ["apply", "transform", "pipe"]
-         rolling_window (int, defailt None): rolling window to apply
-            function. If none, no rolling window is applied.
         axis (int, default 1): axis to apply value funciton to. Irrelevant if
             strategy = "pipe".
         drop (bool, default True): If set to True, source columns are dropped
@@ -91,27 +84,12 @@ class Custom(Pipe):
                  *args,
                  columns=None,
                  new_cols=None,
-                 strategy="apply",
-                 rolling_window=None,
                  axis=0,
                  drop=True,
                  reintegrate=False,
                  **kwargs):
 
-        super().__init__()
-
-        if isinstance(columns, dict):
-            for level, col in columns.items():
-                self._source\
-                    .add_desc(HAS_COLS(col, level=level))
-        elif isinstance(columns, (list, str)):
-            self._source\
-                .add_desc(HAS_COLS(columns))
-        else:
-            self._source\
-                .add_desc(IS_PD_DF())
-
-        self._columns = process_cols(columns)
+        super().__init__(columns=columns)
 
         if callable(func):
             self._func = func
@@ -122,17 +100,6 @@ class Custom(Pipe):
             self._new_cols = new_cols
         else:
             self._new_cols = process_cols(new_cols)
-
-        if strategy in ["apply", "transform", "pipe"]:
-            self._strategy = strategy
-        else:
-            raise ValueError(f"Invalid strategy {strategy} \
-                pick one of ['apply', 'transform', 'pipe']")
-
-        if rolling_window is not None and not isinstance(rolling_window, int):
-            raise TypeError("rolling must be none or an integer")
-        else:
-            self._rolling_window = rolling_window
 
         if axis in [0, 1, None]:
             self._axis = axis
@@ -167,35 +134,9 @@ class Custom(Pipe):
         )
 
         inter_df = extract_cols(data, cols)
-
         orig_shape = inter_df.shape
-        
-        if self._rolling_window is not None:
-            # rolling has only .apply with no axis param
-            inter_df = inter_df.rolling(
-                self._rolling_window,
-                axis=self._axis
-            ).apply(self._func, args=self._args, **self._kwargs)
-        elif self._strategy == "apply":
-            inter_df = inter_df.apply(
-                self._func,
-                axis=self._axis,
-                args=self._args,
-                **self._kwargs
-            )
-        elif self._strategy == "transform":
-            inter_df = inter_df.transform(
-                self._func,
-                axis=self._axis,
-                args=self._args,
-                **self._kwargs
-            )
-        elif self._strategy == "pipe":
-            inter_df = inter_df.pipe(
-                self._func,
-                *self._args,
-                **self._kwargs
-            )
+
+        inter_df = self._gen_cols(inter_df)
 
         if isinstance(self._new_cols, str):
             inter_df.columns = add_suffix(
@@ -226,15 +167,135 @@ class Custom(Pipe):
         # Insert new columns on top of old ones.
         return insert_cols(data, inter_df, cols)
 
-
     def copy(self, *args, **kwargs):
         return super().copy(
             self._func,
             *args,
             columns=self._columns,
             new_cols=self._new_cols,
-            rolling_window=None,
             drop=self._drop,
             reintegrate=self._reintegrate,
             **kwargs
+        )
+
+    def _gen_cols(self, inter_df, **kwargs):
+        raise NotImplementedError()
+
+
+class Custom(_ColGenerate):
+    """Apply custom function
+
+    Attributes:
+        strategy (str, default "pipe"): strategy for applying value function.
+            One of ["apply", "transform", "pipe"]
+    """
+
+    def __init__(self,
+                 func,
+                 *args,
+                 columns=None,
+                 new_cols=None,
+                 strategy="apply",
+                 axis=0,
+                 drop=True,
+                 reintegrate=False,
+                 **kwargs):
+
+        super().__init__(
+            func,
+            *args,
+            columns=columns,
+            new_cols=new_cols,
+            axis=axis,
+            drop=drop,
+            reintegrate=reintegrate,
+            **kwargs
+        )
+
+        if strategy in ["apply", "transform", "pipe"]:
+            self._strategy = strategy
+        else:
+            raise ValueError(f"Invalid strategy {strategy} \
+                pick one of ['apply', 'transform', 'pipe']")
+
+    def _gen_cols(self, inter_df, **kwargs):
+
+        if self._strategy == "apply":
+            return inter_df.apply(
+                self._func,
+                axis=self._axis,
+                args=self._args,
+                **self._kwargs
+            )
+        elif self._strategy == "transform":
+            return inter_df.transform(
+                self._func,
+                axis=self._axis,
+                args=self._args,
+                **self._kwargs
+            )
+        elif self._strategy == "pipe":
+            return inter_df.pipe(
+                self._func,
+                *self._args,
+                **self._kwargs
+            )
+
+        return inter_df
+
+    def copy(self, *args, **kwargs):
+        return super().copy(
+            *args,
+            strategy=self._strategy,
+            **kwargs,
+        )
+
+
+class Rolling(_ColGenerate):
+    """Apply rolling function
+
+    Attributes:
+        rolling_window (int, defailt None): rolling window to apply
+            function. If none, no rolling window is applied.
+    """
+
+    def __init__(self,
+                 func,
+                 *args,
+                 columns=None,
+                 new_cols=None,
+                 rolling_window=2,
+                 axis=0,
+                 drop=True,
+                 reintegrate=False,
+                 **kwargs):
+
+        super().__init__(
+            func,
+            *args,
+            columns=columns,
+            new_cols=new_cols,
+            axis=axis,
+            drop=drop,
+            reintegrate=reintegrate,
+            **kwargs
+        )
+
+        if isinstance(rolling_window, int):
+            self._rolling_window = rolling_window
+        else:
+            raise TypeError("rolling must be none or an integer")
+
+    def _gen_cols(self, inter_df, **kwargs):
+
+        return inter_df.rolling(
+            self._rolling_window,
+            axis=self._axis
+        ).apply(self._func, args=self._args, **self._kwargs)
+
+    def copy(self, *args, **kwargs):
+        return super().copy(
+            *args,
+            rolling_window=self._rolling_window,
+            **kwargs,
         )

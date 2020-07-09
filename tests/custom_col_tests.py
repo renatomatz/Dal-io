@@ -24,7 +24,7 @@ q_sf1_in = QuandlSharadarSF1Translator()(q_api)
 q_tick_in = QuandlTickerInfoTranslator()(q_api)
 
 # Tests
-base = Change("pct_change")(f_in)
+base = Change("pct_change")(y_in)
 ticker = ["NVDA", "RL", "GPS", "WMT"]
 kwargs = {
     "columns": {1: "WMT"},
@@ -34,18 +34,18 @@ kwargs = {
 basic = Custom(lambda x: x / x, **kwargs)(base)
 var = Custom(risk_metrics, 0.94, **kwargs)(base)
 
-
 kwargs.update({
     "new_cols": None,
     "reintegrate": False,
 })
 
-avg = Custom(np.mean, rolling_window=10)(base)
-res = avg.run(ticker=ticker)
-
+avg = Custom(np.mean, **kwargs)(base)
 sd = Custom(np.std, **kwargs)(base)
 cov = Custom(np.cov, **kwargs)(base)
 
-for test in [basic, var, avg, sd, cov]:
+rol_avg = Rolling(np.mean, columns={1:None}, rolling_window=10, new_cols="_new")(base)
+# res = rol_avg.run(ticker=ticker)
+
+for test in [basic, var, avg, sd, cov, rol_avg]:
     res = test.run(ticker=ticker)
-    res
+    print(res)

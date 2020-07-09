@@ -1,4 +1,10 @@
 """Defines various ways of getting a subset of data based on some condition"""
+from typing import (
+    Callable,
+    Iterable,
+    Any,
+)
+
 from itertools import product
 
 import numpy as np
@@ -6,75 +12,73 @@ import pandas as pd
 
 from dalio.pipe import Pipe
 
-from dalio.pipe.extra_classes import (
-        _ColSelection,
-        _ColValSelection,
-        _ColMapSelection
-)
-
 from dalio.validator import IS_PD_DF, IS_PD_TS, HAS_COLS
 
 from dalio.util import (
-        process_cols,
-        process_date,
-        filter_levels,
-        extract_level_names_dict,
+    process_cols,
+    process_date,
+    filter_levels,
+    extract_level_names_dict,
+    extract_cols,
 )
 
 
 class _ColSelection(Pipe):
 
-    def __init__(self, cols):
+    def __init__(self, columns):
         super().__init__()
 
-        if isinstance(cols, dict):
-            for level, col in cols.items():
+        if isinstance(columns, dict):
+            for level, col in columns.items():
                 self._source\
                     .add_desc(HAS_COLS(col, level=level))
-        elif isinstance(cols, (list, str)):
+        elif isinstance(columns, (list, str)):
             self._source\
-                .add_desc(HAS_COLS(cols))
+                .add_desc(HAS_COLS(columns))
         else:
             self._source\
                 .add_desc(IS_PD_DF())
 
-        self._cols = process_cols(cols)
+        self._columns = process_cols(columns)
 
     def copy(self, *args, **kwargs):
         return super().copy(
             *args,
-            cols=self._cols,
+            columns=self._columns,
             **kwargs
         )
 
 
 class _ColValSelection(_ColSelection):
 
-    def __init__(self, values, cols=None):
-        super().__init__(cols)
+    def __init__(self, values, columns=None):
+        super().__init__(columns)
 
         self._values = values
 
     def copy(self, *args, **kwargs):
         return super().copy(
+            *args,
             values=self._values,
-            cols=self._cols,
+            **kwargs,
         )
 
 
 class _ColMapSelection(_ColSelection):
 
     def __init__(self, map_dict, level=None):
-        cols = [*map_dict.keys()] if level is None \
+        columns = [*map_dict.keys()] if level is None \
             else {level: [*map_dict.keys()]}
 
-        super().__init__(cols)
+        super().__init__(columns)
 
         self._map_dict = map_dict
 
     def copy(self, *args, **kwargs):
         return super().copy(
+            *args,
             map_dict=self._map_dict,
+            **kwargs,
         )
 
 
@@ -82,19 +86,28 @@ class ColSelect(Pipe):
     """Select columns.
 
     Attributes:
-        _cols (list): names of columns to select.
+        _columns (list): names of columns to select.
     """
-    def __init__(self, cols=None):
+    def __init__(self, columns=None):
         """Initialize instance.
 
         Defines input data as having the specified columns.
         """
         super().__init__()
 
-        self._source\
-            .add_desc(HAS_COLS(cols))
+        if isinstance(columns, dict):
+            for level, col in columns.items():
+                if col is not None:
+                    self._source\
+                        .add_desc(HAS_COLS(col, level=level))
+        elif isinstance(columns, (list, str)):
+            self._source\
+                .add_desc(HAS_COLS(columns))
+        else:
+            self._source\
+                .add_desc(IS_PD_DF())
 
-        self._cols = process_cols(cols)
+        self._columns = process_cols(columns)
 
     def transform(self, data, **kwargs):
         """Selects the specified columns or returns data as is if no column
@@ -104,12 +117,17 @@ class ColSelect(Pipe):
             Data of the same format as before but only only containing the
             specified columns.
         """
-        return data[self._cols] if self._cols is not None else data
+        cols = filter_levels(
+            extract_level_names_dict(data),
+            self._columns
+        )
+
+        return extract_cols(data, cols)
 
     def copy(self, *args, **kwargs):
         return super().copy(
             *args,
-            cols=self._cols,
+            columns=self._columns,
             **kwargs
         )
 
@@ -194,14 +212,77 @@ class DropNa(Pipe):
         return data.dropna(**self._drop_na_kwargs)
 
 
+class Period(Pipe):
+    """Resample input time series data to a different period
+
+    Attributes:
+        agg_func (callable): function to aggregate data to one period.
+            Default set to np.mean.
+        _period (str): period to resample data to. Can be either daily,
+            monthly, quarterly or yearly.
+    """
+
+    agg_func: Callable[[Iterable], Any]
+    _period: str
+
+    def __init__(self, period=None, agg_func=np.mean):
+        """Initialize instance.
+
+        Describes source data as a time series.
+        Check that provided period is valid to some preset standards.
+
+        Raises:
+            TypeError: if aggregation function is not callable.
+        """
+        super().__init__()
+
+        self._source\
+            .add_desc(IS_PD_TS())
+
+        if period is None:
+            raise NameError("Please specify a period or use Period subclasses\
+                    instead")
+
+        if not isinstance(period, str):
+            raise TypeError("Argument period must be of type string")
+
+        if period.upper() in ["DAILY", "DAY"]:
+            self._period = "D"
+        elif period.upper() in ["MONTHLY", "MONTH"]:
+            self._period = "M"
+        elif period.upper() in ["QUARTERLY", "QUARTER"]:
+            self._period = "Q"
+        elif period.upper() in ["YEARLY", "YEAR"]:
+            self._period = "Y"
+        else:
+            self._period = period
+
+        if not callable(agg_func):
+            raise TypeError("Argument agg_func must be callable")
+
+        self.agg_func = agg_func
+
+    def transform(self, data, **kwargs):
+        """Apply data resampling"""
+        return data.resample(self._period).apply(self.agg_func)
+
+    def copy(self, *args, **kwargs):
+        return super().copy(
+            *args,
+            period=self._period,
+            agg_func=self.agg_func,
+            **kwargs
+        )
+
+
 class ColDrop(_ColSelection):
     """A pipeline stage that drops columns by name.
 
     Parameters
     ----------
-    cols : str, iterable or callable
+    columns : str, iterable or callable
         The label, or an iterable of labels, of columns to drop. Alternatively,
-        cols can be assigned a callable returning bool values for
+        columns can be assigned a callable returning bool values for
         pandas.Series objects; if this is the case, every column for which it
         return True will be dropped.
 
@@ -217,13 +298,13 @@ class ColDrop(_ColSelection):
 
     def transform(self, data, **kwargs):
 
-        if callable(self._cols):
+        if callable(self._columns):
             cols_to_drop = [
-                col for col in data.cols
-                if self._cols(data[col])
+                col for col in data.columns
+                if self._columns(data[col])
             ]
         else:
-            cols_to_drop = self._cols
+            cols_to_drop = self._columns
 
         return data.drop(cols_to_drop, axis=1)
 
@@ -288,7 +369,7 @@ class RowDrop(_ColSelection):
 
         return _row_cond
 
-    def __init__(self, conditions, columns=None, reduce_strat=None, **kwargs):
+    def __init__(self, conditions, columns=None, reduce_strat=None):
 
         self._reducer = RowDrop._REDUCERS.get(reduce_strat, any)
 
@@ -314,8 +395,8 @@ class RowDrop(_ColSelection):
 
         subdf = data
 
-        if self._cols is not None:
-            subdf = data[self._cols]
+        if self._columns is not None:
+            subdf = data[self._columns]
 
         return data.copy()[~subdf.apply(self._row_condition_builder(), axis=1)]
 
@@ -327,7 +408,7 @@ class ValDrop(_ColValSelection):
     ----------
     values : list-like
         A list of the values to drop.
-    cols : str or list-like, default None
+    columns : str or list-like, default None
         The name, or an iterable of names, of columns to check for the given
         values. If set to None, all columns are checked.
 
@@ -344,17 +425,18 @@ class ValDrop(_ColValSelection):
         3  18  11
     """
 
-    def __init__(self, values, cols=None):
+    def __init__(self, values, columns=None):
         if not isinstance(values, (dict, list)):
             values = [values]
 
-        super().__init__(values, cols)
+        super().__init__(values, columns)
 
     def transform(self, data, **kwargs):
 
         inter_df = data.copy()
 
-        cols_to_check = self._cols if self._cols is not None else data.cols
+        cols_to_check = self._columns if self._columns is not None \
+            else data.columns
 
         for col in cols_to_check:
             # keep those values that are not (~) in self._values
@@ -387,17 +469,18 @@ class ValKeep(_ColValSelection):
         2  4  5
     """
 
-    def __init__(self, values, cols=None):
+    def __init__(self, values, columns=None):
         if not isinstance(values, (dict, list)):
             values = [values]
 
-        super().__init__(values, cols)
+        super().__init__(values, columns)
 
     def transform(self, data, **kwargs):
 
         inter_df = data.copy()
 
-        cols_to_check = self._cols if self._cols is not None else data.cols
+        cols_to_check = self._columns if self._columns is not None \
+            else data.columns
 
         for col in cols_to_check:
             # keep those values that are in self._values
@@ -428,9 +511,9 @@ class FreqDrop(_ColValSelection):
 
     def transform(self, data, **kwargs):
 
-        levels = extract_col_names_dict(data)
+        levels = extract_level_names_dict(data)
 
-        cols_to_check = filter_levels(levels, self._cols)
+        cols_to_check = filter_levels(levels, self._columns)
 
         i_to_keep = set()
         n_index = np.arange(data.shape[0])
@@ -445,13 +528,10 @@ class FreqDrop(_ColValSelection):
 class ColRename(_ColMapSelection):
     """A pipeline stage that renames a column or columns.
 
-    Parameters
-    ----------
-    rename_map : dict
-        Maps old column names to new ones.
+    Attributes:
+        rename_map (dict): Maps old column names to new ones.
 
     Example
-    -------
         >>> import pandas as pd; import pdpipe as pdp;
         >>> df = pd.DataFrame([[8,'a'],[5,'b']], [1,2], ['num', 'char'])
         >>> pdp.ColRename({'num': 'len', 'char': 'initial'}).apply(df)
@@ -467,17 +547,12 @@ class ColRename(_ColMapSelection):
 class ColReorder(_ColMapSelection):
     """A pipeline stage that reorders columns.
 
-    Parameters
-    ----------
-    positions : dict
-        A mapping of column names to their desired positions after reordering.
-        Columns not included in the mapping will maintain their relative
-        positions over the non-mapped colums.
+    Attributes:
+        positions (dict): A mapping of column names to their desired positions
+            after reordering Columns not included in the mapping will maintain
+            their relative positions over the non-mapped colums.
 
-    level: int, None
-
-    Example
-    -------
+    Example:
         >>> import pandas as pd; import pdpipe as pdp;
         >>> df = pd.DataFrame([[8,4,3,7]], columns=['a', 'b', 'c', 'd'])
         >>> pdp.ColReorder({'b': 0, 'c': 3}).apply(df)
@@ -486,20 +561,22 @@ class ColReorder(_ColMapSelection):
     """
 
     def __init__(self, map_dict, level=None):
-        super().__init__(map_dict, level=level)
+        super().__init__(map_dict)
+        self._level = level
 
     def transform(self, data, **kwargs):
 
-        cols, levels = self._extract_col_names(data, filter_cols=False)
+        levels = extract_level_names_dict(data)
+        columns = levels[self._level]
 
         # reposition elements of columns or chosen levels
         for col, pos in self._map_dict.items():
-            cols.remove(col)
+            columns.remove(col)
             # this works for edge cases like last cols because of the remove
-            cols = cols[:pos] + [col] + cols[pos:]
+            columns = columns[:pos] + [col] + columns[pos:]
 
-        if levels is not None:
-            levels[self._level] = cols
-            cols = [*product(*levels.values())]
+        if self._level is not None:
+            levels[self._level] = columns
+            columns = pd.MultiIndex.from_tuples([*product(*levels.values())])
 
-        return data[cols]
+        return data[columns]

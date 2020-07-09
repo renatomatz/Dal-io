@@ -31,6 +31,8 @@ def filter_levels(levels, filters):
     elif isinstance(filters, dict):
         return {level: filter_levels(levels[level], filt)
                 for level, filt in filters.items()}
+    elif filters is None:
+        return levels
 
     return filters
 

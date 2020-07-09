@@ -1,7 +1,5 @@
 from dalio.pipe.pipe import Pipe, PipeLine
 
-from dalio.pipe.custom import Custom
-
 from dalio.pipe.select import (
     ColSelect,
     DateSelect,
@@ -16,11 +14,12 @@ from dalio.pipe.select import (
 )
 
 from dalio.pipe.col_generation import (
+    Custom,
+    Rolling,
     Change,
     StockReturns,
-    Rolling,
-    Index,
     Period,
+    Index,
     Bin,
     MapColVals,
     ApplyByCols,
@@ -39,6 +38,7 @@ from dalio.pipe.builders import (
 
 __all__ = [
     "Custom",
+    "Rolling",
     "ColSelect",
     "DateSelect",
     "ColDrop",
@@ -51,9 +51,8 @@ __all__ = [
     "RowDrop",
     "Change",
     "StockReturns",
-    "Rolling",
-    "Index",
     "Period",
+    "Index",
     "Bin",
     "MapColVals",
     "ApplyByCols",
