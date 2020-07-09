@@ -1,9 +1,4 @@
 """Defines various ways of getting a subset of data based on some condition"""
-from typing import (
-    Callable,
-    Iterable,
-    Any,
-)
 
 from itertools import product
 
@@ -100,12 +95,42 @@ class ColSelect(_ColSelection):
 
         return extract_cols(data, cols)
 
-    def copy(self, *args, **kwargs):
-        return super().copy(
-            *args,
-            columns=self._columns,
-            **kwargs
+
+class ColDrop(_ColSelection):
+    """A pipeline stage that drops columns by name.
+
+    Parameters
+    ----------
+    columns : str, iterable or callable
+        The label, or an iterable of labels, of columns to drop. Alternatively,
+        columns can be assigned a callable returning bool values for
+        pandas.Series objects; if this is the case, every column for which it
+        return True will be dropped.
+
+    Example
+    -------
+        >>> import pandas as pd; import pdpipe as pdp;
+        >>> df = pd.DataFrame([[8,'a'],[5,'b']], [1,2], ['num', 'char'])
+        >>> pdp.ColDrop('num').apply(df)
+          char
+        1    a
+        2    b
+    """
+
+    def transform(self, data, **kwargs):
+
+        all_cols = extract_level_names_dict(data)
+
+        drop_cols = filter_levels(
+            all_cols,
+            self._columns
         )
+
+        cols = {level: list(set(ac).difference(dc))
+                for (level, ac), (level, dc)
+                in zip(all_cols.items(), drop_cols.items())}
+
+        return extract_cols(data, cols)
 
 
 class DateSelect(Pipe):
@@ -166,8 +191,7 @@ class DropNa(Pipe):
 
     Supports all parameter supported by pandas.dropna function.
 
-    Example
-    -------
+    Example:
         >>> import pandas as pd; import pdpipe as pdp;
         >>> df = pd.DataFrame([[1,4],[4,None],[1,11]], [1,2,3], ['a','b'])
         >>> pdp.DropNa().apply(df)
@@ -186,40 +210,6 @@ class DropNa(Pipe):
 
     def transform(self, data, **kwargs):
         return data.dropna(**self._drop_na_kwargs)
-
-
-class ColDrop(_ColSelection):
-    """A pipeline stage that drops columns by name.
-
-    Parameters
-    ----------
-    columns : str, iterable or callable
-        The label, or an iterable of labels, of columns to drop. Alternatively,
-        columns can be assigned a callable returning bool values for
-        pandas.Series objects; if this is the case, every column for which it
-        return True will be dropped.
-
-    Example
-    -------
-        >>> import pandas as pd; import pdpipe as pdp;
-        >>> df = pd.DataFrame([[8,'a'],[5,'b']], [1,2], ['num', 'char'])
-        >>> pdp.ColDrop('num').apply(df)
-          char
-        1    a
-        2    b
-    """
-
-    def transform(self, data, **kwargs):
-
-        if callable(self._columns):
-            cols_to_drop = [
-                col for col in data.columns
-                if self._columns(data[col])
-            ]
-        else:
-            cols_to_drop = self._columns
-
-        return data.drop(cols_to_drop, axis=1)
 
 
 class RowDrop(_ColSelection):
@@ -306,12 +296,18 @@ class RowDrop(_ColSelection):
 
     def transform(self, data, **kwargs):
 
-        subdf = data
+        inter_df = extract_cols(data,
+                                filter_levels(
+                                    extract_level_names_dict(data),
+                                    self._columns
+                                ))
 
-        if self._columns is not None:
-            subdf = data[self._columns]
-
-        return data.copy()[~subdf.apply(self._row_condition_builder(), axis=1)]
+        return data.copy()[
+            ~inter_df.apply(
+                self._row_condition_builder(),
+                axis=1
+            )
+        ]
 
 
 class ValDrop(_ColValSelection):
@@ -346,16 +342,21 @@ class ValDrop(_ColValSelection):
 
     def transform(self, data, **kwargs):
 
-        inter_df = data.copy()
+        cols_to_check = self._columns
 
-        cols_to_check = self._columns if self._columns is not None \
-            else data.columns
+        # if data has a multiindex
+        if data.columns.nlevels > 1:
+            # check the tuple combinations of selected levels
+            cols_to_check = product(*filter_levels(
+                extract_level_names_dict(data),
+                cols_to_check
+            ).values)
 
         for col in cols_to_check:
             # keep those values that are not (~) in self._values
-            inter_df = inter_df[~inter_df[col].isin(self._values)]
+            data = data[~data[col].isin(self._values)]
 
-        return inter_df
+        return data
 
 
 class ValKeep(_ColValSelection):
@@ -390,16 +391,21 @@ class ValKeep(_ColValSelection):
 
     def transform(self, data, **kwargs):
 
-        inter_df = data.copy()
+        cols_to_check = self._columns
 
-        cols_to_check = self._columns if self._columns is not None \
-            else data.columns
+        # if data has a multiindex
+        if data.columns.nlevels > 1:
+            # check the tuple combinations of selected levels
+            cols_to_check = product(*filter_levels(
+                extract_level_names_dict(data),
+                cols_to_check
+            ).values)
 
         for col in cols_to_check:
             # keep those values that are in self._values
-            inter_df = inter_df[inter_df[col].isin(self._values)]
+            data = data[data[col].isin(self._values)]
 
-        return inter_df
+        return data
 
 
 class FreqDrop(_ColValSelection):
@@ -424,9 +430,15 @@ class FreqDrop(_ColValSelection):
 
     def transform(self, data, **kwargs):
 
-        levels = extract_level_names_dict(data)
+        cols_to_check = self._columns
 
-        cols_to_check = filter_levels(levels, self._columns)
+        # if data has a multiindex
+        if data.columns.nlevels > 1:
+            # check the tuple combinations of selected levels
+            cols_to_check = product(*filter_levels(
+                extract_level_names_dict(data),
+                cols_to_check
+            ).values)
 
         i_to_keep = set()
         n_index = np.arange(data.shape[0])
@@ -438,7 +450,7 @@ class FreqDrop(_ColValSelection):
         return data.copy().iloc[[*i_to_keep]]
 
 
-class ColRename(_ColMapSelection):
+class ColRename(_ColSelection):
     """A pipeline stage that renames a column or columns.
 
     Attributes:
@@ -454,10 +466,17 @@ class ColRename(_ColMapSelection):
     """
 
     def transform(self, data, **kwargs):
-        return data.rename(columns=self._map_dict)
+
+        if all([isinstance(val, dict) for val in self._columns.values()]):
+            for level, col in self._columns.items():
+                data = data.rename(columns=col, level=level)
+        else:
+            data = data.rename(columns=self._columns)
+
+        return data
 
 
-class ColReorder(_ColMapSelection):
+class ColReorder(_ColSelection):
     """A pipeline stage that reorders columns.
 
     Attributes:
@@ -473,23 +492,33 @@ class ColReorder(_ColMapSelection):
         0  4  8  7  3
     """
 
-    def __init__(self, map_dict, level=None):
-        super().__init__(map_dict)
-        self._level = level
-
     def transform(self, data, **kwargs):
 
-        levels = extract_level_names_dict(data)
-        columns = levels[self._level]
+        if all([isinstance(val, dict) for val in self._columns.values()]):
+            all_cols = extract_level_names_dict(data)
+            for level, level_columns in self._columns.items():
+                for col, pos in level_columns.items():
+                    all_cols[level].remove(col)
+                    # this works for edge cases like last cols because of
+                    # the remove
+                    all_cols[level] = all_cols[level][:pos] \
+                        + [col] \
+                        + all_cols[level][pos:]
+            all_cols = pd.MultiIndex.from_tuples(
+                [*product(*all_cols.values())]
+            )
+        else:
+            all_cols = data.columns.to_list()
+            for col, pos in self._columns.items():
+                all_cols.remove(col)
+                # this works for edge cases like last cols because of
+                # the remove
+                all_cols = all_cols[:pos] \
+                    + [col] \
+                    + all_cols[pos:]
+            all_cols = pd.Index(all_cols)
 
-        # reposition elements of columns or chosen levels
-        for col, pos in self._map_dict.items():
-            columns.remove(col)
-            # this works for edge cases like last cols because of the remove
-            columns = columns[:pos] + [col] + columns[pos:]
+        inter_df = data.copy()
+        inter_df.columns = all_cols
 
-        if self._level is not None:
-            levels[self._level] = columns
-            columns = pd.MultiIndex.from_tuples([*product(*levels.values())])
-
-        return data[columns]
+        return inter_df

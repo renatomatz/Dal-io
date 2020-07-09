@@ -9,9 +9,11 @@ from typing import (
 import numpy as np
 import pandas as pd
 
+from scipy.stats import boxcox
+
 from dalio.base.constants import RETURNS
 
-from dalio.pipe import _ColSelection
+from dalio.pipe.select import _ColSelection
 
 from dalio.ops import index_cols
 
@@ -31,7 +33,7 @@ from dalio.validator import IS_PD_TS
 from dalio.validator.presets import STOCK_STREAM
 
 
-class _ColGenerate(_ColSelection):
+class _ColGeneration(_ColSelection):
     """Generate column based on a selection from a dataframe.
 
     These are very useful for simple operations or for testing, as no
@@ -195,7 +197,7 @@ class _ColGenerate(_ColSelection):
         raise NotImplementedError()
 
 
-class Custom(_ColGenerate):
+class Custom(_ColGeneration):
     """Apply custom function
 
     Attributes:
@@ -264,7 +266,7 @@ class Custom(_ColGenerate):
         )
 
 
-class Rolling(_ColGenerate):
+class Rolling(_ColGeneration):
     """Apply rolling function
 
     Attributes:
@@ -314,7 +316,7 @@ class Rolling(_ColGenerate):
         )
 
 
-class Period(_ColGenerate):
+class Period(_ColGeneration):
     """Resample input time series data to a different period
 
     Attributes:
@@ -407,8 +409,8 @@ class Change(Custom):
     _PANDAS_PRESETS = ["pct_change", "diff"]
 
     def __init__(self,
-                 change="pct_change",
                  *args,
+                 change="pct_change",
                  columns=None,
                  new_cols=None,
                  drop=True,
@@ -432,13 +434,14 @@ class Change(Custom):
         self._change = change
 
         if self._change == "pct_change":
-            func = lambda df: df.pct_change().fillna(0)
-
+            def ch_func(df):
+                df.pct_change().fillna(0)
         elif self._change == "diff":
-            func = lambda df: df.diff().fillna(0),
+            def ch_func(df):
+                df.diff().fillna(0)
 
         super().__init__(
-            func,
+            ch_func,
             columns=columns,
             new_cols=new_cols,
             strategy="pipe",
@@ -524,7 +527,75 @@ class Index(Custom):
         )
 
 
-class Bin(Custom):
+class CustomByCols(Custom):
+    """A pipeline stage applying a function to individual columns iteratively.
+
+    Attributes:
+        func (function): The function to be applied to each element of the
+            given columns.
+        strategy (str): Application strategy. Different from Custom class'
+            strategy parameter (which here is kept at "apply") as this will
+            now be done on a series (each column). Extra care should be taken
+            to ensure resulting column lengths match.
+
+    Example:
+        >>> import pandas as pd; import pdpipe as pdp; import math;
+        >>> data = [[3.2, "acd"], [7.2, "alk"], [12.1, "alk"]]
+        >>> df = pd.DataFrame(data, [1,2,3], ["ph","lbl"])
+        >>> round_ph = pdp.ApplyByCols("ph", math.ceil)
+        >>> round_ph(df)
+           ph  lbl
+        1   4  acd
+        2   8  alk
+        3  13  alk
+    """
+    def __init__(self,
+                 func,
+                 *args,
+                 strategy="apply",
+                 columns=None,
+                 new_cols=None,
+                 drop=True,
+                 reintegrate=False,
+                 **kwargs):
+
+        if strategy == "apply":
+            def cust_func(col):
+                col.apply(
+                    func,
+                    axis=0,
+                    args=args,
+                    **kwargs
+                )
+        elif strategy == "transform":
+            def cust_func(col):
+                col.transform(
+                    func,
+                    axis=0,
+                    args=args,
+                    **kwargs
+                )
+        elif strategy == "agg":
+            def cust_func(col):
+                col.agg(
+                    func,
+                    axis=0,
+                    args=args,
+                    **kwargs
+                )
+
+        super().__init__(
+            cust_func,
+            columns=columns,
+            new_cols=new_cols,
+            strategy="apply",
+            axis=0,
+            drop=drop,
+            reintegrate=reintegrate
+        )
+
+
+class Bin(CustomByCols):
     """A pipeline stage that adds a binned version of a column or columns.
 
     If drop is set to True the new columns retain the names of the source
@@ -536,6 +607,10 @@ class Bin(Custom):
             bin containing all elements larger that the right-most end point.
             For example, the list [0, 5, 8] is interpreted as
             the bins (-∞, 0), [0-5), [5-8) and [8, ∞).
+        bin_strat (str, default "normal"): binning strategy to use. "normal"
+            uses the default binning strategy per a list of value separations
+            or number of bins. "quantile" uses a list of quantiles or a
+            preset quantile range (4 for quartiles and 10 for deciles).
 
     Example:
         >>> import pandas as pd; import pdpipe as pdp;
@@ -557,30 +632,152 @@ class Bin(Custom):
     def __init__(self,
                  bin_map,
                  *args,
+                 bin_strat="normal",
                  columns=None,
                  new_cols=None,
                  drop=True,
                  reintegrate=False,
                  **kwargs):
 
+        if bin_strat == "normal":
+            func = pd.cut
+            kwargs.update({"q": bin_map})
+        elif bin_strat == "quantile":
+            func = pd.qcut
+            kwargs.update({"bins": bin_map})
+
         super().__init__(
-            lambda col: col.transform(
-                pd.cut,
-                axis=1,
-                bins=bin_map,
-                args=args,
-                **kwargs
-            ),
-            columns,
+            func,
+            *args,
+            columns=columns,
             new_cols=new_cols,
             strategy="apply",
             axis=0,
             drop=drop,
-            reintegrate=reintegrate
+            reintegrate=reintegrate,
+            **kwargs
         )
 
 
-class MapColVals(Custom):
+class Log(CustomByCols):
+    """A pipeline stage that log-transforms numeric data.
+
+    Attributes:
+        non_neg (bool, default False): If True, each transformed column is
+            first shifted by smallest negative value it includes
+            (non-negative columns are thus not shifted).
+        const_shift (int, optional): If given, each transformed column is
+            first shifted by this constant. If non_neg is True then that
+            transformation is applied first, and only then is the column
+            shifted by this constant.
+
+    Example:
+        >>> import pandas as pd; import pdpipe as pdp;
+        >>> data = [[3.2, "acd"], [7.2, "alk"], [12.1, "alk"]]
+        >>> df = pd.DataFrame(data, [1,2,3], ["ph","lbl"])
+        >>> log_stage = pdp.Log("ph", drop=True)
+        >>> log_stage(df)
+                 ph  lbl
+        1  1.163151  acd
+        2  1.974081  alk
+        3  2.493205  alk
+    """
+
+    @staticmethod
+    def _cust_log(data, *args, non_neg=False, const_shift=None, **kwargs):
+
+        if non_neg:
+            minval = min(data)
+            if minval < 0:
+                data = data + abs(minval)
+
+        if const_shift is not None:
+            data = data + const_shift
+
+        np.log(data, *args, **kwargs)
+
+    def __init__(self,
+                 *args,
+                 columns=None,
+                 new_cols=None,
+                 non_neg=False,
+                 const_shift=None,
+                 drop=True,
+                 reintegrate=False,
+                 **kwargs):
+
+        kwargs.update({
+            "non_neg": non_neg,
+            "const_shift": const_shift
+        })
+
+        super().__init__(
+            Log._cust_log,
+            *args,
+            columns=columns,
+            new_cols=new_cols,
+            strategy="apply",
+            axis=0,
+            drop=drop,
+            reintegrate=reintegrate,
+            **kwargs,
+        )
+
+
+class BoxCox(CustomByCols):
+    """A pipeline stage that applies the BoxCox transformation on data.
+
+    Attributes:
+        const_shift (int, optional): If given, each transformed column is
+            first shifted by this constant. If non_neg is True then that
+            transformation is applied first, and only then is the column
+            shifted by this constant.
+    """
+
+    @staticmethod
+    def _cust_boxcox(data, *args, const_shift=None, **kwargs):
+
+        minval = min(data)
+        if minval < 0:
+            data = data + abs(minval)
+
+        if const_shift is not None:
+            data = data + const_shift
+
+        # returns log-likelihood-optimized array and optimal lambda
+        opt, _ = boxcox(np.array(data.dropna()), *args, **kwargs)
+
+        return opt
+
+    def __init__(self,
+                 *args,
+                 columns=None,
+                 new_cols=None,
+                 non_neg=False,
+                 const_shift=None,
+                 drop=True,
+                 reintegrate=False,
+                 **kwargs):
+
+        kwargs.update({
+            "non_neg": non_neg,
+            "const_shift": const_shift
+        })
+
+        super().__init__(
+            Log._cust_log,
+            *args,
+            columns=columns,
+            new_cols=new_cols,
+            strategy="apply",
+            axis=0,
+            drop=drop,
+            reintegrate=reintegrate,
+            **kwargs,
+        )
+
+
+class MapColVals(CustomByCols):
     """A pipeline stage that reintegrates the values of a column by a map.
 
     Attributes:
@@ -614,158 +811,6 @@ class MapColVals(Custom):
             lambda col: col.map(
                 value_map,
                 *args,
-                **kwargs
-            ),
-            columns,
-            new_cols=new_cols,
-            strategy="apply",
-            axis=0,
-            drop=drop,
-            reintegrate=reintegrate
-        )
-
-
-class ApplyByCols(Custom):
-    """A pipeline stage applying an element-wise function to columns.
-
-    Attributes:
-        func (function): The function to be applied to each element of the
-            given columns.
-
-    Example:
-        >>> import pandas as pd; import pdpipe as pdp; import math;
-        >>> data = [[3.2, "acd"], [7.2, "alk"], [12.1, "alk"]]
-        >>> df = pd.DataFrame(data, [1,2,3], ["ph","lbl"])
-        >>> round_ph = pdp.ApplyByCols("ph", math.ceil)
-        >>> round_ph(df)
-           ph  lbl
-        1   4  acd
-        2   8  alk
-        3  13  alk
-    """
-    def __init__(self,
-                 func,
-                 *args,
-                 columns=None,
-                 new_cols=None,
-                 drop=True,
-                 reintegrate=False,
-                 **kwargs):
-
-        super().__init__(
-            lambda col: col.apply(
-                func,
-                axis=0,
-                args=args,
-                **kwargs
-            ),
-            columns,
-            new_cols=new_cols,
-            strategy="apply",
-            axis=0,
-            drop=drop,
-            reintegrate=reintegrate
-        )
-
-
-class AggByCols(Custom):
-    """A pipeline stage applying a series-wise function to columns.
-
-    Attributes:
-        func : function
-        The function to be applied to each element of the given columns.
-
-    Example
-    -------
-        >>> import pandas as pd; import pdpipe as pdp; import numpy as np;
-        >>> data = [[3.2, "acd"], [7.2, "alk"], [12.1, "alk"]]
-        >>> df = pd.DataFrame(data, [1,2,3], ["ph","lbl"])
-        >>> log_ph = pdp.ApplyByCols("ph", np.log)
-        >>> log_ph(df)
-                 ph  lbl
-        1  1.163151  acd
-        2  1.974081  alk
-        3  2.493205  alk
-    """
-    def __init__(self,
-                 func,
-                 *args,
-                 columns=None,
-                 new_cols=None,
-                 drop=True,
-                 reintegrate=False,
-                 **kwargs):
-
-        super().__init__(
-            lambda col: col.agg(
-                func,
-                *args,
-                **kwargs
-            ),
-            columns,
-            new_cols=new_cols,
-            strategy="apply",
-            axis=0,
-            drop=drop,
-            reintegrate=reintegrate
-        )
-
-
-class Log(Custom):
-    """A pipeline stage that log-transforms numeric data.
-
-    Attributes:
-        non_neg (bool, default False): If True, each transformed column is
-            first shifted by smallest negative value it includes
-            (non-negative columns are thus not shifted).
-        const_shift (int, optional): If given, each transformed column is
-            first shifted by this constant. If non_neg is True then that
-            transformation is applied first, and only then is the column
-            shifted by this constant.
-
-    Example:
-        >>> import pandas as pd; import pdpipe as pdp;
-        >>> data = [[3.2, "acd"], [7.2, "alk"], [12.1, "alk"]]
-        >>> df = pd.DataFrame(data, [1,2,3], ["ph","lbl"])
-        >>> log_stage = pdp.Log("ph", drop=True)
-        >>> log_stage(df)
-                 ph  lbl
-        1  1.163151  acd
-        2  1.974081  alk
-        3  2.493205  alk
-    """
-
-    @staticmethod
-    def _cust_log(data, *args, non_neg=False, const_shift=None, **kwargs):
-
-        if non_neg:
-            minval = min(data)
-            if minval < 0:
-                data = data + abs(minval)
-
-        # must check not None as neg numbers eval to False
-        if const_shift is not None:
-            data = data + const_shift
-
-        np.log(data, *args, **kwargs)
-
-    def __init__(self,
-                 *args,
-                 columns=None,
-                 new_cols=None,
-                 non_neg=False,
-                 const_shift=None,
-                 drop=True,
-                 reintegrate=False,
-                 **kwargs):
-
-        super().__init__(
-            lambda col: col.apply(
-                Log._cust_log,
-                axis=0,
-                non_neg=non_neg,
-                const_shift=const_shift,
-                args=args,
                 **kwargs
             ),
             columns,
