@@ -1,9 +1,9 @@
 """Implement transformations that generates new colums from exising ones"""
 
 from typing import (
-    Any,
     Callable,
     Iterable,
+    Any,
 )
 
 import numpy as np
@@ -11,14 +11,9 @@ import pandas as pd
 
 from dalio.base.constants import RETURNS
 
-from dalio.pipe import Pipe, ColSelect
+from dalio.pipe import _ColSelection
 
 from dalio.ops import index_cols
-
-from dalio.validator import (
-    IS_PD_TS,
-)
-
 
 from dalio.util import (
     process_cols,
@@ -31,10 +26,12 @@ from dalio.util import (
     insert_cols,
 )
 
+from dalio.validator import IS_PD_TS
+
 from dalio.validator.presets import STOCK_STREAM
 
 
-class _ColGenerate(ColSelect):
+class _ColGenerate(_ColSelection):
     """Generate column based on a selection from a dataframe.
 
     These are very useful for simple operations or for testing, as no
@@ -314,6 +311,86 @@ class Rolling(_ColGenerate):
             *args,
             rolling_window=self._rolling_window,
             **kwargs,
+        )
+
+
+class Period(_ColGenerate):
+    """Resample input time series data to a different period
+
+    Attributes:
+        agg_func (callable): function to aggregate data to one period.
+            Default set to np.mean.
+        _period (str): period to resample data to. Can be either daily,
+            monthly, quarterly or yearly.
+    """
+
+    agg_func: Callable[[Iterable], Any]
+    _period: str
+
+    def __init__(self,
+                 *args,
+                 func=np.mean,
+                 columns=None,
+                 new_cols=None,
+                 period=None,
+                 axis=0,
+                 drop=True,
+                 reintegrate=False,
+                 **kwargs):
+
+        """Initialize instance.
+
+        Describes source data as a time series.
+        Check that provided period is valid to some preset standards.
+
+        Raises:
+            TypeError: if aggregation function is not callable.
+        """
+
+        super().__init__(
+            func,
+            *args,
+            columns=columns,
+            new_cols=new_cols,
+            axis=axis,
+            drop=drop,
+            reintegrate=reintegrate,
+            **kwargs
+        )
+
+        self._source\
+            .add_desc(IS_PD_TS())
+
+        if period is None:
+            raise NameError("Please specify a period or use Period subclasses\
+                    instead")
+
+        if not isinstance(period, str):
+            raise TypeError("Argument period must be of type string")
+
+        if period.upper() in ["DAILY", "DAY"]:
+            self._period = "D"
+        elif period.upper() in ["MONTHLY", "MONTH"]:
+            self._period = "M"
+        elif period.upper() in ["QUARTERLY", "QUARTER"]:
+            self._period = "Q"
+        elif period.upper() in ["YEARLY", "YEAR"]:
+            self._period = "Y"
+        else:
+            self._period = period
+
+    def _gen_cols(self, inter_df, **kwargs):
+
+        return inter_df.resample(
+            self._period,
+            axis=self._axis
+        ).apply(self._func, args=self._args, **self._kwargs)
+
+    def copy(self, *args, **kwargs):
+        return super().copy(
+            *args,
+            period=self._period,
+            **kwargs
         )
 
 
