@@ -1,0 +1,310 @@
+\indexentry{dalio.external.external (module)@\spxentry{dalio.external.external}\spxextra{module}|hyperpage}{1}
+\indexentry{External (class in dalio.external.external)@\spxentry{External}\spxextra{class in dalio.external.external}|hyperpage}{1}
+\indexentry{\_connection (dalio.external.external.External attribute)@\spxentry{\_connection}\spxextra{dalio.external.external.External attribute}|hyperpage}{1}
+\indexentry{\_config (dalio.external.external.External attribute)@\spxentry{\_config}\spxextra{dalio.external.external.External attribute}|hyperpage}{1}
+\indexentry{authenticate() (dalio.external.external.External method)@\spxentry{authenticate()}\spxextra{dalio.external.external.External method}|hyperpage}{1}
+\indexentry{check() (dalio.external.external.External method)@\spxentry{check()}\spxextra{dalio.external.external.External method}|hyperpage}{1}
+\indexentry{request() (dalio.external.external.External method)@\spxentry{request()}\spxextra{dalio.external.external.External method}|hyperpage}{1}
+\indexentry{update\_config() (dalio.external.external.External method)@\spxentry{update\_config()}\spxextra{dalio.external.external.External method}|hyperpage}{1}
+\indexentry{dalio.external.file (module)@\spxentry{dalio.external.file}\spxextra{module}|hyperpage}{2}
+\indexentry{FileWriter (class in dalio.external.file)@\spxentry{FileWriter}\spxextra{class in dalio.external.file}|hyperpage}{2}
+\indexentry{\_connection (dalio.external.file.FileWriter attribute)@\spxentry{\_connection}\spxextra{dalio.external.file.FileWriter attribute}|hyperpage}{2}
+\indexentry{check() (dalio.external.file.FileWriter method)@\spxentry{check()}\spxextra{dalio.external.file.FileWriter method}|hyperpage}{2}
+\indexentry{request() (dalio.external.file.FileWriter method)@\spxentry{request()}\spxextra{dalio.external.file.FileWriter method}|hyperpage}{2}
+\indexentry{set\_connection() (dalio.external.file.FileWriter method)@\spxentry{set\_connection()}\spxextra{dalio.external.file.FileWriter method}|hyperpage}{2}
+\indexentry{PandasInFile (class in dalio.external.file)@\spxentry{PandasInFile}\spxextra{class in dalio.external.file}|hyperpage}{2}
+\indexentry{\_connection (dalio.external.file.PandasInFile attribute)@\spxentry{\_connection}\spxextra{dalio.external.file.PandasInFile attribute}|hyperpage}{2}
+\indexentry{check() (dalio.external.file.PandasInFile method)@\spxentry{check()}\spxextra{dalio.external.file.PandasInFile method}|hyperpage}{2}
+\indexentry{request() (dalio.external.file.PandasInFile method)@\spxentry{request()}\spxextra{dalio.external.file.PandasInFile method}|hyperpage}{2}
+\indexentry{dalio.external.image (module)@\spxentry{dalio.external.image}\spxextra{module}|hyperpage}{3}
+\indexentry{Figure (class in dalio.external.image)@\spxentry{Figure}\spxextra{class in dalio.external.image}|hyperpage}{3}
+\indexentry{\_connection (dalio.external.image.Figure attribute)@\spxentry{\_connection}\spxextra{dalio.external.image.Figure attribute}|hyperpage}{3}
+\indexentry{check() (dalio.external.image.Figure method)@\spxentry{check()}\spxextra{dalio.external.image.Figure method}|hyperpage}{3}
+\indexentry{plot() (dalio.external.image.Figure method)@\spxentry{plot()}\spxextra{dalio.external.image.Figure method}|hyperpage}{3}
+\indexentry{request() (dalio.external.image.Figure method)@\spxentry{request()}\spxextra{dalio.external.image.Figure method}|hyperpage}{3}
+\indexentry{reset() (dalio.external.image.Figure method)@\spxentry{reset()}\spxextra{dalio.external.image.Figure method}|hyperpage}{3}
+\indexentry{PyPfOptGraph (class in dalio.external.image)@\spxentry{PyPfOptGraph}\spxextra{class in dalio.external.image}|hyperpage}{3}
+\indexentry{plot() (dalio.external.image.PyPfOptGraph method)@\spxentry{plot()}\spxextra{dalio.external.image.PyPfOptGraph method}|hyperpage}{3}
+\indexentry{PyPlotGraph (class in dalio.external.image)@\spxentry{PyPlotGraph}\spxextra{class in dalio.external.image}|hyperpage}{3}
+\indexentry{\_connection (dalio.external.image.PyPlotGraph attribute)@\spxentry{\_connection}\spxextra{dalio.external.image.PyPlotGraph attribute}|hyperpage}{3}
+\indexentry{\_axes (dalio.external.image.PyPlotGraph attribute)@\spxentry{\_axes}\spxextra{dalio.external.image.PyPlotGraph attribute}|hyperpage}{3}
+\indexentry{plot() (dalio.external.image.PyPlotGraph method)@\spxentry{plot()}\spxextra{dalio.external.image.PyPlotGraph method}|hyperpage}{4}
+\indexentry{request() (dalio.external.image.PyPlotGraph method)@\spxentry{request()}\spxextra{dalio.external.image.PyPlotGraph method}|hyperpage}{4}
+\indexentry{reset() (dalio.external.image.PyPlotGraph method)@\spxentry{reset()}\spxextra{dalio.external.image.PyPlotGraph method}|hyperpage}{4}
+\indexentry{PySubplotGraph (class in dalio.external.image)@\spxentry{PySubplotGraph}\spxextra{class in dalio.external.image}|hyperpage}{4}
+\indexentry{\_rows (dalio.external.image.PySubplotGraph attribute)@\spxentry{\_rows}\spxextra{dalio.external.image.PySubplotGraph attribute}|hyperpage}{4}
+\indexentry{\_cols (dalio.external.image.PySubplotGraph attribute)@\spxentry{\_cols}\spxextra{dalio.external.image.PySubplotGraph attribute}|hyperpage}{4}
+\indexentry{\_axes (dalio.external.image.PySubplotGraph attribute)@\spxentry{\_axes}\spxextra{dalio.external.image.PySubplotGraph attribute}|hyperpage}{4}
+\indexentry{get\_axis() (dalio.external.image.PySubplotGraph method)@\spxentry{get\_axis()}\spxextra{dalio.external.image.PySubplotGraph method}|hyperpage}{4}
+\indexentry{make\_manager() (dalio.external.image.PySubplotGraph method)@\spxentry{make\_manager()}\spxextra{dalio.external.image.PySubplotGraph method}|hyperpage}{4}
+\indexentry{plot() (dalio.external.image.PySubplotGraph method)@\spxentry{plot()}\spxextra{dalio.external.image.PySubplotGraph method}|hyperpage}{4}
+\indexentry{reset() (dalio.external.image.PySubplotGraph method)@\spxentry{reset()}\spxextra{dalio.external.image.PySubplotGraph method}|hyperpage}{4}
+\indexentry{SubplotManager (class in dalio.external.image)@\spxentry{SubplotManager}\spxextra{class in dalio.external.image}|hyperpage}{4}
+\indexentry{reset() (dalio.external.image.SubplotManager method)@\spxentry{reset()}\spxextra{dalio.external.image.SubplotManager method}|hyperpage}{5}
+\indexentry{dalio.external.web (module)@\spxentry{dalio.external.web}\spxextra{module}|hyperpage}{5}
+\indexentry{QuandlAPI (class in dalio.external.web)@\spxentry{QuandlAPI}\spxextra{class in dalio.external.web}|hyperpage}{5}
+\indexentry{\_quandl\_conf (dalio.external.web.QuandlAPI attribute)@\spxentry{\_quandl\_conf}\spxextra{dalio.external.web.QuandlAPI attribute}|hyperpage}{5}
+\indexentry{authenticate() (dalio.external.web.QuandlAPI method)@\spxentry{authenticate()}\spxextra{dalio.external.web.QuandlAPI method}|hyperpage}{5}
+\indexentry{check() (dalio.external.web.QuandlAPI method)@\spxentry{check()}\spxextra{dalio.external.web.QuandlAPI method}|hyperpage}{5}
+\indexentry{request() (dalio.external.web.QuandlAPI method)@\spxentry{request()}\spxextra{dalio.external.web.QuandlAPI method}|hyperpage}{5}
+\indexentry{YahooDR (class in dalio.external.web)@\spxentry{YahooDR}\spxextra{class in dalio.external.web}|hyperpage}{5}
+\indexentry{request() (dalio.external.web.YahooDR method)@\spxentry{request()}\spxextra{dalio.external.web.YahooDR method}|hyperpage}{5}
+\indexentry{dalio.translator.file (module)@\spxentry{dalio.translator.file}\spxextra{module}|hyperpage}{7}
+\indexentry{StockStreamFileTranslator (class in dalio.translator.file)@\spxentry{StockStreamFileTranslator}\spxextra{class in dalio.translator.file}|hyperpage}{7}
+\indexentry{date\_col (dalio.translator.file.StockStreamFileTranslator attribute)@\spxentry{date\_col}\spxextra{dalio.translator.file.StockStreamFileTranslator attribute}|hyperpage}{7}
+\indexentry{att\_name (dalio.translator.file.StockStreamFileTranslator attribute)@\spxentry{att\_name}\spxextra{dalio.translator.file.StockStreamFileTranslator attribute}|hyperpage}{7}
+\indexentry{copy() (dalio.translator.file.StockStreamFileTranslator method)@\spxentry{copy()}\spxextra{dalio.translator.file.StockStreamFileTranslator method}|hyperpage}{7}
+\indexentry{run() (dalio.translator.file.StockStreamFileTranslator method)@\spxentry{run()}\spxextra{dalio.translator.file.StockStreamFileTranslator method}|hyperpage}{8}
+\indexentry{translations (dalio.translator.file.StockStreamFileTranslator attribute)@\spxentry{translations}\spxextra{dalio.translator.file.StockStreamFileTranslator attribute}|hyperpage}{8}
+\indexentry{dalio.translator.pdr (module)@\spxentry{dalio.translator.pdr}\spxextra{module}|hyperpage}{8}
+\indexentry{YahooStockTranslator (class in dalio.translator.pdr)@\spxentry{YahooStockTranslator}\spxextra{class in dalio.translator.pdr}|hyperpage}{8}
+\indexentry{run() (dalio.translator.pdr.YahooStockTranslator method)@\spxentry{run()}\spxextra{dalio.translator.pdr.YahooStockTranslator method}|hyperpage}{8}
+\indexentry{translations (dalio.translator.pdr.YahooStockTranslator attribute)@\spxentry{translations}\spxextra{dalio.translator.pdr.YahooStockTranslator attribute}|hyperpage}{8}
+\indexentry{dalio.translator.quandl (module)@\spxentry{dalio.translator.quandl}\spxextra{module}|hyperpage}{8}
+\indexentry{QuandlSharadarSF1Translator (class in dalio.translator.quandl)@\spxentry{QuandlSharadarSF1Translator}\spxextra{class in dalio.translator.quandl}|hyperpage}{8}
+\indexentry{run() (dalio.translator.quandl.QuandlSharadarSF1Translator method)@\spxentry{run()}\spxextra{dalio.translator.quandl.QuandlSharadarSF1Translator method}|hyperpage}{8}
+\indexentry{translations (dalio.translator.quandl.QuandlSharadarSF1Translator attribute)@\spxentry{translations}\spxextra{dalio.translator.quandl.QuandlSharadarSF1Translator attribute}|hyperpage}{8}
+\indexentry{QuandlTickerInfoTranslator (class in dalio.translator.quandl)@\spxentry{QuandlTickerInfoTranslator}\spxextra{class in dalio.translator.quandl}|hyperpage}{8}
+\indexentry{run() (dalio.translator.quandl.QuandlTickerInfoTranslator method)@\spxentry{run()}\spxextra{dalio.translator.quandl.QuandlTickerInfoTranslator method}|hyperpage}{8}
+\indexentry{translations (dalio.translator.quandl.QuandlTickerInfoTranslator attribute)@\spxentry{translations}\spxextra{dalio.translator.quandl.QuandlTickerInfoTranslator attribute}|hyperpage}{8}
+\indexentry{dalio.translator.translator (module)@\spxentry{dalio.translator.translator}\spxextra{module}|hyperpage}{9}
+\indexentry{Translator (class in dalio.translator.translator)@\spxentry{Translator}\spxextra{class in dalio.translator.translator}|hyperpage}{9}
+\indexentry{\_source (dalio.translator.translator.Translator attribute)@\spxentry{\_source}\spxextra{dalio.translator.translator.Translator attribute}|hyperpage}{9}
+\indexentry{translations (dalio.translator.translator.Translator attribute)@\spxentry{translations}\spxextra{dalio.translator.translator.Translator attribute}|hyperpage}{9}
+\indexentry{set\_input() (dalio.translator.translator.Translator method)@\spxentry{set\_input()}\spxextra{dalio.translator.translator.Translator method}|hyperpage}{9}
+\indexentry{translate\_item() (dalio.translator.translator.Translator method)@\spxentry{translate\_item()}\spxextra{dalio.translator.translator.Translator method}|hyperpage}{9}
+\indexentry{translations (dalio.translator.translator.Translator attribute)@\spxentry{translations}\spxextra{dalio.translator.translator.Translator attribute}|hyperpage}{9}
+\indexentry{update\_translations() (dalio.translator.translator.Translator method)@\spxentry{update\_translations()}\spxextra{dalio.translator.translator.Translator method}|hyperpage}{9}
+\indexentry{with\_input() (dalio.translator.translator.Translator method)@\spxentry{with\_input()}\spxextra{dalio.translator.translator.Translator method}|hyperpage}{9}
+\indexentry{dalio.pipe.builders (module)@\spxentry{dalio.pipe.builders}\spxextra{module}|hyperpage}{11}
+\indexentry{CovShrink (class in dalio.pipe.builders)@\spxentry{CovShrink}\spxextra{class in dalio.pipe.builders}|hyperpage}{11}
+\indexentry{frequency (dalio.pipe.builders.CovShrink attribute)@\spxentry{frequency}\spxextra{dalio.pipe.builders.CovShrink attribute}|hyperpage}{11}
+\indexentry{build\_model() (dalio.pipe.builders.CovShrink method)@\spxentry{build\_model()}\spxextra{dalio.pipe.builders.CovShrink method}|hyperpage}{11}
+\indexentry{check\_name() (dalio.pipe.builders.CovShrink method)@\spxentry{check\_name()}\spxextra{dalio.pipe.builders.CovShrink method}|hyperpage}{11}
+\indexentry{frequency (dalio.pipe.builders.CovShrink attribute)@\spxentry{frequency}\spxextra{dalio.pipe.builders.CovShrink attribute}|hyperpage}{11}
+\indexentry{transform() (dalio.pipe.builders.CovShrink method)@\spxentry{transform()}\spxextra{dalio.pipe.builders.CovShrink method}|hyperpage}{11}
+\indexentry{ExpectedReturns (class in dalio.pipe.builders)@\spxentry{ExpectedReturns}\spxextra{class in dalio.pipe.builders}|hyperpage}{11}
+\indexentry{build\_model() (dalio.pipe.builders.ExpectedReturns method)@\spxentry{build\_model()}\spxextra{dalio.pipe.builders.ExpectedReturns method}|hyperpage}{12}
+\indexentry{check\_name() (dalio.pipe.builders.ExpectedReturns method)@\spxentry{check\_name()}\spxextra{dalio.pipe.builders.ExpectedReturns method}|hyperpage}{12}
+\indexentry{transform() (dalio.pipe.builders.ExpectedReturns method)@\spxentry{transform()}\spxextra{dalio.pipe.builders.ExpectedReturns method}|hyperpage}{12}
+\indexentry{ExpectedShortfall (class in dalio.pipe.builders)@\spxentry{ExpectedShortfall}\spxextra{class in dalio.pipe.builders}|hyperpage}{12}
+\indexentry{transform() (dalio.pipe.builders.ExpectedShortfall method)@\spxentry{transform()}\spxextra{dalio.pipe.builders.ExpectedShortfall method}|hyperpage}{12}
+\indexentry{LinearModel (class in dalio.pipe.builders)@\spxentry{LinearModel}\spxextra{class in dalio.pipe.builders}|hyperpage}{12}
+\indexentry{build\_model() (dalio.pipe.builders.LinearModel method)@\spxentry{build\_model()}\spxextra{dalio.pipe.builders.LinearModel method}|hyperpage}{12}
+\indexentry{copy() (dalio.pipe.builders.LinearModel method)@\spxentry{copy()}\spxextra{dalio.pipe.builders.LinearModel method}|hyperpage}{12}
+\indexentry{transform() (dalio.pipe.builders.LinearModel method)@\spxentry{transform()}\spxextra{dalio.pipe.builders.LinearModel method}|hyperpage}{13}
+\indexentry{MakeARCH (class in dalio.pipe.builders)@\spxentry{MakeARCH}\spxextra{class in dalio.pipe.builders}|hyperpage}{13}
+\indexentry{\_piece (dalio.pipe.builders.MakeARCH attribute)@\spxentry{\_piece}\spxextra{dalio.pipe.builders.MakeARCH attribute}|hyperpage}{13}
+\indexentry{assimilate() (dalio.pipe.builders.MakeARCH method)@\spxentry{assimilate()}\spxextra{dalio.pipe.builders.MakeARCH method}|hyperpage}{13}
+\indexentry{build\_model() (dalio.pipe.builders.MakeARCH method)@\spxentry{build\_model()}\spxextra{dalio.pipe.builders.MakeARCH method}|hyperpage}{13}
+\indexentry{copy() (dalio.pipe.builders.MakeARCH method)@\spxentry{copy()}\spxextra{dalio.pipe.builders.MakeARCH method}|hyperpage}{13}
+\indexentry{transform() (dalio.pipe.builders.MakeARCH method)@\spxentry{transform()}\spxextra{dalio.pipe.builders.MakeARCH method}|hyperpage}{13}
+\indexentry{StockComps (class in dalio.pipe.builders)@\spxentry{StockComps}\spxextra{class in dalio.pipe.builders}|hyperpage}{13}
+\indexentry{\_strategy (dalio.pipe.builders.StockComps attribute)@\spxentry{\_strategy}\spxextra{dalio.pipe.builders.StockComps attribute}|hyperpage}{13}
+\indexentry{max\_ticks (dalio.pipe.builders.StockComps attribute)@\spxentry{max\_ticks}\spxextra{dalio.pipe.builders.StockComps attribute}|hyperpage}{14}
+\indexentry{copy() (dalio.pipe.builders.StockComps method)@\spxentry{copy()}\spxextra{dalio.pipe.builders.StockComps method}|hyperpage}{14}
+\indexentry{max\_ticks (dalio.pipe.builders.StockComps attribute)@\spxentry{max\_ticks}\spxextra{dalio.pipe.builders.StockComps attribute}|hyperpage}{14}
+\indexentry{run() (dalio.pipe.builders.StockComps method)@\spxentry{run()}\spxextra{dalio.pipe.builders.StockComps method}|hyperpage}{14}
+\indexentry{transform() (dalio.pipe.builders.StockComps method)@\spxentry{transform()}\spxextra{dalio.pipe.builders.StockComps method}|hyperpage}{14}
+\indexentry{ValueAtRisk (class in dalio.pipe.builders)@\spxentry{ValueAtRisk}\spxextra{class in dalio.pipe.builders}|hyperpage}{14}
+\indexentry{\_quantiles (dalio.pipe.builders.ValueAtRisk attribute)@\spxentry{\_quantiles}\spxextra{dalio.pipe.builders.ValueAtRisk attribute}|hyperpage}{14}
+\indexentry{copy() (dalio.pipe.builders.ValueAtRisk method)@\spxentry{copy()}\spxextra{dalio.pipe.builders.ValueAtRisk method}|hyperpage}{14}
+\indexentry{transform() (dalio.pipe.builders.ValueAtRisk method)@\spxentry{transform()}\spxextra{dalio.pipe.builders.ValueAtRisk method}|hyperpage}{15}
+\indexentry{dalio.pipe.col\_generation (module)@\spxentry{dalio.pipe.col\_generation}\spxextra{module}|hyperpage}{15}
+\indexentry{Change (class in dalio.pipe.col\_generation)@\spxentry{Change}\spxextra{class in dalio.pipe.col\_generation}|hyperpage}{15}
+\indexentry{\_strategy (dalio.pipe.col\_generation.Change attribute)@\spxentry{\_strategy}\spxextra{dalio.pipe.col\_generation.Change attribute}|hyperpage}{15}
+\indexentry{\_new\_cols (dalio.pipe.col\_generation.Change attribute)@\spxentry{\_new\_cols}\spxextra{dalio.pipe.col\_generation.Change attribute}|hyperpage}{15}
+\indexentry{copy() (dalio.pipe.col\_generation.Change method)@\spxentry{copy()}\spxextra{dalio.pipe.col\_generation.Change method}|hyperpage}{15}
+\indexentry{transform() (dalio.pipe.col\_generation.Change method)@\spxentry{transform()}\spxextra{dalio.pipe.col\_generation.Change method}|hyperpage}{15}
+\indexentry{Index (class in dalio.pipe.col\_generation)@\spxentry{Index}\spxextra{class in dalio.pipe.col\_generation}|hyperpage}{15}
+\indexentry{index\_at (dalio.pipe.col\_generation.Index attribute)@\spxentry{index\_at}\spxextra{dalio.pipe.col\_generation.Index attribute}|hyperpage}{15}
+\indexentry{\_cols (dalio.pipe.col\_generation.Index attribute)@\spxentry{\_cols}\spxextra{dalio.pipe.col\_generation.Index attribute}|hyperpage}{16}
+\indexentry{\_groupby (dalio.pipe.col\_generation.Index attribute)@\spxentry{\_groupby}\spxextra{dalio.pipe.col\_generation.Index attribute}|hyperpage}{16}
+\indexentry{copy() (dalio.pipe.col\_generation.Index method)@\spxentry{copy()}\spxextra{dalio.pipe.col\_generation.Index method}|hyperpage}{16}
+\indexentry{index\_at (dalio.pipe.col\_generation.Index attribute)@\spxentry{index\_at}\spxextra{dalio.pipe.col\_generation.Index attribute}|hyperpage}{16}
+\indexentry{transform() (dalio.pipe.col\_generation.Index method)@\spxentry{transform()}\spxextra{dalio.pipe.col\_generation.Index method}|hyperpage}{16}
+\indexentry{Period (class in dalio.pipe.col\_generation)@\spxentry{Period}\spxextra{class in dalio.pipe.col\_generation}|hyperpage}{16}
+\indexentry{agg\_func (dalio.pipe.col\_generation.Period attribute)@\spxentry{agg\_func}\spxextra{dalio.pipe.col\_generation.Period attribute}|hyperpage}{16}
+\indexentry{\_period (dalio.pipe.col\_generation.Period attribute)@\spxentry{\_period}\spxextra{dalio.pipe.col\_generation.Period attribute}|hyperpage}{16}
+\indexentry{agg\_func (dalio.pipe.col\_generation.Period attribute)@\spxentry{agg\_func}\spxextra{dalio.pipe.col\_generation.Period attribute}|hyperpage}{16}
+\indexentry{copy() (dalio.pipe.col\_generation.Period method)@\spxentry{copy()}\spxextra{dalio.pipe.col\_generation.Period method}|hyperpage}{16}
+\indexentry{transform() (dalio.pipe.col\_generation.Period method)@\spxentry{transform()}\spxextra{dalio.pipe.col\_generation.Period method}|hyperpage}{17}
+\indexentry{Rolling (class in dalio.pipe.col\_generation)@\spxentry{Rolling}\spxextra{class in dalio.pipe.col\_generation}|hyperpage}{17}
+\indexentry{\_rolling\_func (dalio.pipe.col\_generation.Rolling attribute)@\spxentry{\_rolling\_func}\spxextra{dalio.pipe.col\_generation.Rolling attribute}|hyperpage}{17}
+\indexentry{\_window (dalio.pipe.col\_generation.Rolling attribute)@\spxentry{\_window}\spxextra{dalio.pipe.col\_generation.Rolling attribute}|hyperpage}{17}
+\indexentry{copy() (dalio.pipe.col\_generation.Rolling method)@\spxentry{copy()}\spxextra{dalio.pipe.col\_generation.Rolling method}|hyperpage}{17}
+\indexentry{transform() (dalio.pipe.col\_generation.Rolling method)@\spxentry{transform()}\spxextra{dalio.pipe.col\_generation.Rolling method}|hyperpage}{17}
+\indexentry{StockReturns (class in dalio.pipe.col\_generation)@\spxentry{StockReturns}\spxextra{class in dalio.pipe.col\_generation}|hyperpage}{17}
+\indexentry{transform() (dalio.pipe.col\_generation.StockReturns method)@\spxentry{transform()}\spxextra{dalio.pipe.col\_generation.StockReturns method}|hyperpage}{17}
+\indexentry{dalio.pipe.custom (module)@\spxentry{dalio.pipe.custom}\spxextra{module}|hyperpage}{17}
+\indexentry{Custom (class in dalio.pipe.custom)@\spxentry{Custom}\spxextra{class in dalio.pipe.custom}|hyperpage}{17}
+\indexentry{t\_func (dalio.pipe.custom.Custom attribute)@\spxentry{t\_func}\spxextra{dalio.pipe.custom.Custom attribute}|hyperpage}{17}
+\indexentry{\_args (dalio.pipe.custom.Custom attribute)@\spxentry{\_args}\spxextra{dalio.pipe.custom.Custom attribute}|hyperpage}{18}
+\indexentry{\_kwargs (dalio.pipe.custom.Custom attribute)@\spxentry{\_kwargs}\spxextra{dalio.pipe.custom.Custom attribute}|hyperpage}{18}
+\indexentry{copy() (dalio.pipe.custom.Custom method)@\spxentry{copy()}\spxextra{dalio.pipe.custom.Custom method}|hyperpage}{18}
+\indexentry{t\_func (dalio.pipe.custom.Custom attribute)@\spxentry{t\_func}\spxextra{dalio.pipe.custom.Custom attribute}|hyperpage}{18}
+\indexentry{transform() (dalio.pipe.custom.Custom method)@\spxentry{transform()}\spxextra{dalio.pipe.custom.Custom method}|hyperpage}{18}
+\indexentry{dalio.pipe.forecast (module)@\spxentry{dalio.pipe.forecast}\spxextra{module}|hyperpage}{18}
+\indexentry{Forecast (class in dalio.pipe.forecast)@\spxentry{Forecast}\spxextra{class in dalio.pipe.forecast}|hyperpage}{18}
+\indexentry{horizon (dalio.pipe.forecast.Forecast attribute)@\spxentry{horizon}\spxextra{dalio.pipe.forecast.Forecast attribute}|hyperpage}{18}
+\indexentry{horizon (dalio.pipe.forecast.Forecast attribute)@\spxentry{horizon}\spxextra{dalio.pipe.forecast.Forecast attribute}|hyperpage}{18}
+\indexentry{transform() (dalio.pipe.forecast.Forecast method)@\spxentry{transform()}\spxextra{dalio.pipe.forecast.Forecast method}|hyperpage}{18}
+\indexentry{GARCHForecast (class in dalio.pipe.forecast)@\spxentry{GARCHForecast}\spxextra{class in dalio.pipe.forecast}|hyperpage}{18}
+\indexentry{\_start (dalio.pipe.forecast.GARCHForecast attribute)@\spxentry{\_start}\spxextra{dalio.pipe.forecast.GARCHForecast attribute}|hyperpage}{18}
+\indexentry{transform() (dalio.pipe.forecast.GARCHForecast method)@\spxentry{transform()}\spxextra{dalio.pipe.forecast.GARCHForecast method}|hyperpage}{19}
+\indexentry{dalio.pipe.pipe (module)@\spxentry{dalio.pipe.pipe}\spxextra{module}|hyperpage}{19}
+\indexentry{Pipe (class in dalio.pipe.pipe)@\spxentry{Pipe}\spxextra{class in dalio.pipe.pipe}|hyperpage}{19}
+\indexentry{\_source (dalio.pipe.pipe.Pipe attribute)@\spxentry{\_source}\spxextra{dalio.pipe.pipe.Pipe attribute}|hyperpage}{19}
+\indexentry{pipeline() (dalio.pipe.pipe.Pipe method)@\spxentry{pipeline()}\spxextra{dalio.pipe.pipe.Pipe method}|hyperpage}{19}
+\indexentry{run() (dalio.pipe.pipe.Pipe method)@\spxentry{run()}\spxextra{dalio.pipe.pipe.Pipe method}|hyperpage}{19}
+\indexentry{set\_input() (dalio.pipe.pipe.Pipe method)@\spxentry{set\_input()}\spxextra{dalio.pipe.pipe.Pipe method}|hyperpage}{19}
+\indexentry{transform() (dalio.pipe.pipe.Pipe method)@\spxentry{transform()}\spxextra{dalio.pipe.pipe.Pipe method}|hyperpage}{19}
+\indexentry{with\_input() (dalio.pipe.pipe.Pipe method)@\spxentry{with\_input()}\spxextra{dalio.pipe.pipe.Pipe method}|hyperpage}{19}
+\indexentry{PipeLine (class in dalio.pipe.pipe)@\spxentry{PipeLine}\spxextra{class in dalio.pipe.pipe}|hyperpage}{19}
+\indexentry{pipeline (dalio.pipe.pipe.PipeLine attribute)@\spxentry{pipeline}\spxextra{dalio.pipe.pipe.PipeLine attribute}|hyperpage}{20}
+\indexentry{copy() (dalio.pipe.pipe.PipeLine method)@\spxentry{copy()}\spxextra{dalio.pipe.pipe.PipeLine method}|hyperpage}{20}
+\indexentry{extend() (dalio.pipe.pipe.PipeLine method)@\spxentry{extend()}\spxextra{dalio.pipe.pipe.PipeLine method}|hyperpage}{20}
+\indexentry{transform() (dalio.pipe.pipe.PipeLine method)@\spxentry{transform()}\spxextra{dalio.pipe.pipe.PipeLine method}|hyperpage}{20}
+\indexentry{dalio.pipe.selection (module)@\spxentry{dalio.pipe.selection}\spxextra{module}|hyperpage}{20}
+\indexentry{ColSelect (class in dalio.pipe.selection)@\spxentry{ColSelect}\spxextra{class in dalio.pipe.selection}|hyperpage}{20}
+\indexentry{\_cols (dalio.pipe.selection.ColSelect attribute)@\spxentry{\_cols}\spxextra{dalio.pipe.selection.ColSelect attribute}|hyperpage}{20}
+\indexentry{copy() (dalio.pipe.selection.ColSelect method)@\spxentry{copy()}\spxextra{dalio.pipe.selection.ColSelect method}|hyperpage}{20}
+\indexentry{transform() (dalio.pipe.selection.ColSelect method)@\spxentry{transform()}\spxextra{dalio.pipe.selection.ColSelect method}|hyperpage}{20}
+\indexentry{DateSelect (class in dalio.pipe.selection)@\spxentry{DateSelect}\spxextra{class in dalio.pipe.selection}|hyperpage}{20}
+\indexentry{\_start (dalio.pipe.selection.DateSelect attribute)@\spxentry{\_start}\spxextra{dalio.pipe.selection.DateSelect attribute}|hyperpage}{21}
+\indexentry{\_end (dalio.pipe.selection.DateSelect attribute)@\spxentry{\_end}\spxextra{dalio.pipe.selection.DateSelect attribute}|hyperpage}{21}
+\indexentry{copy() (dalio.pipe.selection.DateSelect method)@\spxentry{copy()}\spxextra{dalio.pipe.selection.DateSelect method}|hyperpage}{21}
+\indexentry{set\_end() (dalio.pipe.selection.DateSelect method)@\spxentry{set\_end()}\spxextra{dalio.pipe.selection.DateSelect method}|hyperpage}{21}
+\indexentry{set\_start() (dalio.pipe.selection.DateSelect method)@\spxentry{set\_start()}\spxextra{dalio.pipe.selection.DateSelect method}|hyperpage}{21}
+\indexentry{transform() (dalio.pipe.selection.DateSelect method)@\spxentry{transform()}\spxextra{dalio.pipe.selection.DateSelect method}|hyperpage}{21}
+\indexentry{dalio.model.financial (module)@\spxentry{dalio.model.financial}\spxextra{module}|hyperpage}{23}
+\indexentry{CompsData (class in dalio.model.financial)@\spxentry{CompsData}\spxextra{class in dalio.model.financial}|hyperpage}{23}
+\indexentry{run() (dalio.model.financial.CompsData method)@\spxentry{run()}\spxextra{dalio.model.financial.CompsData method}|hyperpage}{23}
+\indexentry{CompsFinancials (class in dalio.model.financial)@\spxentry{CompsFinancials}\spxextra{class in dalio.model.financial}|hyperpage}{23}
+\indexentry{CompsInfo (class in dalio.model.financial)@\spxentry{CompsInfo}\spxextra{class in dalio.model.financial}|hyperpage}{23}
+\indexentry{MakeCriticalLine (class in dalio.model.financial)@\spxentry{MakeCriticalLine}\spxextra{class in dalio.model.financial}|hyperpage}{23}
+\indexentry{run() (dalio.model.financial.MakeCriticalLine method)@\spxentry{run()}\spxextra{dalio.model.financial.MakeCriticalLine method}|hyperpage}{23}
+\indexentry{weight\_bounds (dalio.model.financial.MakeCriticalLine attribute)@\spxentry{weight\_bounds}\spxextra{dalio.model.financial.MakeCriticalLine attribute}|hyperpage}{23}
+\indexentry{MakeEfficientFrontier (class in dalio.model.financial)@\spxentry{MakeEfficientFrontier}\spxextra{class in dalio.model.financial}|hyperpage}{23}
+\indexentry{add\_constraint() (dalio.model.financial.MakeEfficientFrontier method)@\spxentry{add\_constraint()}\spxextra{dalio.model.financial.MakeEfficientFrontier method}|hyperpage}{23}
+\indexentry{add\_objective() (dalio.model.financial.MakeEfficientFrontier method)@\spxentry{add\_objective()}\spxextra{dalio.model.financial.MakeEfficientFrontier method}|hyperpage}{24}
+\indexentry{add\_sector\_definitions() (dalio.model.financial.MakeEfficientFrontier method)@\spxentry{add\_sector\_definitions()}\spxextra{dalio.model.financial.MakeEfficientFrontier method}|hyperpage}{24}
+\indexentry{add\_sector\_weight\_constraint() (dalio.model.financial.MakeEfficientFrontier method)@\spxentry{add\_sector\_weight\_constraint()}\spxextra{dalio.model.financial.MakeEfficientFrontier method}|hyperpage}{24}
+\indexentry{add\_stock\_weight\_constraint() (dalio.model.financial.MakeEfficientFrontier method)@\spxentry{add\_stock\_weight\_constraint()}\spxextra{dalio.model.financial.MakeEfficientFrontier method}|hyperpage}{24}
+\indexentry{copy() (dalio.model.financial.MakeEfficientFrontier method)@\spxentry{copy()}\spxextra{dalio.model.financial.MakeEfficientFrontier method}|hyperpage}{24}
+\indexentry{gamma (dalio.model.financial.MakeEfficientFrontier attribute)@\spxentry{gamma}\spxextra{dalio.model.financial.MakeEfficientFrontier attribute}|hyperpage}{24}
+\indexentry{run() (dalio.model.financial.MakeEfficientFrontier method)@\spxentry{run()}\spxextra{dalio.model.financial.MakeEfficientFrontier method}|hyperpage}{24}
+\indexentry{weight\_bounds (dalio.model.financial.MakeEfficientFrontier attribute)@\spxentry{weight\_bounds}\spxextra{dalio.model.financial.MakeEfficientFrontier attribute}|hyperpage}{24}
+\indexentry{OptimumPortfolio (class in dalio.model.financial)@\spxentry{OptimumPortfolio}\spxextra{class in dalio.model.financial}|hyperpage}{24}
+\indexentry{run() (dalio.model.financial.OptimumPortfolio method)@\spxentry{run()}\spxextra{dalio.model.financial.OptimumPortfolio method}|hyperpage}{24}
+\indexentry{OptimumWeights (class in dalio.model.financial)@\spxentry{OptimumWeights}\spxextra{class in dalio.model.financial}|hyperpage}{24}
+\indexentry{build\_model() (dalio.model.financial.OptimumWeights method)@\spxentry{build\_model()}\spxextra{dalio.model.financial.OptimumWeights method}|hyperpage}{24}
+\indexentry{check\_name() (dalio.model.financial.OptimumWeights method)@\spxentry{check\_name()}\spxextra{dalio.model.financial.OptimumWeights method}|hyperpage}{24}
+\indexentry{gamma (dalio.model.financial.OptimumWeights attribute)@\spxentry{gamma}\spxextra{dalio.model.financial.OptimumWeights attribute}|hyperpage}{25}
+\indexentry{run() (dalio.model.financial.OptimumWeights method)@\spxentry{run()}\spxextra{dalio.model.financial.OptimumWeights method}|hyperpage}{25}
+\indexentry{weight\_bounds (dalio.model.financial.OptimumWeights attribute)@\spxentry{weight\_bounds}\spxextra{dalio.model.financial.OptimumWeights attribute}|hyperpage}{25}
+\indexentry{dalio.model.model (module)@\spxentry{dalio.model.model}\spxextra{module}|hyperpage}{25}
+\indexentry{Model (class in dalio.model.model)@\spxentry{Model}\spxextra{class in dalio.model.model}|hyperpage}{25}
+\indexentry{\_source (dalio.model.model.Model attribute)@\spxentry{\_source}\spxextra{dalio.model.model.Model attribute}|hyperpage}{25}
+\indexentry{copy() (dalio.model.model.Model method)@\spxentry{copy()}\spxextra{dalio.model.model.Model method}|hyperpage}{25}
+\indexentry{run() (dalio.model.model.Model method)@\spxentry{run()}\spxextra{dalio.model.model.Model method}|hyperpage}{25}
+\indexentry{set\_input() (dalio.model.model.Model method)@\spxentry{set\_input()}\spxextra{dalio.model.model.Model method}|hyperpage}{25}
+\indexentry{with\_input() (dalio.model.model.Model method)@\spxentry{with\_input()}\spxextra{dalio.model.model.Model method}|hyperpage}{26}
+\indexentry{dalio.application.application (module)@\spxentry{dalio.application.application}\spxextra{module}|hyperpage}{27}
+\indexentry{Application (class in dalio.application.application)@\spxentry{Application}\spxextra{class in dalio.application.application}|hyperpage}{27}
+\indexentry{\_out (dalio.application.application.Application attribute)@\spxentry{\_out}\spxextra{dalio.application.application.Application attribute}|hyperpage}{27}
+\indexentry{copy() (dalio.application.application.Application method)@\spxentry{copy()}\spxextra{dalio.application.application.Application method}|hyperpage}{27}
+\indexentry{run() (dalio.application.application.Application method)@\spxentry{run()}\spxextra{dalio.application.application.Application method}|hyperpage}{27}
+\indexentry{set\_output() (dalio.application.application.Application method)@\spxentry{set\_output()}\spxextra{dalio.application.application.Application method}|hyperpage}{27}
+\indexentry{with\_output() (dalio.application.application.Application method)@\spxentry{with\_output()}\spxextra{dalio.application.application.Application method}|hyperpage}{28}
+\indexentry{dalio.application.graphers (module)@\spxentry{dalio.application.graphers}\spxextra{module}|hyperpage}{28}
+\indexentry{ForecastGrapher (class in dalio.application.graphers)@\spxentry{ForecastGrapher}\spxextra{class in dalio.application.graphers}|hyperpage}{28}
+\indexentry{run() (dalio.application.graphers.ForecastGrapher method)@\spxentry{run()}\spxextra{dalio.application.graphers.ForecastGrapher method}|hyperpage}{28}
+\indexentry{Grapher (class in dalio.application.graphers)@\spxentry{Grapher}\spxextra{class in dalio.application.graphers}|hyperpage}{28}
+\indexentry{run() (dalio.application.graphers.Grapher method)@\spxentry{run()}\spxextra{dalio.application.graphers.Grapher method}|hyperpage}{28}
+\indexentry{LMGrapher (class in dalio.application.graphers)@\spxentry{LMGrapher}\spxextra{class in dalio.application.graphers}|hyperpage}{28}
+\indexentry{\_legend (dalio.application.graphers.LMGrapher attribute)@\spxentry{\_legend}\spxextra{dalio.application.graphers.LMGrapher attribute}|hyperpage}{28}
+\indexentry{run() (dalio.application.graphers.LMGrapher method)@\spxentry{run()}\spxextra{dalio.application.graphers.LMGrapher method}|hyperpage}{28}
+\indexentry{PandasTSGrapher (class in dalio.application.graphers)@\spxentry{PandasTSGrapher}\spxextra{class in dalio.application.graphers}|hyperpage}{29}
+\indexentry{PandasXYGrapher (class in dalio.application.graphers)@\spxentry{PandasXYGrapher}\spxextra{class in dalio.application.graphers}|hyperpage}{29}
+\indexentry{\_x (dalio.application.graphers.PandasXYGrapher attribute)@\spxentry{\_x}\spxextra{dalio.application.graphers.PandasXYGrapher attribute}|hyperpage}{29}
+\indexentry{\_y (dalio.application.graphers.PandasXYGrapher attribute)@\spxentry{\_y}\spxextra{dalio.application.graphers.PandasXYGrapher attribute}|hyperpage}{29}
+\indexentry{\_legend (dalio.application.graphers.PandasXYGrapher attribute)@\spxentry{\_legend}\spxextra{dalio.application.graphers.PandasXYGrapher attribute}|hyperpage}{29}
+\indexentry{run() (dalio.application.graphers.PandasXYGrapher method)@\spxentry{run()}\spxextra{dalio.application.graphers.PandasXYGrapher method}|hyperpage}{29}
+\indexentry{VaRGrapher (class in dalio.application.graphers)@\spxentry{VaRGrapher}\spxextra{class in dalio.application.graphers}|hyperpage}{29}
+\indexentry{run() (dalio.application.graphers.VaRGrapher method)@\spxentry{run()}\spxextra{dalio.application.graphers.VaRGrapher method}|hyperpage}{29}
+\indexentry{dalio.application.printers (module)@\spxentry{dalio.application.printers}\spxextra{module}|hyperpage}{29}
+\indexentry{FilePrinter (class in dalio.application.printers)@\spxentry{FilePrinter}\spxextra{class in dalio.application.printers}|hyperpage}{29}
+\indexentry{run() (dalio.application.printers.FilePrinter method)@\spxentry{run()}\spxextra{dalio.application.printers.FilePrinter method}|hyperpage}{29}
+\indexentry{dalio.ops (module)@\spxentry{dalio.ops}\spxextra{module}|hyperpage}{31}
+\indexentry{get\_comps\_by\_sic() (in module dalio.ops)@\spxentry{get\_comps\_by\_sic()}\spxextra{in module dalio.ops}|hyperpage}{31}
+\indexentry{index\_cols() (in module dalio.ops)@\spxentry{index\_cols()}\spxextra{in module dalio.ops}|hyperpage}{31}
+\indexentry{risk\_metrics() (in module dalio.ops)@\spxentry{risk\_metrics()}\spxextra{in module dalio.ops}|hyperpage}{31}
+\indexentry{dalio.base.builder (module)@\spxentry{dalio.base.builder}\spxextra{module}|hyperpage}{33}
+\indexentry{dalio.base.constants (module)@\spxentry{dalio.base.constants}\spxextra{module}|hyperpage}{33}
+\indexentry{dalio.base.datadef (module)@\spxentry{dalio.base.datadef}\spxextra{module}|hyperpage}{33}
+\indexentry{dalio.base.node (module)@\spxentry{dalio.base.node}\spxextra{module}|hyperpage}{33}
+\indexentry{dalio.base.transformer (module)@\spxentry{dalio.base.transformer}\spxextra{module}|hyperpage}{34}
+\indexentry{dalio.base (module)@\spxentry{dalio.base}\spxextra{module}|hyperpage}{34}
+\indexentry{dalio.validator.array\_val (module)@\spxentry{dalio.validator.array\_val}\spxextra{module}|hyperpage}{35}
+\indexentry{HAS\_DIMS (class in dalio.validator.array\_val)@\spxentry{HAS\_DIMS}\spxextra{class in dalio.validator.array\_val}|hyperpage}{35}
+\indexentry{\_dims (dalio.validator.array\_val.HAS\_DIMS attribute)@\spxentry{\_dims}\spxextra{dalio.validator.array\_val.HAS\_DIMS attribute}|hyperpage}{35}
+\indexentry{\_comparisson (dalio.validator.array\_val.HAS\_DIMS attribute)@\spxentry{\_comparisson}\spxextra{dalio.validator.array\_val.HAS\_DIMS attribute}|hyperpage}{35}
+\indexentry{validate() (dalio.validator.array\_val.HAS\_DIMS method)@\spxentry{validate()}\spxextra{dalio.validator.array\_val.HAS\_DIMS method}|hyperpage}{35}
+\indexentry{dalio.validator.base\_val (module)@\spxentry{dalio.validator.base\_val}\spxextra{module}|hyperpage}{35}
+\indexentry{ELEMS\_TYPE (class in dalio.validator.base\_val)@\spxentry{ELEMS\_TYPE}\spxextra{class in dalio.validator.base\_val}|hyperpage}{35}
+\indexentry{\_t (dalio.validator.base\_val.ELEMS\_TYPE attribute)@\spxentry{\_t}\spxextra{dalio.validator.base\_val.ELEMS\_TYPE attribute}|hyperpage}{35}
+\indexentry{validate() (dalio.validator.base\_val.ELEMS\_TYPE method)@\spxentry{validate()}\spxextra{dalio.validator.base\_val.ELEMS\_TYPE method}|hyperpage}{35}
+\indexentry{HAS\_ATTR (class in dalio.validator.base\_val)@\spxentry{HAS\_ATTR}\spxextra{class in dalio.validator.base\_val}|hyperpage}{36}
+\indexentry{\_attr (dalio.validator.base\_val.HAS\_ATTR attribute)@\spxentry{\_attr}\spxextra{dalio.validator.base\_val.HAS\_ATTR attribute}|hyperpage}{36}
+\indexentry{validate() (dalio.validator.base\_val.HAS\_ATTR method)@\spxentry{validate()}\spxextra{dalio.validator.base\_val.HAS\_ATTR method}|hyperpage}{36}
+\indexentry{IS\_TYPE (class in dalio.validator.base\_val)@\spxentry{IS\_TYPE}\spxextra{class in dalio.validator.base\_val}|hyperpage}{36}
+\indexentry{validate() (dalio.validator.base\_val.IS\_TYPE method)@\spxentry{validate()}\spxextra{dalio.validator.base\_val.IS\_TYPE method}|hyperpage}{36}
+\indexentry{dalio.validator.pandas\_val (module)@\spxentry{dalio.validator.pandas\_val}\spxextra{module}|hyperpage}{36}
+\indexentry{HAS\_COLS (class in dalio.validator.pandas\_val)@\spxentry{HAS\_COLS}\spxextra{class in dalio.validator.pandas\_val}|hyperpage}{36}
+\indexentry{\_cols (dalio.validator.pandas\_val.HAS\_COLS attribute)@\spxentry{\_cols}\spxextra{dalio.validator.pandas\_val.HAS\_COLS attribute}|hyperpage}{36}
+\indexentry{validate() (dalio.validator.pandas\_val.HAS\_COLS method)@\spxentry{validate()}\spxextra{dalio.validator.pandas\_val.HAS\_COLS method}|hyperpage}{36}
+\indexentry{HAS\_INDEX\_NAMES (class in dalio.validator.pandas\_val)@\spxentry{HAS\_INDEX\_NAMES}\spxextra{class in dalio.validator.pandas\_val}|hyperpage}{36}
+\indexentry{\_names (dalio.validator.pandas\_val.HAS\_INDEX\_NAMES attribute)@\spxentry{\_names}\spxextra{dalio.validator.pandas\_val.HAS\_INDEX\_NAMES attribute}|hyperpage}{36}
+\indexentry{\_axis (dalio.validator.pandas\_val.HAS\_INDEX\_NAMES attribute)@\spxentry{\_axis}\spxextra{dalio.validator.pandas\_val.HAS\_INDEX\_NAMES attribute}|hyperpage}{36}
+\indexentry{validate() (dalio.validator.pandas\_val.HAS\_INDEX\_NAMES method)@\spxentry{validate()}\spxextra{dalio.validator.pandas\_val.HAS\_INDEX\_NAMES method}|hyperpage}{36}
+\indexentry{HAS\_IN\_COLS (class in dalio.validator.pandas\_val)@\spxentry{HAS\_IN\_COLS}\spxextra{class in dalio.validator.pandas\_val}|hyperpage}{36}
+\indexentry{\_cols (dalio.validator.pandas\_val.HAS\_IN\_COLS attribute)@\spxentry{\_cols}\spxextra{dalio.validator.pandas\_val.HAS\_IN\_COLS attribute}|hyperpage}{36}
+\indexentry{\_items (dalio.validator.pandas\_val.HAS\_IN\_COLS attribute)@\spxentry{\_items}\spxextra{dalio.validator.pandas\_val.HAS\_IN\_COLS attribute}|hyperpage}{36}
+\indexentry{validate() (dalio.validator.pandas\_val.HAS\_IN\_COLS method)@\spxentry{validate()}\spxextra{dalio.validator.pandas\_val.HAS\_IN\_COLS method}|hyperpage}{36}
+\indexentry{IS\_PD\_DF (class in dalio.validator.pandas\_val)@\spxentry{IS\_PD\_DF}\spxextra{class in dalio.validator.pandas\_val}|hyperpage}{37}
+\indexentry{IS\_PD\_TS (class in dalio.validator.pandas\_val)@\spxentry{IS\_PD\_TS}\spxextra{class in dalio.validator.pandas\_val}|hyperpage}{37}
+\indexentry{validate() (dalio.validator.pandas\_val.IS\_PD\_TS method)@\spxentry{validate()}\spxextra{dalio.validator.pandas\_val.IS\_PD\_TS method}|hyperpage}{37}
+\indexentry{dalio.validator.presets (module)@\spxentry{dalio.validator.presets}\spxextra{module}|hyperpage}{37}
+\indexentry{dalio.validator.validator (module)@\spxentry{dalio.validator.validator}\spxextra{module}|hyperpage}{37}
+\indexentry{Validator (class in dalio.validator.validator)@\spxentry{Validator}\spxextra{class in dalio.validator.validator}|hyperpage}{37}
+\indexentry{fatal (dalio.validator.validator.Validator attribute)@\spxentry{fatal}\spxextra{dalio.validator.validator.Validator attribute}|hyperpage}{37}
+\indexentry{test\_desc (dalio.validator.validator.Validator attribute)@\spxentry{test\_desc}\spxextra{dalio.validator.validator.Validator attribute}|hyperpage}{37}
+\indexentry{fatal (dalio.validator.validator.Validator attribute)@\spxentry{fatal}\spxextra{dalio.validator.validator.Validator attribute}|hyperpage}{37}
+\indexentry{fatal\_off() (dalio.validator.validator.Validator method)@\spxentry{fatal\_off()}\spxextra{dalio.validator.validator.Validator method}|hyperpage}{37}
+\indexentry{fatal\_on() (dalio.validator.validator.Validator method)@\spxentry{fatal\_on()}\spxextra{dalio.validator.validator.Validator method}|hyperpage}{37}
+\indexentry{is\_on (dalio.validator.validator.Validator attribute)@\spxentry{is\_on}\spxextra{dalio.validator.validator.Validator attribute}|hyperpage}{37}
+\indexentry{test\_desc (dalio.validator.validator.Validator attribute)@\spxentry{test\_desc}\spxextra{dalio.validator.validator.Validator attribute}|hyperpage}{37}
+\indexentry{validate() (dalio.validator.validator.Validator method)@\spxentry{validate()}\spxextra{dalio.validator.validator.Validator method}|hyperpage}{38}
+\indexentry{dalio.validator (module)@\spxentry{dalio.validator}\spxextra{module}|hyperpage}{38}
+\indexentry{dalio.util.plotting\_utils (module)@\spxentry{dalio.util.plotting\_utils}\spxextra{module}|hyperpage}{39}
+\indexentry{plot\_covariance() (in module dalio.util.plotting\_utils)@\spxentry{plot\_covariance()}\spxextra{in module dalio.util.plotting\_utils}|hyperpage}{39}
+\indexentry{plot\_dendrogram() (in module dalio.util.plotting\_utils)@\spxentry{plot\_dendrogram()}\spxextra{in module dalio.util.plotting\_utils}|hyperpage}{39}
+\indexentry{plot\_efficient\_frontier() (in module dalio.util.plotting\_utils)@\spxentry{plot\_efficient\_frontier()}\spxextra{in module dalio.util.plotting\_utils}|hyperpage}{39}
+\indexentry{plot\_weights() (in module dalio.util.plotting\_utils)@\spxentry{plot\_weights()}\spxextra{in module dalio.util.plotting\_utils}|hyperpage}{40}
+\indexentry{dalio.util.processing\_utils (module)@\spxentry{dalio.util.processing\_utils}\spxextra{module}|hyperpage}{40}
+\indexentry{process\_cols() (in module dalio.util.processing\_utils)@\spxentry{process\_cols()}\spxextra{in module dalio.util.processing\_utils}|hyperpage}{40}
+\indexentry{process\_date() (in module dalio.util.processing\_utils)@\spxentry{process\_date()}\spxextra{in module dalio.util.processing\_utils}|hyperpage}{40}
+\indexentry{process\_new\_colnames() (in module dalio.util.processing\_utils)@\spxentry{process\_new\_colnames()}\spxextra{in module dalio.util.processing\_utils}|hyperpage}{40}
+\indexentry{process\_new\_df() (in module dalio.util.processing\_utils)@\spxentry{process\_new\_df()}\spxextra{in module dalio.util.processing\_utils}|hyperpage}{40}
+\indexentry{dalio.util.translation\_utils (module)@\spxentry{dalio.util.translation\_utils}\spxextra{module}|hyperpage}{41}
+\indexentry{translate\_df() (in module dalio.util.translation\_utils)@\spxentry{translate\_df()}\spxextra{in module dalio.util.translation\_utils}|hyperpage}{41}
+\indexentry{dalio.util (module)@\spxentry{dalio.util}\spxextra{module}|hyperpage}{41}
+\indexentry{process\_cols() (in module dalio.util)@\spxentry{process\_cols()}\spxextra{in module dalio.util}|hyperpage}{41}
+\indexentry{process\_new\_colnames() (in module dalio.util)@\spxentry{process\_new\_colnames()}\spxextra{in module dalio.util}|hyperpage}{41}
+\indexentry{process\_date() (in module dalio.util)@\spxentry{process\_date()}\spxextra{in module dalio.util}|hyperpage}{41}
+\indexentry{process\_new\_df() (in module dalio.util)@\spxentry{process\_new\_df()}\spxextra{in module dalio.util}|hyperpage}{41}
+\indexentry{translate\_df() (in module dalio.util)@\spxentry{translate\_df()}\spxextra{in module dalio.util}|hyperpage}{41}
+\indexentry{plot\_efficient\_frontier() (in module dalio.util)@\spxentry{plot\_efficient\_frontier()}\spxextra{in module dalio.util}|hyperpage}{41}
+\indexentry{plot\_covariance() (in module dalio.util)@\spxentry{plot\_covariance()}\spxextra{in module dalio.util}|hyperpage}{42}
+\indexentry{plot\_weights() (in module dalio.util)@\spxentry{plot\_weights()}\spxextra{in module dalio.util}|hyperpage}{42}

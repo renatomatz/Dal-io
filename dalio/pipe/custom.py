@@ -40,9 +40,9 @@ class Custom(Pipe):
 
     def copy(self, *args, **kwargs):
         return super().copy(
-            self.t_func, 
+            self.t_func,
             *self._args,
-            *args, 
+            *args,
             **self._kwargs,
             **kwargs
         )
