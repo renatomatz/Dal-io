@@ -168,7 +168,7 @@ class PySubplotGraph(_MultiFigure):
     _cols = int
     _loc: np.ndarray
 
-    def __init__(self, rows, cols):
+    def __init__(self, rows, cols, figsize=None):
         """Initialize instance, check and set rows and columns
 
         Args:
@@ -177,7 +177,7 @@ class PySubplotGraph(_MultiFigure):
         """
         self._rows = rows
         self._cols = cols
-        super().__init__()
+        super().__init__(figsize=figsize)
 
     def plot(self, data, coords=None, kind=None, **graph_opts):
         """Plot on a specified subplot axis

@@ -428,7 +428,7 @@ class LMGrapher(PandasXYGrapher):
             self._get_output("data_out").plot(
                 (x, data[col]),
                 kind="scatter",
-                s=0.5,
+                s=1.5,
                 **graph_opts)
 
             # graph fitted lm
