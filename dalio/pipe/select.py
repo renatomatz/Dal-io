@@ -59,24 +59,6 @@ class _ColValSelection(_ColSelection):
         )
 
 
-class _ColMapSelection(_ColSelection):
-
-    def __init__(self, map_dict, level=None):
-        columns = [*map_dict.keys()] if level is None \
-            else {level: [*map_dict.keys()]}
-
-        super().__init__(columns)
-
-        self._map_dict = map_dict
-
-    def copy(self, *args, **kwargs):
-        return super().copy(
-            *args,
-            map_dict=self._map_dict,
-            **kwargs,
-        )
-
-
 class ColSelect(_ColSelection):
     """Select columns"""
 
@@ -125,6 +107,9 @@ class ColDrop(_ColSelection):
             all_cols,
             self._columns
         )
+
+        if not isinstance(drop_cols, dict):
+            drop_cols = {0: drop_cols}
 
         cols = {level: list(set(ac).difference(dc))
                 for (level, ac), (level, dc)
@@ -342,15 +327,23 @@ class ValDrop(_ColValSelection):
 
     def transform(self, data, **kwargs):
 
-        cols_to_check = self._columns
+        levels = extract_level_names_dict(data)
+
+        cols_to_check = filter_levels(
+            levels,
+            self._columns
+        )
 
         # if data has a multiindex
-        if data.columns.nlevels > 1:
+        if data.columns.nlevels > 1 \
+        and not isinstance(cols_to_check[0], tuple):
+
+            if not isinstance(cols_to_check, dict):
+                levels[0] = cols_to_check
+                cols_to_check = levels
+
             # check the tuple combinations of selected levels
-            cols_to_check = product(*filter_levels(
-                extract_level_names_dict(data),
-                cols_to_check
-            ).values)
+            cols_to_check = product(*cols_to_check.values())
 
         for col in cols_to_check:
             # keep those values that are not (~) in self._values
@@ -391,15 +384,22 @@ class ValKeep(_ColValSelection):
 
     def transform(self, data, **kwargs):
 
-        cols_to_check = self._columns
+        levels = extract_level_names_dict(data)
+
+        cols_to_check = filter_levels(
+            levels,
+            self._columns
+        )
 
         # if data has a multiindex
         if data.columns.nlevels > 1:
+
+            if not isinstance(cols_to_check, dict):
+                levels[0] = cols_to_check
+                cols_to_check = levels
+
             # check the tuple combinations of selected levels
-            cols_to_check = product(*filter_levels(
-                extract_level_names_dict(data),
-                cols_to_check
-            ).values)
+            cols_to_check = product(*cols_to_check.values())
 
         for col in cols_to_check:
             # keep those values that are in self._values
@@ -430,15 +430,24 @@ class FreqDrop(_ColValSelection):
 
     def transform(self, data, **kwargs):
 
-        cols_to_check = self._columns
+        # TODO: make this a function and remove copies
+        levels = extract_level_names_dict(data)
+
+        cols_to_check = filter_levels(
+            levels,
+            self._columns
+        )
 
         # if data has a multiindex
-        if data.columns.nlevels > 1:
+        if data.columns.nlevels > 1 \
+        and not isinstance(cols_to_check[0], tuple):
+
+            if not isinstance(cols_to_check, dict):
+                levels[0] = cols_to_check
+                cols_to_check = levels
+
             # check the tuple combinations of selected levels
-            cols_to_check = product(*filter_levels(
-                extract_level_names_dict(data),
-                cols_to_check
-            ).values)
+            cols_to_check = product(*cols_to_check.values())
 
         i_to_keep = set()
         n_index = np.arange(data.shape[0])
@@ -465,15 +474,26 @@ class ColRename(_ColSelection):
         2    5       b
     """
 
+    def __init__(self, map_dict, level=0):
+        super().__init__({level: [*map_dict.keys()]})
+
+        self._map_dict = map_dict
+        self._level = level
+
     def transform(self, data, **kwargs):
 
-        if all([isinstance(val, dict) for val in self._columns.values()]):
-            for level, col in self._columns.items():
-                data = data.rename(columns=col, level=level)
-        else:
-            data = data.rename(columns=self._columns)
+        return data.rename(
+            columns=self._columns, 
+            level=self._level
+        )
 
-        return data
+    def copy(self, *args, **kwargs):
+        return super().copy(
+            *args,
+            map_dict=self._map_dict,
+            level=self._level,
+            **kwargs,
+        )
 
 
 class ColReorder(_ColSelection):
@@ -492,33 +512,41 @@ class ColReorder(_ColSelection):
         0  4  8  7  3
     """
 
+    def __init__(self, map_dict, level=0):
+        # TODO: make col maps a thing again
+        super().__init__({level: [*map_dict.keys()]})
+
+        self._map_dict = map_dict
+        self._level = level
+
     def transform(self, data, **kwargs):
 
-        if all([isinstance(val, dict) for val in self._columns.values()]):
-            all_cols = extract_level_names_dict(data)
-            for level, level_columns in self._columns.items():
-                for col, pos in level_columns.items():
-                    all_cols[level].remove(col)
-                    # this works for edge cases like last cols because of
-                    # the remove
-                    all_cols[level] = all_cols[level][:pos] \
-                        + [col] \
-                        + all_cols[level][pos:]
+        all_cols = extract_level_names_dict(data)
+
+        for col, pos in self._map_dict.items():
+            all_cols[self._level].remove(col)
+            # this works for edge cases like last cols because of
+            # the remove
+            all_cols[self._level] = all_cols[self._level][:pos] \
+                + [col] \
+                + all_cols[self._level][pos:]
+
+        if data.columns.nlevels > 0:
             all_cols = pd.MultiIndex.from_tuples(
                 [*product(*all_cols.values())]
             )
         else:
-            all_cols = data.columns.to_list()
-            for col, pos in self._columns.items():
-                all_cols.remove(col)
-                # this works for edge cases like last cols because of
-                # the remove
-                all_cols = all_cols[:pos] \
-                    + [col] \
-                    + all_cols[pos:]
-            all_cols = pd.Index(all_cols)
+            all_cols = all_cols[0]
 
         inter_df = data.copy()
         inter_df.columns = all_cols
 
         return inter_df
+
+    def copy(self, *args, **kwargs):
+        return super().copy(
+            *args,
+            map_dict=self._map_dict,
+            level=self._level,
+            **kwargs,
+        )

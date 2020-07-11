@@ -12,7 +12,7 @@ from dalio.model import *
 from dalio.application import *
 
 # File Input
-f_in = StockStreamFileTranslator()(PandasInFile("tests/MGT441.xlsx"))
+f_in = StockStreamFileTranslator()(PandasInFile("tests/sample_stocks.xlsx"))
 ticker = ["NVDA", "RL", "GPS", "WMT"]
 
 # Yahoo Input
@@ -100,7 +100,7 @@ garch = MakeARCH()(returns)\
 am = garch.run(ticker="MSFT")
 am.fit()
 var = ValueAtRisk(quantiles=[0.1, 0.01, 0.05])(garch)
-var_res = var.run(ticker="MSFT")
+# var_res = var.run(ticker="MSFT")
 
 pyplot_grapher = PyPlotGraph()
 
@@ -116,8 +116,8 @@ S.set_piece("shrinkage", "ledoit_wolf")
 mu = ExpectedReturns()(adj_close_in)
 mu.set_piece("return_model", "mean_historical_return")
 
-S_data = S.run(ticker=tickers)
-mu_data = mu.run(ticker=tickers)
+# S_data = S.run(ticker=tickers)
+# mu_data = mu.run(ticker=tickers)
 
 port_ef = MakeEfficientFrontier()\
     .set_input("sample_covariance", S)\
@@ -128,27 +128,29 @@ port_ef = MakeEfficientFrontier()\
         ticker="MSFT",
         comparisson="==",
         weight=0.3
-    )\
-    .set_piece("strategy", "max_sharpe")
+    )
 
 # ef = port_ef.run(ticker=tickers)
 
-opt_port = OptimumPortfolio()\
-    .set_input("data_in", adj_close_in)\
-    .set_input("weights_in", port_ef)
+# opt_weights = OptimumWeights()(port_ef)\
+#     .set_piece("strategy", "max_sharpe")
 
-port = opt_port.run(ticker=tickers)
+# opt_port = OptimumPortfolio()\
+#     .set_input("data_in", adj_close_in)\
+#     .set_input("weights_in", opt_weights)
 
-lm = LinearModel()(adj_close_in)\
+# port = opt_port.run(ticker=tickers)
+
+lm = PandasLinearModel()(adj_close_in)\
     .set_piece("strategy", "LinearRegression")
 
-lm_fitted = lm.run(ticker="MSFT")
+# lm_fitted = lm.run(ticker="MSFT")
 
 port_cla = MakeCriticalLine()\
     .set_input("sample_covariance", S)\
     .set_input("expected_returns", mu)
 
-cla = port_cla.run(ticker=tickers)
+# cla = port_cla.run(ticker=tickers)
 
 time = DateSelect()
 price = time.set_input(y_in)
@@ -157,10 +159,10 @@ price = time.set_input(y_in)
 pipe = ColDrop("close").set_input(price)
 res = pipe.run(ticker=ticker)
 
-val_drop = ValDrop(12855900, cols="volume").set_input(price)
+val_drop = ValDrop(12855900, columns="volume").set_input(price)
 res = pipe.run(ticker=ticker)
 
-pipe = ValKeep(12855900, cols="volume").set_input(price)
+pipe = ValKeep(12855900, columns="volume").set_input(price)
 res = pipe.run(ticker=ticker)
 
 pipe = ColRename({"close": "CLOSE"}).set_input(price)
@@ -172,7 +174,7 @@ res = pipe.run(ticker=ticker)
 pipe = FreqDrop(3, [("adj_close", "NVDA")]).set_input(price)
 res = pipe.run(ticker=ticker)
 
-pipe = ColReorder({"open":0}, level=0).set_input(price)
+pipe = ColReorder({"open":0}).set_input(price)
 res = pipe.run(ticker=ticker)
 
 pipe = RowDrop({("adj_close", "NVDA"): (lambda x: x < 100)}).set_input(price)
@@ -180,9 +182,6 @@ res = pipe.run(ticker=ticker)
 
 # Generate
 pipe = Bin({"NVDA": 3}, level=1, drop=False).set_input(price)
-res = pipe.run(ticker=ticker)
-
-pipe = OneHotEncode("is_delisted").set_input(q_tick_in)
 res = pipe.run(ticker=ticker)
 
 pipe = MapColVals("is_delisted", {1:"delisted", 2:"not delisted"}).set_input(q_tick_in)

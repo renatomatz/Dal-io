@@ -85,7 +85,9 @@ class HAS_COLS(IS_PD_DF):
             cols_to_check = self._cols
 
         missing_cols = [col for col in self._cols
-                        if col not in cols_to_check]
+                        if col not in cols_to_check] \
+                            if self._cols is not None \
+                            else []
 
         if len(missing_cols) == 0:
             return None

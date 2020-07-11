@@ -10,18 +10,18 @@ from dalio.ops import *
 from dalio.pipe import *
 
 # File Input
-f_in = StockStreamFileTranslator()(PandasInFile("tests/MGT441.xlsx"))
+f_in = StockStreamFileTranslator()(PandasInFile("tests/sample_stocks.xlsx"))
 
 # Yahoo Input
 y_api = YahooDR()
 y_in = YahooStockTranslator()(y_api)
 
 # Quandl Input
-q_api = QuandlAPI("/home/renatomz/Documents/Projects/Dal-io/dalio/external/config/quandl_config.json")
-q_api.authenticate()
+# q_api = QuandlAPI("/home/renatomz/Documents/Projects/Dal-io/dalio/external/config/quandl_config.json")
+# q_api.authenticate()
 
-q_sf1_in = QuandlSharadarSF1Translator()(q_api)
-q_tick_in = QuandlTickerInfoTranslator()(q_api)
+# q_sf1_in = QuandlSharadarSF1Translator()(q_api)
+# q_tick_in = QuandlTickerInfoTranslator()(q_api)
 
 # Tests
 base = Change("pct_change")(y_in)

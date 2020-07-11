@@ -186,10 +186,12 @@ class _ColGeneration(_ColSelection):
         return super().copy(
             self._func,
             *args,
+            *self._args,
             new_cols=self._new_cols,
             drop=self._drop,
             reintegrate=self._reintegrate,
-            **kwargs
+            **kwargs,
+            **self._kwargs,
         )
 
     def _gen_cols(self, inter_df, **kwargs):
@@ -387,7 +389,7 @@ class Period(_ColGeneration):
         return inter_df.resample(
             self._period,
             axis=self._axis
-        ).apply(self._func, args=self._args, **self._kwargs)
+        ).apply(self._func, *self._args, **self._kwargs)
 
     def copy(self, *args, **kwargs):
         return super().copy(
@@ -495,8 +497,8 @@ class StockReturns(Custom):
 class Index(Custom):
 
     def __init__(self,
-                 index_at,
                  *args,
+                 index_at=100,
                  columns=None,
                  new_cols=None,
                  drop=True,
