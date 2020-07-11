@@ -118,7 +118,11 @@ class PandasInFile(External):
         """
         ext = self._connection.split(".")[-1]
         if ext in ["xls", "xlsx"]:
-            return pd.read_excel(self._connection, **kwargs)
+            return pd.read_excel(
+                self._connection,
+                engine="xlrd",
+                **kwargs
+            )
         elif ext == "csv":
             return pd.read_csv(self._connection, **kwargs)
 

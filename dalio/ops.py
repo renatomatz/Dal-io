@@ -6,22 +6,24 @@ import pandas as pd
 from dalio.base.constants import SIC_CODE, TICKER
 
 
-def risk_metrics(data, lam):
+def risk_metrics(data, lam, ignore_first=True):
     """Apply the basic RiskMetrics (EWMA) continuous volatility measure to a
     a dataframe
 
     Args:
         lam (float): lambda parameter
+        ignore_first (bool): whether to ignore the first row. This is often
+            the case after a change pipe.
 
     Returns:
         A copy of data with the continuous volatility of each value
     """
     data = data.copy()**2
-    last_ret = data.iloc[0].copy()
+    last_ret = data.iloc[int(ignore_first)].copy()
 
-    for i in range(1, data.shape[0]):
+    for i in range(1 + int(ignore_first), data.shape[0]):
         curr = data.iloc[i].copy()
-        data.iloc[i] = lam*(data.iloc[i-1]**2) + (1-lam)*(last_ret)
+        data.iloc[i] = lam*(data.iloc[i-1]) + (1-lam)*(last_ret)
         last_ret = curr
 
     return data

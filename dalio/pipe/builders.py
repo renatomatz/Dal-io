@@ -1,4 +1,5 @@
 """Builder Pipes"""
+import warnings
 
 from typing import List, Union, Callable
 from functools import partial
@@ -55,6 +56,19 @@ from dalio.validator import (
 from dalio.validator.presets import STOCK_INFO, STOCK_STREAM
 
 from dalio.ops import get_comps_by_sic
+
+warnings.filterwarnings('ignore')
+
+
+class _BuilderPipe(Pipe, _Builder):
+    """Class to combine Pipe and Builder functionality"""
+
+    def copy(self, *args, **kwargs):
+        """Copy data as pipe, copy pieces as builder"""
+        ret = Pipe.copy(self, *args, **kwargs)
+        ret._piece = self._piece.copy()
+
+        return ret
 
 
 class StockComps(Pipe):
@@ -153,8 +167,9 @@ class StockComps(Pipe):
         )
 
 
-class LinearModel(Pipe, _Builder):
-    """Create a linear model from input data.
+class PandasLinearModel(_BuilderPipe):
+    """Create a linear model from input pandas dataframe, using its index
+    as the X value.
 
     This builder is made up of a single piece: strategy. This piece sets
     which linear model should be used to fit the data.
@@ -189,10 +204,7 @@ class LinearModel(Pipe, _Builder):
         y = data.to_numpy()
         return self.build_model(data).fit(X, y)
 
-    def copy(self, *args, **kwargs):
-        return _Builder.copy(self, *args, **kwargs)
-
-    def build_model(self, data):
+    def build_model(self, data, **kwargs):
         """Build model by returning the chosen model and initialization
         parameters
 
@@ -200,7 +212,7 @@ class LinearModel(Pipe, _Builder):
             Unfitted linear model
         """
         strategy = self._piece["strategy"]
-        lm = LinearModel._STRATEGIES[strategy["name"]](
+        lm = PandasLinearModel._STRATEGIES[strategy["name"]](
             *strategy["args"],
             **strategy["kwargs"]
         )
@@ -208,7 +220,7 @@ class LinearModel(Pipe, _Builder):
         return lm
 
 
-class CovShrink(Pipe, _Builder):
+class CovShrink(_BuilderPipe):
     """Perform Covariance Shrinkage on data
 
     Builder with a single piece: shirnkage. Shrinkage defines what kind of
@@ -266,7 +278,7 @@ class CovShrink(Pipe, _Builder):
             raise ValueError(f"argument shrinkage must be one of \
                 {CovShrink._SHRINKAGE_PRESETS}")
 
-    def build_model(self, data):
+    def build_model(self, data, **kwargs):
         """Builds Covariance Srhinkage object and returns selected shrinkage
         strategy
 
@@ -289,7 +301,7 @@ class CovShrink(Pipe, _Builder):
                        **shrink["kwargs"])
 
 
-class ExpectedReturns(Pipe, _Builder):
+class ExpectedReturns(_BuilderPipe):
     """Get stock's time series expected returns.
 
     Builder with a single piece: return_model. return_model is what model to
@@ -327,7 +339,7 @@ class ExpectedReturns(Pipe, _Builder):
             raise ValueError(f"argument return_model must be one of \
                 {ExpectedReturns._RETURN_MODEL_PRESETS}")
 
-    def build_model(self, data):
+    def build_model(self, data, **kwargs):
         return_model = self._piece["return_model"]
         return partial(ReturnModel,
                        *return_model["args"],
@@ -335,7 +347,7 @@ class ExpectedReturns(Pipe, _Builder):
                        **return_model["kwargs"])
 
 
-class MakeARCH(Pipe, _Builder):
+class MakeARCH(_BuilderPipe):
     """Build arch model and make it based on input data.
 
     This class allows for the creation of arch models by configuring three
@@ -384,10 +396,7 @@ class MakeARCH(Pipe, _Builder):
         """Build model with sourced data"""
         return self.build_model(data)
 
-    def copy(self, *args, **kwargs):
-        return _Builder.copy(self, *args, **kwargs)
-
-    def build_model(self, data):
+    def build_model(self, data, **kwargs):
         """Build ARCH Model using data, set pieces and their arguments
 
         Returns:
@@ -608,3 +617,57 @@ class ExpectedShortfall(ValueAtRisk):
                 orient="index",
                 columns=[EXPECTED_SHORTFALL]
         )
+
+
+class OptimumWeights(_BuilderPipe):
+    """Get optimum portfolio weights from an efficient frontier or CLA.
+    This is also a builder with one piece: strategy. The strategy piece
+    refers to the optimization strategy.
+    """
+
+    _STRATEGY_PRESETS = [
+        "max_sharpe",
+        "min_volatility",
+    ]
+
+    def __init__(self):
+        """Initialize instance and strategy builder piece."""
+        super().__init__()
+
+        self._source\
+            .add_desc(HAS_ATTR(["max_sharpe", "min_volatility"]))
+
+        self._init_piece([
+            "strategy"
+        ])
+
+    def transform(self, data, **kwargs):
+        """Get efficient frontier, fit it to model and get weights"""
+        self.build_model(data)()
+        return data.clean_weights()
+
+    def build_model(self, data, **kwargs):
+        strat = self._piece["strategy"]
+
+        if strat["name"] is None:
+            ValueError("piece 'strategy' is not set")
+        elif strat["name"] == "max_sharpe":
+            strat_func = data.max_sharpe
+        elif strat["name"] == "min_volatility":
+            strat_func = data.min_volatility
+        elif strat["name"] == "max_quadratic_utility":
+            strat_func = data.max_quadratic_utility
+        elif strat["name"] == "dataficient_risk":
+            strat_func = data.efficient_risk
+        elif strat["name"] == "dataficient_return":
+            strat_func = data.efficient_return
+
+        return partial(strat_func,
+                       *strat["args"],
+                       **strat["kwargs"])
+
+    def check_name(self, param, name):
+        super().check_name(param, name)
+        if name not in OptimumWeights._STRATEGY_PRESETS:
+            ValueError("invalid strategy name, please select one of \
+                {OptimumWeights._STRATEGY_PRESETS}")

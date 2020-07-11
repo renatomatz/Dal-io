@@ -4,7 +4,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
   <head>
     <meta charset="utf-8" />
-    <title>dalio package &#8212; Dal-io 0.1.1 documentation</title>
+    <title>dalio package &#8212; Dal.io 0.1.1 documentation</title>
     <link rel="stylesheet" href="_static/sphinxdoc.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
     <script id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
@@ -24,7 +24,7 @@
         <li class="right" >
           <a href="py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
-        <li class="nav-item nav-item-0"><a href="index.html">Dal-io 0.1.1 documentation</a> &#187;</li> 
+        <li class="nav-item nav-item-0"><a href="index.html">Dal.io 0.1.1 documentation</a> &#187;</li> 
       </ul>
     </div>
       <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
@@ -182,12 +182,16 @@ candidates.</p></li>
 
 <dl class="function">
 <dt id="dalio.ops.risk_metrics">
-<code class="sig-prename descclassname">dalio.ops.</code><code class="sig-name descname">risk_metrics</code><span class="sig-paren">(</span><em class="sig-param">data</em>, <em class="sig-param">lam</em><span class="sig-paren">)</span><a class="headerlink" href="#dalio.ops.risk_metrics" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname">dalio.ops.</code><code class="sig-name descname">risk_metrics</code><span class="sig-paren">(</span><em class="sig-param">data</em>, <em class="sig-param">lam</em>, <em class="sig-param">ignore_first=True</em><span class="sig-paren">)</span><a class="headerlink" href="#dalio.ops.risk_metrics" title="Permalink to this definition">¶</a></dt>
 <dd><p>Apply the basic RiskMetrics (EWMA) continuous volatility measure to a
 a dataframe</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><p><strong>lam</strong> (<em>float</em>) – lambda parameter</p>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>lam</strong> (<em>float</em>) – lambda parameter</p></li>
+<li><p><strong>ignore_first</strong> (<em>bool</em>) – whether to ignore the first row. This is often
+the case after a change pipe.</p></li>
+</ul>
 </dd>
 <dt class="field-even">Returns</dt>
 <dd class="field-even"><p>A copy of data with the continuous volatility of each value</p>
@@ -216,7 +220,7 @@ a dataframe</p>
         <li class="right" >
           <a href="py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
-        <li class="nav-item nav-item-0"><a href="index.html">Dal-io 0.1.1 documentation</a> &#187;</li> 
+        <li class="nav-item nav-item-0"><a href="index.html">Dal.io 0.1.1 documentation</a> &#187;</li> 
       </ul>
     </div>
     <div class="footer" role="contentinfo">

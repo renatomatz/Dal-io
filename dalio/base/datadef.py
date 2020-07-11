@@ -72,6 +72,9 @@ class _DataDef(_Node):
                 data and being set to "fatal"
         """
 
+        if self._connection is None:
+            return None
+
         return self.check(run_kwargs=kwargs)
 
     def check(self, **kwargs):

@@ -12,7 +12,7 @@ from dalio.model import *
 from dalio.application import *
 
 # File Input
-file_in = StockStreamFileTranslator()(PandasInFile("tests/MGT441.xlsx"))
+f_in = StockStreamFileTranslator()(PandasInFile("tests/MGT441.xlsx"))
 ticker = ["NVDA", "RL", "GPS", "WMT"]
 
 # Yahoo Input
@@ -23,7 +23,7 @@ tickers = ["MSFT", "AAPL"]
 y_data_raw = y_in.run(ticker=tickers)
 
 cols=["close", "high"]
-y_change = Change(cols=cols)(y_in)
+y_change = Change(columns=cols)(y_in)
 res = y_change.run(ticker=tickers)
 
 y_col_select = ColSelect(cols)(y_in)
@@ -119,7 +119,7 @@ mu.set_piece("return_model", "mean_historical_return")
 S_data = S.run(ticker=tickers)
 mu_data = mu.run(ticker=tickers)
 
-port_ef = OptimumWeights()\
+port_ef = MakeEfficientFrontier()\
     .set_input("sample_covariance", S)\
     .set_input("expected_returns", mu)\
     .add_objective("L2_reg")\

@@ -4,7 +4,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
   <head>
     <meta charset="utf-8" />
-    <title>dalio.model package &#8212; Dal-io 0.1.1 documentation</title>
+    <title>dalio.model package &#8212; Dal.io 0.1.1 documentation</title>
     <link rel="stylesheet" href="_static/sphinxdoc.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
     <script id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
@@ -32,7 +32,7 @@
         <li class="right" >
           <a href="dalio.pipe.html" title="dalio.pipe package"
              accesskey="P">previous</a> |</li>
-        <li class="nav-item nav-item-0"><a href="index.html">Dal-io 0.1.1 documentation</a> &#187;</li> 
+        <li class="nav-item nav-item-0"><a href="index.html">Dal.io 0.1.1 documentation</a> &#187;</li> 
       </ul>
     </div>
       <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
@@ -263,66 +263,6 @@ were kept constant.</p>
 
 </dd></dl>
 
-<dl class="class">
-<dt id="dalio.model.financial.OptimumWeights">
-<em class="property">class </em><code class="sig-prename descclassname">dalio.model.financial.</code><code class="sig-name descname">OptimumWeights</code><span class="sig-paren">(</span><em class="sig-param">weight_bounds=(0</em>, <em class="sig-param">1)</em>, <em class="sig-param">gamma=0</em><span class="sig-paren">)</span><a class="headerlink" href="#dalio.model.financial.OptimumWeights" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <a class="reference internal" href="#dalio.model.financial.MakeEfficientFrontier" title="dalio.model.financial.MakeEfficientFrontier"><code class="xref py py-class docutils literal notranslate"><span class="pre">dalio.model.financial.MakeEfficientFrontier</span></code></a>, <code class="xref py py-class docutils literal notranslate"><span class="pre">dalio.base.builder._Builder</span></code></p>
-<p>Get optimum portfolio weights from an efficient frontier.
-This is also a builder with one piece: strategy. The strategy piece
-refers to the optimization strategy.</p>
-<dl class="method">
-<dt id="dalio.model.financial.OptimumWeights.build_model">
-<code class="sig-name descname">build_model</code><span class="sig-paren">(</span><em class="sig-param">data</em><span class="sig-paren">)</span><a class="headerlink" href="#dalio.model.financial.OptimumWeights.build_model" title="Permalink to this definition">¶</a></dt>
-<dd><p>Assemble pieces into a model given some data</p>
-<p>The data will opten be optional, but several builder models will
-require it to be fitted on initialization. Which further shows why
-builders are necessary for context-agnostic graphs.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><p><strong>data</strong> – data that might be used to build the model.</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="method">
-<dt id="dalio.model.financial.OptimumWeights.check_name">
-<code class="sig-name descname">check_name</code><span class="sig-paren">(</span><em class="sig-param">param</em>, <em class="sig-param">name</em><span class="sig-paren">)</span><a class="headerlink" href="#dalio.model.financial.OptimumWeights.check_name" title="Permalink to this definition">¶</a></dt>
-<dd><p>Check if name and parameter combination is valid.</p>
-<p>This will always be called upon setting a new piece to ensure this
-piece is present dictionary and that the name is valid. Subclasses
-will often override this method to implement the name checks in
-accordance to their specific name parameter combination options.
-Notice that checks cannot be done on arguments before running the
-_Builder. This also can be called from outside of a _Builder instance
-to check for the validity of settings.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>piece</strong> (<em>str</em>) – name of the key in the piece dictionary.</p></li>
-<li><p><strong>name</strong> (<em>str</em>) – name option to be set to the piece.</p></li>
-</ul>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="attribute">
-<dt id="dalio.model.financial.OptimumWeights.gamma">
-<code class="sig-name descname">gamma</code><em class="property"> = None</em><a class="headerlink" href="#dalio.model.financial.OptimumWeights.gamma" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="method">
-<dt id="dalio.model.financial.OptimumWeights.run">
-<code class="sig-name descname">run</code><span class="sig-paren">(</span><em class="sig-param">**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#dalio.model.financial.OptimumWeights.run" title="Permalink to this definition">¶</a></dt>
-<dd><p>Get efficient frontier, fit it to model and get weights</p>
-</dd></dl>
-
-<dl class="attribute">
-<dt id="dalio.model.financial.OptimumWeights.weight_bounds">
-<code class="sig-name descname">weight_bounds</code><em class="property"> = None</em><a class="headerlink" href="#dalio.model.financial.OptimumWeights.weight_bounds" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-</dd></dl>
-
 </div>
 <div class="section" id="module-dalio.model.model">
 <span id="dalio-model-model"></span><h2>dalio.model.model<a class="headerlink" href="#module-dalio.model.model" title="Permalink to this headline">¶</a></h2>
@@ -434,7 +374,7 @@ connection changed</p>
         <li class="right" >
           <a href="dalio.pipe.html" title="dalio.pipe package"
              >previous</a> |</li>
-        <li class="nav-item nav-item-0"><a href="index.html">Dal-io 0.1.1 documentation</a> &#187;</li> 
+        <li class="nav-item nav-item-0"><a href="index.html">Dal.io 0.1.1 documentation</a> &#187;</li> 
       </ul>
     </div>
     <div class="footer" role="contentinfo">

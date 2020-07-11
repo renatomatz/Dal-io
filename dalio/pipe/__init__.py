@@ -22,21 +22,23 @@ from dalio.pipe.col_generation import (
     Index,
     Bin,
     MapColVals,
-    ApplyByCols,
+    CustomByCols,
     Log,
 )
 
 from dalio.pipe.builders import (
     StockComps,
-    LinearModel,
+    PandasLinearModel,
     CovShrink,
     ExpectedReturns,
     MakeARCH,
     ValueAtRisk,
     ExpectedShortfall,
+    OptimumWeights,
 )
 
 __all__ = [
+    "PipeLine",
     "Custom",
     "Rolling",
     "ColSelect",
@@ -55,13 +57,14 @@ __all__ = [
     "Index",
     "Bin",
     "MapColVals",
-    "ApplyByCols",
+    "CustomByCols",
     "Log",
     "StockComps",
-    "LinearModel",
     "CovShrink",
     "ExpectedReturns",
     "MakeARCH",
     "ValueAtRisk",
     "ExpectedShortfall",
+    "PandasLinearModel",
+    "OptimumWeights",
 ]

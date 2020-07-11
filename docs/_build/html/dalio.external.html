@@ -4,7 +4,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
   <head>
     <meta charset="utf-8" />
-    <title>dalio.external package &#8212; Dal-io 0.1.1 documentation</title>
+    <title>dalio.external package &#8212; Dal.io 0.1.1 documentation</title>
     <link rel="stylesheet" href="_static/sphinxdoc.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
     <script id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
@@ -15,7 +15,7 @@
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
     <link rel="next" title="dalio.translator package" href="dalio.translator.html" />
-    <link rel="prev" title="Welcome to Dal-io’s documentation!" href="index.html" /> 
+    <link rel="prev" title="The Dal.io Documentation" href="index.html" /> 
   </head><body>
     <div class="related" role="navigation" aria-label="related navigation">
       <h3>Navigation</h3>
@@ -30,9 +30,9 @@
           <a href="dalio.translator.html" title="dalio.translator package"
              accesskey="N">next</a> |</li>
         <li class="right" >
-          <a href="index.html" title="Welcome to Dal-io’s documentation!"
+          <a href="index.html" title="The Dal.io Documentation"
              accesskey="P">previous</a> |</li>
-        <li class="nav-item nav-item-0"><a href="index.html">Dal-io 0.1.1 documentation</a> &#187;</li> 
+        <li class="nav-item nav-item-0"><a href="index.html">Dal.io 0.1.1 documentation</a> &#187;</li> 
       </ul>
     </div>
       <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
@@ -54,7 +54,7 @@
 
   <h4>Previous topic</h4>
   <p class="topless"><a href="index.html"
-                        title="previous chapter">Welcome to Dal-io’s documentation!</a></p>
+                        title="previous chapter">The Dal.io Documentation</a></p>
   <h4>Next topic</h4>
   <p class="topless"><a href="dalio.translator.html"
                         title="next chapter">dalio.translator package</a></p>
@@ -266,61 +266,6 @@ function.</p>
 figure itself is not contained in the python session, and must be shown in a
 screen or server.</p>
 <dl class="class">
-<dt id="dalio.external.image.Figure">
-<em class="property">class </em><code class="sig-prename descclassname">dalio.external.image.</code><code class="sig-name descname">Figure</code><a class="headerlink" href="#dalio.external.image.Figure" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <a class="reference internal" href="#dalio.external.external.External" title="dalio.external.external.External"><code class="xref py py-class docutils literal notranslate"><span class="pre">dalio.external.external.External</span></code></a></p>
-<p>Base Figure class</p>
-<p>These serve to implement the basic logic of a figure, and are not limited
-to any specific python package. Python packages should be standardazied
-in these classes to take in these broad commands.</p>
-<dl class="attribute">
-<dt id="dalio.external.image.Figure._connection">
-<code class="sig-name descname">_connection</code><a class="headerlink" href="#dalio.external.image.Figure._connection" title="Permalink to this definition">¶</a></dt>
-<dd><p>figure object dealt with by this class</p>
-</dd></dl>
-
-<dl class="method">
-<dt id="dalio.external.image.Figure.check">
-<code class="sig-name descname">check</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#dalio.external.image.Figure.check" title="Permalink to this definition">¶</a></dt>
-<dd><p>Check if there is a figure to return</p>
-</dd></dl>
-
-<dl class="method">
-<dt id="dalio.external.image.Figure.plot">
-<code class="sig-name descname">plot</code><span class="sig-paren">(</span><em class="sig-param">data</em>, <em class="sig-param">coords=None</em>, <em class="sig-param">kind=None</em>, <em class="sig-param">**graph_opts</em><span class="sig-paren">)</span><a class="headerlink" href="#dalio.external.image.Figure.plot" title="Permalink to this definition">¶</a></dt>
-<dd><p>Plots data on the figure.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>data</strong> – data to be used in the plot.</p></li>
-<li><p><strong>coords</strong> – coordinates or location of a target graph</p></li>
-<li><p><strong>kind</strong> – kind of plot to be plotted. None by default.</p></li>
-<li><p><strong>**graph_opts</strong> – optional graphing options</p></li>
-</ul>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="method">
-<dt id="dalio.external.image.Figure.request">
-<code class="sig-name descname">request</code><span class="sig-paren">(</span><em class="sig-param">**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#dalio.external.image.Figure.request" title="Permalink to this definition">¶</a></dt>
-<dd><p>Processes a request based on the figure.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><p><strong>**kwargs</strong> – additional request options.</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="method">
-<dt id="dalio.external.image.Figure.reset">
-<code class="sig-name descname">reset</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#dalio.external.image.Figure.reset" title="Permalink to this definition">¶</a></dt>
-<dd><p>Resets figure to default, empty state</p>
-</dd></dl>
-
-</dd></dl>
-
-<dl class="class">
 <dt id="dalio.external.image.PyPfOptGraph">
 <em class="property">class </em><code class="sig-prename descclassname">dalio.external.image.</code><code class="sig-name descname">PyPfOptGraph</code><a class="headerlink" href="#dalio.external.image.PyPfOptGraph" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference internal" href="#dalio.external.image.PyPlotGraph" title="dalio.external.image.PyPlotGraph"><code class="xref py py-class docutils literal notranslate"><span class="pre">dalio.external.image.PyPlotGraph</span></code></a></p>
@@ -344,7 +289,7 @@ in these classes to take in these broad commands.</p>
 <dl class="class">
 <dt id="dalio.external.image.PyPlotGraph">
 <em class="property">class </em><code class="sig-prename descclassname">dalio.external.image.</code><code class="sig-name descname">PyPlotGraph</code><a class="headerlink" href="#dalio.external.image.PyPlotGraph" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <a class="reference internal" href="#dalio.external.image.Figure" title="dalio.external.image.Figure"><code class="xref py py-class docutils literal notranslate"><span class="pre">dalio.external.image.Figure</span></code></a></p>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">dalio.external.image._Figure</span></code></p>
 <p>Figure from the matplotlib.pyplot package.</p>
 <dl class="attribute">
 <dt id="dalio.external.image.PyPlotGraph._connection">
@@ -370,7 +315,7 @@ in these classes to take in these broad commands.</p>
 
 <dl class="method">
 <dt id="dalio.external.image.PyPlotGraph.plot">
-<code class="sig-name descname">plot</code><span class="sig-paren">(</span><em class="sig-param">data</em>, <em class="sig-param">coords=None</em>, <em class="sig-param">kind=None</em>, <em class="sig-param">**graph_opts</em><span class="sig-paren">)</span><a class="headerlink" href="#dalio.external.image.PyPlotGraph.plot" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">plot</code><span class="sig-paren">(</span><em class="sig-param">data</em>, <em class="sig-param">kind=None</em>, <em class="sig-param">**graph_opts</em><span class="sig-paren">)</span><a class="headerlink" href="#dalio.external.image.PyPlotGraph.plot" title="Permalink to this definition">¶</a></dt>
 <dd><p>Plot x onto the x-axis and y onto the y-axis, if applicable.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -402,8 +347,8 @@ axis.</p></li>
 
 <dl class="class">
 <dt id="dalio.external.image.PySubplotGraph">
-<em class="property">class </em><code class="sig-prename descclassname">dalio.external.image.</code><code class="sig-name descname">PySubplotGraph</code><span class="sig-paren">(</span><em class="sig-param">rows=1</em>, <em class="sig-param">cols=1</em><span class="sig-paren">)</span><a class="headerlink" href="#dalio.external.image.PySubplotGraph" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <a class="reference internal" href="#dalio.external.image.Figure" title="dalio.external.image.Figure"><code class="xref py py-class docutils literal notranslate"><span class="pre">dalio.external.image.Figure</span></code></a></p>
+<em class="property">class </em><code class="sig-prename descclassname">dalio.external.image.</code><code class="sig-name descname">PySubplotGraph</code><span class="sig-paren">(</span><em class="sig-param">rows</em>, <em class="sig-param">cols</em><span class="sig-paren">)</span><a class="headerlink" href="#dalio.external.image.PySubplotGraph" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">dalio.external.image._MultiFigure</span></code></p>
 <p>A matplotlib.pyplot.Figure containing multiple subplots.</p>
 <p>This has a set number of axes, rows and columns which can be accessed
 individually to have data plotted on. These will often be used inside of
@@ -432,8 +377,8 @@ same instance.</p>
 </dd></dl>
 
 <dl class="attribute">
-<dt id="dalio.external.image.PySubplotGraph._axes">
-<code class="sig-name descname">_axes</code><a class="headerlink" href="#dalio.external.image.PySubplotGraph._axes" title="Permalink to this definition">¶</a></dt>
+<dt id="dalio.external.image.PySubplotGraph._loc">
+<code class="sig-name descname">_loc</code><a class="headerlink" href="#dalio.external.image.PySubplotGraph._loc" title="Permalink to this definition">¶</a></dt>
 <dd><p>array of the figure’s axes</p>
 <dl class="field-list simple">
 <dt class="field-odd">Type</dt>
@@ -443,9 +388,9 @@ same instance.</p>
 </dd></dl>
 
 <dl class="method">
-<dt id="dalio.external.image.PySubplotGraph.get_axis">
-<code class="sig-name descname">get_axis</code><span class="sig-paren">(</span><em class="sig-param">coords</em><span class="sig-paren">)</span><a class="headerlink" href="#dalio.external.image.PySubplotGraph.get_axis" title="Permalink to this definition">¶</a></dt>
-<dd><p>Gets a specific axis from the _axis attribute at given
+<dt id="dalio.external.image.PySubplotGraph.get_loc">
+<code class="sig-name descname">get_loc</code><span class="sig-paren">(</span><em class="sig-param">coords</em><span class="sig-paren">)</span><a class="headerlink" href="#dalio.external.image.PySubplotGraph.get_loc" title="Permalink to this definition">¶</a></dt>
+<dd><p>Gets a specific axis from the _loc attribute at given
 coordinates</p>
 </dd></dl>
 
@@ -584,9 +529,9 @@ columns: columns to select.</p>
           <a href="dalio.translator.html" title="dalio.translator package"
              >next</a> |</li>
         <li class="right" >
-          <a href="index.html" title="Welcome to Dal-io’s documentation!"
+          <a href="index.html" title="The Dal.io Documentation"
              >previous</a> |</li>
-        <li class="nav-item nav-item-0"><a href="index.html">Dal-io 0.1.1 documentation</a> &#187;</li> 
+        <li class="nav-item nav-item-0"><a href="index.html">Dal.io 0.1.1 documentation</a> &#187;</li> 
       </ul>
     </div>
     <div class="footer" role="contentinfo">

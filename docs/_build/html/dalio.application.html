@@ -4,7 +4,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
   <head>
     <meta charset="utf-8" />
-    <title>dalio.application package &#8212; Dal-io 0.1.1 documentation</title>
+    <title>dalio.application package &#8212; Dal.io 0.1.1 documentation</title>
     <link rel="stylesheet" href="_static/sphinxdoc.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
     <script id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
@@ -32,7 +32,7 @@
         <li class="right" >
           <a href="dalio.model.html" title="dalio.model package"
              accesskey="P">previous</a> |</li>
-        <li class="nav-item nav-item-0"><a href="index.html">Dal-io 0.1.1 documentation</a> &#187;</li> 
+        <li class="nav-item nav-item-0"><a href="index.html">Dal.io 0.1.1 documentation</a> &#187;</li> 
       </ul>
     </div>
       <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
@@ -225,8 +225,8 @@ an external graph.</p>
 
 <dl class="class">
 <dt id="dalio.application.graphers.LMGrapher">
-<em class="property">class </em><code class="sig-prename descclassname">dalio.application.graphers.</code><code class="sig-name descname">LMGrapher</code><span class="sig-paren">(</span><em class="sig-param">legend=None</em><span class="sig-paren">)</span><a class="headerlink" href="#dalio.application.graphers.LMGrapher" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <a class="reference internal" href="#dalio.application.graphers.Grapher" title="dalio.application.graphers.Grapher"><code class="xref py py-class docutils literal notranslate"><span class="pre">dalio.application.graphers.Grapher</span></code></a></p>
+<em class="property">class </em><code class="sig-prename descclassname">dalio.application.graphers.</code><code class="sig-name descname">LMGrapher</code><span class="sig-paren">(</span><em class="sig-param">x=None</em>, <em class="sig-param">y=None</em>, <em class="sig-param">legend=None</em><span class="sig-paren">)</span><a class="headerlink" href="#dalio.application.graphers.LMGrapher" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#dalio.application.graphers.PandasXYGrapher" title="dalio.application.graphers.PandasXYGrapher"><code class="xref py py-class docutils literal notranslate"><span class="pre">dalio.application.graphers.PandasXYGrapher</span></code></a></p>
 <p>Application to graph data and a linear model fitted to it.</p>
 <p>This Application has two sources data_in and linear_model. The data-in
 source is explained in Grapher. The linear_model source is a fitted
@@ -246,6 +246,53 @@ linear model with intercept and coefficient data.</p>
 <dt id="dalio.application.graphers.LMGrapher.run">
 <code class="sig-name descname">run</code><span class="sig-paren">(</span><em class="sig-param">**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#dalio.application.graphers.LMGrapher.run" title="Permalink to this definition">¶</a></dt>
 <dd><p>Get data, its fitted coefficients and intercepts and graph them.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="dalio.application.graphers.MultiGrapher">
+<em class="property">class </em><code class="sig-prename descclassname">dalio.application.graphers.</code><code class="sig-name descname">MultiGrapher</code><span class="sig-paren">(</span><em class="sig-param">rows</em>, <em class="sig-param">cols</em><span class="sig-paren">)</span><a class="headerlink" href="#dalio.application.graphers.MultiGrapher" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#dalio.application.application.Application" title="dalio.application.application.Application"><code class="xref py py-class docutils literal notranslate"><span class="pre">dalio.application.application.Application</span></code></a>, <code class="xref py py-class docutils literal notranslate"><span class="pre">dalio.base.builder._Builder</span></code></p>
+<p>Grapher for multiple inputs taking in the same keyword arguments.</p>
+<p>This is useful to greate subplots of the same data processed in
+different ways. Sources are the data inputs and pieces are their kinds,
+args and kwargs.</p>
+<p>This applicaiton can N sources and pieces, where N is the total number of
+graphs.</p>
+<dl class="method">
+<dt id="dalio.application.graphers.MultiGrapher.build_model">
+<code class="sig-name descname">build_model</code><span class="sig-paren">(</span><em class="sig-param">data</em>, <em class="sig-param">**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#dalio.application.graphers.MultiGrapher.build_model" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return data unprocessed</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="dalio.application.graphers.MultiGrapher.run">
+<code class="sig-name descname">run</code><span class="sig-paren">(</span><em class="sig-param">**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#dalio.application.graphers.MultiGrapher.run" title="Permalink to this definition">¶</a></dt>
+<dd><p>Gets data input from each source and plots it using the set
+information in each piece</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="dalio.application.graphers.PandasMultiGrapher">
+<em class="property">class </em><code class="sig-prename descclassname">dalio.application.graphers.</code><code class="sig-name descname">PandasMultiGrapher</code><span class="sig-paren">(</span><em class="sig-param">rows</em>, <em class="sig-param">cols</em><span class="sig-paren">)</span><a class="headerlink" href="#dalio.application.graphers.PandasMultiGrapher" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#dalio.application.graphers.MultiGrapher" title="dalio.application.graphers.MultiGrapher"><code class="xref py py-class docutils literal notranslate"><span class="pre">dalio.application.graphers.MultiGrapher</span></code></a></p>
+<p>Multigrapher with column selection mechanisms</p>
+<p>In this MultiGrapher, you can select any x, y and z columns as piece
+kwargs and they will be interpreted during the run. Keep in mind that
+this allows for any combination of these layered one on top of each other
+regardless of name. If you specify an “x” and a “z”, the “z” column will
+be treated like a “y” column.</p>
+<p>There are also no interpretations of what
+is to be graphed, and thus all wanted columns should be specified.</p>
+<p>There is one case for indexes, where the x_index, y_index or z_index
+keyword arguments can be set to True.</p>
+<dl class="method">
+<dt id="dalio.application.graphers.PandasMultiGrapher.build_model">
+<code class="sig-name descname">build_model</code><span class="sig-paren">(</span><em class="sig-param">data</em>, <em class="sig-param">**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#dalio.application.graphers.PandasMultiGrapher.build_model" title="Permalink to this definition">¶</a></dt>
+<dd><p>Process data columns</p>
 </dd></dl>
 
 </dd></dl>
@@ -366,7 +413,7 @@ external output to print the data to.</p>
         <li class="right" >
           <a href="dalio.model.html" title="dalio.model package"
              >previous</a> |</li>
-        <li class="nav-item nav-item-0"><a href="index.html">Dal-io 0.1.1 documentation</a> &#187;</li> 
+        <li class="nav-item nav-item-0"><a href="index.html">Dal.io 0.1.1 documentation</a> &#187;</li> 
       </ul>
     </div>
     <div class="footer" role="contentinfo">

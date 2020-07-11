@@ -2,8 +2,6 @@
 
 from collections import OrderedDict
 
-from functools import partial
-
 from typing import (
     Tuple,
     List,
@@ -21,7 +19,6 @@ from pypfopt.objective_functions import L2_reg
 
 from dalio.model import Model
 
-from dalio.base import _Builder
 from dalio.base.constants import TICKER, PORTFOLIO
 
 from dalio.validator import (
@@ -355,64 +352,6 @@ class MakeEfficientFrontier(MakeCriticalLine):
         pass
 
 
-class OptimumWeights(MakeEfficientFrontier, _Builder):
-    """Get optimum portfolio weights from an efficient frontier.
-    This is also a builder with one piece: strategy. The strategy piece
-    refers to the optimization strategy.
-    """
-
-    _STRATEGY_PRESETS = [
-        "max_sharpe",
-        "min_volatility",
-        "max_quadratic_utility",
-        "efficient_risk",
-        "efficient_return"
-    ]
-
-    def __init__(self, weight_bounds=(0, 1), gamma=0):
-        """Initialize instance and strategy builder piece."""
-        super().__init__(
-            weight_bounds=weight_bounds,
-            gamma=gamma
-        )
-
-        self._init_piece([
-            "strategy"
-        ])
-
-    def run(self, **kwargs):
-        """Get efficient frontier, fit it to model and get weights"""
-        ef = super().run(**kwargs)
-        self.build_model(ef)()
-        return ef.clean_weights()
-
-    def build_model(self, data):
-        strat = self._piece["strategy"]
-
-        if strat["name"] is None:
-            ValueError("piece 'strategy' is not set")
-        elif strat["name"] == "max_sharpe":
-            strat_func = data.max_sharpe
-        elif strat["name"] == "min_volatility":
-            strat_func = data.min_volatility
-        elif strat["name"] == "max_quadratic_utility":
-            strat_func = data.max_quadratic_utility
-        elif strat["name"] == "dataficient_risk":
-            strat_func = data.efficient_risk
-        elif strat["name"] == "dataficient_return":
-            strat_func = data.efficient_return
-
-        return partial(strat_func,
-                       *strat["args"],
-                       **strat["kwargs"])
-
-    def check_name(self, param, name):
-        super().check_name(param, name)
-        if name not in OptimumWeights._STRATEGY_PRESETS:
-            ValueError("invalid strategy name, please select one of \
-                {OptimumWeights._STRATEGY_PRESETS}")
-
-
 class OptimumPortfolio(Model):
     """Create optimum portfolio of stocks given dictionary of weights.
     This model has two sources: weights_in and data_in. The weights_in source
@@ -447,8 +386,14 @@ class OptimumPortfolio(Model):
 
         # Paralelize
         # Fill unavailable stocks with 0
-        prices = self._source_from("data_in", **kwargs).fillna(0)
         weights = self._source_from("weights_in", **kwargs)
+
+        # Get stock data from available weights
+        kwargs.pop("ticker", None)
+        kwargs["ticker"] = [*weights.keys()]
+
+        prices = self._source_from("data_in", **kwargs)\
+            .fillna(0)
 
         # sorted prices
         prices = prices.reindex(sorted(prices.columns), axis=1)

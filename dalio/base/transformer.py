@@ -63,10 +63,7 @@ class _Transformer:
             A copy of this _Transformer instance with copies of necessary
             attributes and empty input.
         """
-        ret = type(self)(*args, **kwargs)
-        ret._source = self._source
-        ret.add_tag(self._tags)
-        return ret
+        raise NotImplementedError()
 
     def add_tag(self, new_tag):
         """Add new tag(s) to set
@@ -112,6 +109,5 @@ class _Transformer:
         return set(self._req_args).union(self.get_input().req_args())
 
     def __call__(self, new_input):
-        """Alternative interface to .set_input() method.
-        """
-        return self.set_input(new_input)
+        """Alternative interface for with_input()."""
+        return self.with_input(new_input)

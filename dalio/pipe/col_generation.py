@@ -186,7 +186,6 @@ class _ColGeneration(_ColSelection):
         return super().copy(
             self._func,
             *args,
-            columns=self._columns,
             new_cols=self._new_cols,
             drop=self._drop,
             reintegrate=self._reintegrate,
@@ -198,7 +197,7 @@ class _ColGeneration(_ColSelection):
 
 
 class Custom(_ColGeneration):
-    """Apply custom function
+    """Apply custom function.
 
     Attributes:
         strategy (str, default "pipe"): strategy for applying value function.
@@ -321,6 +320,8 @@ class Period(_ColGeneration):
 
     Attributes:
         agg_func (callable): function to aggregate data to one period.
+
+# Quandl Input
             Default set to np.mean.
         _period (str): period to resample data to. Can be either daily,
             monthly, quarterly or yearly.
@@ -435,10 +436,10 @@ class Change(Custom):
 
         if self._change == "pct_change":
             def ch_func(df):
-                df.pct_change().fillna(0)
+                return df.pct_change().fillna(0)
         elif self._change == "diff":
             def ch_func(df):
-                df.diff().fillna(0)
+                return df.diff().fillna(0)
 
         super().__init__(
             ch_func,
@@ -561,7 +562,7 @@ class CustomByCols(Custom):
 
         if strategy == "apply":
             def cust_func(col):
-                col.apply(
+                return col.apply(
                     func,
                     axis=0,
                     args=args,
@@ -569,7 +570,7 @@ class CustomByCols(Custom):
                 )
         elif strategy == "transform":
             def cust_func(col):
-                col.transform(
+                return col.transform(
                     func,
                     axis=0,
                     args=args,
@@ -577,7 +578,7 @@ class CustomByCols(Custom):
                 )
         elif strategy == "agg":
             def cust_func(col):
-                col.agg(
+                return col.agg(
                     func,
                     axis=0,
                     args=args,

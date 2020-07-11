@@ -97,28 +97,24 @@ class Application(Model):
     def _init_output(self, outputs):
         """Initialize outputs
 
-        This internal method takes in a list of output names and initializes
-        the Application instance`s output dict. Only outputs initialized this
-        way, explicitly on initialization can be accessed by other methods.
+        This internal method takes in an iterable of output names and
+        initializes the Application instance`s output dict. Only outputs
+        initialized this way, explicitly on initialization can be accessed by
+        other methods.
 
         Args:
-            outputs (list): list of strings that will serve as keys in the
-                output dict.
+            outputs (iterable): contains keys for the output dict.
 
         Raises:
-            TypeError: if the outputs argument is not a list containing only
-                strings.
+            TypeError: if the outputs argument is not an iterable
         """
-        if isinstance(outputs, list):
+        if hasattr(outputs, "__iter__"):
             s_dict = {}
             for out in outputs:
-                if isinstance(out, str):
-                    s_dict[out] = None
-                else:
-                    raise TypeError("output names must be strings")
+                s_dict[out] = None
             self._out = s_dict
         else:
-            raise TypeError("please specify a list of strings to the \
+            raise TypeError("please specify an iterable to the \
                     outputs argument")
 
 # TODO: better way of informing of missing output

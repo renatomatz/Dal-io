@@ -2,6 +2,8 @@
 
 import os
 
+import requests
+
 import quandl
 import pandas_datareader as web
 
