@@ -171,6 +171,15 @@ class StockReturns(Change):
 
         return data
 
+    def copy(self, *args, **kwargs):
+        return type(self)(
+            *args,
+            cols=self._cols,
+            new_cols=self._new_cols,
+            rm_first=self._rm_first,
+            **kwargs
+        )
+
 
 class Rolling(Pipe):
     """Apply rolling function to columns

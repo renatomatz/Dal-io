@@ -40,11 +40,11 @@ res = y_period.run(ticker=tickers)
 
 
 # Quandl Input
-q_api = QuandlAPI("/home/renatomz/Documents/Projects/Dal-io/dalio/external/config/quandl_config.json")
-q_api.authenticate()
+# q_api = QuandlAPI("/home/renatomz/Documents/Projects/Dal-io/dalio/external/config/quandl_config.json")
+# q_api.authenticate()
 
-q_sf1_in = QuandlSharadarSF1Translator()(q_api)
-q_tick_in = QuandlTickerInfoTranslator()(q_api)
+# q_sf1_in = QuandlSharadarSF1Translator()(q_api)
+# q_tick_in = QuandlTickerInfoTranslator()(q_api)
 
 tickers = ["MSFT", "AAPL", "IBM", "TSLA", "XOM", "BP", "JPM"]
 
@@ -86,7 +86,7 @@ tickers = ["MSFT", "AAPL", "IBM", "TSLA", "XOM", "BP", "JPM"]
 
 # q_comps_grapher.run(ticker=tickers)
 
-adj_close_in = ColSelect(cols=("adj_close"))(y_in)
+adj_close_in = ColSelect(cols="adj_close")(y_in)
 returns = StockReturns(cols="adj_close")(adj_close_in)
 
 garch = MakeARCH()(returns)
@@ -118,11 +118,9 @@ mu.set_piece("return_model", "mean_historical_return")
 S_data = S.run(ticker=tickers)
 mu_data = mu.run(ticker=tickers)
 
-port_ef = OptimumWeights()\
+port_ef = MakeEfficientFrontier()\
     .set_input("sample_covariance", S)\
     .set_input("expected_returns", mu)
-
-port_ef\
     .add_objective("L2_reg")\
     .add_constraint(lambda x: x[1] <= 0.5)\
     .add_stock_weight_constraint(
