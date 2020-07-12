@@ -23,7 +23,7 @@ tickers = ["MSFT", "AAPL"]
 y_data_raw = y_in.run(ticker=tickers)
 
 cols=["close", "high"]
-y_change = Change("pct_change", columns=cols)(y_in)
+y_change = Change(strategy="pct_change", columns=cols)(y_in)
 res = y_change.run(ticker=tickers)
 
 y_col_select = ColSelect(cols)(y_in)

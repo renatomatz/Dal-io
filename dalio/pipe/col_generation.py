@@ -95,7 +95,6 @@ class _ColGeneration(_ColSelection):
     """
 
     def __init__(self,
-                 func,
                  *args,
                  columns=None,
                  new_cols=None,
@@ -105,11 +104,6 @@ class _ColGeneration(_ColSelection):
                  **kwargs):
 
         super().__init__(columns=columns)
-
-        if callable(func):
-            self._func = func
-        else:
-            raise ValueError("func must be callable")
 
         if isinstance(new_cols, str):
             self._new_cols = new_cols
@@ -184,7 +178,6 @@ class _ColGeneration(_ColSelection):
 
     def copy(self, *args, **kwargs):
         return super().copy(
-            self._func,
             *args,
             *self._args,
             new_cols=self._new_cols,
@@ -218,7 +211,6 @@ class Custom(_ColGeneration):
                  **kwargs):
 
         super().__init__(
-            func,
             *args,
             columns=columns,
             new_cols=new_cols,
@@ -227,6 +219,11 @@ class Custom(_ColGeneration):
             reintegrate=reintegrate,
             **kwargs
         )
+
+        if callable(func):
+            self._func = func
+        else:
+            raise ValueError("func must be callable")
 
         if strategy in ["apply", "transform", "agg", "pipe"]:
             self._strategy = strategy
@@ -268,290 +265,68 @@ class Custom(_ColGeneration):
 
     def copy(self, *args, **kwargs):
         return super().copy(
+            self._func,
             *args,
             strategy=self._strategy,
             **kwargs,
         )
 
 
-class Rolling(_ColGeneration):
-    """Apply rolling function
+class CustomByCols(Custom):
+    """A pipeline stage applying a function to individual columns iteratively.
 
     Attributes:
-        rolling_window (int, defailt None): rolling window to apply
-            function. If none, no rolling window is applied.
-    """
+        func (function): The function to be applied to each element of the
+            given columns.
+        strategy (str): Application strategy. Different from Custom class'
+            strategy parameter (which here is kept at "apply") as this will
+            now be done on a series (each column). Extra care should be taken
+            to ensure resulting column lengths match.
 
+    Example:
+        >>> import pandas as pd; import pdpipe as pdp; import math;
+        >>> data = [[3.2, "acd"], [7.2, "alk"], [12.1, "alk"]]
+        >>> df = pd.DataFrame(data, [1,2,3], ["ph","lbl"])
+        >>> round_ph = pdp.ApplyByCols("ph", math.ceil)
+        >>> round_ph(df)
+           ph  lbl
+        1   4  acd
+        2   8  alk
+        3  13  alk
+    """
     def __init__(self,
                  func,
                  *args,
-                 columns=None,
-                 new_cols=None,
-                 rolling_window=2,
-                 axis=0,
-                 drop=True,
-                 reintegrate=False,
-                 **kwargs):
-
-        super().__init__(
-            func,
-            *args,
-            columns=columns,
-            new_cols=new_cols,
-            axis=axis,
-            drop=drop,
-            reintegrate=reintegrate,
-            **kwargs
-        )
-
-        if isinstance(rolling_window, int):
-            self._rolling_window = rolling_window
-        else:
-            raise TypeError("rolling must be none or an integer")
-
-    def _gen_cols(self, inter_df, **kwargs):
-
-        return inter_df.rolling(
-            self._rolling_window,
-            axis=self._axis
-        ).apply(self._func, args=self._args, **self._kwargs)
-
-    def copy(self, *args, **kwargs):
-        return super().copy(
-            *args,
-            rolling_window=self._rolling_window,
-            **kwargs,
-        )
-
-
-class Period(_ColGeneration):
-    """Resample input time series data to a different period
-
-    Attributes:
-        agg_func (callable): function to aggregate data to one period.
-
-# Quandl Input
-            Default set to np.mean.
-        _period (str): period to resample data to. Can be either daily,
-            monthly, quarterly or yearly.
-    """
-
-    agg_func: Callable[[Iterable], Any]
-    _period: str
-
-    def __init__(self,
-                 period,
-                 *args,
-                 agg_func=np.mean,
-                 columns=None,
-                 new_cols=None,
-                 axis=0,
-                 drop=True,
-                 reintegrate=False,
-                 **kwargs):
-
-        """Initialize instance.
-
-        Describes source data as a time series.
-        Check that provided period is valid to some preset standards.
-
-        Raises:
-            TypeError: if aggregation function is not callable.
-        """
-
-        super().__init__(
-            agg_func,
-            *args,
-            columns=columns,
-            new_cols=new_cols,
-            axis=axis,
-            drop=drop,
-            reintegrate=reintegrate,
-            **kwargs
-        )
-
-        self._source\
-            .add_desc(IS_PD_TS())
-
-        if period is None:
-            raise NameError("Please specify a period or use Period subclasses\
-                    instead")
-
-        if not isinstance(period, str):
-            raise TypeError("Argument period must be of type string")
-
-        if period.upper() in ["DAILY", "DAY"]:
-            self._period = "D"
-        elif period.upper() in ["MONTHLY", "MONTH"]:
-            self._period = "M"
-        elif period.upper() in ["QUARTERLY", "QUARTER"]:
-            self._period = "Q"
-        elif period.upper() in ["YEARLY", "YEAR"]:
-            self._period = "Y"
-        else:
-            self._period = period
-
-    def _gen_cols(self, inter_df, **kwargs):
-
-        return inter_df.resample(
-            self._period,
-            axis=self._axis
-        ).apply(self._func, *self._args, **self._kwargs)
-
-    def copy(self, *args, **kwargs):
-        return type(self)(
-            self._period,
-            *self._args,
-            *args,
-            columns=self._columns,
-            new_cols=self._new_cols,
-            drop=self._drop,
-            reintegrate=False,
-            **kwargs,
-            **self._kwargs,
-        )
-
-
-class Change(Custom):
-    """Perform item-by-item change
-
-    This has two main forms, percentage change and absolute change
-    (difference).
-
-    Attributes:
-        _change (str, callable): change strategy.
-    """
-
-    _PANDAS_PRESETS = ["pct_change", "diff"]
-
-    def __init__(self,
-                 change,
-                 *args,
-                 columns=None,
-                 new_cols=None,
-                 drop=True,
-                 reintegrate=False,
-                 **kwargs):
-        """Initialize instance and perform argument checks
-
-        Args:
-            change: change strategy.
-
-        Raises:
-            ValueError: if change is not a valid string or new columns
-                are not the same length as the columns to be transformed.
-        """
-
-        if isinstance(change, str)\
-                and change not in Change._PANDAS_PRESETS:
-            raise ValueError(f"Argument change must be one of\
-                {Change._PANDAS_PRESETS}")
-
-        self._change = change
-
-        if self._change == "pct_change":
-            def ch_func(df):
-                return df.pct_change().fillna(0)
-        elif self._change == "diff":
-            def ch_func(df):
-                return df.diff().fillna(0)
-
-        super().__init__(
-            ch_func,
-            columns=columns,
-            new_cols=new_cols,
-            strategy="pipe",
-            axis=0,
-            drop=drop,
-            reintegrate=reintegrate
-        )
-
-    def copy(self, *args, **kwargs):
-        return type(self)(
-            self._change,
-            *self._args,
-            *args,
-            columns=self._columns,
-            new_cols=self._new_cols,
-            drop=self._drop,
-            reintegrate=False,
-            **kwargs,
-            **self._kwargs,
-        )
-
-
-class StockReturns(Custom):
-    """Perform percent change and minor aesthetic changes to data"""
-
-    def __init__(self,
-                 columns=None,
-                 new_cols=None,
-                 drop=True,
-                 reintegrate=False):
-
-        super().__init__(
-            lambda df: df.pct_change().fillna(0) * 100,
-            columns=columns,
-            new_cols="_" + RETURNS if new_cols else None,
-            strategy="pipe",
-            axis=0,
-            drop=drop,
-            reintegrate=reintegrate
-        )
-
-        self._source\
-            .add_desc(STOCK_STREAM)
-
-    def copy(self, *args, **kwargs):
-        return type(self)(
-            *args,
-            columns=self._columns,
-            new_cols=self._new_cols,
-            drop=self._drop,
-            reintegrate=self._reintegrate,
-            **kwargs,
-        )
-
-
-class Index(Custom):
-
-    def __init__(self,
-                 index_at,
-                 *args,
+                 strategy="apply",
                  columns=None,
                  new_cols=None,
                  drop=True,
                  reintegrate=False,
                  **kwargs):
 
-        if not isinstance(index_at, int):
-            raise ValueError(f"index must be an integer, not \
-                {type(index_at)}")
-
-        self._index_at = index_at
+        if strategy == "apply":
+            def cust_func(col):
+                return col.apply(
+                    func,
+                    args=args,
+                    **kwargs
+                )
+        elif strategy == "transform":
+            def cust_func(col):
+                return col.transform(
+                    func,
+                    args=args,
+                    **kwargs
+                )
 
         super().__init__(
-            index_cols,
+            cust_func,
             columns=columns,
             new_cols=new_cols,
             strategy="apply",
             axis=0,
             drop=drop,
-            reintegrate=reintegrate,
-            i=index_at
-        )
-
-    def copy(self, *args, **kwargs):
-        return type(self)(
-            self._index_at,
-            *self._args,
-            *args,
-            columns=self._columns,
-            new_cols=self._new_cols,
-            drop=self._drop,
-            reintegrate=False,
-            **kwargs,
-            **self._kwargs,
+            reintegrate=reintegrate
         )
 
 
@@ -778,59 +553,274 @@ class MapColVals(Custom):
         )
 
 
-class CustomByCols(Custom):
-    """A pipeline stage applying a function to individual columns iteratively.
+class Rolling(_ColGeneration):
+    """Apply rolling function
 
     Attributes:
-        func (function): The function to be applied to each element of the
-            given columns.
-        strategy (str): Application strategy. Different from Custom class'
-            strategy parameter (which here is kept at "apply") as this will
-            now be done on a series (each column). Extra care should be taken
-            to ensure resulting column lengths match.
-
-    Example:
-        >>> import pandas as pd; import pdpipe as pdp; import math;
-        >>> data = [[3.2, "acd"], [7.2, "alk"], [12.1, "alk"]]
-        >>> df = pd.DataFrame(data, [1,2,3], ["ph","lbl"])
-        >>> round_ph = pdp.ApplyByCols("ph", math.ceil)
-        >>> round_ph(df)
-           ph  lbl
-        1   4  acd
-        2   8  alk
-        3  13  alk
+        rolling_window (int, defailt None): rolling window to apply
+            function. If none, no rolling window is applied.
     """
+
     def __init__(self,
                  func,
                  *args,
-                 strategy="apply",
+                 columns=None,
+                 new_cols=None,
+                 rolling_window=2,
+                 axis=0,
+                 drop=True,
+                 reintegrate=False,
+                 **kwargs):
+
+        super().__init__(
+            *args,
+            columns=columns,
+            new_cols=new_cols,
+            axis=axis,
+            drop=drop,
+            reintegrate=reintegrate,
+            **kwargs
+        )
+
+        if callable(func):
+            self._func = func
+        else:
+            raise ValueError("func must be callable")
+
+        if isinstance(rolling_window, int):
+            self._rolling_window = rolling_window
+        else:
+            raise TypeError("rolling must be none or an integer")
+
+    def _gen_cols(self, inter_df, **kwargs):
+
+        return inter_df.rolling(
+            self._rolling_window,
+            axis=self._axis
+        ).apply(self._func, args=self._args, **self._kwargs)
+
+    def copy(self, *args, **kwargs):
+        return super().copy(
+            self._func,
+            *args,
+            rolling_window=self._rolling_window,
+            **kwargs,
+        )
+
+
+class Period(_ColGeneration):
+    """Resample input time series data to a different period
+
+    Attributes:
+        agg_func (callable): function to aggregate data to one period.
+
+# Quandl Input
+            Default set to np.mean.
+        _period (str): period to resample data to. Can be either daily,
+            monthly, quarterly or yearly.
+    """
+
+    agg_func: Callable[[Iterable], Any]
+    _period: str
+
+    def __init__(self,
+                 period,
+                 *args,
+                 agg_func=np.mean,
+                 columns=None,
+                 new_cols=None,
+                 axis=0,
+                 drop=True,
+                 reintegrate=False,
+                 **kwargs):
+
+        """Initialize instance.
+
+        Describes source data as a time series.
+        Check that provided period is valid to some preset standards.
+
+        Raises:
+            TypeError: if aggregation function is not callable.
+        """
+
+        super().__init__(
+            *args,
+            columns=columns,
+            new_cols=new_cols,
+            axis=axis,
+            drop=drop,
+            reintegrate=reintegrate,
+            **kwargs
+        )
+
+        if callable(agg_func):
+            self._agg_func = agg_func
+        else:
+            raise ValueError("func must be callable")
+
+        self._source\
+            .add_desc(IS_PD_TS())
+
+        if period is None:
+            raise NameError("Please specify a period or use Period subclasses\
+                    instead")
+
+        if not isinstance(period, str):
+            raise TypeError("Argument period must be of type string")
+
+        if period.upper() in ["DAILY", "DAY"]:
+            self._period = "D"
+        elif period.upper() in ["MONTHLY", "MONTH"]:
+            self._period = "M"
+        elif period.upper() in ["QUARTERLY", "QUARTER"]:
+            self._period = "Q"
+        elif period.upper() in ["YEARLY", "YEAR"]:
+            self._period = "Y"
+        else:
+            self._period = period
+
+    def _gen_cols(self, inter_df, **kwargs):
+
+        return inter_df.resample(
+            self._period,
+            axis=self._axis
+        ).apply(self._agg_func, *self._args, **self._kwargs)
+
+    def copy(self, *args, **kwargs):
+        return super().copy(
+            self._period,
+            *args,
+            **kwargs,
+        )
+
+
+class Change(_ColGeneration):
+    """Perform item-by-item change
+
+    This has two main forms, percentage change and absolute change
+    (difference).
+
+    Attributes:
+        _strategy (str, callable): change strategy.
+    """
+
+    _PANDAS_PRESETS = ["pct_change", "diff"]
+
+    def __init__(self,
+                 *args,
+                 strategy="diff",
+                 columns=None,
+                 new_cols=None,
+                 drop=True,
+                 reintegrate=False,
+                 **kwargs):
+        """Initialize instance and perform argument checks
+
+        Args:
+            strategy: strategy strategy.
+
+        Raises:
+            ValueError: if strategy is not a valid string or new columns
+                are not the same length as the columns to be transformed.
+        """
+
+        if isinstance(strategy, str)\
+                and strategy not in Change._PANDAS_PRESETS:
+            raise ValueError(f"Argument strategy must be one of\
+                {Change._PANDAS_PRESETS}")
+
+        self._strategy = strategy
+
+        if self._strategy == "pct_change":
+            self._ch_func = lambda df: df.pct_change().fillna(0)
+        elif self._strategy == "diff":
+            self._ch_func = lambda df: df.diff().fillna(0)
+
+        super().__init__(
+            columns=columns,
+            new_cols=new_cols,
+            drop=drop,
+            reintegrate=reintegrate
+        )
+
+    def _gen_cols(self, inter_df, **kwargs):
+        return inter_df.pipe(
+            self._ch_func,
+            *self._args,
+            **self._kwargs
+        )
+
+    def copy(self, *args, **kwargs):
+        return super().copy(
+            *args,
+            strategy=self._strategy,
+            **kwargs,
+        )
+
+
+class StockReturns(_ColGeneration):
+    """Perform percent change and minor aesthetic changes to data"""
+
+    def __init__(self,
+                 columns=None,
+                 new_cols=None,
+                 drop=True,
+                 reintegrate=False):
+
+        super().__init__(
+            columns=columns,
+            new_cols="_" + RETURNS if new_cols else None,
+            drop=drop,
+            reintegrate=reintegrate
+        )
+
+        self._source\
+            .add_desc(STOCK_STREAM)
+
+    def _gen_cols(self, inter_df, **kwargs):
+        return inter_df.pipe(
+            lambda df: df.pct_change().fillna(0) * 100,
+            *self._args,
+            **self._kwargs
+        )
+
+
+class Index(_ColGeneration):
+
+    def __init__(self,
+                 index_at,
+                 *args,
                  columns=None,
                  new_cols=None,
                  drop=True,
                  reintegrate=False,
                  **kwargs):
 
-        if strategy == "apply":
-            def cust_func(col):
-                return col.apply(
-                    func,
-                    args=args,
-                    **kwargs
-                )
-        elif strategy == "transform":
-            def cust_func(col):
-                return col.transform(
-                    func,
-                    args=args,
-                    **kwargs
-                )
+        if not isinstance(index_at, int):
+            raise ValueError(f"index must be an integer, not \
+                {type(index_at)}")
+
+        self._index_at = index_at
 
         super().__init__(
-            cust_func,
             columns=columns,
             new_cols=new_cols,
-            strategy="apply",
-            axis=0,
             drop=drop,
-            reintegrate=reintegrate
+            reintegrate=reintegrate,
+        )
+
+    def copy(self, *args, **kwargs):
+        return super().copy(
+            self._index_at,
+            *args,
+            **kwargs,
+        )
+
+    def _gen_cols(self, inter_df, **kwargs):
+        return inter_df.apply(
+            index_cols,
+            axis=0,
+            args=self._args,
+            i=self._index_at,
+            **self._kwargs
         )
