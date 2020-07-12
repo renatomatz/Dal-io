@@ -24,6 +24,7 @@ from dalio.pipe.col_generation import (
     MapColVals,
     CustomByCols,
     Log,
+    BoxCox,
 )
 
 from dalio.pipe.builders import (
@@ -59,6 +60,7 @@ __all__ = [
     "MapColVals",
     "CustomByCols",
     "Log",
+    "BoxCox",
     "StockComps",
     "CovShrink",
     "ExpectedReturns",

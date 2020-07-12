@@ -203,7 +203,7 @@ class Custom(_ColGeneration):
 
     Attributes:
         strategy (str, default "pipe"): strategy for applying value function.
-            One of ["apply", "transform", "pipe"]
+            One of ["apply", "transform", "agg", "pipe"]
     """
 
     def __init__(self,
@@ -228,11 +228,11 @@ class Custom(_ColGeneration):
             **kwargs
         )
 
-        if strategy in ["apply", "transform", "pipe"]:
+        if strategy in ["apply", "transform", "agg", "pipe"]:
             self._strategy = strategy
         else:
             raise ValueError(f"Invalid strategy {strategy} \
-                pick one of ['apply', 'transform', 'pipe']")
+                pick one of ['apply', 'transform', 'agg', 'pipe']")
 
     def _gen_cols(self, inter_df, **kwargs):
 
@@ -248,6 +248,13 @@ class Custom(_ColGeneration):
                 self._func,
                 axis=self._axis,
                 args=self._args,
+                **self._kwargs
+            )
+        elif self._strategy == "agg":
+            return inter_df.agg(
+                self._func,
+                axis=self._axis,
+                *self._args,
                 **self._kwargs
             )
         elif self._strategy == "pipe":
@@ -530,75 +537,7 @@ class Index(Custom):
         )
 
 
-class CustomByCols(Custom):
-    """A pipeline stage applying a function to individual columns iteratively.
-
-    Attributes:
-        func (function): The function to be applied to each element of the
-            given columns.
-        strategy (str): Application strategy. Different from Custom class'
-            strategy parameter (which here is kept at "apply") as this will
-            now be done on a series (each column). Extra care should be taken
-            to ensure resulting column lengths match.
-
-    Example:
-        >>> import pandas as pd; import pdpipe as pdp; import math;
-        >>> data = [[3.2, "acd"], [7.2, "alk"], [12.1, "alk"]]
-        >>> df = pd.DataFrame(data, [1,2,3], ["ph","lbl"])
-        >>> round_ph = pdp.ApplyByCols("ph", math.ceil)
-        >>> round_ph(df)
-           ph  lbl
-        1   4  acd
-        2   8  alk
-        3  13  alk
-    """
-    def __init__(self,
-                 func,
-                 *args,
-                 strategy="apply",
-                 columns=None,
-                 new_cols=None,
-                 drop=True,
-                 reintegrate=False,
-                 **kwargs):
-
-        if strategy == "apply":
-            def cust_func(col):
-                return col.apply(
-                    func,
-                    axis=0,
-                    args=args,
-                    **kwargs
-                )
-        elif strategy == "transform":
-            def cust_func(col):
-                return col.transform(
-                    func,
-                    axis=0,
-                    args=args,
-                    **kwargs
-                )
-        elif strategy == "agg":
-            def cust_func(col):
-                return col.agg(
-                    func,
-                    axis=0,
-                    args=args,
-                    **kwargs
-                )
-
-        super().__init__(
-            cust_func,
-            columns=columns,
-            new_cols=new_cols,
-            strategy="apply",
-            axis=0,
-            drop=drop,
-            reintegrate=reintegrate
-        )
-
-
-class Bin(CustomByCols):
+class Bin(Custom):
     """A pipeline stage that adds a binned version of a column or columns.
 
     If drop is set to True the new columns retain the names of the source
@@ -643,26 +582,25 @@ class Bin(CustomByCols):
                  **kwargs):
 
         if bin_strat == "normal":
-            func = pd.cut
-            kwargs.update({"q": bin_map})
-        elif bin_strat == "quantile":
-            func = pd.qcut
+            bin_func = pd.cut
             kwargs.update({"bins": bin_map})
+        elif bin_strat == "quantile":
+            bin_func = pd.qcut
+            kwargs.update({"q": bin_map})
 
         super().__init__(
-            func,
+            bin_func,
             *args,
             columns=columns,
             new_cols=new_cols,
             strategy="apply",
-            axis=0,
             drop=drop,
             reintegrate=reintegrate,
             **kwargs
         )
 
 
-class Log(CustomByCols):
+class Log(Custom):
     """A pipeline stage that log-transforms numeric data.
 
     Attributes:
@@ -697,7 +635,7 @@ class Log(CustomByCols):
         if const_shift is not None:
             data = data + const_shift
 
-        np.log(data, *args, **kwargs)
+        return np.log(data, *args, **kwargs)
 
     def __init__(self,
                  *args,
@@ -720,14 +658,13 @@ class Log(CustomByCols):
             columns=columns,
             new_cols=new_cols,
             strategy="apply",
-            axis=0,
             drop=drop,
             reintegrate=reintegrate,
             **kwargs,
         )
 
 
-class BoxCox(CustomByCols):
+class BoxCox(Custom):
     """A pipeline stage that applies the BoxCox transformation on data.
 
     Attributes:
@@ -773,14 +710,13 @@ class BoxCox(CustomByCols):
             columns=columns,
             new_cols=new_cols,
             strategy="apply",
-            axis=0,
             drop=drop,
             reintegrate=reintegrate,
             **kwargs,
         )
 
 
-class MapColVals(CustomByCols):
+class MapColVals(Custom):
     """A pipeline stage that reintegrates the values of a column by a map.
 
     Attributes:
@@ -817,6 +753,63 @@ class MapColVals(CustomByCols):
                 **kwargs
             ),
             columns,
+            new_cols=new_cols,
+            strategy="apply",
+            drop=drop,
+            reintegrate=reintegrate
+        )
+
+
+class CustomByCols(Custom):
+    """A pipeline stage applying a function to individual columns iteratively.
+
+    Attributes:
+        func (function): The function to be applied to each element of the
+            given columns.
+        strategy (str): Application strategy. Different from Custom class'
+            strategy parameter (which here is kept at "apply") as this will
+            now be done on a series (each column). Extra care should be taken
+            to ensure resulting column lengths match.
+
+    Example:
+        >>> import pandas as pd; import pdpipe as pdp; import math;
+        >>> data = [[3.2, "acd"], [7.2, "alk"], [12.1, "alk"]]
+        >>> df = pd.DataFrame(data, [1,2,3], ["ph","lbl"])
+        >>> round_ph = pdp.ApplyByCols("ph", math.ceil)
+        >>> round_ph(df)
+           ph  lbl
+        1   4  acd
+        2   8  alk
+        3  13  alk
+    """
+    def __init__(self,
+                 func,
+                 *args,
+                 strategy="apply",
+                 columns=None,
+                 new_cols=None,
+                 drop=True,
+                 reintegrate=False,
+                 **kwargs):
+
+        if strategy == "apply":
+            def cust_func(col):
+                return col.apply(
+                    func,
+                    args=args,
+                    **kwargs
+                )
+        elif strategy == "transform":
+            def cust_func(col):
+                return col.transform(
+                    func,
+                    args=args,
+                    **kwargs
+                )
+
+        super().__init__(
+            cust_func,
+            columns=columns,
             new_cols=new_cols,
             strategy="apply",
             axis=0,

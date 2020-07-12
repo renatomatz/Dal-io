@@ -181,34 +181,19 @@ pipe = RowDrop({("adj_close", "NVDA"): (lambda x: x < 100)}).set_input(price)
 res = pipe.run(ticker=ticker)
 
 # Generate
-pipe = Bin({"NVDA": 3}, level=1, drop=False).set_input(price)
+pipe = Bin(3, columns={1: "NVDA"}, drop=False, reintegrate=True).set_input(price)
 res = pipe.run(ticker=ticker)
 
-pipe = MapColVals("is_delisted", {1:"delisted", 2:"not delisted"}).set_input(q_tick_in)
+# pipe = MapColVals("is_delisted", {1:"delisted", 2:"not delisted"}).set_input(q_tick_in)
+# res = pipe.run(ticker=ticker)
+
+pipe = CustomByCols((lambda x: x*100), columns={1: "NVDA"}).set_input(price)
 res = pipe.run(ticker=ticker)
 
-pipe = ApplyToRows((lambda row: row["open"] - row["close"]), "diff").set_input(price)
+pipe = Custom(np.mean, columns={1: ["NVDA", "WMT"]}, strategy="agg").set_input(price)
 res = pipe.run(ticker=ticker)
 
-pipe = ApplyByCols(("adj_close", "NVDA"), (lambda x: x*100)).set_input(price)
+pipe = BoxCox().set_input(price)
 res = pipe.run(ticker=ticker)
-
-pipe = ColByFrameFunc("Sum", (lambda x: x.apply(np.sum, axis=1))).set_input(price)
-res = pipe.run(ticker=ticker)
-
-pipe = AggByCols(("adj_close", "NVDA"), np.log).set_input(price)
-res = pipe.run(ticker=ticker)
-
-pipe = Log().set_input(price)
-res = pipe.run(ticker=ticker)
-
-
-# SKLearn
-pipe = Encode().set_input(price)
-res = pipe.run(ticker=ticker)
-
-pipe = Scale().set_input(price)
-res = pipe.run(ticker=ticker)
-
 
 print("DONE")
