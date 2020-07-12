@@ -340,11 +340,11 @@ class Period(_ColGeneration):
     _period: str
 
     def __init__(self,
+                 period,
                  *args,
-                 func=np.mean,
+                 agg_func=np.mean,
                  columns=None,
                  new_cols=None,
-                 period=None,
                  axis=0,
                  drop=True,
                  reintegrate=False,
@@ -360,7 +360,7 @@ class Period(_ColGeneration):
         """
 
         super().__init__(
-            func,
+            agg_func,
             *args,
             columns=columns,
             new_cols=new_cols,
@@ -399,10 +399,16 @@ class Period(_ColGeneration):
         ).apply(self._func, *self._args, **self._kwargs)
 
     def copy(self, *args, **kwargs):
-        return super().copy(
+        return type(self)(
+            self._period,
+            *self._args,
             *args,
-            period=self._period,
-            **kwargs
+            columns=self._columns,
+            new_cols=self._new_cols,
+            drop=self._drop,
+            reintegrate=False,
+            **kwargs,
+            **self._kwargs,
         )
 
 
@@ -419,8 +425,8 @@ class Change(Custom):
     _PANDAS_PRESETS = ["pct_change", "diff"]
 
     def __init__(self,
+                 change,
                  *args,
-                 change="pct_change",
                  columns=None,
                  new_cols=None,
                  drop=True,
@@ -461,10 +467,16 @@ class Change(Custom):
         )
 
     def copy(self, *args, **kwargs):
-        return super().copy(
+        return type(self)(
+            self._change,
+            *self._args,
             *args,
-            change=self._change,
-            **kwargs
+            columns=self._columns,
+            new_cols=self._new_cols,
+            drop=self._drop,
+            reintegrate=False,
+            **kwargs,
+            **self._kwargs,
         )
 
 
@@ -504,8 +516,8 @@ class StockReturns(Custom):
 class Index(Custom):
 
     def __init__(self,
+                 index_at,
                  *args,
-                 index_at=100,
                  columns=None,
                  new_cols=None,
                  drop=True,
@@ -530,10 +542,16 @@ class Index(Custom):
         )
 
     def copy(self, *args, **kwargs):
-        return super().copy(
+        return type(self)(
+            self._index_at,
+            *self._args,
             *args,
-            index_at=self._index_at,
-            **kwargs
+            columns=self._columns,
+            new_cols=self._new_cols,
+            drop=self._drop,
+            reintegrate=False,
+            **kwargs,
+            **self._kwargs,
         )
 
 

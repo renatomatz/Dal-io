@@ -23,7 +23,7 @@ tickers = ["MSFT", "AAPL"]
 y_data_raw = y_in.run(ticker=tickers)
 
 cols=["close", "high"]
-y_change = Change(columns=cols)(y_in)
+y_change = Change("pct_change", columns=cols)(y_in)
 res = y_change.run(ticker=tickers)
 
 y_col_select = ColSelect(cols)(y_in)
@@ -35,10 +35,10 @@ res = y_custom.run(ticker=tickers)
 risk_cust = Custom(risk_metrics, 0.94)(y_change)
 res = risk_cust.run(ticker=tickers)
 
-y_index = Index(index_at=100, cols=cols)(y_in)
+y_index = Index(100, cols=cols)(y_in)
 res = y_index.run(ticker=tickers)
 
-y_period = Period(period="Y")(y_in)
+y_period = Period("Y")(y_in)
 res = y_period.run(ticker=tickers)
 
 
@@ -154,6 +154,9 @@ port_cla = MakeCriticalLine()\
 
 time = DateSelect()
 price = time.set_input(y_in)
+
+pipe = Period("Y", agg_func= lambda x: (x[-1] - x[0])/x[0])(price)
+res = pipe.run(ticker=ticker)
 
 # Select
 pipe = ColDrop("close").set_input(price)
