@@ -159,22 +159,22 @@ price = time.set_input(y_in)
 pipe = ColDrop("close").set_input(price)
 res = pipe.run(ticker=ticker)
 
-val_drop = ValDrop(12855900, columns="volume").set_input(price)
+pipe = ValDrop(6230400.0, columns="volume").set_input(price)
 res = pipe.run(ticker=ticker)
 
-pipe = ValKeep(12855900, columns="volume").set_input(price)
+pipe = ValKeep(6230400.0, columns=("volume", "NVDA")).set_input(price)
 res = pipe.run(ticker=ticker)
 
 pipe = ColRename({"close": "CLOSE"}).set_input(price)
 res = pipe.run(ticker=ticker)
 
-pipe = DropNa().set_input(val_drop)
+pipe = DropNa().set_input(price)
 res = pipe.run(ticker=ticker)
 
 pipe = FreqDrop(3, [("adj_close", "NVDA")]).set_input(price)
 res = pipe.run(ticker=ticker)
 
-pipe = ColReorder({"open":0}).set_input(price)
+pipe = ColReorder({"WMT":0}, level=1).set_input(price)
 res = pipe.run(ticker=ticker)
 
 pipe = RowDrop({("adj_close", "NVDA"): (lambda x: x < 100)}).set_input(price)

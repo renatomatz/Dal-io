@@ -18,6 +18,40 @@ from dalio.util import (
 )
 
 
+class ColRename(Pipe):
+    """A pipeline stage that renames a column or columns.
+
+    Attributes:
+        rename_map (dict): Maps old column names to new ones.
+
+    Example
+        >>> import pandas as pd; import pdpipe as pdp;
+        >>> df = pd.DataFrame([[8,'a'],[5,'b']], [1,2], ['num', 'char'])
+        >>> pdp.ColRename({'num': 'len', 'char': 'initial'}).apply(df)
+           len initial
+        1    8       a
+        2    5       b
+    """
+
+    def __init__(self, map_dict):
+        super().__init__()
+        self._map_dict = map_dict
+
+    def transform(self, data, **kwargs):
+
+        return data.rename(
+            self._map_dict, 
+            axis=1,
+        )
+
+    def copy(self, *args, **kwargs):
+        return super().copy(
+            *args,
+            map_dict=self._map_dict,
+            **kwargs,
+        )
+
+
 class _ColSelection(Pipe):
 
     def __init__(self, columns):
@@ -382,6 +416,7 @@ class ValKeep(_ColValSelection):
 
         super().__init__(values, columns)
 
+
     def transform(self, data, **kwargs):
 
         levels = extract_level_names_dict(data)
@@ -392,7 +427,8 @@ class ValKeep(_ColValSelection):
         )
 
         # if data has a multiindex
-        if data.columns.nlevels > 1:
+        if data.columns.nlevels > 1 \
+        and not isinstance(cols_to_check[0], tuple):
 
             if not isinstance(cols_to_check, dict):
                 levels[0] = cols_to_check
@@ -402,7 +438,6 @@ class ValKeep(_ColValSelection):
             cols_to_check = product(*cols_to_check.values())
 
         for col in cols_to_check:
-            # keep those values that are in self._values
             data = data[data[col].isin(self._values)]
 
         return data
@@ -459,43 +494,6 @@ class FreqDrop(_ColValSelection):
         return data.copy().iloc[[*i_to_keep]]
 
 
-class ColRename(_ColSelection):
-    """A pipeline stage that renames a column or columns.
-
-    Attributes:
-        rename_map (dict): Maps old column names to new ones.
-
-    Example
-        >>> import pandas as pd; import pdpipe as pdp;
-        >>> df = pd.DataFrame([[8,'a'],[5,'b']], [1,2], ['num', 'char'])
-        >>> pdp.ColRename({'num': 'len', 'char': 'initial'}).apply(df)
-           len initial
-        1    8       a
-        2    5       b
-    """
-
-    def __init__(self, map_dict, level=0):
-        super().__init__({level: [*map_dict.keys()]})
-
-        self._map_dict = map_dict
-        self._level = level
-
-    def transform(self, data, **kwargs):
-
-        return data.rename(
-            columns=self._columns, 
-            level=self._level
-        )
-
-    def copy(self, *args, **kwargs):
-        return super().copy(
-            *args,
-            map_dict=self._map_dict,
-            level=self._level,
-            **kwargs,
-        )
-
-
 class ColReorder(_ColSelection):
     """A pipeline stage that reorders columns.
 
@@ -536,7 +534,7 @@ class ColReorder(_ColSelection):
                 [*product(*all_cols.values())]
             )
         else:
-            all_cols = all_cols[0]
+            all_cols = pd.Index(all_cols[0])
 
         inter_df = data.copy()
         inter_df.columns = all_cols
