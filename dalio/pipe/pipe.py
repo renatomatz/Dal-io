@@ -151,9 +151,10 @@ class PipeLine(Pipe):
 
     def copy(self, *args, **kwargs):
         """Make a copy of this Pipeline"""
-        ret = super().copy(*args, **kwargs)
-        PipeLine.extend(ret, self)
-        return ret
+        return super().copy(
+            *self._pipeline,
+            *args, **kwargs
+        )
 
     def extend(self, *args, deep=False):
         """Extend existing pipeline with one or more Pipe instances
@@ -181,7 +182,15 @@ class PipeLine(Pipe):
         Args:
             other (Pipe, PipeLine): instance to extend this.
         """
-        return self.copy().extend(other)
+        return PipeLine.extend(self.copy(), other)
+
+    def __iadd__(self, other):
+        """Add another Pipe or PipeLine to this instance
+
+        Args:
+            other (Pipe, PipeLine): instance to extend this.
+        """
+        return self.extend(other)
 
 
 class PipeBuilder(Pipe, _Builder):
