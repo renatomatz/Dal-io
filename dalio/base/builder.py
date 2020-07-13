@@ -6,6 +6,8 @@ constrained an object's parent class.
 
 from typing import Dict, List, Union, Any
 
+from collections import namedtuple
+
 
 class _Builder:
     """Interface for setting and assembling pieces.
@@ -20,11 +22,17 @@ class _Builder:
     and set arguments for it to be ran with before actually running them
 
     Attributes:
-        _piece (dict): dictionary containing a piece's name, positional
+        piece (type): nametuple singleton for piece generation
+        _pieces (dict): dictionary containing a piece's name, positional
             arguments and keyword arguments.
     """
 
-    _piece: Dict[str, Union[List[Any], Dict[str, Any]]]
+    piece = namedtuple("piece",
+                       "name, args, kwargs",
+                       module="_Builder",
+                       defaults=[str(), list(), dict()])
+
+    _pieces: Dict[str, Union[List[Any], Dict[str, Any]]]
 
     def build_model(self, data, **kwargs):
         """Assemble pieces into a model given some data
@@ -57,17 +65,9 @@ class _Builder:
 
         self.check_name(param, name)
 
-        self._piece[param] = {
-            "name": name,
-            "args": args,
-            "kwargs": kwargs
-        }
+        self._pieces[param] = self.piece(name, args, kwargs)
 
         return self
-
-    def with_piece(self, param, name, *args, **kwargs):
-        """Copy self and return with a new piece set"""
-        return self.copy().set_piece(param, name, *args, **kwargs)
 
     def _init_piece(self, params):
         """Initialize piece dictionary given a list of piece names.
@@ -78,10 +78,7 @@ class _Builder:
         Args:
             params (list): list of piece names to be initialized.
         """
-        self._piece = {
-            p: {"name": None, "args": None, "kwargs": None}
-            for p in params
-        }
+        self._pieces = {p: self.piece() for p in params}
 
     def check_name(self, param, name):
         """Check if name and parameter combination is valid.
@@ -98,6 +95,8 @@ class _Builder:
             piece (str): name of the key in the piece dictionary.
             name (str): name option to be set to the piece.
         """
-        if param not in self._piece:
+        if param not in self._pieces:
             raise KeyError(f"invalid parameter {param}, select one of \
-                {self._piece.keys()}")
+                {self._pieces.keys()}")
+        if name is None:
+            raise ValueError("Please specify a valid name")

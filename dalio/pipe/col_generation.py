@@ -690,6 +690,7 @@ class Period(_ColGeneration):
         return super().copy(
             self._period,
             *args,
+            agg_func=self._agg_func,
             **kwargs,
         )
 

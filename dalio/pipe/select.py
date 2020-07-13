@@ -199,10 +199,12 @@ class DateSelect(Pipe):
     def set_start(self, start):
         """Set the _start attribute"""
         self._start = process_date(start)
+        return self
 
     def set_end(self, end):
         """Set the _end attribute"""
         self._end = process_date(end)
+        return self
 
 
 class DropNa(Pipe):

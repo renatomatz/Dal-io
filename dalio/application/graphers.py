@@ -118,8 +118,8 @@ class MultiGrapher(Application, _Builder):
 
     def build_model(self, data, **kwargs):
         """Return data unprocessed"""
-        plot = self._piece[kwargs.get("coord", None)]
-        return data, plot["name"], plot["kwargs"]
+        plot = self._pieces[kwargs.get("coord", None)]
+        return data, plot.name, plot.kwargs
 
 
 class PandasXYGrapher(Grapher):

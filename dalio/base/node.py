@@ -66,4 +66,3 @@ class _Node:
         implement other securuty features
         """
         self._connection = new_connection
-        return self

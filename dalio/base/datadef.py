@@ -22,8 +22,8 @@ class _DataDef(_Node):
     Attributes:
         _connection (_Transformer): Transformer instance which outputs data to
             be checked.
-        _desc (list): list of Validator instances that describe approved data and
-            tests input data for certain characteristics.
+        _desc (list): list of Validator instances that describe approved data 
+            and tests input data for certain characteristics.
     """
 
     def __init__(self, parallel=False):

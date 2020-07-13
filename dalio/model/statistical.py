@@ -66,10 +66,10 @@ class XYLinearModel(Model, _Builder):
         Returns:
             Unfitted linear model
         """
-        strategy = self._piece["strategy"]
-        lm = XYLinearModel._STRATEGIES[strategy["name"]](
-            *strategy["args"],
-            **strategy["kwargs"]
+        strategy = self._pieces["strategy"]
+        lm = XYLinearModel._STRATEGIES[strategy.name](
+            *strategy.args,
+            **strategy.kwargs
         )
 
         return lm

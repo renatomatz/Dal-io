@@ -9,7 +9,7 @@ propper data checks by adding descriptions to their source.
 
 from typing import List
 
-from dalio.base import _Transformer, _DataDef
+from dalio.base import _Transformer, _DataDef, _Builder
 
 
 class Pipe(_Transformer):
@@ -57,7 +57,7 @@ class Pipe(_Transformer):
         Args:
             data: data returned by source.
         """
-        raise NotImplementedError()
+        return data
 
     def pipeline(self, *args):
         """Returns a PipeLine instance with self as the input source and any
@@ -130,11 +130,12 @@ class PipeLine(Pipe):
             *args: additional Pipe instances to be added to PipeLine.
         """
         super().__init__()
-        if len(args) >= 1:
-            self._source = args[0]._source
 
         self._pipeline = []
         self.extend(*args)
+
+        if len(args) >= 1:
+            self.set_input(args[0].get_input())
 
     def transform(self, data, **kwargs):
         """Pass data sourced from first pipe through every Pipe`s
@@ -151,18 +152,23 @@ class PipeLine(Pipe):
     def copy(self, *args, **kwargs):
         """Make a copy of this Pipeline"""
         ret = super().copy(*args, **kwargs)
-        ret.extend(self)
+        PipeLine.extend(ret, self)
         return ret
 
-    def extend(self, *args):
+    def extend(self, *args, deep=False):
         """Extend existing pipeline with one or more Pipe instances
+
+        Keep in mind that this will not mean that
         """
         for pipe in args:
 
             if isinstance(pipe, PipeLine):
                 self._pipeline.extend(pipe._pipeline)
             elif isinstance(pipe, Pipe):
-                self._pipeline.append(pipe)
+                if deep:
+                    self._pipeline.append(pipe.copy())
+                else:
+                    self._pipeline.append(pipe)
             else:
                 raise TypeError(f"arguments passed must be either of \
                     type Pipe or PipeLine, not {type(pipe)}")
@@ -176,3 +182,27 @@ class PipeLine(Pipe):
             other (Pipe, PipeLine): instance to extend this.
         """
         return self.copy().extend(other)
+
+
+class PipeBuilder(Pipe, _Builder):
+    """Hybrid builder type for complementing _Transformer instances.
+
+    These specify extra methods implemented by _Transformer instances.
+    """
+
+    def with_piece(self, param, name, *args, **kwargs):
+        """Copy self and return with a new piece set"""
+        return _Builder.set_piece(
+            self.copy(),
+            param,
+            name,
+            *args, **kwargs
+        )
+
+    def copy(self, *args, **kwargs):
+        ret = super().copy(*args, **kwargs)
+
+        # Copy should be of same type and thus accept the same pieces
+        ret._pieces = self._pieces.copy()
+
+        return ret

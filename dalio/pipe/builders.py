@@ -42,9 +42,7 @@ from dalio.base.constants import (
     EXPECTED_SHORTFALL,
 )
 
-from dalio.pipe import Pipe
-
-from dalio.base import _Builder
+from dalio.pipe import Pipe, PipeBuilder
 
 from dalio.validator import (
     HAS_COLS,
@@ -58,17 +56,6 @@ from dalio.validator.presets import STOCK_INFO, STOCK_STREAM
 from dalio.ops import get_comps_by_sic
 
 warnings.filterwarnings('ignore')
-
-
-class _BuilderPipe(Pipe, _Builder):
-    """Class to combine Pipe and Builder functionality"""
-
-    def copy(self, *args, **kwargs):
-        """Copy data as pipe, copy pieces as builder"""
-        ret = Pipe.copy(self, *args, **kwargs)
-        ret._piece = self._piece.copy()
-
-        return ret
 
 
 class StockComps(Pipe):
@@ -167,7 +154,7 @@ class StockComps(Pipe):
         )
 
 
-class PandasLinearModel(_BuilderPipe):
+class PandasLinearModel(PipeBuilder):
     """Create a linear model from input pandas dataframe, using its index
     as the X value.
 
@@ -211,16 +198,16 @@ class PandasLinearModel(_BuilderPipe):
         Returns:
             Unfitted linear model
         """
-        strategy = self._piece["strategy"]
-        lm = PandasLinearModel._STRATEGIES[strategy["name"]](
-            *strategy["args"],
-            **strategy["kwargs"]
+        strategy = self._pieces["strategy"]
+        lm = PandasLinearModel._STRATEGIES[strategy.name](
+            *strategy.args,
+            **strategy.kwargs
         )
 
         return lm
 
 
-class CovShrink(_BuilderPipe):
+class CovShrink(PipeBuilder):
     """Perform Covariance Shrinkage on data
 
     Builder with a single piece: shirnkage. Shrinkage defines what kind of
@@ -287,21 +274,28 @@ class CovShrink(_BuilderPipe):
         """
 
         cs = CovarianceShrinkage(data, frequency=self.frequency)
-        shrink = self._piece["shrinkage"]
+        shrink = self._pieces["shrinkage"]
 
-        if shrink["name"] is None:
+        if shrink.name is None:
             ValueError("shrinkage piece 'name' not set")
-        elif shrink["name"] == "shrunk_covariance":
+        elif shrink.name == "shrunk_covariance":
             shrink_func = cs.shrunk_covariance
-        elif shrink["name"] == "ledoit_wolf":
+        elif shrink.name == "ledoit_wolf":
             shrink_func = cs.ledoit_wolf
 
         return partial(shrink_func,
-                       *shrink["args"],
-                       **shrink["kwargs"])
+                       *shrink.args,
+                       **shrink.kwargs)
+
+    def copy(self, *args, **kwargs):
+        return super().copy(
+            *args,
+            frequency=self.frequency,
+            **kwargs
+        )
 
 
-class ExpectedReturns(_BuilderPipe):
+class ExpectedReturns(PipeBuilder):
     """Get stock's time series expected returns.
 
     Builder with a single piece: return_model. return_model is what model to
@@ -340,14 +334,14 @@ class ExpectedReturns(_BuilderPipe):
                 {ExpectedReturns._RETURN_MODEL_PRESETS}")
 
     def build_model(self, data, **kwargs):
-        return_model = self._piece["return_model"]
+        return_model = self._pieces["return_model"]
         return partial(ReturnModel,
-                       *return_model["args"],
-                       method=return_model["name"],
-                       **return_model["kwargs"])
+                       *return_model.args,
+                       method=return_model.name,
+                       **return_model.kwargs)
 
 
-class MakeARCH(_BuilderPipe):
+class MakeARCH(PipeBuilder):
     """Build arch model and make it based on input data.
 
     This class allows for the creation of arch models by configuring three
@@ -404,25 +398,25 @@ class MakeARCH(_BuilderPipe):
         """
 
         # set mean model piece
-        mean = self._piece["mean"]
-        am = MakeARCH._MEAN_DICT[mean["name"]](
+        mean = self._pieces["mean"]
+        am = MakeARCH._MEAN_DICT[mean.name](
             data,
-            *mean["args"],
-            **mean["kwargs"]
+            *mean.args,
+            **mean.kwargs
         )
 
         # set volatility model piece
-        vol = self._piece["volatility"]
-        am.volatility = MakeARCH._VOL_DICT[vol["name"]](
-            *vol["args"],
-            **vol["kwargs"]
+        vol = self._pieces["volatility"]
+        am.volatility = MakeARCH._VOL_DICT[vol.name](
+            *vol.args,
+            **vol.kwargs,
         )
 
         # set distribution model piece
-        dist = self._piece["distribution"]
-        am.distribution = MakeARCH._DIST_DICT[dist["name"]](
-            *dist["args"],
-            **dist["kwargs"]
+        dist = self._pieces["distribution"]
+        am.distribution = MakeARCH._DIST_DICT[dist.name](
+            *dist.args,
+            **dist.kwargs,
         )
 
         return am
@@ -619,7 +613,7 @@ class ExpectedShortfall(ValueAtRisk):
         )
 
 
-class OptimumWeights(_BuilderPipe):
+class OptimumWeights(PipeBuilder):
     """Get optimum portfolio weights from an efficient frontier or CLA.
     This is also a builder with one piece: strategy. The strategy piece
     refers to the optimization strategy.
@@ -647,24 +641,24 @@ class OptimumWeights(_BuilderPipe):
         return data.clean_weights()
 
     def build_model(self, data, **kwargs):
-        strat = self._piece["strategy"]
+        strat = self._pieces["strategy"]
 
-        if strat["name"] is None:
+        if strat.name is None:
             ValueError("piece 'strategy' is not set")
-        elif strat["name"] == "max_sharpe":
+        elif strat.name == "max_sharpe":
             strat_func = data.max_sharpe
-        elif strat["name"] == "min_volatility":
+        elif strat.name == "min_volatility":
             strat_func = data.min_volatility
-        elif strat["name"] == "max_quadratic_utility":
+        elif strat.name == "max_quadratic_utility":
             strat_func = data.max_quadratic_utility
-        elif strat["name"] == "dataficient_risk":
+        elif strat.name == "dataficient_risk":
             strat_func = data.efficient_risk
-        elif strat["name"] == "dataficient_return":
+        elif strat.name == "dataficient_return":
             strat_func = data.efficient_return
 
         return partial(strat_func,
-                       *strat["args"],
-                       **strat["kwargs"])
+                       *strat.args,
+                       **strat.kwargs)
 
     def check_name(self, param, name):
         super().check_name(param, name)

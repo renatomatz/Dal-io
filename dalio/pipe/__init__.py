@@ -1,4 +1,4 @@
-from dalio.pipe.pipe import Pipe, PipeLine
+from dalio.pipe.pipe import Pipe, PipeLine, PipeBuilder
 
 from dalio.pipe.select import (
     ColSelect,
