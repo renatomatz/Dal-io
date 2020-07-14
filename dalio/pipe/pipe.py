@@ -42,10 +42,9 @@ class Pipe(_Transformer):
         return self.transform(self._source.request(**kwargs), **kwargs)
 
     def copy(self, *args, **kwargs):
-        ret = type(self)(*args, **kwargs)
-        ret.set_input(self.get_input())
-        ret.add_tag(self._tags)
-        return ret
+        return type(self)(*args, **kwargs)\
+            .set_input(self.get_input())\
+            .add_tag(self._tags)
 
     def transform(self, data, **kwargs):
         """Apply a transformation to data returned from source.

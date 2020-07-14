@@ -142,7 +142,8 @@ class _ColGeneration(_ColSelection):
             self._columns
         )
 
-        inter_df = extract_cols(data, cols)
+        # inter_df should be a copied subset of the data
+        inter_df = extract_cols(data.copy(), cols)
         orig_shape = inter_df.shape
 
         inter_df = self._gen_cols(inter_df)
@@ -173,8 +174,9 @@ class _ColGeneration(_ColSelection):
             raise RuntimeError("Existing columns cannot be \
                 reintegrated if transformation changes data shape")
 
-        # Insert new columns on top of old ones.
-        return insert_cols(data, inter_df, cols)
+        # Insert new columns on top of old ones. 
+        # Copy is needed as original data is not intended to be changed.
+        return insert_cols(data.copy(), inter_df, cols)
 
     def copy(self, *args, **kwargs):
         return super().copy(

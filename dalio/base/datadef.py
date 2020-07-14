@@ -7,7 +7,6 @@ serve both to describe approved data and check for whether data passes a test.
 
 import concurrent.futures
 
-from typing import List
 from dalio.base import _Node
 from dalio.validator import Validator
 
@@ -22,7 +21,7 @@ class _DataDef(_Node):
     Attributes:
         _connection (_Transformer): Transformer instance which outputs data to
             be checked.
-        _desc (list): list of Validator instances that describe approved data 
+        _desc (list): list of Validator instances that describe approved data
             and tests input data for certain characteristics.
     """
 
@@ -75,9 +74,9 @@ class _DataDef(_Node):
         if self._connection is None:
             return None
 
-        return self.check(run_kwargs=kwargs)
+        return self.check(self._connection.run(**kwargs))
 
-    def check(self, **kwargs):
+    def check(self, data, **kwargs):
         """Pass data through validator list.
 
         Used to check for data integrity or create a detailed report on
@@ -91,7 +90,6 @@ class _DataDef(_Node):
             Exception: Error thrown by specific Validator in case of invalid
                 data and being set to "fatal"
         """
-        data = self._connection.run(**kwargs.get("run_kwargs", {}))
 
         report = {
             "warning": [],
@@ -131,7 +129,8 @@ class _DataDef(_Node):
             _print_report(report)
 
         if len(report["exception"]) > 0:
-            raise Exception()  # TODO: Create custom exception
+            raise Exception(f"Data failed \
+                {len(report['exception'])} fatal tests")  # TODO: Create custom exception
 
         return data
 

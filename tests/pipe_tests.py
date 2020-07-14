@@ -4,6 +4,7 @@ sys.path.append("/home/renatomz/Documents/Projects/Dal-io")
 import numpy as np
 
 from dalio.base.constants import *
+from dalio.base.memory import *
 from dalio.ops import *
 from dalio.external import * 
 from dalio.translator import *
@@ -97,8 +98,8 @@ garch = MakeARCH()(returns)\
     .set_piece("volatility", "ARCH", p=5)\
     .set_piece("distribution", "StudentsT")
 
-am = garch.run(ticker="MSFT")
-am.fit()
+# am = garch.run(ticker="MSFT")
+# am.fit()
 var = ValueAtRisk(quantiles=[0.1, 0.01, 0.05])(garch)
 # var_res = var.run(ticker="MSFT")
 
@@ -108,7 +109,7 @@ var_graph = VaRGrapher()\
     .set_input("data_in", var)\
     .set_output("data_out", pyplot_grapher)
 
-fig = var_graph.run(ticker="MSFT")
+# fig = var_graph.run(ticker="MSFT")
 
 S = CovShrink()(adj_close_in)
 S.set_piece("shrinkage", "ledoit_wolf")
@@ -152,24 +153,24 @@ port_cla = MakeCriticalLine()\
 
 # cla = port_cla.run(ticker=tickers)
 
-time = DateSelect()
-price = time.set_input(y_in)
+time = DateSelect()(y_in)
+price = LazyRunner(LocalMemory, buff=2, update=True)(time)
 
 pipe = Period("Y", agg_func= lambda x: (x[-1] - x[0])/x[0])(price)
 res = pipe.run(ticker=ticker)
 
 # Select
 pipe = ColDrop("close").set_input(price)
-res = pipe.run(ticker=ticker)
+res = pipe.run(ticker="NVDA")
 
 pipe = ValDrop(6230400.0, columns="volume").set_input(price)
 res = pipe.run(ticker=ticker)
 
 pipe = ValKeep(6230400.0, columns=("volume", "NVDA")).set_input(price)
-res = pipe.run(ticker=ticker)
+res = pipe.run(ticker="NVDA")
 
 pipe = ColRename({"close": "CLOSE"}).set_input(price)
-res = pipe.run(ticker=ticker)
+res = pipe.run(ticker="WMT")
 
 pipe = DropNa().set_input(price)
 res = pipe.run(ticker=ticker)

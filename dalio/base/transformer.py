@@ -79,6 +79,8 @@ class _Transformer:
             raise TypeError(f"new tags must be strings or an iterable of \
                 strings, not {type(new_tag)}")
 
+        return self
+
     def get_input(self):
         """Get input connection"""
         return self._source.get_connection()
