@@ -44,8 +44,11 @@
   <ul>
 <li><a class="reference internal" href="#">dalio.model package</a><ul>
 <li><a class="reference internal" href="#submodules">Submodules</a></li>
-<li><a class="reference internal" href="#module-dalio.model.financial">dalio.model.financial</a></li>
-<li><a class="reference internal" href="#module-dalio.model.model">dalio.model.model</a></li>
+<li><a class="reference internal" href="#module-dalio.model.basic">dalio.model.basic module</a></li>
+<li><a class="reference internal" href="#module-dalio.model.financial">dalio.model.financial module</a></li>
+<li><a class="reference internal" href="#module-dalio.model.model">dalio.model.model module</a></li>
+<li><a class="reference internal" href="#module-dalio.model.statistical">dalio.model.statistical module</a></li>
+<li><a class="reference internal" href="#module-dalio.model">Module contents</a></li>
 </ul>
 </li>
 </ul>
@@ -86,8 +89,37 @@
 <div class="section" id="submodules">
 <h2>Submodules<a class="headerlink" href="#submodules" title="Permalink to this headline">¶</a></h2>
 </div>
+<div class="section" id="module-dalio.model.basic">
+<span id="dalio-model-basic-module"></span><h2>dalio.model.basic module<a class="headerlink" href="#module-dalio.model.basic" title="Permalink to this headline">¶</a></h2>
+<p>Define basic models</p>
+<dl class="class">
+<dt id="dalio.model.basic.Join">
+<em class="property">class </em><code class="sig-prename descclassname">dalio.model.basic.</code><code class="sig-name descname">Join</code><span class="sig-paren">(</span><em class="sig-param">**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#dalio.model.basic.Join" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#dalio.model.model.Model" title="dalio.model.model.Model"><code class="xref py py-class docutils literal notranslate"><span class="pre">dalio.model.model.Model</span></code></a></p>
+<p>Join two dataframes on index.</p>
+<p>This model has two sources: left and right.</p>
+<dl class="attribute">
+<dt id="dalio.model.basic.Join._kwargs">
+<code class="sig-name descname">_kwargs</code><a class="headerlink" href="#dalio.model.basic.Join._kwargs" title="Permalink to this definition">¶</a></dt>
+<dd><p>optional keyword arguments for pd.join</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p>dict</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="dalio.model.basic.Join.run">
+<code class="sig-name descname">run</code><span class="sig-paren">(</span><em class="sig-param">**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#dalio.model.basic.Join.run" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get left and right side data and join</p>
+</dd></dl>
+
+</dd></dl>
+
+</div>
 <div class="section" id="module-dalio.model.financial">
-<span id="dalio-model-financial"></span><h2>dalio.model.financial<a class="headerlink" href="#module-dalio.model.financial" title="Permalink to this headline">¶</a></h2>
+<span id="dalio-model-financial-module"></span><h2>dalio.model.financial module<a class="headerlink" href="#module-dalio.model.financial" title="Permalink to this headline">¶</a></h2>
 <p>Define comps analysis models</p>
 <dl class="class">
 <dt id="dalio.model.financial.CompsData">
@@ -265,7 +297,7 @@ were kept constant.</p>
 
 </div>
 <div class="section" id="module-dalio.model.model">
-<span id="dalio-model-model"></span><h2>dalio.model.model<a class="headerlink" href="#module-dalio.model.model" title="Permalink to this headline">¶</a></h2>
+<span id="dalio-model-model-module"></span><h2>dalio.model.model module<a class="headerlink" href="#module-dalio.model.model" title="Permalink to this headline">¶</a></h2>
 <p>Define Model class</p>
 <p>Models are transformers that take in multiple inputs and has a single output.
 Model instance can be much more flexible with additional options for differen
@@ -346,6 +378,316 @@ connection changed</p>
 </ul>
 </dd>
 </dl>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="module-dalio.model.statistical">
+<span id="dalio-model-statistical-module"></span><h2>dalio.model.statistical module<a class="headerlink" href="#module-dalio.model.statistical" title="Permalink to this headline">¶</a></h2>
+<p>Define statistical models</p>
+<dl class="class">
+<dt id="dalio.model.statistical.XYLinearModel">
+<em class="property">class </em><code class="sig-prename descclassname">dalio.model.statistical.</code><code class="sig-name descname">XYLinearModel</code><a class="headerlink" href="#dalio.model.statistical.XYLinearModel" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#dalio.model.model.Model" title="dalio.model.model.Model"><code class="xref py py-class docutils literal notranslate"><span class="pre">dalio.model.model.Model</span></code></a>, <code class="xref py py-class docutils literal notranslate"><span class="pre">dalio.base.builder._Builder</span></code></p>
+<p>Generalized Linear model for arrays from two sources.</p>
+<p>This Model has two sources, x and y.</p>
+<p>This Builder has one piece. the linear model strategy.</p>
+<dl class="method">
+<dt id="dalio.model.statistical.XYLinearModel.build_model">
+<code class="sig-name descname">build_model</code><span class="sig-paren">(</span><em class="sig-param">data</em>, <em class="sig-param">**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#dalio.model.statistical.XYLinearModel.build_model" title="Permalink to this definition">¶</a></dt>
+<dd><p>Build model by returning the chosen model and initialization
+parameters</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>Unfitted linear model</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="dalio.model.statistical.XYLinearModel.copy">
+<code class="sig-name descname">copy</code><span class="sig-paren">(</span><em class="sig-param">*args</em>, <em class="sig-param">**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#dalio.model.statistical.XYLinearModel.copy" title="Permalink to this definition">¶</a></dt>
+<dd><p>Makes a copy of transformer, copying its attributes to a new
+instance.</p>
+<p>This copy should essentially create a new transformation node, not an
+entire new graph, so the _source attribute of the returned instance
+should be assigned without being copied. This is also made to be built
+upon by subclasses, such that only new attributes need to be added to
+a class’ copy method.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>*args</strong> – Positional arguments to be passed to initialize copy</p></li>
+<li><p><strong>**kwargs</strong> – Keyword arguments to be passed to initialize copy</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>A copy of this _Transformer instance with copies of necessary
+attributes and empty input.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="dalio.model.statistical.XYLinearModel.run">
+<code class="sig-name descname">run</code><span class="sig-paren">(</span><em class="sig-param">**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#dalio.model.statistical.XYLinearModel.run" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get data from both sources, transform them into np.arrays and
+fit the built model</p>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="module-dalio.model">
+<span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-dalio.model" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="dalio.model.Join">
+<em class="property">class </em><code class="sig-prename descclassname">dalio.model.</code><code class="sig-name descname">Join</code><span class="sig-paren">(</span><em class="sig-param">**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#dalio.model.Join" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#dalio.model.model.Model" title="dalio.model.model.Model"><code class="xref py py-class docutils literal notranslate"><span class="pre">dalio.model.model.Model</span></code></a></p>
+<p>Join two dataframes on index.</p>
+<p>This model has two sources: left and right.</p>
+<dl class="attribute">
+<dt id="dalio.model.Join._kwargs">
+<code class="sig-name descname">_kwargs</code><a class="headerlink" href="#dalio.model.Join._kwargs" title="Permalink to this definition">¶</a></dt>
+<dd><p>optional keyword arguments for pd.join</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p>dict</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="dalio.model.Join.run">
+<code class="sig-name descname">run</code><span class="sig-paren">(</span><em class="sig-param">**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#dalio.model.Join.run" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get left and right side data and join</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="dalio.model.CompsData">
+<em class="property">class </em><code class="sig-prename descclassname">dalio.model.</code><code class="sig-name descname">CompsData</code><a class="headerlink" href="#dalio.model.CompsData" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#dalio.model.model.Model" title="dalio.model.model.Model"><code class="xref py py-class docutils literal notranslate"><span class="pre">dalio.model.model.Model</span></code></a></p>
+<p>Get a ticker’s comps and their data.</p>
+<p>This model has two sources: comps_in and data_in. comps_in gets a
+ticker’s comparative stocks. data_in sources ticker data given a “TICKER”
+keyword argument.</p>
+<dl class="method">
+<dt id="dalio.model.CompsData.run">
+<code class="sig-name descname">run</code><span class="sig-paren">(</span><em class="sig-param">**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#dalio.model.CompsData.run" title="Permalink to this definition">¶</a></dt>
+<dd><p>Run model.</p>
+<p>This will be the bulk of subclass functionality. It is where all
+data is sourced and processed.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="dalio.model.CompsFinancials">
+<em class="property">class </em><code class="sig-prename descclassname">dalio.model.</code><code class="sig-name descname">CompsFinancials</code><a class="headerlink" href="#dalio.model.CompsFinancials" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#dalio.model.financial.CompsData" title="dalio.model.financial.CompsData"><code class="xref py py-class docutils literal notranslate"><span class="pre">dalio.model.financial.CompsData</span></code></a></p>
+<p>Subclass to CompsData for getting stock price information</p>
+</dd></dl>
+
+<dl class="class">
+<dt id="dalio.model.CompsInfo">
+<em class="property">class </em><code class="sig-prename descclassname">dalio.model.</code><code class="sig-name descname">CompsInfo</code><a class="headerlink" href="#dalio.model.CompsInfo" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#dalio.model.financial.CompsData" title="dalio.model.financial.CompsData"><code class="xref py py-class docutils literal notranslate"><span class="pre">dalio.model.financial.CompsData</span></code></a></p>
+<p>Subclass to CompsData for getting comps stock information</p>
+</dd></dl>
+
+<dl class="class">
+<dt id="dalio.model.MakeCriticalLine">
+<em class="property">class </em><code class="sig-prename descclassname">dalio.model.</code><code class="sig-name descname">MakeCriticalLine</code><span class="sig-paren">(</span><em class="sig-param">weight_bounds=(-1</em>, <em class="sig-param">1)</em><span class="sig-paren">)</span><a class="headerlink" href="#dalio.model.MakeCriticalLine" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#dalio.model.model.Model" title="dalio.model.model.Model"><code class="xref py py-class docutils literal notranslate"><span class="pre">dalio.model.model.Model</span></code></a></p>
+<p>Fit a critical line algorithm
+This model takes in two sources: sample_covariance and expected_returns.
+These are self-explanatory. The model calculates the algorithm for a set
+of weight bounds.
+.. attribute:: weight_bounds</p>
+<blockquote>
+<div><p>lower and upper bound for portfolio weights.</p>
+<dl class="field-list simple">
+<dt class="field-odd">type</dt>
+<dd class="field-odd"><p>tuple</p>
+</dd>
+</dl>
+</div></blockquote>
+<dl class="method">
+<dt id="dalio.model.MakeCriticalLine.run">
+<code class="sig-name descname">run</code><span class="sig-paren">(</span><em class="sig-param">**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#dalio.model.MakeCriticalLine.run" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get source data and create critical line algorithm</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="dalio.model.MakeCriticalLine.weight_bounds">
+<code class="sig-name descname">weight_bounds</code><em class="property">: Tuple[int]</em><em class="property"> = None</em><a class="headerlink" href="#dalio.model.MakeCriticalLine.weight_bounds" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="dalio.model.MakeEfficientFrontier">
+<em class="property">class </em><code class="sig-prename descclassname">dalio.model.</code><code class="sig-name descname">MakeEfficientFrontier</code><span class="sig-paren">(</span><em class="sig-param">weight_bounds=(0</em>, <em class="sig-param">1)</em>, <em class="sig-param">gamma=0</em><span class="sig-paren">)</span><a class="headerlink" href="#dalio.model.MakeEfficientFrontier" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#dalio.model.financial.MakeCriticalLine" title="dalio.model.financial.MakeCriticalLine"><code class="xref py py-class docutils literal notranslate"><span class="pre">dalio.model.financial.MakeCriticalLine</span></code></a></p>
+<p>Make an efficient frontier algorithm.
+:param gamma: gamma optimization parameter.
+:type gamma: int</p>
+<dl class="method">
+<dt id="dalio.model.MakeEfficientFrontier.add_constraint">
+<code class="sig-name descname">add_constraint</code><span class="sig-paren">(</span><em class="sig-param">new_constraint</em><span class="sig-paren">)</span><a class="headerlink" href="#dalio.model.MakeEfficientFrontier.add_constraint" title="Permalink to this definition">¶</a></dt>
+<dd><p>Wrapper to PyPortfolioOpt BaseConvexOptimizer function
+Add a new constraint to the optimisation problem. This constraint must
+be linear and must be either an equality or simple inequality.
+:param new_constraint: the constraint to be added
+:type new_constraint: callable</p>
+<dl class="field-list simple">
+<dt class="field-odd">Raises</dt>
+<dd class="field-odd"><p><strong>AttributeError</strong> – if new objective is not callable.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="dalio.model.MakeEfficientFrontier.add_objective">
+<code class="sig-name descname">add_objective</code><span class="sig-paren">(</span><em class="sig-param">new_objective</em>, <em class="sig-param">*args</em>, <em class="sig-param">**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#dalio.model.MakeEfficientFrontier.add_objective" title="Permalink to this definition">¶</a></dt>
+<dd><p>Wrapper to PyPortfolioOpt BaseConvexOptimizer function
+Add a new term into the objective function. This term must be convex,
+and built from cvxpy atomic functions.
+:param new_objective: the objective to be added
+:type new_objective: cp.Expression</p>
+<dl class="field-list simple">
+<dt class="field-odd">Raises</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>ValueError</strong> – if the new objective is not supported.</p></li>
+<li><p><strong>AttributeError</strong> – if new objective is not callable.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="dalio.model.MakeEfficientFrontier.add_sector_definitions">
+<code class="sig-name descname">add_sector_definitions</code><span class="sig-paren">(</span><em class="sig-param">sector_defs=None</em>, <em class="sig-param">**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#dalio.model.MakeEfficientFrontier.add_sector_definitions" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="dalio.model.MakeEfficientFrontier.add_sector_weight_constraint">
+<code class="sig-name descname">add_sector_weight_constraint</code><span class="sig-paren">(</span><em class="sig-param">sector=None</em>, <em class="sig-param">constraint='is'</em>, <em class="sig-param">weight=0.5</em><span class="sig-paren">)</span><a class="headerlink" href="#dalio.model.MakeEfficientFrontier.add_sector_weight_constraint" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="dalio.model.MakeEfficientFrontier.add_stock_weight_constraint">
+<code class="sig-name descname">add_stock_weight_constraint</code><span class="sig-paren">(</span><em class="sig-param">ticker=None</em>, <em class="sig-param">comparisson='is'</em>, <em class="sig-param">weight=0.5</em><span class="sig-paren">)</span><a class="headerlink" href="#dalio.model.MakeEfficientFrontier.add_stock_weight_constraint" title="Permalink to this definition">¶</a></dt>
+<dd><p>Wrapper to add_constraint method. Adds constraing on a named
+ticker.
+This is a much more intuitive interface to add constraints, as these
+will often be stocks of an unknown order in a dataframe.
+:param ticker: stock ticker or location to be constrained.
+:type ticker: str, int
+:param comparisson: constraing comparisson.
+:type comparisson: str
+:param weight: weight to constrain.
+:type weight: float</p>
+<dl class="field-list simple">
+<dt class="field-odd">Raises</dt>
+<dd class="field-odd"><p><strong>TypeError</strong> – if any of the arguments are of an invalid type</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="dalio.model.MakeEfficientFrontier.copy">
+<code class="sig-name descname">copy</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#dalio.model.MakeEfficientFrontier.copy" title="Permalink to this definition">¶</a></dt>
+<dd><p>Copy superclass, objectives and constraints.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="dalio.model.MakeEfficientFrontier.gamma">
+<code class="sig-name descname">gamma</code><em class="property">: int</em><em class="property"> = None</em><a class="headerlink" href="#dalio.model.MakeEfficientFrontier.gamma" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="dalio.model.MakeEfficientFrontier.run">
+<code class="sig-name descname">run</code><span class="sig-paren">(</span><em class="sig-param">**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#dalio.model.MakeEfficientFrontier.run" title="Permalink to this definition">¶</a></dt>
+<dd><p>Make efficient frontier.
+Create efficient frontier given a set of weight constraints.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="dalio.model.MakeEfficientFrontier.weight_bounds">
+<code class="sig-name descname">weight_bounds</code><em class="property">: Tuple[int]</em><em class="property"> = None</em><a class="headerlink" href="#dalio.model.MakeEfficientFrontier.weight_bounds" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="dalio.model.OptimumPortfolio">
+<em class="property">class </em><code class="sig-prename descclassname">dalio.model.</code><code class="sig-name descname">OptimumPortfolio</code><a class="headerlink" href="#dalio.model.OptimumPortfolio" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#dalio.model.model.Model" title="dalio.model.model.Model"><code class="xref py py-class docutils literal notranslate"><span class="pre">dalio.model.model.Model</span></code></a></p>
+<p>Create optimum portfolio of stocks given dictionary of weights.
+This model has two sources: weights_in and data_in. The weights_in source
+gets optimum weights for a set of tickers. The data_in source gets price
+data for these same tickers.</p>
+<dl class="method">
+<dt id="dalio.model.OptimumPortfolio.run">
+<code class="sig-name descname">run</code><span class="sig-paren">(</span><em class="sig-param">**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#dalio.model.OptimumPortfolio.run" title="Permalink to this definition">¶</a></dt>
+<dd><p>Gets weights and uses them to create portfolio prices if weights
+were kept constant.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="dalio.model.XYLinearModel">
+<em class="property">class </em><code class="sig-prename descclassname">dalio.model.</code><code class="sig-name descname">XYLinearModel</code><a class="headerlink" href="#dalio.model.XYLinearModel" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#dalio.model.model.Model" title="dalio.model.model.Model"><code class="xref py py-class docutils literal notranslate"><span class="pre">dalio.model.model.Model</span></code></a>, <code class="xref py py-class docutils literal notranslate"><span class="pre">dalio.base.builder._Builder</span></code></p>
+<p>Generalized Linear model for arrays from two sources.</p>
+<p>This Model has two sources, x and y.</p>
+<p>This Builder has one piece. the linear model strategy.</p>
+<dl class="method">
+<dt id="dalio.model.XYLinearModel.build_model">
+<code class="sig-name descname">build_model</code><span class="sig-paren">(</span><em class="sig-param">data</em>, <em class="sig-param">**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#dalio.model.XYLinearModel.build_model" title="Permalink to this definition">¶</a></dt>
+<dd><p>Build model by returning the chosen model and initialization
+parameters</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>Unfitted linear model</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="dalio.model.XYLinearModel.copy">
+<code class="sig-name descname">copy</code><span class="sig-paren">(</span><em class="sig-param">*args</em>, <em class="sig-param">**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#dalio.model.XYLinearModel.copy" title="Permalink to this definition">¶</a></dt>
+<dd><p>Makes a copy of transformer, copying its attributes to a new
+instance.</p>
+<p>This copy should essentially create a new transformation node, not an
+entire new graph, so the _source attribute of the returned instance
+should be assigned without being copied. This is also made to be built
+upon by subclasses, such that only new attributes need to be added to
+a class’ copy method.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>*args</strong> – Positional arguments to be passed to initialize copy</p></li>
+<li><p><strong>**kwargs</strong> – Keyword arguments to be passed to initialize copy</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>A copy of this _Transformer instance with copies of necessary
+attributes and empty input.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="dalio.model.XYLinearModel.run">
+<code class="sig-name descname">run</code><span class="sig-paren">(</span><em class="sig-param">**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#dalio.model.XYLinearModel.run" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get data from both sources, transform them into np.arrays and
+fit the built model</p>
 </dd></dl>
 
 </dd></dl>

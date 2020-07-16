@@ -1,8 +1,16 @@
-dalio.util
-==========
+dalio.util package
+==================
 
 Submodules
 ----------
+
+dalio.util.level\_utils module
+------------------------------
+
+.. automodule:: dalio.util.level_utils
+   :members:
+   :undoc-members:
+   :show-inheritance:
 
 dalio.util.plotting\_utils module
 ---------------------------------
@@ -16,6 +24,14 @@ dalio.util.processing\_utils module
 -----------------------------------
 
 .. automodule:: dalio.util.processing_utils
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+dalio.util.transformation\_utils module
+---------------------------------------
+
+.. automodule:: dalio.util.transformation_utils
    :members:
    :undoc-members:
    :show-inheritance:

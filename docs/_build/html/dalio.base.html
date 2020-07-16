@@ -4,7 +4,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
   <head>
     <meta charset="utf-8" />
-    <title>dalio.base &#8212; Dal.io 0.1.1 documentation</title>
+    <title>dalio.base package &#8212; Dal.io 0.1.1 documentation</title>
     <link rel="stylesheet" href="_static/sphinxdoc.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
     <script id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
@@ -14,7 +14,7 @@
     <script src="_static/language_data.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
-    <link rel="next" title="dalio.validator" href="dalio.validator.html" />
+    <link rel="next" title="dalio.validator package" href="dalio.validator.html" />
     <link rel="prev" title="dalio.ops module" href="dalio.ops.html" /> 
   </head><body>
     <div class="related" role="navigation" aria-label="related navigation">
@@ -27,7 +27,7 @@
           <a href="py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
         <li class="right" >
-          <a href="dalio.validator.html" title="dalio.validator"
+          <a href="dalio.validator.html" title="dalio.validator package"
              accesskey="N">next</a> |</li>
         <li class="right" >
           <a href="dalio.ops.html" title="dalio.ops module"
@@ -42,11 +42,12 @@
             </a></p>
   <h3><a href="index.html">Table of Contents</a></h3>
   <ul>
-<li><a class="reference internal" href="#">dalio.base</a><ul>
+<li><a class="reference internal" href="#">dalio.base package</a><ul>
 <li><a class="reference internal" href="#submodules">Submodules</a></li>
 <li><a class="reference internal" href="#module-dalio.base.builder">dalio.base.builder module</a></li>
 <li><a class="reference internal" href="#module-dalio.base.constants">dalio.base.constants module</a></li>
 <li><a class="reference internal" href="#module-dalio.base.datadef">dalio.base.datadef module</a></li>
+<li><a class="reference internal" href="#module-dalio.base.memory">dalio.base.memory module</a></li>
 <li><a class="reference internal" href="#module-dalio.base.node">dalio.base.node module</a></li>
 <li><a class="reference internal" href="#module-dalio.base.transformer">dalio.base.transformer module</a></li>
 <li><a class="reference internal" href="#module-dalio.base">Module contents</a></li>
@@ -59,7 +60,7 @@
                         title="previous chapter">dalio.ops module</a></p>
   <h4>Next topic</h4>
   <p class="topless"><a href="dalio.validator.html"
-                        title="next chapter">dalio.validator</a></p>
+                        title="next chapter">dalio.validator package</a></p>
   <div role="note" aria-label="source link">
     <h3>This Page</h3>
     <ul class="this-page-menu">
@@ -85,8 +86,8 @@
         <div class="bodywrapper">
           <div class="body" role="main">
             
-  <div class="section" id="dalio-base">
-<h1>dalio.base<a class="headerlink" href="#dalio-base" title="Permalink to this headline">¶</a></h1>
+  <div class="section" id="dalio-base-package">
+<h1>dalio.base package<a class="headerlink" href="#dalio-base-package" title="Permalink to this headline">¶</a></h1>
 <div class="section" id="submodules">
 <h2>Submodules<a class="headerlink" href="#submodules" title="Permalink to this headline">¶</a></h2>
 </div>
@@ -111,6 +112,287 @@ used to identify data throughout the graph.</p>
 <p>DataDef instances describe data inputs throughout the graph and ensure the
 integrity of data continuously. These are composed of various validators that
 serve both to describe approved data and check for whether data passes a test.</p>
+</div>
+<div class="section" id="module-dalio.base.memory">
+<span id="dalio-base-memory-module"></span><h2>dalio.base.memory module<a class="headerlink" href="#module-dalio.base.memory" title="Permalink to this headline">¶</a></h2>
+<p>Defines memory transformers</p>
+<dl class="class">
+<dt id="dalio.base.memory.LazyRunner">
+<em class="property">class </em><code class="sig-prename descclassname">dalio.base.memory.</code><code class="sig-name descname">LazyRunner</code><span class="sig-paren">(</span><em class="sig-param">mem_type</em>, <em class="sig-param">args=None</em>, <em class="sig-param">kwargs=None</em>, <em class="sig-param">buff=1</em>, <em class="sig-param">update=False</em><span class="sig-paren">)</span><a class="headerlink" href="#dalio.base.memory.LazyRunner" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">dalio.base.transformer._Transformer</span></code></p>
+<p>Memory manager created to set memory input of an object after
+executing a transformer with given kwargs.</p>
+<p>This is useful when you want to store data sourced from a transformer but
+doesn’t know which kwarg requests will be used. This object waits for
+a run request to source data from a transformer and set the source of
+one or more memory objects (in order) when data does arrive, and reutilize
+it if data is requested with the same kwargs.</p>
+<p>For every new and valid evaluation, a new Memory instance is created and
+saved as a value in the _memory dictionary. Failed memory storage will
+result in no new Memory instance being created. This is done instead of
+simply setting inputs to Memory instances created upon initialization in
+order to reduce the memory usage of LazyRunner instances.</p>
+<p>KEEP IN MIND that this does not check if the actual input is the same to
+relay the data, only the kwargs (for speed’s sake). This creates the risk
+that inputs or transformer attributes are changed (keeping kwarg requests
+the same) and the old data is retrieved. Use the pop() or clear() methods
+to solve this.</p>
+<p>KEEP IN MIND there is a risk of having very different inputs being
+retrieved (from different external sources or date filters, for example)
+only based on kwarg requests. This is only relevant if _buff &gt; 1.</p>
+<dl class="attribute">
+<dt id="dalio.base.memory.LazyRunner._source">
+<code class="sig-name descname">_source</code><a class="headerlink" href="#dalio.base.memory.LazyRunner._source" title="Permalink to this definition">¶</a></dt>
+<dd><p>transformer to source data from. No data
+definitions are used as this should be performed by the memory
+type uppon setting an input.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p>_Transformer</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="dalio.base.memory.LazyRunner._mem_type">
+<code class="sig-name descname">_mem_type</code><a class="headerlink" href="#dalio.base.memory.LazyRunner._mem_type" title="Permalink to this definition">¶</a></dt>
+<dd><p>type object for generating new memory instances.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p>type</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="dalio.base.memory.LazyRunner._args">
+<code class="sig-name descname">_args</code><a class="headerlink" href="#dalio.base.memory.LazyRunner._args" title="Permalink to this definition">¶</a></dt>
+<dd><p>tuple of arguments for new _mem_type instance
+initialization</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p>tuple</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="dalio.base.memory.LazyRunner._kwargs">
+<code class="sig-name descname">_kwargs</code><a class="headerlink" href="#dalio.base.memory.LazyRunner._kwargs" title="Permalink to this definition">¶</a></dt>
+<dd><p>dict of keyword arguments for new _mem_type instance
+initialization</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p>dict</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="dalio.base.memory.LazyRunner._memory">
+<code class="sig-name descname">_memory</code><a class="headerlink" href="#dalio.base.memory.LazyRunner._memory" title="Permalink to this definition">¶</a></dt>
+<dd><p>deque containing one Memory instance for
+every unique kwargs ran with a (kwarg, Memory) tuple structure.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p>deque</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="dalio.base.memory.LazyRunner._buff">
+<code class="sig-name descname">_buff</code><a class="headerlink" href="#dalio.base.memory.LazyRunner._buff" title="Permalink to this definition">¶</a></dt>
+<dd><p>Maximum number of Memory instances to be stored
+at any point. Positive numbers will be this limit, -1 represent no
+buffer limits. This option should be used with caution, as it can
+be highly memory-inneficient. Subclasses can create new methods of
+managing this limit.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p>int, -1 or &gt;0</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="dalio.base.memory.LazyRunner._update">
+<code class="sig-name descname">_update</code><a class="headerlink" href="#dalio.base.memory.LazyRunner._update" title="Permalink to this definition">¶</a></dt>
+<dd><p>Whether _memory dict should be updated if a new
+set of kwargs is ran after reaching maximum capacity (as defined
+by the _buff attribute). If set to True, the last element of the
+_memory dict will be substituted.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p>bool</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="dalio.base.memory.LazyRunner.clear">
+<code class="sig-name descname">clear</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#dalio.base.memory.LazyRunner.clear" title="Permalink to this definition">¶</a></dt>
+<dd><p>Clear memory</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="dalio.base.memory.LazyRunner.copy">
+<code class="sig-name descname">copy</code><span class="sig-paren">(</span><em class="sig-param">*args</em>, <em class="sig-param">**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#dalio.base.memory.LazyRunner.copy" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return a copy of this instance with a shallow memory dict copy</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="dalio.base.memory.LazyRunner.run">
+<code class="sig-name descname">run</code><span class="sig-paren">(</span><em class="sig-param">**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#dalio.base.memory.LazyRunner.run" title="Permalink to this definition">¶</a></dt>
+<dd><p>Compare kwargs with existing keys, update or set _memory in
+accordance to _update and _buff attributes.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Raises</dt>
+<dd class="field-odd"><p><strong>BufferError</strong> – if new kwargs, buffer is full and update set to False</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="dalio.base.memory.LazyRunner.set_buff">
+<code class="sig-name descname">set_buff</code><span class="sig-paren">(</span><em class="sig-param">buff</em><span class="sig-paren">)</span><a class="headerlink" href="#dalio.base.memory.LazyRunner.set_buff" title="Permalink to this definition">¶</a></dt>
+<dd><p>Set the _buff attribute</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="dalio.base.memory.LazyRunner.set_input">
+<code class="sig-name descname">set_input</code><span class="sig-paren">(</span><em class="sig-param">new_input</em><span class="sig-paren">)</span><a class="headerlink" href="#dalio.base.memory.LazyRunner.set_input" title="Permalink to this definition">¶</a></dt>
+<dd><p>Set the input data source.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>new_input</strong> (<em>_Transformer</em>) – new transformer to be set as input.</p>
+</dd>
+<dt class="field-even">Raises</dt>
+<dd class="field-even"><p><strong>TypeError</strong> – if new_input is not an instance of _Transformer.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="dalio.base.memory.LazyRunner.set_update">
+<code class="sig-name descname">set_update</code><span class="sig-paren">(</span><em class="sig-param">update</em><span class="sig-paren">)</span><a class="headerlink" href="#dalio.base.memory.LazyRunner.set_update" title="Permalink to this definition">¶</a></dt>
+<dd><p>Set the _update attribute</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="dalio.base.memory.LazyRunner.with_input">
+<code class="sig-name descname">with_input</code><span class="sig-paren">(</span><em class="sig-param">new_input</em><span class="sig-paren">)</span><a class="headerlink" href="#dalio.base.memory.LazyRunner.with_input" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return copy of this transformer with the new input connection.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>Copy of self with new input.</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="dalio.base.memory.LocalMemory">
+<em class="property">class </em><code class="sig-prename descclassname">dalio.base.memory.</code><code class="sig-name descname">LocalMemory</code><a class="headerlink" href="#dalio.base.memory.LocalMemory" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#dalio.base.memory.Memory" title="dalio.base.memory.Memory"><code class="xref py py-class docutils literal notranslate"><span class="pre">dalio.base.memory.Memory</span></code></a></p>
+<p>Stores memory in the local session</p>
+<dl class="method">
+<dt id="dalio.base.memory.LocalMemory.clear">
+<code class="sig-name descname">clear</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#dalio.base.memory.LocalMemory.clear" title="Permalink to this definition">¶</a></dt>
+<dd><p>Clear memory</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="dalio.base.memory.LocalMemory.run">
+<code class="sig-name descname">run</code><span class="sig-paren">(</span><em class="sig-param">**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#dalio.base.memory.LocalMemory.run" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return data stored in source variable</p>
+<p>If data can be coppied, it will. This might not be memory efficient,
+but it makes behaviour from the Memory._source attribute more
+consistent with external memory sources.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="dalio.base.memory.LocalMemory.set_input">
+<code class="sig-name descname">set_input</code><span class="sig-paren">(</span><em class="sig-param">new_input</em><span class="sig-paren">)</span><a class="headerlink" href="#dalio.base.memory.LocalMemory.set_input" title="Permalink to this definition">¶</a></dt>
+<dd><p>Store input data into source variable</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="dalio.base.memory.Memory">
+<em class="property">class </em><code class="sig-prename descclassname">dalio.base.memory.</code><code class="sig-name descname">Memory</code><a class="headerlink" href="#dalio.base.memory.Memory" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">dalio.base.transformer._Transformer</span></code></p>
+<p>Implement mechanics to store and retrieve input data.</p>
+<p>This is a pseudo-transformer, as it is supposed to behave like on on the
+surface (implementing all needed methods) but not actually performing any
+actual transformation.</p>
+<p>This is used in pipes that heavily reutilize the same external data source
+using the same kwarg requests. Implementations store and retrieive data
+through different methods and locations, and might implement certain
+requirements that must be met by input data in order for it to be stored.</p>
+<dl class="attribute">
+<dt id="dalio.base.memory.Memory._def">
+<code class="sig-name descname">_def</code><a class="headerlink" href="#dalio.base.memory.Memory._def" title="Permalink to this definition">¶</a></dt>
+<dd><p>Connection-less data definition that checks for
+required characteristics of of input data.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p>_DataDef</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="dalio.base.memory.Memory._source">
+<code class="sig-name descname">_source</code><a class="headerlink" href="#dalio.base.memory.Memory._source" title="Permalink to this definition">¶</a></dt>
+<dd><p>Memory source. Implementations will often have
+additional attributes to manage this source.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p>any</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="dalio.base.memory.Memory.clear">
+<code class="sig-name descname">clear</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#dalio.base.memory.Memory.clear" title="Permalink to this definition">¶</a></dt>
+<dd><p>Clear memory</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="dalio.base.memory.Memory.copy">
+<code class="sig-name descname">copy</code><span class="sig-paren">(</span><em class="sig-param">*args</em>, <em class="sig-param">**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#dalio.base.memory.Memory.copy" title="Permalink to this definition">¶</a></dt>
+<dd><p>Create new instance and memory source</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="dalio.base.memory.Memory.run">
+<code class="sig-name descname">run</code><span class="sig-paren">(</span><em class="sig-param">**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#dalio.base.memory.Memory.run" title="Permalink to this definition">¶</a></dt>
+<dd><p>Check if location is set and return stored data accordingly</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="dalio.base.memory.Memory.set_input">
+<code class="sig-name descname">set_input</code><span class="sig-paren">(</span><em class="sig-param">new_input</em><span class="sig-paren">)</span><a class="headerlink" href="#dalio.base.memory.Memory.set_input" title="Permalink to this definition">¶</a></dt>
+<dd><p>Store input data</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="dalio.base.memory.Memory.with_input">
+<code class="sig-name descname">with_input</code><span class="sig-paren">(</span><em class="sig-param">new_input</em><span class="sig-paren">)</span><a class="headerlink" href="#dalio.base.memory.Memory.with_input" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return copy of this transformer with the new input connection.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>Copy of self with new input.</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
 </div>
 <div class="section" id="module-dalio.base.node">
 <span id="dalio-base-node-module"></span><h2>dalio.base.node module<a class="headerlink" href="#module-dalio.base.node" title="Permalink to this headline">¶</a></h2>
@@ -149,7 +431,7 @@ output integrity. A set_source() method sets the source of the input, the
           <a href="py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
         <li class="right" >
-          <a href="dalio.validator.html" title="dalio.validator"
+          <a href="dalio.validator.html" title="dalio.validator package"
              >next</a> |</li>
         <li class="right" >
           <a href="dalio.ops.html" title="dalio.ops module"

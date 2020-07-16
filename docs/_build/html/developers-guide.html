@@ -1,0 +1,148 @@
+
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta charset="utf-8" />
+    <title>Core Classes and Concepts &#8212; Dal.io 0.1.1 documentation</title>
+    <link rel="stylesheet" href="_static/sphinxdoc.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <script id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+    <script src="_static/jquery.js"></script>
+    <script src="_static/underscore.js"></script>
+    <script src="_static/doctools.js"></script>
+    <script src="_static/language_data.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="prev" title="Understanding Graphs" href="beginners-guide.html" /> 
+  </head><body>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="beginners-guide.html" title="Understanding Graphs"
+             accesskey="P">previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="index.html">Dal.io 0.1.1 documentation</a> &#187;</li> 
+      </ul>
+    </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+            <p class="logo"><a href="index.html">
+              <img class="logo" src="_static/logo.png" alt="Logo"/>
+            </a></p>
+  <h3><a href="index.html">Table of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">Core Classes and Concepts</a><ul>
+<li><a class="reference internal" href="#validator">Validator</a></li>
+<li><a class="reference internal" href="#node">_Node</a></li>
+<li><a class="reference internal" href="#datadef-node">_DataDef &lt;Node&gt;</a></li>
+<li><a class="reference internal" href="#builder">_Builder</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#key-concepts-differences-and-philosophy">Key Concepts, Differences and Philosophy</a><ul>
+<li><a class="reference internal" href="#running-vs-requesting">running vs requesting</a></li>
+<li><a class="reference internal" href="#describing-vs-tagging">describing vs tagging</a></li>
+</ul>
+</li>
+</ul>
+
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="beginners-guide.html"
+                        title="previous chapter">Understanding Graphs</a></p>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="_sources/developers-guide.rst.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" />
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script>$('#searchbox').show(0);</script>
+        </div>
+      </div>
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="core-classes-and-concepts">
+<span id="developers-guide"></span><h1>Core Classes and Concepts<a class="headerlink" href="#core-classes-and-concepts" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="validator">
+<h2>Validator<a class="headerlink" href="#validator" title="Permalink to this headline">¶</a></h2>
+<p>Validators are the building blocks of data integrity in the graph. As modularity is key, validators ensure that data sourced from a DataDef is what it is mean to be or that errors are targeted to make debugging easier. Validators can have any attribute needed, but functionality is stored in the .validate function, which either passes warning data on or stops execution with an error. These can and should be reused with multiple DataDef instanges.</p>
+</div>
+<div class="section" id="node">
+<h2>_Node<a class="headerlink" href="#node" title="Permalink to this headline">¶</a></h2>
+<p>Node instances represent data. They have a connection to some data input, internal or external, and make requests to this data as well as ensure their integrity. These form the basis for External and DataDef classes.</p>
+</div>
+<div class="section" id="datadef-node">
+<h2>_DataDef &lt;Node&gt;<a class="headerlink" href="#datadef-node" title="Permalink to this headline">¶</a></h2>
+<p>DataDef instances are sources of data and implement mechanisms to ensure the integrity of that data, as input from sources is uncertain.</p>
+<p>KEEP IN MIND that this is a tool only usued by developpers while creating new transformations, actual users do not enter in contact with neither Validator nor DataDef instances.</p>
+<p><strong>Validation:</strong> In order to hold descriptions true, the data is validated by a chain of &lt;Validator&gt; functions before returning any actual data, in order to enure that if data is actually returned, it is accurate to its descriptions and won’t break the subsequent transformation. These are referred to as descriptions inside DataDef instances and are added to them upon initialization of a Transformer instance.</p>
+<p><strong>Speed Concerns:</strong> While it’s understandable that these might pose a significant speed burden to applications, they are designed to reduce these by as much as possible. Firstly, validations are not dependent on each other and can thus be parallelized. Also, they can be turned off as needed, thoug this must be done with caution.</p>
+</div>
+<div class="section" id="builder">
+<h2>_Builder<a class="headerlink" href="#builder" title="Permalink to this headline">¶</a></h2>
+<p>Builders are a solution to the problem of standardizing several package workflows into something more consistent to the inexperienced user.</p>
+<p>Take the MakeARCH builder as an example. In the arch package, users have to assemple an ARCH model starting with an arch.mean model initialized _with_ the data, followed by setting arch.variance and arch.distribution objects, each with their own respective parameters. Keeping this interface would have been highly inflexible and required the user to essentially learn how to use the package from scratch. Inheritting from _Builder allowed the MakeARCH pipe to maintain this flexibility of setting different pieces as well as creating the model’s structure before actually having any data (which wouldn’t be possible with the original package).</p>
+</div>
+</div>
+<div class="section" id="key-concepts-differences-and-philosophy">
+<h1>Key Concepts, Differences and Philosophy<a class="headerlink" href="#key-concepts-differences-and-philosophy" title="Permalink to this headline">¶</a></h1>
+<p>&lt;!–### Modularity –&gt;</p>
+<p>&lt;!–### Data Integrity–&gt;</p>
+<p>&lt;!–### Portability–&gt;</p>
+<div class="section" id="running-vs-requesting">
+<h2>running vs requesting<a class="headerlink" href="#running-vs-requesting" title="Permalink to this headline">¶</a></h2>
+<p>You might have notices that classes that inherit from &lt;Pipe&gt; have .run() methods, classes that inherit from &lt;Node&gt; have .request() methods, both of which return some forrm of data. While these two essentally have the same output functionality, they differ in implementation, where .run() methods get data from a source and modifies is while .request() methods get data, also from some source, and validates it. Thus, the idea of a _DataDef compared to a Pipe becomes clearer.</p>
+</div>
+<div class="section" id="describing-vs-tagging">
+<h2>describing vs tagging<a class="headerlink" href="#describing-vs-tagging" title="Permalink to this headline">¶</a></h2>
+<p>The .tags and .desc attributes might seem to be redundant, as both are used to describe some sort of data passing by them and both can be used to search for nodes in the graph. Firsly, and most importantly, the .desc attribute is common to all DataDef instances that inherit from another DataDef, while the .tag attribute is unique to that node, unless it is also present on the parent DataDef or shared with other DataDefs upon instanciation.</p>
+<p>They also do defer in “strictness,” as tags will not be checked for truthfulness, while descriptions will be tested on the data, unless, of course, users turn checking off. Tags are included as a feature to allow more flexible, personalizable descriptions thatdescribe groups or structures within the graph rather than a certain functionality.</p>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="beginners-guide.html" title="Understanding Graphs"
+             >previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="index.html">Dal.io 0.1.1 documentation</a> &#187;</li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &#169; Copyright 2020, Renato Zimmermann.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 2.4.0.
+    </div>
+  </body>
+</html>

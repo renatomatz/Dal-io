@@ -1,5 +1,5 @@
-dalio.validator
-===============
+dalio.validator package
+=======================
 
 Submodules
 ----------

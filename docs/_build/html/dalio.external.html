@@ -44,10 +44,11 @@
   <ul>
 <li><a class="reference internal" href="#">dalio.external package</a><ul>
 <li><a class="reference internal" href="#submodules">Submodules</a></li>
-<li><a class="reference internal" href="#module-dalio.external.external">dalio.external.external</a></li>
-<li><a class="reference internal" href="#module-dalio.external.file">dalio.external.file</a></li>
-<li><a class="reference internal" href="#module-dalio.external.image">dalio.external.image</a></li>
-<li><a class="reference internal" href="#module-dalio.external.web">dalio.external.web</a></li>
+<li><a class="reference internal" href="#module-dalio.external.external">dalio.external.external module</a></li>
+<li><a class="reference internal" href="#module-dalio.external.file">dalio.external.file module</a></li>
+<li><a class="reference internal" href="#module-dalio.external.image">dalio.external.image module</a></li>
+<li><a class="reference internal" href="#module-dalio.external.web">dalio.external.web module</a></li>
+<li><a class="reference internal" href="#module-dalio.external">Module contents</a></li>
 </ul>
 </li>
 </ul>
@@ -89,7 +90,7 @@
 <h2>Submodules<a class="headerlink" href="#submodules" title="Permalink to this headline">¶</a></h2>
 </div>
 <div class="section" id="module-dalio.external.external">
-<span id="dalio-external-external"></span><h2>dalio.external.external<a class="headerlink" href="#module-dalio.external.external" title="Permalink to this headline">¶</a></h2>
+<span id="dalio-external-external-module"></span><h2>dalio.external.external module<a class="headerlink" href="#module-dalio.external.external" title="Permalink to this headline">¶</a></h2>
 <p>Define abstract External class</p>
 <p>External instances manage connections between your environment and an
 external source. Class instacnes will often be redundant with existing
@@ -168,7 +169,7 @@ configuration settings translatable to a dictionary</p>
 
 </div>
 <div class="section" id="module-dalio.external.file">
-<span id="dalio-external-file"></span><h2>dalio.external.file<a class="headerlink" href="#module-dalio.external.file" title="Permalink to this headline">¶</a></h2>
+<span id="dalio-external-file-module"></span><h2>dalio.external.file module<a class="headerlink" href="#module-dalio.external.file" title="Permalink to this headline">¶</a></h2>
 <p>Define File IO classes</p>
 <p>Files are external sources of data that can be processed in several ways as
 raw data used in a graph.</p>
@@ -260,14 +261,14 @@ function.</p>
 
 </div>
 <div class="section" id="module-dalio.external.image">
-<span id="dalio-external-image"></span><h2>dalio.external.image<a class="headerlink" href="#module-dalio.external.image" title="Permalink to this headline">¶</a></h2>
+<span id="dalio-external-image-module"></span><h2>dalio.external.image module<a class="headerlink" href="#module-dalio.external.image" title="Permalink to this headline">¶</a></h2>
 <p>Define classes for image pieces</p>
 <p>Images, be it a plot, picture or video are considered external outputs as the
 figure itself is not contained in the python session, and must be shown in a
 screen or server.</p>
 <dl class="class">
 <dt id="dalio.external.image.PyPfOptGraph">
-<em class="property">class </em><code class="sig-prename descclassname">dalio.external.image.</code><code class="sig-name descname">PyPfOptGraph</code><a class="headerlink" href="#dalio.external.image.PyPfOptGraph" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><code class="sig-prename descclassname">dalio.external.image.</code><code class="sig-name descname">PyPfOptGraph</code><span class="sig-paren">(</span><em class="sig-param">figsize=None</em><span class="sig-paren">)</span><a class="headerlink" href="#dalio.external.image.PyPfOptGraph" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference internal" href="#dalio.external.image.PyPlotGraph" title="dalio.external.image.PyPlotGraph"><code class="xref py py-class docutils literal notranslate"><span class="pre">dalio.external.image.PyPlotGraph</span></code></a></p>
 <p>Graphs data from the PyPfOpt package</p>
 <dl class="method">
@@ -288,7 +289,7 @@ screen or server.</p>
 
 <dl class="class">
 <dt id="dalio.external.image.PyPlotGraph">
-<em class="property">class </em><code class="sig-prename descclassname">dalio.external.image.</code><code class="sig-name descname">PyPlotGraph</code><a class="headerlink" href="#dalio.external.image.PyPlotGraph" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><code class="sig-prename descclassname">dalio.external.image.</code><code class="sig-name descname">PyPlotGraph</code><span class="sig-paren">(</span><em class="sig-param">figsize=None</em><span class="sig-paren">)</span><a class="headerlink" href="#dalio.external.image.PyPlotGraph" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">dalio.external.image._Figure</span></code></p>
 <p>Figure from the matplotlib.pyplot package.</p>
 <dl class="attribute">
@@ -347,7 +348,7 @@ axis.</p></li>
 
 <dl class="class">
 <dt id="dalio.external.image.PySubplotGraph">
-<em class="property">class </em><code class="sig-prename descclassname">dalio.external.image.</code><code class="sig-name descname">PySubplotGraph</code><span class="sig-paren">(</span><em class="sig-param">rows</em>, <em class="sig-param">cols</em><span class="sig-paren">)</span><a class="headerlink" href="#dalio.external.image.PySubplotGraph" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><code class="sig-prename descclassname">dalio.external.image.</code><code class="sig-name descname">PySubplotGraph</code><span class="sig-paren">(</span><em class="sig-param">rows</em>, <em class="sig-param">cols</em>, <em class="sig-param">figsize=None</em><span class="sig-paren">)</span><a class="headerlink" href="#dalio.external.image.PySubplotGraph" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">dalio.external.image._MultiFigure</span></code></p>
 <p>A matplotlib.pyplot.Figure containing multiple subplots.</p>
 <p>This has a set number of axes, rows and columns which can be accessed
@@ -442,7 +443,7 @@ subplot axis and still have access to the underlying figure.</p>
 
 </div>
 <div class="section" id="module-dalio.external.web">
-<span id="dalio-external-web"></span><h2>dalio.external.web<a class="headerlink" href="#module-dalio.external.web" title="Permalink to this headline">¶</a></h2>
+<span id="dalio-external-web-module"></span><h2>dalio.external.web module<a class="headerlink" href="#module-dalio.external.web" title="Permalink to this headline">¶</a></h2>
 <p>Define web external request classes</p>
 <dl class="class">
 <dt id="dalio.external.web.QuandlAPI">
@@ -503,6 +504,315 @@ columns: columns to select.</p>
 <dt id="dalio.external.web.YahooDR.request">
 <code class="sig-name descname">request</code><span class="sig-paren">(</span><em class="sig-param">**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#dalio.external.web.YahooDR.request" title="Permalink to this definition">¶</a></dt>
 <dd><p>Get data from specified tickers</p>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="module-dalio.external">
+<span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-dalio.external" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="dalio.external.FileWriter">
+<em class="property">class </em><code class="sig-prename descclassname">dalio.external.</code><code class="sig-name descname">FileWriter</code><span class="sig-paren">(</span><em class="sig-param">out_file=&lt;_io.TextIOWrapper name='&lt;stdout&gt;' mode='w' encoding='UTF-8'&gt;</em><span class="sig-paren">)</span><a class="headerlink" href="#dalio.external.FileWriter" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#dalio.external.external.External" title="dalio.external.external.External"><code class="xref py py-class docutils literal notranslate"><span class="pre">dalio.external.external.External</span></code></a></p>
+<p>File string writer</p>
+<dl class="attribute">
+<dt id="dalio.external.FileWriter._connection">
+<code class="sig-name descname">_connection</code><a class="headerlink" href="#dalio.external.FileWriter._connection" title="Permalink to this definition">¶</a></dt>
+<dd><p>any file instance that can be written on</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="dalio.external.FileWriter.check">
+<code class="sig-name descname">check</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#dalio.external.FileWriter.check" title="Permalink to this definition">¶</a></dt>
+<dd><p>Check if there is an open file as the connection</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="dalio.external.FileWriter.request">
+<code class="sig-name descname">request</code><span class="sig-paren">(</span><em class="sig-param">**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#dalio.external.FileWriter.request" title="Permalink to this definition">¶</a></dt>
+<dd><p>Write a request string onto a file</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="dalio.external.FileWriter.set_connection">
+<code class="sig-name descname">set_connection</code><span class="sig-paren">(</span><em class="sig-param">new_connection</em><span class="sig-paren">)</span><a class="headerlink" href="#dalio.external.FileWriter.set_connection" title="Permalink to this definition">¶</a></dt>
+<dd><p>Set current connection</p>
+<p>Set connection to opened file or open a new file given the path to
+one.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>new_connection</strong> – open file instance or path to an existing file.</p>
+</dd>
+<dt class="field-even">Raises</dt>
+<dd class="field-even"><ul class="simple">
+<li><p><strong>IOError</strong> – if specified path does not exist.</p></li>
+<li><p><strong>TypeError</strong> – if specified “new_connection” argument is of an
+    invalid type</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="dalio.external.PandasInFile">
+<em class="property">class </em><code class="sig-prename descclassname">dalio.external.</code><code class="sig-name descname">PandasInFile</code><span class="sig-paren">(</span><em class="sig-param">in_file</em><span class="sig-paren">)</span><a class="headerlink" href="#dalio.external.PandasInFile" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#dalio.external.external.External" title="dalio.external.external.External"><code class="xref py py-class docutils literal notranslate"><span class="pre">dalio.external.external.External</span></code></a></p>
+<p>Get data from a file using the pandas package</p>
+<dl class="attribute">
+<dt id="dalio.external.PandasInFile._connection">
+<code class="sig-name descname">_connection</code><a class="headerlink" href="#dalio.external.PandasInFile._connection" title="Permalink to this definition">¶</a></dt>
+<dd><p>path to a file that can be read by some pandas
+function.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p>str</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="dalio.external.PandasInFile.check">
+<code class="sig-name descname">check</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#dalio.external.PandasInFile.check" title="Permalink to this definition">¶</a></dt>
+<dd><p>Check if connection is ready to request data</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>Whether data is ready to be requested</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="dalio.external.PandasInFile.request">
+<code class="sig-name descname">request</code><span class="sig-paren">(</span><em class="sig-param">**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#dalio.external.PandasInFile.request" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get data input from a file according to its extension</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>**kwargs</strong> – arguments to the inport function.</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="dalio.external.PyPlotGraph">
+<em class="property">class </em><code class="sig-prename descclassname">dalio.external.</code><code class="sig-name descname">PyPlotGraph</code><span class="sig-paren">(</span><em class="sig-param">figsize=None</em><span class="sig-paren">)</span><a class="headerlink" href="#dalio.external.PyPlotGraph" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">dalio.external.image._Figure</span></code></p>
+<p>Figure from the matplotlib.pyplot package.</p>
+<dl class="attribute">
+<dt id="dalio.external.PyPlotGraph._connection">
+<code class="sig-name descname">_connection</code><a class="headerlink" href="#dalio.external.PyPlotGraph._connection" title="Permalink to this definition">¶</a></dt>
+<dd><p>graph figure</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p>matplotlib.pyplot.Figure</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="dalio.external.PyPlotGraph._axes">
+<code class="sig-name descname">_axes</code><a class="headerlink" href="#dalio.external.PyPlotGraph._axes" title="Permalink to this definition">¶</a></dt>
+<dd><p>figure axis</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p>matplotlib.axes._subplots.AxesSubplot</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="dalio.external.PyPlotGraph.plot">
+<code class="sig-name descname">plot</code><span class="sig-paren">(</span><em class="sig-param">data</em>, <em class="sig-param">kind=None</em>, <em class="sig-param">**graph_opts</em><span class="sig-paren">)</span><a class="headerlink" href="#dalio.external.PyPlotGraph.plot" title="Permalink to this definition">¶</a></dt>
+<dd><p>Plot x onto the x-axis and y onto the y-axis, if applicable.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>data</strong> (<em>matrix</em><em> or </em><em>array like</em>) – either data to be plotted on the x
+axis or a tuple of x and y data to be plotted or the x and y
+axis.</p></li>
+<li><p><strong>kind</strong> (<em>str</em>) – kind of graph.</p></li>
+<li><p><strong>**graph_opts</strong> – plt plotting arguments for this kind of graph.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="dalio.external.PyPlotGraph.request">
+<code class="sig-name descname">request</code><span class="sig-paren">(</span><em class="sig-param">**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#dalio.external.PyPlotGraph.request" title="Permalink to this definition">¶</a></dt>
+<dd><p>Processed request for data.</p>
+<p>This adds the SHOW request to the base class implementation</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="dalio.external.PyPlotGraph.reset">
+<code class="sig-name descname">reset</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#dalio.external.PyPlotGraph.reset" title="Permalink to this definition">¶</a></dt>
+<dd><p>Set connection and axes to a single figure and axis</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="dalio.external.PySubplotGraph">
+<em class="property">class </em><code class="sig-prename descclassname">dalio.external.</code><code class="sig-name descname">PySubplotGraph</code><span class="sig-paren">(</span><em class="sig-param">rows</em>, <em class="sig-param">cols</em>, <em class="sig-param">figsize=None</em><span class="sig-paren">)</span><a class="headerlink" href="#dalio.external.PySubplotGraph" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">dalio.external.image._MultiFigure</span></code></p>
+<p>A matplotlib.pyplot.Figure containing multiple subplots.</p>
+<p>This has a set number of axes, rows and columns which can be accessed
+individually to have data plotted on. These will often be used inside of
+applications that require more than one subplot all contained in the
+same instance.</p>
+<dl class="attribute">
+<dt id="dalio.external.PySubplotGraph._rows">
+<code class="sig-name descname">_rows</code><a class="headerlink" href="#dalio.external.PySubplotGraph._rows" title="Permalink to this definition">¶</a></dt>
+<dd><p>number of rows in the subplot</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p>int</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="dalio.external.PySubplotGraph._cols">
+<code class="sig-name descname">_cols</code><a class="headerlink" href="#dalio.external.PySubplotGraph._cols" title="Permalink to this definition">¶</a></dt>
+<dd><p>number of columns in the subplot</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p>int</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="dalio.external.PySubplotGraph._loc">
+<code class="sig-name descname">_loc</code><a class="headerlink" href="#dalio.external.PySubplotGraph._loc" title="Permalink to this definition">¶</a></dt>
+<dd><p>array of the figure’s axes</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p>np.array</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="dalio.external.PySubplotGraph.get_loc">
+<code class="sig-name descname">get_loc</code><span class="sig-paren">(</span><em class="sig-param">coords</em><span class="sig-paren">)</span><a class="headerlink" href="#dalio.external.PySubplotGraph.get_loc" title="Permalink to this definition">¶</a></dt>
+<dd><p>Gets a specific axis from the _loc attribute at given
+coordinates</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="dalio.external.PySubplotGraph.make_manager">
+<code class="sig-name descname">make_manager</code><span class="sig-paren">(</span><em class="sig-param">coords</em><span class="sig-paren">)</span><a class="headerlink" href="#dalio.external.PySubplotGraph.make_manager" title="Permalink to this definition">¶</a></dt>
+<dd><p>Create a SubPlotManager to manage this instance’s subplots</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="dalio.external.PySubplotGraph.plot">
+<code class="sig-name descname">plot</code><span class="sig-paren">(</span><em class="sig-param">data</em>, <em class="sig-param">coords=None</em>, <em class="sig-param">kind=None</em>, <em class="sig-param">**graph_opts</em><span class="sig-paren">)</span><a class="headerlink" href="#dalio.external.PySubplotGraph.plot" title="Permalink to this definition">¶</a></dt>
+<dd><p>Plot on a specified subplot axis</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>coords</strong> (<em>tuple</em>) – tuple of subplot coordinates to plot data</p>
+</dd>
+<dt class="field-even">Raises</dt>
+<dd class="field-even"><p><strong>ValueError</strong> – if coordinates are out of range.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="dalio.external.PySubplotGraph.reset">
+<code class="sig-name descname">reset</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#dalio.external.PySubplotGraph.reset" title="Permalink to this definition">¶</a></dt>
+<dd><p>Resets figure and all axes</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="dalio.external.PyPfOptGraph">
+<em class="property">class </em><code class="sig-prename descclassname">dalio.external.</code><code class="sig-name descname">PyPfOptGraph</code><span class="sig-paren">(</span><em class="sig-param">figsize=None</em><span class="sig-paren">)</span><a class="headerlink" href="#dalio.external.PyPfOptGraph" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#dalio.external.image.PyPlotGraph" title="dalio.external.image.PyPlotGraph"><code class="xref py py-class docutils literal notranslate"><span class="pre">dalio.external.image.PyPlotGraph</span></code></a></p>
+<p>Graphs data from the PyPfOpt package</p>
+<dl class="method">
+<dt id="dalio.external.PyPfOptGraph.plot">
+<code class="sig-name descname">plot</code><span class="sig-paren">(</span><em class="sig-param">data</em>, <em class="sig-param">coords=None</em>, <em class="sig-param">kind=None</em>, <em class="sig-param">**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#dalio.external.PyPfOptGraph.plot" title="Permalink to this definition">¶</a></dt>
+<dd><p>Graph data from pypfopt</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>data</strong> – plottable data from pypfopt package</p>
+</dd>
+<dt class="field-even">Raises</dt>
+<dd class="field-even"><p><strong>TypeError</strong> – if data is not of a plottable class from pypfopt</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="dalio.external.YahooDR">
+<em class="property">class </em><code class="sig-prename descclassname">dalio.external.</code><code class="sig-name descname">YahooDR</code><span class="sig-paren">(</span><em class="sig-param">config=None</em><span class="sig-paren">)</span><a class="headerlink" href="#dalio.external.YahooDR" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">dalio.external.web._PDR</span></code></p>
+<p>Represents financial data from Yahoo! Finance</p>
+<dl class="method">
+<dt id="dalio.external.YahooDR.request">
+<code class="sig-name descname">request</code><span class="sig-paren">(</span><em class="sig-param">**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#dalio.external.YahooDR.request" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get data from specified tickers</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="dalio.external.QuandlAPI">
+<em class="property">class </em><code class="sig-prename descclassname">dalio.external.</code><code class="sig-name descname">QuandlAPI</code><span class="sig-paren">(</span><em class="sig-param">config=None</em><span class="sig-paren">)</span><a class="headerlink" href="#dalio.external.QuandlAPI" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#dalio.external.external.External" title="dalio.external.external.External"><code class="xref py py-class docutils literal notranslate"><span class="pre">dalio.external.external.External</span></code></a></p>
+<p>Set up the Quandl API and request table data from quandl.</p>
+<dl class="attribute">
+<dt id="dalio.external.QuandlAPI._quandl_conf">
+<code class="sig-name descname">_quandl_conf</code><a class="headerlink" href="#dalio.external.QuandlAPI._quandl_conf" title="Permalink to this definition">¶</a></dt>
+<dd><p>Quandl API config object</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="dalio.external.QuandlAPI.authenticate">
+<code class="sig-name descname">authenticate</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#dalio.external.QuandlAPI.authenticate" title="Permalink to this definition">¶</a></dt>
+<dd><p>Set the api key if it is available in the config dictionary</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>True if key was successfully set, False otherwise</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="dalio.external.QuandlAPI.check">
+<code class="sig-name descname">check</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#dalio.external.QuandlAPI.check" title="Permalink to this definition">¶</a></dt>
+<dd><p>Check if the api key is set</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="dalio.external.QuandlAPI.request">
+<code class="sig-name descname">request</code><span class="sig-paren">(</span><em class="sig-param">**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#dalio.external.QuandlAPI.request" title="Permalink to this definition">¶</a></dt>
+<dd><p>Request table data from quandl</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>**kwargs</strong> – keyword arguments for quandl request.
+query: table to get data from.
+filter: dictionary of filters for data. Depends on table.
+columns: columns to select.</p>
+</dd>
+<dt class="field-even">Raises</dt>
+<dd class="field-even"><ul class="simple">
+<li><p><strong>IOError</strong> – if api key is not set.</p></li>
+<li><p><strong>ValueError</strong> – if filters kwarg is not a dict.</p></li>
+</ul>
+</dd>
+</dl>
 </dd></dl>
 
 </dd></dl>

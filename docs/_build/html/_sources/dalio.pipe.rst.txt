@@ -4,7 +4,7 @@ dalio.pipe package
 Submodules
 ----------
 
-dalio.pipe.builders
+dalio.pipe.builders module
 --------------------------
 
 .. automodule:: dalio.pipe.builders
@@ -12,7 +12,7 @@ dalio.pipe.builders
    :undoc-members:
    :show-inheritance:
 
-dalio.pipe.col\_generation
+dalio.pipe.col\_generation module
 ---------------------------------
 
 .. automodule:: dalio.pipe.col_generation
@@ -20,15 +20,7 @@ dalio.pipe.col\_generation
    :undoc-members:
    :show-inheritance:
 
-dalio.pipe.custom
-------------------------
-
-.. automodule:: dalio.pipe.custom
-   :members:
-   :undoc-members:
-   :show-inheritance:
-
-dalio.pipe.forecast
+dalio.pipe.forecast module
 --------------------------
 
 .. automodule:: dalio.pipe.forecast
@@ -36,7 +28,7 @@ dalio.pipe.forecast
    :undoc-members:
    :show-inheritance:
 
-dalio.pipe.pipe
+dalio.pipe.pipe module
 ----------------------
 
 .. automodule:: dalio.pipe.pipe
@@ -44,10 +36,19 @@ dalio.pipe.pipe
    :undoc-members:
    :show-inheritance:
 
-dalio.pipe.selection
----------------------------
+dalio.pipe.select module
+------------------------
 
-.. automodule:: dalio.pipe.selection
+.. automodule:: dalio.pipe.select
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+
+Module contents
+---------------
+
+.. automodule:: dalio.pipe
    :members:
    :undoc-members:
    :show-inheritance:

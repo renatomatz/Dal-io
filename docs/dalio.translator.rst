@@ -4,7 +4,7 @@ dalio.translator package
 Submodules
 ----------
 
-dalio.translator.file
+dalio.translator.file module
 ----------------------------
 
 .. automodule:: dalio.translator.file
@@ -12,7 +12,7 @@ dalio.translator.file
    :undoc-members:
    :show-inheritance:
 
-dalio.translator.pdr
+dalio.translator.pdr module
 ---------------------------
 
 .. automodule:: dalio.translator.pdr
@@ -20,7 +20,7 @@ dalio.translator.pdr
    :undoc-members:
    :show-inheritance:
 
-dalio.translator.quandl
+dalio.translator.quandl module
 ------------------------------
 
 .. automodule:: dalio.translator.quandl
@@ -28,10 +28,19 @@ dalio.translator.quandl
    :undoc-members:
    :show-inheritance:
 
-dalio.translator.translator
+dalio.translator.translator module
 ----------------------------------
 
 .. automodule:: dalio.translator.translator
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+
+Module contents
+---------------
+
+.. automodule:: dalio.translator
    :members:
    :undoc-members:
    :show-inheritance:

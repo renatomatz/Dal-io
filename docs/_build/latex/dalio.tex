@@ -73,7 +73,7 @@
 
 
 \title{Dal.io}
-\date{Jun 29, 2020}
+\date{Jul 15, 2020}
 \release{0.1.1}
 \author{Renato Zimmermann}
 \newcommand{\sphinxlogo}{\vbox{}}
@@ -318,86 +318,10 @@ Define classes for image pieces
 Images, be it a plot, picture or video are considered external outputs as the
 figure itself is not contained in the python session, and must be shown in a
 screen or server.
-\index{Figure (class in dalio.external.image)@\spxentry{Figure}\spxextra{class in dalio.external.image}}
-
-\begin{fulllineitems}
-\phantomsection\label{\detokenize{dalio.external:dalio.external.image.Figure}}\pysigline{\sphinxbfcode{\sphinxupquote{class }}\sphinxcode{\sphinxupquote{dalio.external.image.}}\sphinxbfcode{\sphinxupquote{Figure}}}
-Bases: {\hyperref[\detokenize{dalio.external:dalio.external.external.External}]{\sphinxcrossref{\sphinxcode{\sphinxupquote{dalio.external.external.External}}}}}
-
-Base Figure class
-
-These serve to implement the basic logic of a figure, and are not limited
-to any specific python package. Python packages should be standardazied
-in these classes to take in these broad commands.
-\index{\_connection (dalio.external.image.Figure attribute)@\spxentry{\_connection}\spxextra{dalio.external.image.Figure attribute}}
-
-\begin{fulllineitems}
-\phantomsection\label{\detokenize{dalio.external:dalio.external.image.Figure._connection}}\pysigline{\sphinxbfcode{\sphinxupquote{\_connection}}}
-figure object dealt with by this class
-
-\end{fulllineitems}
-
-\index{check() (dalio.external.image.Figure method)@\spxentry{check()}\spxextra{dalio.external.image.Figure method}}
-
-\begin{fulllineitems}
-\phantomsection\label{\detokenize{dalio.external:dalio.external.image.Figure.check}}\pysiglinewithargsret{\sphinxbfcode{\sphinxupquote{check}}}{}{}
-Check if there is a figure to return
-
-\end{fulllineitems}
-
-\index{plot() (dalio.external.image.Figure method)@\spxentry{plot()}\spxextra{dalio.external.image.Figure method}}
-
-\begin{fulllineitems}
-\phantomsection\label{\detokenize{dalio.external:dalio.external.image.Figure.plot}}\pysiglinewithargsret{\sphinxbfcode{\sphinxupquote{plot}}}{\emph{data}, \emph{coords=None}, \emph{kind=None}, \emph{**graph\_opts}}{}
-Plots data on the figure.
-\begin{quote}\begin{description}
-\item[{Parameters}] \leavevmode\begin{itemize}
-\item {} 
-\sphinxstyleliteralstrong{\sphinxupquote{data}} \textendash{} data to be used in the plot.
-
-\item {} 
-\sphinxstyleliteralstrong{\sphinxupquote{coords}} \textendash{} coordinates or location of a target graph
-
-\item {} 
-\sphinxstyleliteralstrong{\sphinxupquote{kind}} \textendash{} kind of plot to be plotted. None by default.
-
-\item {} 
-\sphinxstyleliteralstrong{\sphinxupquote{**graph\_opts}} \textendash{} optional graphing options
-
-\end{itemize}
-
-\end{description}\end{quote}
-
-\end{fulllineitems}
-
-\index{request() (dalio.external.image.Figure method)@\spxentry{request()}\spxextra{dalio.external.image.Figure method}}
-
-\begin{fulllineitems}
-\phantomsection\label{\detokenize{dalio.external:dalio.external.image.Figure.request}}\pysiglinewithargsret{\sphinxbfcode{\sphinxupquote{request}}}{\emph{**kwargs}}{}
-Processes a request based on the figure.
-\begin{quote}\begin{description}
-\item[{Parameters}] \leavevmode
-\sphinxstyleliteralstrong{\sphinxupquote{**kwargs}} \textendash{} additional request options.
-
-\end{description}\end{quote}
-
-\end{fulllineitems}
-
-\index{reset() (dalio.external.image.Figure method)@\spxentry{reset()}\spxextra{dalio.external.image.Figure method}}
-
-\begin{fulllineitems}
-\phantomsection\label{\detokenize{dalio.external:dalio.external.image.Figure.reset}}\pysiglinewithargsret{\sphinxbfcode{\sphinxupquote{reset}}}{}{}
-Resets figure to default, empty state
-
-\end{fulllineitems}
-
-
-\end{fulllineitems}
-
 \index{PyPfOptGraph (class in dalio.external.image)@\spxentry{PyPfOptGraph}\spxextra{class in dalio.external.image}}
 
 \begin{fulllineitems}
-\phantomsection\label{\detokenize{dalio.external:dalio.external.image.PyPfOptGraph}}\pysigline{\sphinxbfcode{\sphinxupquote{class }}\sphinxcode{\sphinxupquote{dalio.external.image.}}\sphinxbfcode{\sphinxupquote{PyPfOptGraph}}}
+\phantomsection\label{\detokenize{dalio.external:dalio.external.image.PyPfOptGraph}}\pysiglinewithargsret{\sphinxbfcode{\sphinxupquote{class }}\sphinxcode{\sphinxupquote{dalio.external.image.}}\sphinxbfcode{\sphinxupquote{PyPfOptGraph}}}{\emph{figsize=None}}{}
 Bases: {\hyperref[\detokenize{dalio.external:dalio.external.image.PyPlotGraph}]{\sphinxcrossref{\sphinxcode{\sphinxupquote{dalio.external.image.PyPlotGraph}}}}}
 
 Graphs data from the PyPfOpt package
@@ -423,8 +347,8 @@ Graph data from pypfopt
 \index{PyPlotGraph (class in dalio.external.image)@\spxentry{PyPlotGraph}\spxextra{class in dalio.external.image}}
 
 \begin{fulllineitems}
-\phantomsection\label{\detokenize{dalio.external:dalio.external.image.PyPlotGraph}}\pysigline{\sphinxbfcode{\sphinxupquote{class }}\sphinxcode{\sphinxupquote{dalio.external.image.}}\sphinxbfcode{\sphinxupquote{PyPlotGraph}}}
-Bases: {\hyperref[\detokenize{dalio.external:dalio.external.image.Figure}]{\sphinxcrossref{\sphinxcode{\sphinxupquote{dalio.external.image.Figure}}}}}
+\phantomsection\label{\detokenize{dalio.external:dalio.external.image.PyPlotGraph}}\pysiglinewithargsret{\sphinxbfcode{\sphinxupquote{class }}\sphinxcode{\sphinxupquote{dalio.external.image.}}\sphinxbfcode{\sphinxupquote{PyPlotGraph}}}{\emph{figsize=None}}{}
+Bases: \sphinxcode{\sphinxupquote{dalio.external.image.\_Figure}}
 
 Figure from the matplotlib.pyplot package.
 \index{\_connection (dalio.external.image.PyPlotGraph attribute)@\spxentry{\_connection}\spxextra{dalio.external.image.PyPlotGraph attribute}}
@@ -456,7 +380,7 @@ matplotlib.axes.\_subplots.AxesSubplot
 \index{plot() (dalio.external.image.PyPlotGraph method)@\spxentry{plot()}\spxextra{dalio.external.image.PyPlotGraph method}}
 
 \begin{fulllineitems}
-\phantomsection\label{\detokenize{dalio.external:dalio.external.image.PyPlotGraph.plot}}\pysiglinewithargsret{\sphinxbfcode{\sphinxupquote{plot}}}{\emph{data}, \emph{coords=None}, \emph{kind=None}, \emph{**graph\_opts}}{}
+\phantomsection\label{\detokenize{dalio.external:dalio.external.image.PyPlotGraph.plot}}\pysiglinewithargsret{\sphinxbfcode{\sphinxupquote{plot}}}{\emph{data}, \emph{kind=None}, \emph{**graph\_opts}}{}
 Plot x onto the x\sphinxhyphen{}axis and y onto the y\sphinxhyphen{}axis, if applicable.
 \begin{quote}\begin{description}
 \item[{Parameters}] \leavevmode\begin{itemize}
@@ -501,8 +425,8 @@ Set connection and axes to a single figure and axis
 \index{PySubplotGraph (class in dalio.external.image)@\spxentry{PySubplotGraph}\spxextra{class in dalio.external.image}}
 
 \begin{fulllineitems}
-\phantomsection\label{\detokenize{dalio.external:dalio.external.image.PySubplotGraph}}\pysiglinewithargsret{\sphinxbfcode{\sphinxupquote{class }}\sphinxcode{\sphinxupquote{dalio.external.image.}}\sphinxbfcode{\sphinxupquote{PySubplotGraph}}}{\emph{rows=1}, \emph{cols=1}}{}
-Bases: {\hyperref[\detokenize{dalio.external:dalio.external.image.Figure}]{\sphinxcrossref{\sphinxcode{\sphinxupquote{dalio.external.image.Figure}}}}}
+\phantomsection\label{\detokenize{dalio.external:dalio.external.image.PySubplotGraph}}\pysiglinewithargsret{\sphinxbfcode{\sphinxupquote{class }}\sphinxcode{\sphinxupquote{dalio.external.image.}}\sphinxbfcode{\sphinxupquote{PySubplotGraph}}}{\emph{rows}, \emph{cols}, \emph{figsize=None}}{}
+Bases: \sphinxcode{\sphinxupquote{dalio.external.image.\_MultiFigure}}
 
 A matplotlib.pyplot.Figure containing multiple subplots.
 
@@ -536,10 +460,10 @@ int
 
 \end{fulllineitems}
 
-\index{\_axes (dalio.external.image.PySubplotGraph attribute)@\spxentry{\_axes}\spxextra{dalio.external.image.PySubplotGraph attribute}}
+\index{\_loc (dalio.external.image.PySubplotGraph attribute)@\spxentry{\_loc}\spxextra{dalio.external.image.PySubplotGraph attribute}}
 
 \begin{fulllineitems}
-\phantomsection\label{\detokenize{dalio.external:dalio.external.image.PySubplotGraph._axes}}\pysigline{\sphinxbfcode{\sphinxupquote{\_axes}}}
+\phantomsection\label{\detokenize{dalio.external:dalio.external.image.PySubplotGraph._loc}}\pysigline{\sphinxbfcode{\sphinxupquote{\_loc}}}
 array of the figure’s axes
 \begin{quote}\begin{description}
 \item[{Type}] \leavevmode
@@ -549,11 +473,11 @@ np.array
 
 \end{fulllineitems}
 
-\index{get\_axis() (dalio.external.image.PySubplotGraph method)@\spxentry{get\_axis()}\spxextra{dalio.external.image.PySubplotGraph method}}
+\index{get\_loc() (dalio.external.image.PySubplotGraph method)@\spxentry{get\_loc()}\spxextra{dalio.external.image.PySubplotGraph method}}
 
 \begin{fulllineitems}
-\phantomsection\label{\detokenize{dalio.external:dalio.external.image.PySubplotGraph.get_axis}}\pysiglinewithargsret{\sphinxbfcode{\sphinxupquote{get\_axis}}}{\emph{coords}}{}
-Gets a specific axis from the \_axis attribute at given
+\phantomsection\label{\detokenize{dalio.external:dalio.external.image.PySubplotGraph.get_loc}}\pysiglinewithargsret{\sphinxbfcode{\sphinxupquote{get\_loc}}}{\emph{coords}}{}
+Gets a specific axis from the \_loc attribute at given
 coordinates
 
 \end{fulllineitems}
@@ -965,6 +889,36 @@ integrity.
 
 \end{fulllineitems}
 
+\index{copy() (dalio.translator.translator.Translator method)@\spxentry{copy()}\spxextra{dalio.translator.translator.Translator method}}
+
+\begin{fulllineitems}
+\phantomsection\label{\detokenize{dalio.translator:dalio.translator.translator.Translator.copy}}\pysiglinewithargsret{\sphinxbfcode{\sphinxupquote{copy}}}{\emph{*args}, \emph{**kwargs}}{}
+Makes a copy of transformer, copying its attributes to a new
+instance.
+
+This copy should essentially create a new transformation node, not an
+entire new graph, so the \_source attribute of the returned instance
+should be assigned without being copied. This is also made to be built
+upon by subclasses, such that only new attributes need to be added to
+a class’ copy method.
+\begin{quote}\begin{description}
+\item[{Parameters}] \leavevmode\begin{itemize}
+\item {} 
+\sphinxstyleliteralstrong{\sphinxupquote{*args}} \textendash{} Positional arguments to be passed to initialize copy
+
+\item {} 
+\sphinxstyleliteralstrong{\sphinxupquote{**kwargs}} \textendash{} Keyword arguments to be passed to initialize copy
+
+\end{itemize}
+
+\item[{Returns}] \leavevmode
+A copy of this \_Transformer instance with copies of necessary
+attributes and empty input.
+
+\end{description}\end{quote}
+
+\end{fulllineitems}
+
 \index{set\_input() (dalio.translator.translator.Translator method)@\spxentry{set\_input()}\spxextra{dalio.translator.translator.Translator method}}
 
 \begin{fulllineitems}
@@ -1029,7 +983,7 @@ Builder Pipes
 
 \begin{fulllineitems}
 \phantomsection\label{\detokenize{dalio.pipe:dalio.pipe.builders.CovShrink}}\pysiglinewithargsret{\sphinxbfcode{\sphinxupquote{class }}\sphinxcode{\sphinxupquote{dalio.pipe.builders.}}\sphinxbfcode{\sphinxupquote{CovShrink}}}{\emph{frequency=252}}{}
-Bases: {\hyperref[\detokenize{dalio.pipe:dalio.pipe.pipe.Pipe}]{\sphinxcrossref{\sphinxcode{\sphinxupquote{dalio.pipe.pipe.Pipe}}}}}, \sphinxcode{\sphinxupquote{dalio.base.builder.\_Builder}}
+Bases: {\hyperref[\detokenize{dalio.pipe:dalio.pipe.pipe.PipeBuilder}]{\sphinxcrossref{\sphinxcode{\sphinxupquote{dalio.pipe.pipe.PipeBuilder}}}}}
 
 Perform Covariance Shrinkage on data
 
@@ -1052,7 +1006,7 @@ int
 \index{build\_model() (dalio.pipe.builders.CovShrink method)@\spxentry{build\_model()}\spxextra{dalio.pipe.builders.CovShrink method}}
 
 \begin{fulllineitems}
-\phantomsection\label{\detokenize{dalio.pipe:dalio.pipe.builders.CovShrink.build_model}}\pysiglinewithargsret{\sphinxbfcode{\sphinxupquote{build\_model}}}{\emph{data}}{}
+\phantomsection\label{\detokenize{dalio.pipe:dalio.pipe.builders.CovShrink.build_model}}\pysiglinewithargsret{\sphinxbfcode{\sphinxupquote{build\_model}}}{\emph{data}, \emph{**kwargs}}{}
 Builds Covariance Srhinkage object and returns selected shrinkage
 strategy
 \begin{quote}\begin{description}
@@ -1090,6 +1044,36 @@ to check for the validity of settings.
 
 \end{fulllineitems}
 
+\index{copy() (dalio.pipe.builders.CovShrink method)@\spxentry{copy()}\spxextra{dalio.pipe.builders.CovShrink method}}
+
+\begin{fulllineitems}
+\phantomsection\label{\detokenize{dalio.pipe:dalio.pipe.builders.CovShrink.copy}}\pysiglinewithargsret{\sphinxbfcode{\sphinxupquote{copy}}}{\emph{*args}, \emph{**kwargs}}{}
+Makes a copy of transformer, copying its attributes to a new
+instance.
+
+This copy should essentially create a new transformation node, not an
+entire new graph, so the \_source attribute of the returned instance
+should be assigned without being copied. This is also made to be built
+upon by subclasses, such that only new attributes need to be added to
+a class’ copy method.
+\begin{quote}\begin{description}
+\item[{Parameters}] \leavevmode\begin{itemize}
+\item {} 
+\sphinxstyleliteralstrong{\sphinxupquote{*args}} \textendash{} Positional arguments to be passed to initialize copy
+
+\item {} 
+\sphinxstyleliteralstrong{\sphinxupquote{**kwargs}} \textendash{} Keyword arguments to be passed to initialize copy
+
+\end{itemize}
+
+\item[{Returns}] \leavevmode
+A copy of this \_Transformer instance with copies of necessary
+attributes and empty input.
+
+\end{description}\end{quote}
+
+\end{fulllineitems}
+
 \index{frequency (dalio.pipe.builders.CovShrink attribute)@\spxentry{frequency}\spxextra{dalio.pipe.builders.CovShrink attribute}}
 
 \begin{fulllineitems}
@@ -1116,7 +1100,7 @@ A covariance matrix
 
 \begin{fulllineitems}
 \phantomsection\label{\detokenize{dalio.pipe:dalio.pipe.builders.ExpectedReturns}}\pysigline{\sphinxbfcode{\sphinxupquote{class }}\sphinxcode{\sphinxupquote{dalio.pipe.builders.}}\sphinxbfcode{\sphinxupquote{ExpectedReturns}}}
-Bases: {\hyperref[\detokenize{dalio.pipe:dalio.pipe.pipe.Pipe}]{\sphinxcrossref{\sphinxcode{\sphinxupquote{dalio.pipe.pipe.Pipe}}}}}, \sphinxcode{\sphinxupquote{dalio.base.builder.\_Builder}}
+Bases: {\hyperref[\detokenize{dalio.pipe:dalio.pipe.pipe.PipeBuilder}]{\sphinxcrossref{\sphinxcode{\sphinxupquote{dalio.pipe.pipe.PipeBuilder}}}}}
 
 Get stock’s time series expected returns.
 
@@ -1125,15 +1109,21 @@ get the expected returns from.
 \index{build\_model() (dalio.pipe.builders.ExpectedReturns method)@\spxentry{build\_model()}\spxextra{dalio.pipe.builders.ExpectedReturns method}}
 
 \begin{fulllineitems}
-\phantomsection\label{\detokenize{dalio.pipe:dalio.pipe.builders.ExpectedReturns.build_model}}\pysiglinewithargsret{\sphinxbfcode{\sphinxupquote{build\_model}}}{\emph{data}}{}
+\phantomsection\label{\detokenize{dalio.pipe:dalio.pipe.builders.ExpectedReturns.build_model}}\pysiglinewithargsret{\sphinxbfcode{\sphinxupquote{build\_model}}}{\emph{data}, \emph{**kwargs}}{}
 Assemble pieces into a model given some data
 
 The data will opten be optional, but several builder models will
 require it to be fitted on initialization. Which further shows why
 builders are necessary for context\sphinxhyphen{}agnostic graphs.
 \begin{quote}\begin{description}
-\item[{Parameters}] \leavevmode
+\item[{Parameters}] \leavevmode\begin{itemize}
+\item {} 
 \sphinxstyleliteralstrong{\sphinxupquote{data}} \textendash{} data that might be used to build the model.
+
+\item {} 
+\sphinxstyleliteralstrong{\sphinxupquote{**kwargs}} \textendash{} any additional argument used in building
+
+\end{itemize}
 
 \end{description}\end{quote}
 
@@ -1198,81 +1188,11 @@ expected shortfall at given quantiles.
 
 \end{fulllineitems}
 
-\index{LinearModel (class in dalio.pipe.builders)@\spxentry{LinearModel}\spxextra{class in dalio.pipe.builders}}
-
-\begin{fulllineitems}
-\phantomsection\label{\detokenize{dalio.pipe:dalio.pipe.builders.LinearModel}}\pysigline{\sphinxbfcode{\sphinxupquote{class }}\sphinxcode{\sphinxupquote{dalio.pipe.builders.}}\sphinxbfcode{\sphinxupquote{LinearModel}}}
-Bases: {\hyperref[\detokenize{dalio.pipe:dalio.pipe.pipe.Pipe}]{\sphinxcrossref{\sphinxcode{\sphinxupquote{dalio.pipe.pipe.Pipe}}}}}, \sphinxcode{\sphinxupquote{dalio.base.builder.\_Builder}}
-
-Create a linear model from input data.
-
-This builder is made up of a single piece: strategy. This piece sets
-which linear model should be used to fit the data.
-\index{build\_model() (dalio.pipe.builders.LinearModel method)@\spxentry{build\_model()}\spxextra{dalio.pipe.builders.LinearModel method}}
-
-\begin{fulllineitems}
-\phantomsection\label{\detokenize{dalio.pipe:dalio.pipe.builders.LinearModel.build_model}}\pysiglinewithargsret{\sphinxbfcode{\sphinxupquote{build\_model}}}{\emph{data}}{}
-Build model by returning the chosen model and initialization
-parameters
-\begin{quote}\begin{description}
-\item[{Returns}] \leavevmode
-Unfitted linear model
-
-\end{description}\end{quote}
-
-\end{fulllineitems}
-
-\index{copy() (dalio.pipe.builders.LinearModel method)@\spxentry{copy()}\spxextra{dalio.pipe.builders.LinearModel method}}
-
-\begin{fulllineitems}
-\phantomsection\label{\detokenize{dalio.pipe:dalio.pipe.builders.LinearModel.copy}}\pysiglinewithargsret{\sphinxbfcode{\sphinxupquote{copy}}}{\emph{*args}, \emph{**kwargs}}{}
-Makes a copy of transformer, copying its attributes to a new
-instance.
-
-This copy should essentially create a new transformation node, not an
-entire new graph, so the \_source attribute of the returned instance
-should be assigned without being copied. This is also made to be built
-upon by subclasses, such that only new attributes need to be added to
-a class’ copy method.
-\begin{quote}\begin{description}
-\item[{Parameters}] \leavevmode\begin{itemize}
-\item {} 
-\sphinxstyleliteralstrong{\sphinxupquote{*args}} \textendash{} Positional arguments to be passed to initialize copy
-
-\item {} 
-\sphinxstyleliteralstrong{\sphinxupquote{**kwargs}} \textendash{} Keyword arguments to be passed to initialize copy
-
-\end{itemize}
-
-\item[{Returns}] \leavevmode
-A copy of this \_Transformer instance with copies of necessary
-attributes and empty input.
-
-\end{description}\end{quote}
-
-\end{fulllineitems}
-
-\index{transform() (dalio.pipe.builders.LinearModel method)@\spxentry{transform()}\spxextra{dalio.pipe.builders.LinearModel method}}
-
-\begin{fulllineitems}
-\phantomsection\label{\detokenize{dalio.pipe:dalio.pipe.builders.LinearModel.transform}}\pysiglinewithargsret{\sphinxbfcode{\sphinxupquote{transform}}}{\emph{data}, \emph{**kwargs}}{}
-Set up fitting parameters and fit built model.
-\begin{quote}\begin{description}
-\item[{Returns}] \leavevmode
-Fitted linear model
-
-\end{description}\end{quote}
-
-\end{fulllineitems}
-
-
-\end{fulllineitems}
-
 \index{MakeARCH (class in dalio.pipe.builders)@\spxentry{MakeARCH}\spxextra{class in dalio.pipe.builders}}
 
 \begin{fulllineitems}
 \phantomsection\label{\detokenize{dalio.pipe:dalio.pipe.builders.MakeARCH}}\pysigline{\sphinxbfcode{\sphinxupquote{class }}\sphinxcode{\sphinxupquote{dalio.pipe.builders.}}\sphinxbfcode{\sphinxupquote{MakeARCH}}}
-Bases: {\hyperref[\detokenize{dalio.pipe:dalio.pipe.pipe.Pipe}]{\sphinxcrossref{\sphinxcode{\sphinxupquote{dalio.pipe.pipe.Pipe}}}}}, \sphinxcode{\sphinxupquote{dalio.base.builder.\_Builder}}
+Bases: {\hyperref[\detokenize{dalio.pipe:dalio.pipe.pipe.PipeBuilder}]{\sphinxcrossref{\sphinxcode{\sphinxupquote{dalio.pipe.pipe.PipeBuilder}}}}}
 
 Build arch model and make it based on input data.
 
@@ -1312,41 +1232,11 @@ pieces are assimilated, not their parameters.
 \index{build\_model() (dalio.pipe.builders.MakeARCH method)@\spxentry{build\_model()}\spxextra{dalio.pipe.builders.MakeARCH method}}
 
 \begin{fulllineitems}
-\phantomsection\label{\detokenize{dalio.pipe:dalio.pipe.builders.MakeARCH.build_model}}\pysiglinewithargsret{\sphinxbfcode{\sphinxupquote{build\_model}}}{\emph{data}}{}
+\phantomsection\label{\detokenize{dalio.pipe:dalio.pipe.builders.MakeARCH.build_model}}\pysiglinewithargsret{\sphinxbfcode{\sphinxupquote{build\_model}}}{\emph{data}, \emph{**kwargs}}{}
 Build ARCH Model using data, set pieces and their arguments
 \begin{quote}\begin{description}
 \item[{Returns}] \leavevmode
 A built arch model from the arch package.
-
-\end{description}\end{quote}
-
-\end{fulllineitems}
-
-\index{copy() (dalio.pipe.builders.MakeARCH method)@\spxentry{copy()}\spxextra{dalio.pipe.builders.MakeARCH method}}
-
-\begin{fulllineitems}
-\phantomsection\label{\detokenize{dalio.pipe:dalio.pipe.builders.MakeARCH.copy}}\pysiglinewithargsret{\sphinxbfcode{\sphinxupquote{copy}}}{\emph{*args}, \emph{**kwargs}}{}
-Makes a copy of transformer, copying its attributes to a new
-instance.
-
-This copy should essentially create a new transformation node, not an
-entire new graph, so the \_source attribute of the returned instance
-should be assigned without being copied. This is also made to be built
-upon by subclasses, such that only new attributes need to be added to
-a class’ copy method.
-\begin{quote}\begin{description}
-\item[{Parameters}] \leavevmode\begin{itemize}
-\item {} 
-\sphinxstyleliteralstrong{\sphinxupquote{*args}} \textendash{} Positional arguments to be passed to initialize copy
-
-\item {} 
-\sphinxstyleliteralstrong{\sphinxupquote{**kwargs}} \textendash{} Keyword arguments to be passed to initialize copy
-
-\end{itemize}
-
-\item[{Returns}] \leavevmode
-A copy of this \_Transformer instance with copies of necessary
-attributes and empty input.
 
 \end{description}\end{quote}
 
@@ -1357,6 +1247,117 @@ attributes and empty input.
 \begin{fulllineitems}
 \phantomsection\label{\detokenize{dalio.pipe:dalio.pipe.builders.MakeARCH.transform}}\pysiglinewithargsret{\sphinxbfcode{\sphinxupquote{transform}}}{\emph{data}, \emph{**kwargs}}{}
 Build model with sourced data
+
+\end{fulllineitems}
+
+
+\end{fulllineitems}
+
+\index{OptimumWeights (class in dalio.pipe.builders)@\spxentry{OptimumWeights}\spxextra{class in dalio.pipe.builders}}
+
+\begin{fulllineitems}
+\phantomsection\label{\detokenize{dalio.pipe:dalio.pipe.builders.OptimumWeights}}\pysigline{\sphinxbfcode{\sphinxupquote{class }}\sphinxcode{\sphinxupquote{dalio.pipe.builders.}}\sphinxbfcode{\sphinxupquote{OptimumWeights}}}
+Bases: {\hyperref[\detokenize{dalio.pipe:dalio.pipe.pipe.PipeBuilder}]{\sphinxcrossref{\sphinxcode{\sphinxupquote{dalio.pipe.pipe.PipeBuilder}}}}}
+
+Get optimum portfolio weights from an efficient frontier or CLA.
+This is also a builder with one piece: strategy. The strategy piece
+refers to the optimization strategy.
+\index{build\_model() (dalio.pipe.builders.OptimumWeights method)@\spxentry{build\_model()}\spxextra{dalio.pipe.builders.OptimumWeights method}}
+
+\begin{fulllineitems}
+\phantomsection\label{\detokenize{dalio.pipe:dalio.pipe.builders.OptimumWeights.build_model}}\pysiglinewithargsret{\sphinxbfcode{\sphinxupquote{build\_model}}}{\emph{data}, \emph{**kwargs}}{}
+Assemble pieces into a model given some data
+
+The data will opten be optional, but several builder models will
+require it to be fitted on initialization. Which further shows why
+builders are necessary for context\sphinxhyphen{}agnostic graphs.
+\begin{quote}\begin{description}
+\item[{Parameters}] \leavevmode\begin{itemize}
+\item {} 
+\sphinxstyleliteralstrong{\sphinxupquote{data}} \textendash{} data that might be used to build the model.
+
+\item {} 
+\sphinxstyleliteralstrong{\sphinxupquote{**kwargs}} \textendash{} any additional argument used in building
+
+\end{itemize}
+
+\end{description}\end{quote}
+
+\end{fulllineitems}
+
+\index{check\_name() (dalio.pipe.builders.OptimumWeights method)@\spxentry{check\_name()}\spxextra{dalio.pipe.builders.OptimumWeights method}}
+
+\begin{fulllineitems}
+\phantomsection\label{\detokenize{dalio.pipe:dalio.pipe.builders.OptimumWeights.check_name}}\pysiglinewithargsret{\sphinxbfcode{\sphinxupquote{check\_name}}}{\emph{param}, \emph{name}}{}
+Check if name and parameter combination is valid.
+
+This will always be called upon setting a new piece to ensure this
+piece is present dictionary and that the name is valid. Subclasses
+will often override this method to implement the name checks in
+accordance to their specific name parameter combination options.
+Notice that checks cannot be done on arguments before running the
+\_Builder. This also can be called from outside of a \_Builder instance
+to check for the validity of settings.
+\begin{quote}\begin{description}
+\item[{Parameters}] \leavevmode\begin{itemize}
+\item {} 
+\sphinxstyleliteralstrong{\sphinxupquote{piece}} (\sphinxstyleliteralemphasis{\sphinxupquote{str}}) \textendash{} name of the key in the piece dictionary.
+
+\item {} 
+\sphinxstyleliteralstrong{\sphinxupquote{name}} (\sphinxstyleliteralemphasis{\sphinxupquote{str}}) \textendash{} name option to be set to the piece.
+
+\end{itemize}
+
+\end{description}\end{quote}
+
+\end{fulllineitems}
+
+\index{transform() (dalio.pipe.builders.OptimumWeights method)@\spxentry{transform()}\spxextra{dalio.pipe.builders.OptimumWeights method}}
+
+\begin{fulllineitems}
+\phantomsection\label{\detokenize{dalio.pipe:dalio.pipe.builders.OptimumWeights.transform}}\pysiglinewithargsret{\sphinxbfcode{\sphinxupquote{transform}}}{\emph{data}, \emph{**kwargs}}{}
+Get efficient frontier, fit it to model and get weights
+
+\end{fulllineitems}
+
+
+\end{fulllineitems}
+
+\index{PandasLinearModel (class in dalio.pipe.builders)@\spxentry{PandasLinearModel}\spxextra{class in dalio.pipe.builders}}
+
+\begin{fulllineitems}
+\phantomsection\label{\detokenize{dalio.pipe:dalio.pipe.builders.PandasLinearModel}}\pysigline{\sphinxbfcode{\sphinxupquote{class }}\sphinxcode{\sphinxupquote{dalio.pipe.builders.}}\sphinxbfcode{\sphinxupquote{PandasLinearModel}}}
+Bases: {\hyperref[\detokenize{dalio.pipe:dalio.pipe.pipe.PipeBuilder}]{\sphinxcrossref{\sphinxcode{\sphinxupquote{dalio.pipe.pipe.PipeBuilder}}}}}
+
+Create a linear model from input pandas dataframe, using its index
+as the X value.
+
+This builder is made up of a single piece: strategy. This piece sets
+which linear model should be used to fit the data.
+\index{build\_model() (dalio.pipe.builders.PandasLinearModel method)@\spxentry{build\_model()}\spxextra{dalio.pipe.builders.PandasLinearModel method}}
+
+\begin{fulllineitems}
+\phantomsection\label{\detokenize{dalio.pipe:dalio.pipe.builders.PandasLinearModel.build_model}}\pysiglinewithargsret{\sphinxbfcode{\sphinxupquote{build\_model}}}{\emph{data}, \emph{**kwargs}}{}
+Build model by returning the chosen model and initialization
+parameters
+\begin{quote}\begin{description}
+\item[{Returns}] \leavevmode
+Unfitted linear model
+
+\end{description}\end{quote}
+
+\end{fulllineitems}
+
+\index{transform() (dalio.pipe.builders.PandasLinearModel method)@\spxentry{transform()}\spxextra{dalio.pipe.builders.PandasLinearModel method}}
+
+\begin{fulllineitems}
+\phantomsection\label{\detokenize{dalio.pipe:dalio.pipe.builders.PandasLinearModel.transform}}\pysiglinewithargsret{\sphinxbfcode{\sphinxupquote{transform}}}{\emph{data}, \emph{**kwargs}}{}
+Set up fitting parameters and fit built model.
+\begin{quote}\begin{description}
+\item[{Returns}] \leavevmode
+Fitted linear model
+
+\end{description}\end{quote}
 
 \end{fulllineitems}
 
@@ -1560,11 +1561,101 @@ visualizations and ideas!
 \section{dalio.pipe.col\_generation}
 \label{\detokenize{dalio.pipe:module-dalio.pipe.col_generation}}\label{\detokenize{dalio.pipe:dalio-pipe-col-generation}}\index{dalio.pipe.col\_generation (module)@\spxentry{dalio.pipe.col\_generation}\spxextra{module}}
 Implement transformations that generates new colums from exising ones
+\index{Bin (class in dalio.pipe.col\_generation)@\spxentry{Bin}\spxextra{class in dalio.pipe.col\_generation}}
+
+\begin{fulllineitems}
+\phantomsection\label{\detokenize{dalio.pipe:dalio.pipe.col_generation.Bin}}\pysiglinewithargsret{\sphinxbfcode{\sphinxupquote{class }}\sphinxcode{\sphinxupquote{dalio.pipe.col\_generation.}}\sphinxbfcode{\sphinxupquote{Bin}}}{\emph{bin\_map}, \emph{*args}, \emph{bin\_strat=\textquotesingle{}normal\textquotesingle{}}, \emph{columns=None}, \emph{new\_cols=None}, \emph{drop=True}, \emph{reintegrate=False}, \emph{**kwargs}}{}
+Bases: {\hyperref[\detokenize{dalio.pipe:dalio.pipe.col_generation.Custom}]{\sphinxcrossref{\sphinxcode{\sphinxupquote{dalio.pipe.col\_generation.Custom}}}}}
+
+A pipeline stage that adds a binned version of a column or columns.
+
+If drop is set to True the new columns retain the names of the source
+columns; otherwise, the resulting column gain the suffix ‘\_bin’
+\index{bin\_map (dalio.pipe.col\_generation.Bin attribute)@\spxentry{bin\_map}\spxextra{dalio.pipe.col\_generation.Bin attribute}}
+
+\begin{fulllineitems}
+\phantomsection\label{\detokenize{dalio.pipe:dalio.pipe.col_generation.Bin.bin_map}}\pysigline{\sphinxbfcode{\sphinxupquote{bin\_map}}}
+implicitly projects a left\sphinxhyphen{}most bin containing
+all elements smaller than the left\sphinxhyphen{}most end point and a right\sphinxhyphen{}most
+bin containing all elements larger that the right\sphinxhyphen{}most end point.
+For example, the list {[}0, 5, 8{]} is interpreted as
+the bins (\sphinxhyphen{}\(\infty\), 0), {[}0\sphinxhyphen{}5), {[}5\sphinxhyphen{}8) and {[}8, \(\infty\)).
+\begin{quote}\begin{description}
+\item[{Type}] \leavevmode
+array\sphinxhyphen{}like
+
+\end{description}\end{quote}
+
+\end{fulllineitems}
+
+\index{bin\_strat (dalio.pipe.col\_generation.Bin attribute)@\spxentry{bin\_strat}\spxextra{dalio.pipe.col\_generation.Bin attribute}}
+
+\begin{fulllineitems}
+\phantomsection\label{\detokenize{dalio.pipe:dalio.pipe.col_generation.Bin.bin_strat}}\pysigline{\sphinxbfcode{\sphinxupquote{bin\_strat}}}
+binning strategy to use. “normal”
+uses the default binning strategy per a list of value separations
+or number of bins. “quantile” uses a list of quantiles or a
+preset quantile range (4 for quartiles and 10 for deciles).
+\begin{quote}\begin{description}
+\item[{Type}] \leavevmode
+str, default “normal”
+
+\end{description}\end{quote}
+
+\end{fulllineitems}
+
+\subsubsection*{Example}
+
+\begin{sphinxVerbatim}[commandchars=\\\{\}]
+\PYG{g+gp}{\PYGZgt{}\PYGZgt{}\PYGZgt{} }\PYG{k+kn}{import} \PYG{n+nn}{pandas} \PYG{k}{as} \PYG{n+nn}{pd}\PYG{p}{;} \PYG{k+kn}{import} \PYG{n+nn}{pdpipe} \PYG{k}{as} \PYG{n+nn}{pdp}\PYG{p}{;}
+\PYG{g+gp}{\PYGZgt{}\PYGZgt{}\PYGZgt{} }\PYG{n}{df} \PYG{o}{=} \PYG{n}{pd}\PYG{o}{.}\PYG{n}{DataFrame}\PYG{p}{(}\PYG{p}{[}\PYG{p}{[}\PYG{o}{\PYGZhy{}}\PYG{l+m+mi}{3}\PYG{p}{]}\PYG{p}{,}\PYG{p}{[}\PYG{l+m+mi}{4}\PYG{p}{]}\PYG{p}{,}\PYG{p}{[}\PYG{l+m+mi}{5}\PYG{p}{]}\PYG{p}{,} \PYG{p}{[}\PYG{l+m+mi}{9}\PYG{p}{]}\PYG{p}{]}\PYG{p}{,} \PYG{p}{[}\PYG{l+m+mi}{1}\PYG{p}{,}\PYG{l+m+mi}{2}\PYG{p}{,}\PYG{l+m+mi}{3}\PYG{p}{,} \PYG{l+m+mi}{4}\PYG{p}{]}\PYG{p}{,} \PYG{p}{[}\PYG{l+s+s1}{\PYGZsq{}}\PYG{l+s+s1}{speed}\PYG{l+s+s1}{\PYGZsq{}}\PYG{p}{]}\PYG{p}{)}
+\PYG{g+gp}{\PYGZgt{}\PYGZgt{}\PYGZgt{} }\PYG{n}{pdp}\PYG{o}{.}\PYG{n}{Bin}\PYG{p}{(}\PYG{p}{\PYGZob{}}\PYG{l+s+s1}{\PYGZsq{}}\PYG{l+s+s1}{speed}\PYG{l+s+s1}{\PYGZsq{}}\PYG{p}{:} \PYG{p}{[}\PYG{l+m+mi}{5}\PYG{p}{]}\PYG{p}{\PYGZcb{}}\PYG{p}{,} \PYG{n}{drop}\PYG{o}{=}\PYG{k+kc}{False}\PYG{p}{)}\PYG{o}{.}\PYG{n}{apply}\PYG{p}{(}\PYG{n}{df}\PYG{p}{)}
+\PYG{g+go}{   speed speed\PYGZus{}bin}
+\PYG{g+go}{1     \PYGZhy{}3        \PYGZlt{}5}
+\PYG{g+go}{2      4        \PYGZlt{}5}
+\PYG{g+go}{3      5        5≤}
+\PYG{g+go}{4      9        5≤}
+\PYG{g+gp}{\PYGZgt{}\PYGZgt{}\PYGZgt{} }\PYG{n}{pdp}\PYG{o}{.}\PYG{n}{Bin}\PYG{p}{(}\PYG{p}{\PYGZob{}}\PYG{l+s+s1}{\PYGZsq{}}\PYG{l+s+s1}{speed}\PYG{l+s+s1}{\PYGZsq{}}\PYG{p}{:} \PYG{p}{[}\PYG{l+m+mi}{0}\PYG{p}{,}\PYG{l+m+mi}{5}\PYG{p}{,}\PYG{l+m+mi}{8}\PYG{p}{]}\PYG{p}{\PYGZcb{}}\PYG{p}{,} \PYG{n}{drop}\PYG{o}{=}\PYG{k+kc}{False}\PYG{p}{)}\PYG{o}{.}\PYG{n}{apply}\PYG{p}{(}\PYG{n}{df}\PYG{p}{)}
+\PYG{g+go}{   speed speed\PYGZus{}bin}
+\PYG{g+go}{1     \PYGZhy{}3        \PYGZlt{}0}
+\PYG{g+go}{2      4       0\PYGZhy{}5}
+\PYG{g+go}{3      5       5\PYGZhy{}8}
+\PYG{g+go}{4      9        8≤}
+\end{sphinxVerbatim}
+
+\end{fulllineitems}
+
+\index{BoxCox (class in dalio.pipe.col\_generation)@\spxentry{BoxCox}\spxextra{class in dalio.pipe.col\_generation}}
+
+\begin{fulllineitems}
+\phantomsection\label{\detokenize{dalio.pipe:dalio.pipe.col_generation.BoxCox}}\pysiglinewithargsret{\sphinxbfcode{\sphinxupquote{class }}\sphinxcode{\sphinxupquote{dalio.pipe.col\_generation.}}\sphinxbfcode{\sphinxupquote{BoxCox}}}{\emph{*args}, \emph{columns=None}, \emph{new\_cols=None}, \emph{non\_neg=False}, \emph{const\_shift=None}, \emph{drop=True}, \emph{reintegrate=False}, \emph{**kwargs}}{}
+Bases: {\hyperref[\detokenize{dalio.pipe:dalio.pipe.col_generation.Custom}]{\sphinxcrossref{\sphinxcode{\sphinxupquote{dalio.pipe.col\_generation.Custom}}}}}
+
+A pipeline stage that applies the BoxCox transformation on data.
+\index{const\_shift (dalio.pipe.col\_generation.BoxCox attribute)@\spxentry{const\_shift}\spxextra{dalio.pipe.col\_generation.BoxCox attribute}}
+
+\begin{fulllineitems}
+\phantomsection\label{\detokenize{dalio.pipe:dalio.pipe.col_generation.BoxCox.const_shift}}\pysigline{\sphinxbfcode{\sphinxupquote{const\_shift}}}
+If given, each transformed column is
+first shifted by this constant. If non\_neg is True then that
+transformation is applied first, and only then is the column
+shifted by this constant.
+\begin{quote}\begin{description}
+\item[{Type}] \leavevmode
+int, optional
+
+\end{description}\end{quote}
+
+\end{fulllineitems}
+
+
+\end{fulllineitems}
+
 \index{Change (class in dalio.pipe.col\_generation)@\spxentry{Change}\spxextra{class in dalio.pipe.col\_generation}}
 
 \begin{fulllineitems}
-\phantomsection\label{\detokenize{dalio.pipe:dalio.pipe.col_generation.Change}}\pysiglinewithargsret{\sphinxbfcode{\sphinxupquote{class }}\sphinxcode{\sphinxupquote{dalio.pipe.col\_generation.}}\sphinxbfcode{\sphinxupquote{Change}}}{\emph{strategy=\textquotesingle{}pct\_change\textquotesingle{}}, \emph{cols=None}, \emph{new\_cols=None}}{}
-Bases: {\hyperref[\detokenize{dalio.pipe:dalio.pipe.pipe.Pipe}]{\sphinxcrossref{\sphinxcode{\sphinxupquote{dalio.pipe.pipe.Pipe}}}}}
+\phantomsection\label{\detokenize{dalio.pipe:dalio.pipe.col_generation.Change}}\pysiglinewithargsret{\sphinxbfcode{\sphinxupquote{class }}\sphinxcode{\sphinxupquote{dalio.pipe.col\_generation.}}\sphinxbfcode{\sphinxupquote{Change}}}{\emph{*args}, \emph{strategy=\textquotesingle{}diff\textquotesingle{}}, \emph{columns=None}, \emph{new\_cols=None}, \emph{drop=True}, \emph{reintegrate=False}, \emph{**kwargs}}{}
+Bases: \sphinxcode{\sphinxupquote{dalio.pipe.col\_generation.\_ColGeneration}}
 
 Perform item\sphinxhyphen{}by\sphinxhyphen{}item change
 
@@ -1578,19 +1669,6 @@ change strategy.
 \begin{quote}\begin{description}
 \item[{Type}] \leavevmode
 str, callable
-
-\end{description}\end{quote}
-
-\end{fulllineitems}
-
-\index{\_new\_cols (dalio.pipe.col\_generation.Change attribute)@\spxentry{\_new\_cols}\spxextra{dalio.pipe.col\_generation.Change attribute}}
-
-\begin{fulllineitems}
-\phantomsection\label{\detokenize{dalio.pipe:dalio.pipe.col_generation.Change._new_cols}}\pysigline{\sphinxbfcode{\sphinxupquote{\_new\_cols}}}
-either list of new columns or suffix.
-\begin{quote}\begin{description}
-\item[{Type}] \leavevmode
-list, str
 
 \end{description}\end{quote}
 
@@ -1626,63 +1704,121 @@ attributes and empty input.
 
 \end{fulllineitems}
 
-\index{transform() (dalio.pipe.col\_generation.Change method)@\spxentry{transform()}\spxextra{dalio.pipe.col\_generation.Change method}}
-
-\begin{fulllineitems}
-\phantomsection\label{\detokenize{dalio.pipe:dalio.pipe.col_generation.Change.transform}}\pysiglinewithargsret{\sphinxbfcode{\sphinxupquote{transform}}}{\emph{data}, \emph{**kwargs}}{}
-Applies change transformation to sourced data
 
 \end{fulllineitems}
 
+\index{Custom (class in dalio.pipe.col\_generation)@\spxentry{Custom}\spxextra{class in dalio.pipe.col\_generation}}
+
+\begin{fulllineitems}
+\phantomsection\label{\detokenize{dalio.pipe:dalio.pipe.col_generation.Custom}}\pysiglinewithargsret{\sphinxbfcode{\sphinxupquote{class }}\sphinxcode{\sphinxupquote{dalio.pipe.col\_generation.}}\sphinxbfcode{\sphinxupquote{Custom}}}{\emph{func}, \emph{*args}, \emph{columns=None}, \emph{new\_cols=None}, \emph{strategy=\textquotesingle{}apply\textquotesingle{}}, \emph{axis=0}, \emph{drop=True}, \emph{reintegrate=False}, \emph{**kwargs}}{}
+Bases: \sphinxcode{\sphinxupquote{dalio.pipe.col\_generation.\_ColGeneration}}
+
+Apply custom function.
+\index{strategy (dalio.pipe.col\_generation.Custom attribute)@\spxentry{strategy}\spxextra{dalio.pipe.col\_generation.Custom attribute}}
+
+\begin{fulllineitems}
+\phantomsection\label{\detokenize{dalio.pipe:dalio.pipe.col_generation.Custom.strategy}}\pysigline{\sphinxbfcode{\sphinxupquote{strategy}}}
+strategy for applying value function.
+One of {[}“apply”, “transform”, “agg”, “pipe”{]}
+\begin{quote}\begin{description}
+\item[{Type}] \leavevmode
+str, default “pipe”
+
+\end{description}\end{quote}
+
+\end{fulllineitems}
+
+\index{copy() (dalio.pipe.col\_generation.Custom method)@\spxentry{copy()}\spxextra{dalio.pipe.col\_generation.Custom method}}
+
+\begin{fulllineitems}
+\phantomsection\label{\detokenize{dalio.pipe:dalio.pipe.col_generation.Custom.copy}}\pysiglinewithargsret{\sphinxbfcode{\sphinxupquote{copy}}}{\emph{*args}, \emph{**kwargs}}{}
+Makes a copy of transformer, copying its attributes to a new
+instance.
+
+This copy should essentially create a new transformation node, not an
+entire new graph, so the \_source attribute of the returned instance
+should be assigned without being copied. This is also made to be built
+upon by subclasses, such that only new attributes need to be added to
+a class’ copy method.
+\begin{quote}\begin{description}
+\item[{Parameters}] \leavevmode\begin{itemize}
+\item {} 
+\sphinxstyleliteralstrong{\sphinxupquote{*args}} \textendash{} Positional arguments to be passed to initialize copy
+
+\item {} 
+\sphinxstyleliteralstrong{\sphinxupquote{**kwargs}} \textendash{} Keyword arguments to be passed to initialize copy
+
+\end{itemize}
+
+\item[{Returns}] \leavevmode
+A copy of this \_Transformer instance with copies of necessary
+attributes and empty input.
+
+\end{description}\end{quote}
+
+\end{fulllineitems}
+
+
+\end{fulllineitems}
+
+\index{CustomByCols (class in dalio.pipe.col\_generation)@\spxentry{CustomByCols}\spxextra{class in dalio.pipe.col\_generation}}
+
+\begin{fulllineitems}
+\phantomsection\label{\detokenize{dalio.pipe:dalio.pipe.col_generation.CustomByCols}}\pysiglinewithargsret{\sphinxbfcode{\sphinxupquote{class }}\sphinxcode{\sphinxupquote{dalio.pipe.col\_generation.}}\sphinxbfcode{\sphinxupquote{CustomByCols}}}{\emph{func}, \emph{*args}, \emph{strategy=\textquotesingle{}apply\textquotesingle{}}, \emph{columns=None}, \emph{new\_cols=None}, \emph{drop=True}, \emph{reintegrate=False}, \emph{**kwargs}}{}
+Bases: {\hyperref[\detokenize{dalio.pipe:dalio.pipe.col_generation.Custom}]{\sphinxcrossref{\sphinxcode{\sphinxupquote{dalio.pipe.col\_generation.Custom}}}}}
+
+A pipeline stage applying a function to individual columns iteratively.
+\index{func (dalio.pipe.col\_generation.CustomByCols attribute)@\spxentry{func}\spxextra{dalio.pipe.col\_generation.CustomByCols attribute}}
+
+\begin{fulllineitems}
+\phantomsection\label{\detokenize{dalio.pipe:dalio.pipe.col_generation.CustomByCols.func}}\pysigline{\sphinxbfcode{\sphinxupquote{func}}}
+The function to be applied to each element of the
+given columns.
+\begin{quote}\begin{description}
+\item[{Type}] \leavevmode
+function
+
+\end{description}\end{quote}
+
+\end{fulllineitems}
+
+\index{strategy (dalio.pipe.col\_generation.CustomByCols attribute)@\spxentry{strategy}\spxextra{dalio.pipe.col\_generation.CustomByCols attribute}}
+
+\begin{fulllineitems}
+\phantomsection\label{\detokenize{dalio.pipe:dalio.pipe.col_generation.CustomByCols.strategy}}\pysigline{\sphinxbfcode{\sphinxupquote{strategy}}}
+Application strategy. Different from Custom class’
+strategy parameter (which here is kept at “apply”) as this will
+now be done on a series (each column). Extra care should be taken
+to ensure resulting column lengths match.
+\begin{quote}\begin{description}
+\item[{Type}] \leavevmode
+str
+
+\end{description}\end{quote}
+
+\end{fulllineitems}
+
+\subsubsection*{Example}
+
+\begin{sphinxVerbatim}[commandchars=\\\{\}]
+\PYG{g+gp}{\PYGZgt{}\PYGZgt{}\PYGZgt{} }\PYG{k+kn}{import} \PYG{n+nn}{pandas} \PYG{k}{as} \PYG{n+nn}{pd}\PYG{p}{;} \PYG{k+kn}{import} \PYG{n+nn}{pdpipe} \PYG{k}{as} \PYG{n+nn}{pdp}\PYG{p}{;} \PYG{k+kn}{import} \PYG{n+nn}{math}\PYG{p}{;}
+\PYG{g+gp}{\PYGZgt{}\PYGZgt{}\PYGZgt{} }\PYG{n}{data} \PYG{o}{=} \PYG{p}{[}\PYG{p}{[}\PYG{l+m+mf}{3.2}\PYG{p}{,} \PYG{l+s+s2}{\PYGZdq{}}\PYG{l+s+s2}{acd}\PYG{l+s+s2}{\PYGZdq{}}\PYG{p}{]}\PYG{p}{,} \PYG{p}{[}\PYG{l+m+mf}{7.2}\PYG{p}{,} \PYG{l+s+s2}{\PYGZdq{}}\PYG{l+s+s2}{alk}\PYG{l+s+s2}{\PYGZdq{}}\PYG{p}{]}\PYG{p}{,} \PYG{p}{[}\PYG{l+m+mf}{12.1}\PYG{p}{,} \PYG{l+s+s2}{\PYGZdq{}}\PYG{l+s+s2}{alk}\PYG{l+s+s2}{\PYGZdq{}}\PYG{p}{]}\PYG{p}{]}
+\PYG{g+gp}{\PYGZgt{}\PYGZgt{}\PYGZgt{} }\PYG{n}{df} \PYG{o}{=} \PYG{n}{pd}\PYG{o}{.}\PYG{n}{DataFrame}\PYG{p}{(}\PYG{n}{data}\PYG{p}{,} \PYG{p}{[}\PYG{l+m+mi}{1}\PYG{p}{,}\PYG{l+m+mi}{2}\PYG{p}{,}\PYG{l+m+mi}{3}\PYG{p}{]}\PYG{p}{,} \PYG{p}{[}\PYG{l+s+s2}{\PYGZdq{}}\PYG{l+s+s2}{ph}\PYG{l+s+s2}{\PYGZdq{}}\PYG{p}{,}\PYG{l+s+s2}{\PYGZdq{}}\PYG{l+s+s2}{lbl}\PYG{l+s+s2}{\PYGZdq{}}\PYG{p}{]}\PYG{p}{)}
+\PYG{g+gp}{\PYGZgt{}\PYGZgt{}\PYGZgt{} }\PYG{n}{round\PYGZus{}ph} \PYG{o}{=} \PYG{n}{pdp}\PYG{o}{.}\PYG{n}{ApplyByCols}\PYG{p}{(}\PYG{l+s+s2}{\PYGZdq{}}\PYG{l+s+s2}{ph}\PYG{l+s+s2}{\PYGZdq{}}\PYG{p}{,} \PYG{n}{math}\PYG{o}{.}\PYG{n}{ceil}\PYG{p}{)}
+\PYG{g+gp}{\PYGZgt{}\PYGZgt{}\PYGZgt{} }\PYG{n}{round\PYGZus{}ph}\PYG{p}{(}\PYG{n}{df}\PYG{p}{)}
+\PYG{g+go}{   ph  lbl}
+\PYG{g+go}{1   4  acd}
+\PYG{g+go}{2   8  alk}
+\PYG{g+go}{3  13  alk}
+\end{sphinxVerbatim}
 
 \end{fulllineitems}
 
 \index{Index (class in dalio.pipe.col\_generation)@\spxentry{Index}\spxextra{class in dalio.pipe.col\_generation}}
 
 \begin{fulllineitems}
-\phantomsection\label{\detokenize{dalio.pipe:dalio.pipe.col_generation.Index}}\pysiglinewithargsret{\sphinxbfcode{\sphinxupquote{class }}\sphinxcode{\sphinxupquote{dalio.pipe.col\_generation.}}\sphinxbfcode{\sphinxupquote{Index}}}{\emph{index\_at}, \emph{cols=None}, \emph{groupby=None}}{}
-Bases: {\hyperref[\detokenize{dalio.pipe:dalio.pipe.pipe.Pipe}]{\sphinxcrossref{\sphinxcode{\sphinxupquote{dalio.pipe.pipe.Pipe}}}}}
-
-Index data at a specified value
-\index{index\_at (dalio.pipe.col\_generation.Index attribute)@\spxentry{index\_at}\spxextra{dalio.pipe.col\_generation.Index attribute}}
-
-\begin{fulllineitems}
-\phantomsection\label{\detokenize{dalio.pipe:dalio.pipe.col_generation.Index.index_at}}\pysigline{\sphinxbfcode{\sphinxupquote{index\_at}}}
-value to index data at
-\begin{quote}\begin{description}
-\item[{Type}] \leavevmode
-int, float
-
-\end{description}\end{quote}
-
-\end{fulllineitems}
-
-\index{\_cols (dalio.pipe.col\_generation.Index attribute)@\spxentry{\_cols}\spxextra{dalio.pipe.col\_generation.Index attribute}}
-
-\begin{fulllineitems}
-\phantomsection\label{\detokenize{dalio.pipe:dalio.pipe.col_generation.Index._cols}}\pysigline{\sphinxbfcode{\sphinxupquote{\_cols}}}
-columns to index
-\begin{quote}\begin{description}
-\item[{Type}] \leavevmode
-list
-
-\end{description}\end{quote}
-
-\end{fulllineitems}
-
-\index{\_groupby (dalio.pipe.col\_generation.Index attribute)@\spxentry{\_groupby}\spxextra{dalio.pipe.col\_generation.Index attribute}}
-
-\begin{fulllineitems}
-\phantomsection\label{\detokenize{dalio.pipe:dalio.pipe.col_generation.Index._groupby}}\pysigline{\sphinxbfcode{\sphinxupquote{\_groupby}}}
-columns to group data by
-\begin{quote}\begin{description}
-\item[{Type}] \leavevmode
-list
-
-\end{description}\end{quote}
-
-\end{fulllineitems}
-
+\phantomsection\label{\detokenize{dalio.pipe:dalio.pipe.col_generation.Index}}\pysiglinewithargsret{\sphinxbfcode{\sphinxupquote{class }}\sphinxcode{\sphinxupquote{dalio.pipe.col\_generation.}}\sphinxbfcode{\sphinxupquote{Index}}}{\emph{index\_at}, \emph{*args}, \emph{columns=None}, \emph{new\_cols=None}, \emph{drop=True}, \emph{reintegrate=False}, \emph{**kwargs}}{}
+Bases: \sphinxcode{\sphinxupquote{dalio.pipe.col\_generation.\_ColGeneration}}
 \index{copy() (dalio.pipe.col\_generation.Index method)@\spxentry{copy()}\spxextra{dalio.pipe.col\_generation.Index method}}
 
 \begin{fulllineitems}
@@ -1713,62 +1849,132 @@ attributes and empty input.
 
 \end{fulllineitems}
 
-\index{index\_at (dalio.pipe.col\_generation.Index attribute)@\spxentry{index\_at}\spxextra{dalio.pipe.col\_generation.Index attribute}}
-
-\begin{fulllineitems}
-\pysigline{\sphinxbfcode{\sphinxupquote{index\_at}}\sphinxbfcode{\sphinxupquote{: int}}\sphinxbfcode{\sphinxupquote{ = None}}}
-\end{fulllineitems}
-
-\index{transform() (dalio.pipe.col\_generation.Index method)@\spxentry{transform()}\spxextra{dalio.pipe.col\_generation.Index method}}
-
-\begin{fulllineitems}
-\phantomsection\label{\detokenize{dalio.pipe:dalio.pipe.col_generation.Index.transform}}\pysiglinewithargsret{\sphinxbfcode{\sphinxupquote{transform}}}{\emph{data}, \emph{**kwargs}}{}
-Perform indexing
 
 \end{fulllineitems}
 
+\index{Log (class in dalio.pipe.col\_generation)@\spxentry{Log}\spxextra{class in dalio.pipe.col\_generation}}
+
+\begin{fulllineitems}
+\phantomsection\label{\detokenize{dalio.pipe:dalio.pipe.col_generation.Log}}\pysiglinewithargsret{\sphinxbfcode{\sphinxupquote{class }}\sphinxcode{\sphinxupquote{dalio.pipe.col\_generation.}}\sphinxbfcode{\sphinxupquote{Log}}}{\emph{*args}, \emph{columns=None}, \emph{new\_cols=None}, \emph{non\_neg=False}, \emph{const\_shift=None}, \emph{drop=True}, \emph{reintegrate=False}, \emph{**kwargs}}{}
+Bases: {\hyperref[\detokenize{dalio.pipe:dalio.pipe.col_generation.Custom}]{\sphinxcrossref{\sphinxcode{\sphinxupquote{dalio.pipe.col\_generation.Custom}}}}}
+
+A pipeline stage that log\sphinxhyphen{}transforms numeric data.
+\index{non\_neg (dalio.pipe.col\_generation.Log attribute)@\spxentry{non\_neg}\spxextra{dalio.pipe.col\_generation.Log attribute}}
+
+\begin{fulllineitems}
+\phantomsection\label{\detokenize{dalio.pipe:dalio.pipe.col_generation.Log.non_neg}}\pysigline{\sphinxbfcode{\sphinxupquote{non\_neg}}}
+If True, each transformed column is
+first shifted by smallest negative value it includes
+(non\sphinxhyphen{}negative columns are thus not shifted).
+\begin{quote}\begin{description}
+\item[{Type}] \leavevmode
+bool, default False
+
+\end{description}\end{quote}
+
+\end{fulllineitems}
+
+\index{const\_shift (dalio.pipe.col\_generation.Log attribute)@\spxentry{const\_shift}\spxextra{dalio.pipe.col\_generation.Log attribute}}
+
+\begin{fulllineitems}
+\phantomsection\label{\detokenize{dalio.pipe:dalio.pipe.col_generation.Log.const_shift}}\pysigline{\sphinxbfcode{\sphinxupquote{const\_shift}}}
+If given, each transformed column is
+first shifted by this constant. If non\_neg is True then that
+transformation is applied first, and only then is the column
+shifted by this constant.
+\begin{quote}\begin{description}
+\item[{Type}] \leavevmode
+int, optional
+
+\end{description}\end{quote}
+
+\end{fulllineitems}
+
+\subsubsection*{Example}
+
+\begin{sphinxVerbatim}[commandchars=\\\{\}]
+\PYG{g+gp}{\PYGZgt{}\PYGZgt{}\PYGZgt{} }\PYG{k+kn}{import} \PYG{n+nn}{pandas} \PYG{k}{as} \PYG{n+nn}{pd}\PYG{p}{;} \PYG{k+kn}{import} \PYG{n+nn}{pdpipe} \PYG{k}{as} \PYG{n+nn}{pdp}\PYG{p}{;}
+\PYG{g+gp}{\PYGZgt{}\PYGZgt{}\PYGZgt{} }\PYG{n}{data} \PYG{o}{=} \PYG{p}{[}\PYG{p}{[}\PYG{l+m+mf}{3.2}\PYG{p}{,} \PYG{l+s+s2}{\PYGZdq{}}\PYG{l+s+s2}{acd}\PYG{l+s+s2}{\PYGZdq{}}\PYG{p}{]}\PYG{p}{,} \PYG{p}{[}\PYG{l+m+mf}{7.2}\PYG{p}{,} \PYG{l+s+s2}{\PYGZdq{}}\PYG{l+s+s2}{alk}\PYG{l+s+s2}{\PYGZdq{}}\PYG{p}{]}\PYG{p}{,} \PYG{p}{[}\PYG{l+m+mf}{12.1}\PYG{p}{,} \PYG{l+s+s2}{\PYGZdq{}}\PYG{l+s+s2}{alk}\PYG{l+s+s2}{\PYGZdq{}}\PYG{p}{]}\PYG{p}{]}
+\PYG{g+gp}{\PYGZgt{}\PYGZgt{}\PYGZgt{} }\PYG{n}{df} \PYG{o}{=} \PYG{n}{pd}\PYG{o}{.}\PYG{n}{DataFrame}\PYG{p}{(}\PYG{n}{data}\PYG{p}{,} \PYG{p}{[}\PYG{l+m+mi}{1}\PYG{p}{,}\PYG{l+m+mi}{2}\PYG{p}{,}\PYG{l+m+mi}{3}\PYG{p}{]}\PYG{p}{,} \PYG{p}{[}\PYG{l+s+s2}{\PYGZdq{}}\PYG{l+s+s2}{ph}\PYG{l+s+s2}{\PYGZdq{}}\PYG{p}{,}\PYG{l+s+s2}{\PYGZdq{}}\PYG{l+s+s2}{lbl}\PYG{l+s+s2}{\PYGZdq{}}\PYG{p}{]}\PYG{p}{)}
+\PYG{g+gp}{\PYGZgt{}\PYGZgt{}\PYGZgt{} }\PYG{n}{log\PYGZus{}stage} \PYG{o}{=} \PYG{n}{pdp}\PYG{o}{.}\PYG{n}{Log}\PYG{p}{(}\PYG{l+s+s2}{\PYGZdq{}}\PYG{l+s+s2}{ph}\PYG{l+s+s2}{\PYGZdq{}}\PYG{p}{,} \PYG{n}{drop}\PYG{o}{=}\PYG{k+kc}{True}\PYG{p}{)}
+\PYG{g+gp}{\PYGZgt{}\PYGZgt{}\PYGZgt{} }\PYG{n}{log\PYGZus{}stage}\PYG{p}{(}\PYG{n}{df}\PYG{p}{)}
+\PYG{g+go}{         ph  lbl}
+\PYG{g+go}{1  1.163151  acd}
+\PYG{g+go}{2  1.974081  alk}
+\PYG{g+go}{3  2.493205  alk}
+\end{sphinxVerbatim}
+
+\end{fulllineitems}
+
+\index{MapColVals (class in dalio.pipe.col\_generation)@\spxentry{MapColVals}\spxextra{class in dalio.pipe.col\_generation}}
+
+\begin{fulllineitems}
+\phantomsection\label{\detokenize{dalio.pipe:dalio.pipe.col_generation.MapColVals}}\pysiglinewithargsret{\sphinxbfcode{\sphinxupquote{class }}\sphinxcode{\sphinxupquote{dalio.pipe.col\_generation.}}\sphinxbfcode{\sphinxupquote{MapColVals}}}{\emph{value\_map}, \emph{*args}, \emph{columns=None}, \emph{new\_cols=None}, \emph{drop=True}, \emph{reintegrate=False}, \emph{**kwargs}}{}
+Bases: {\hyperref[\detokenize{dalio.pipe:dalio.pipe.col_generation.Custom}]{\sphinxcrossref{\sphinxcode{\sphinxupquote{dalio.pipe.col\_generation.Custom}}}}}
+
+A pipeline stage that reintegrates the values of a column by a map.
+\index{value\_map (dalio.pipe.col\_generation.MapColVals attribute)@\spxentry{value\_map}\spxextra{dalio.pipe.col\_generation.MapColVals attribute}}
+
+\begin{fulllineitems}
+\phantomsection\label{\detokenize{dalio.pipe:dalio.pipe.col_generation.MapColVals.value_map}}\pysigline{\sphinxbfcode{\sphinxupquote{value\_map}}}
+A dictionary mapping
+existing values to new ones. Values not in the dictionary as keys
+will be converted to NaN. If a function is given, it is applied
+element\sphinxhyphen{}wise to given columns. If a Series is given, values are
+mapped by its index to its values.
+\begin{quote}\begin{description}
+\item[{Type}] \leavevmode
+dict, function or pandas.Series
+
+\end{description}\end{quote}
+
+\end{fulllineitems}
+
+\subsubsection*{Example}
+
+\begin{sphinxVerbatim}[commandchars=\\\{\}]
+\PYG{g+gp}{\PYGZgt{}\PYGZgt{}\PYGZgt{} }\PYG{k+kn}{import} \PYG{n+nn}{pandas} \PYG{k}{as} \PYG{n+nn}{pd}\PYG{p}{;} \PYG{k+kn}{import} \PYG{n+nn}{pdpipe} \PYG{k}{as} \PYG{n+nn}{pdp}\PYG{p}{;}
+\PYG{g+gp}{\PYGZgt{}\PYGZgt{}\PYGZgt{} }\PYG{n}{df} \PYG{o}{=} \PYG{n}{pd}\PYG{o}{.}\PYG{n}{DataFrame}\PYG{p}{(}\PYG{p}{[}\PYG{p}{[}\PYG{l+m+mi}{1}\PYG{p}{]}\PYG{p}{,} \PYG{p}{[}\PYG{l+m+mi}{3}\PYG{p}{]}\PYG{p}{,} \PYG{p}{[}\PYG{l+m+mi}{2}\PYG{p}{]}\PYG{p}{]}\PYG{p}{,} \PYG{p}{[}\PYG{l+s+s1}{\PYGZsq{}}\PYG{l+s+s1}{UK}\PYG{l+s+s1}{\PYGZsq{}}\PYG{p}{,} \PYG{l+s+s1}{\PYGZsq{}}\PYG{l+s+s1}{USSR}\PYG{l+s+s1}{\PYGZsq{}}\PYG{p}{,} \PYG{l+s+s1}{\PYGZsq{}}\PYG{l+s+s1}{US}\PYG{l+s+s1}{\PYGZsq{}}\PYG{p}{]}\PYG{p}{,} \PYG{p}{[}\PYG{l+s+s1}{\PYGZsq{}}\PYG{l+s+s1}{Medal}\PYG{l+s+s1}{\PYGZsq{}}\PYG{p}{]}\PYG{p}{)}
+\PYG{g+gp}{\PYGZgt{}\PYGZgt{}\PYGZgt{} }\PYG{n}{value\PYGZus{}map} \PYG{o}{=} \PYG{p}{\PYGZob{}}\PYG{l+m+mi}{1}\PYG{p}{:} \PYG{l+s+s1}{\PYGZsq{}}\PYG{l+s+s1}{Gold}\PYG{l+s+s1}{\PYGZsq{}}\PYG{p}{,} \PYG{l+m+mi}{2}\PYG{p}{:} \PYG{l+s+s1}{\PYGZsq{}}\PYG{l+s+s1}{Silver}\PYG{l+s+s1}{\PYGZsq{}}\PYG{p}{,} \PYG{l+m+mi}{3}\PYG{p}{:} \PYG{l+s+s1}{\PYGZsq{}}\PYG{l+s+s1}{Bronze}\PYG{l+s+s1}{\PYGZsq{}}\PYG{p}{\PYGZcb{}}
+\PYG{g+gp}{\PYGZgt{}\PYGZgt{}\PYGZgt{} }\PYG{n}{pdp}\PYG{o}{.}\PYG{n}{MapColVals}\PYG{p}{(}\PYG{l+s+s1}{\PYGZsq{}}\PYG{l+s+s1}{Medal}\PYG{l+s+s1}{\PYGZsq{}}\PYG{p}{,} \PYG{n}{value\PYGZus{}map}\PYG{p}{)}\PYG{o}{.}\PYG{n}{apply}\PYG{p}{(}\PYG{n}{df}\PYG{p}{)}
+\PYG{g+go}{       Medal}
+\PYG{g+go}{UK      Gold}
+\PYG{g+go}{USSR  Bronze}
+\PYG{g+go}{US    Silver}
+\end{sphinxVerbatim}
 
 \end{fulllineitems}
 
 \index{Period (class in dalio.pipe.col\_generation)@\spxentry{Period}\spxextra{class in dalio.pipe.col\_generation}}
 
 \begin{fulllineitems}
-\phantomsection\label{\detokenize{dalio.pipe:dalio.pipe.col_generation.Period}}\pysiglinewithargsret{\sphinxbfcode{\sphinxupquote{class }}\sphinxcode{\sphinxupquote{dalio.pipe.col\_generation.}}\sphinxbfcode{\sphinxupquote{Period}}}{\emph{period=None}, \emph{agg\_func=\textless{}function mean\textgreater{}}}{}
-Bases: {\hyperref[\detokenize{dalio.pipe:dalio.pipe.pipe.Pipe}]{\sphinxcrossref{\sphinxcode{\sphinxupquote{dalio.pipe.pipe.Pipe}}}}}
+\phantomsection\label{\detokenize{dalio.pipe:dalio.pipe.col_generation.Period}}\pysiglinewithargsret{\sphinxbfcode{\sphinxupquote{class }}\sphinxcode{\sphinxupquote{dalio.pipe.col\_generation.}}\sphinxbfcode{\sphinxupquote{Period}}}{\emph{period}, \emph{*args}, \emph{agg\_func=\textless{}function mean\textgreater{}}, \emph{columns=None}, \emph{new\_cols=None}, \emph{axis=0}, \emph{drop=True}, \emph{reintegrate=False}, \emph{**kwargs}}{}
+Bases: \sphinxcode{\sphinxupquote{dalio.pipe.col\_generation.\_ColGeneration}}
 
 Resample input time series data to a different period
-\index{agg\_func (dalio.pipe.col\_generation.Period attribute)@\spxentry{agg\_func}\spxextra{dalio.pipe.col\_generation.Period attribute}}
+\begin{quote}
+\begin{description}
+\item[{Attributes:}] \leavevmode
+agg\_func (callable): function to aggregate data to one period.
 
-\begin{fulllineitems}
-\phantomsection\label{\detokenize{dalio.pipe:dalio.pipe.col_generation.Period.agg_func}}\pysigline{\sphinxbfcode{\sphinxupquote{agg\_func}}}
-function to aggregate data to one period.
+\end{description}
+\end{quote}
+\begin{description}
+\item[{\# Quandl Input}] \leavevmode\begin{quote}
+
 Default set to np.mean.
-\begin{quote}\begin{description}
-\item[{Type}] \leavevmode
-callable
-
-\end{description}\end{quote}
-
-\end{fulllineitems}
-
-\index{\_period (dalio.pipe.col\_generation.Period attribute)@\spxentry{\_period}\spxextra{dalio.pipe.col\_generation.Period attribute}}
-
-\begin{fulllineitems}
-\phantomsection\label{\detokenize{dalio.pipe:dalio.pipe.col_generation.Period._period}}\pysigline{\sphinxbfcode{\sphinxupquote{\_period}}}
-period to resample data to. Can be either daily,
+\end{quote}
+\begin{description}
+\item[{\_period (str): period to resample data to. Can be either daily,}] \leavevmode
 monthly, quarterly or yearly.
-\begin{quote}\begin{description}
-\item[{Type}] \leavevmode
-str
 
-\end{description}\end{quote}
+\end{description}
 
-\end{fulllineitems}
-
+\end{description}
 \index{agg\_func (dalio.pipe.col\_generation.Period attribute)@\spxentry{agg\_func}\spxextra{dalio.pipe.col\_generation.Period attribute}}
 
 \begin{fulllineitems}
-\pysigline{\sphinxbfcode{\sphinxupquote{agg\_func}}\sphinxbfcode{\sphinxupquote{: Callable{[}{[}Iterable{]}, Any{]}}}\sphinxbfcode{\sphinxupquote{ = None}}}
+\phantomsection\label{\detokenize{dalio.pipe:dalio.pipe.col_generation.Period.agg_func}}\pysigline{\sphinxbfcode{\sphinxupquote{agg\_func}}\sphinxbfcode{\sphinxupquote{: Callable{[}{[}Iterable{]}, Any{]}}}\sphinxbfcode{\sphinxupquote{ = None}}}
 \end{fulllineitems}
 
 \index{copy() (dalio.pipe.col\_generation.Period method)@\spxentry{copy()}\spxextra{dalio.pipe.col\_generation.Period method}}
@@ -1801,45 +2007,25 @@ attributes and empty input.
 
 \end{fulllineitems}
 
-\index{transform() (dalio.pipe.col\_generation.Period method)@\spxentry{transform()}\spxextra{dalio.pipe.col\_generation.Period method}}
-
-\begin{fulllineitems}
-\phantomsection\label{\detokenize{dalio.pipe:dalio.pipe.col_generation.Period.transform}}\pysiglinewithargsret{\sphinxbfcode{\sphinxupquote{transform}}}{\emph{data}, \emph{**kwargs}}{}
-Apply data resampling
-
-\end{fulllineitems}
-
 
 \end{fulllineitems}
 
 \index{Rolling (class in dalio.pipe.col\_generation)@\spxentry{Rolling}\spxextra{class in dalio.pipe.col\_generation}}
 
 \begin{fulllineitems}
-\phantomsection\label{\detokenize{dalio.pipe:dalio.pipe.col_generation.Rolling}}\pysiglinewithargsret{\sphinxbfcode{\sphinxupquote{class }}\sphinxcode{\sphinxupquote{dalio.pipe.col\_generation.}}\sphinxbfcode{\sphinxupquote{Rolling}}}{\emph{window=2}, \emph{rolling\_func=\textless{}function Rolling.\textless{}lambda\textgreater{}\textgreater{}}, \emph{cols=None}, \emph{new\_cols=None}}{}
-Bases: {\hyperref[\detokenize{dalio.pipe:dalio.pipe.pipe.Pipe}]{\sphinxcrossref{\sphinxcode{\sphinxupquote{dalio.pipe.pipe.Pipe}}}}}
+\phantomsection\label{\detokenize{dalio.pipe:dalio.pipe.col_generation.Rolling}}\pysiglinewithargsret{\sphinxbfcode{\sphinxupquote{class }}\sphinxcode{\sphinxupquote{dalio.pipe.col\_generation.}}\sphinxbfcode{\sphinxupquote{Rolling}}}{\emph{func}, \emph{*args}, \emph{columns=None}, \emph{new\_cols=None}, \emph{rolling\_window=2}, \emph{axis=0}, \emph{drop=True}, \emph{reintegrate=False}, \emph{**kwargs}}{}
+Bases: \sphinxcode{\sphinxupquote{dalio.pipe.col\_generation.\_ColGeneration}}
 
-Apply rolling function to columns
-\index{\_rolling\_func (dalio.pipe.col\_generation.Rolling attribute)@\spxentry{\_rolling\_func}\spxextra{dalio.pipe.col\_generation.Rolling attribute}}
-
-\begin{fulllineitems}
-\phantomsection\label{\detokenize{dalio.pipe:dalio.pipe.col_generation.Rolling._rolling_func}}\pysigline{\sphinxbfcode{\sphinxupquote{\_rolling\_func}}}
-function to be performed on a window.
-\begin{quote}\begin{description}
-\item[{Type}] \leavevmode
-callable
-
-\end{description}\end{quote}
-
-\end{fulllineitems}
-
-\index{\_window (dalio.pipe.col\_generation.Rolling attribute)@\spxentry{\_window}\spxextra{dalio.pipe.col\_generation.Rolling attribute}}
+Apply rolling function
+\index{rolling\_window (dalio.pipe.col\_generation.Rolling attribute)@\spxentry{rolling\_window}\spxextra{dalio.pipe.col\_generation.Rolling attribute}}
 
 \begin{fulllineitems}
-\phantomsection\label{\detokenize{dalio.pipe:dalio.pipe.col_generation.Rolling._window}}\pysigline{\sphinxbfcode{\sphinxupquote{\_window}}}
-size of the rolling window
+\phantomsection\label{\detokenize{dalio.pipe:dalio.pipe.col_generation.Rolling.rolling_window}}\pysigline{\sphinxbfcode{\sphinxupquote{rolling\_window}}}
+rolling window to apply
+function. If none, no rolling window is applied.
 \begin{quote}\begin{description}
 \item[{Type}] \leavevmode
-int
+int, defailt None
 
 \end{description}\end{quote}
 
@@ -1875,139 +2061,23 @@ attributes and empty input.
 
 \end{fulllineitems}
 
-\index{transform() (dalio.pipe.col\_generation.Rolling method)@\spxentry{transform()}\spxextra{dalio.pipe.col\_generation.Rolling method}}
-
-\begin{fulllineitems}
-\phantomsection\label{\detokenize{dalio.pipe:dalio.pipe.col_generation.Rolling.transform}}\pysiglinewithargsret{\sphinxbfcode{\sphinxupquote{transform}}}{\emph{data}, \emph{**kwargs}}{}
-Apply rolling transformation to sourced data
-
-\end{fulllineitems}
-
 
 \end{fulllineitems}
 
 \index{StockReturns (class in dalio.pipe.col\_generation)@\spxentry{StockReturns}\spxextra{class in dalio.pipe.col\_generation}}
 
 \begin{fulllineitems}
-\phantomsection\label{\detokenize{dalio.pipe:dalio.pipe.col_generation.StockReturns}}\pysiglinewithargsret{\sphinxbfcode{\sphinxupquote{class }}\sphinxcode{\sphinxupquote{dalio.pipe.col\_generation.}}\sphinxbfcode{\sphinxupquote{StockReturns}}}{\emph{cols=None}, \emph{new\_cols=False}}{}
-Bases: {\hyperref[\detokenize{dalio.pipe:dalio.pipe.col_generation.Change}]{\sphinxcrossref{\sphinxcode{\sphinxupquote{dalio.pipe.col\_generation.Change}}}}}
+\phantomsection\label{\detokenize{dalio.pipe:dalio.pipe.col_generation.StockReturns}}\pysiglinewithargsret{\sphinxbfcode{\sphinxupquote{class }}\sphinxcode{\sphinxupquote{dalio.pipe.col\_generation.}}\sphinxbfcode{\sphinxupquote{StockReturns}}}{\emph{columns=None}, \emph{new\_cols=None}, \emph{drop=True}, \emph{reintegrate=False}}{}
+Bases: \sphinxcode{\sphinxupquote{dalio.pipe.col\_generation.\_ColGeneration}}
 
 Perform percent change and minor aesthetic changes to data
-\index{transform() (dalio.pipe.col\_generation.StockReturns method)@\spxentry{transform()}\spxextra{dalio.pipe.col\_generation.StockReturns method}}
-
-\begin{fulllineitems}
-\phantomsection\label{\detokenize{dalio.pipe:dalio.pipe.col_generation.StockReturns.transform}}\pysiglinewithargsret{\sphinxbfcode{\sphinxupquote{transform}}}{\emph{data}, \emph{**kwargs}}{}
-Same as base class but with relevant presets and multiplying by
-100 for aesthetic purposes
-
-\end{fulllineitems}
-
 
 \end{fulllineitems}
 
 
 
 \section{dalio.pipe.custom}
-\label{\detokenize{dalio.pipe:module-dalio.pipe.custom}}\label{\detokenize{dalio.pipe:dalio-pipe-custom}}\index{dalio.pipe.custom (module)@\spxentry{dalio.pipe.custom}\spxextra{module}}
-Custom transformation
-\index{Custom (class in dalio.pipe.custom)@\spxentry{Custom}\spxextra{class in dalio.pipe.custom}}
-
-\begin{fulllineitems}
-\phantomsection\label{\detokenize{dalio.pipe:dalio.pipe.custom.Custom}}\pysiglinewithargsret{\sphinxbfcode{\sphinxupquote{class }}\sphinxcode{\sphinxupquote{dalio.pipe.custom.}}\sphinxbfcode{\sphinxupquote{Custom}}}{\emph{t\_func}, \emph{*args}, \emph{**kwargs}}{}
-Bases: {\hyperref[\detokenize{dalio.pipe:dalio.pipe.pipe.Pipe}]{\sphinxcrossref{\sphinxcode{\sphinxupquote{dalio.pipe.pipe.Pipe}}}}}
-
-Custom transformation for simple operations.
-
-These are very useful for simple operations or for testing, as no
-additional class definitions or understanding of the documentation is
-requred.
-\index{t\_func (dalio.pipe.custom.Custom attribute)@\spxentry{t\_func}\spxextra{dalio.pipe.custom.Custom attribute}}
-
-\begin{fulllineitems}
-\phantomsection\label{\detokenize{dalio.pipe:dalio.pipe.custom.Custom.t_func}}\pysigline{\sphinxbfcode{\sphinxupquote{t\_func}}}
-function to transform data with preset arguments.
-\begin{quote}\begin{description}
-\item[{Type}] \leavevmode
-callable
-
-\end{description}\end{quote}
-
-\end{fulllineitems}
-
-\index{\_args (dalio.pipe.custom.Custom attribute)@\spxentry{\_args}\spxextra{dalio.pipe.custom.Custom attribute}}
-
-\begin{fulllineitems}
-\phantomsection\label{\detokenize{dalio.pipe:dalio.pipe.custom.Custom._args}}\pysigline{\sphinxbfcode{\sphinxupquote{\_args}}}
-arguments to be passed onto the function at execution time.
-
-\end{fulllineitems}
-
-\index{\_kwargs (dalio.pipe.custom.Custom attribute)@\spxentry{\_kwargs}\spxextra{dalio.pipe.custom.Custom attribute}}
-
-\begin{fulllineitems}
-\phantomsection\label{\detokenize{dalio.pipe:dalio.pipe.custom.Custom._kwargs}}\pysigline{\sphinxbfcode{\sphinxupquote{\_kwargs}}}
-arguments to be passed onto the function at execution
-time.
-
-\end{fulllineitems}
-
-\index{copy() (dalio.pipe.custom.Custom method)@\spxentry{copy()}\spxextra{dalio.pipe.custom.Custom method}}
-
-\begin{fulllineitems}
-\phantomsection\label{\detokenize{dalio.pipe:dalio.pipe.custom.Custom.copy}}\pysiglinewithargsret{\sphinxbfcode{\sphinxupquote{copy}}}{\emph{*args}, \emph{**kwargs}}{}
-Makes a copy of transformer, copying its attributes to a new
-instance.
-
-This copy should essentially create a new transformation node, not an
-entire new graph, so the \_source attribute of the returned instance
-should be assigned without being copied. This is also made to be built
-upon by subclasses, such that only new attributes need to be added to
-a class’ copy method.
-\begin{quote}\begin{description}
-\item[{Parameters}] \leavevmode\begin{itemize}
-\item {} 
-\sphinxstyleliteralstrong{\sphinxupquote{*args}} \textendash{} Positional arguments to be passed to initialize copy
-
-\item {} 
-\sphinxstyleliteralstrong{\sphinxupquote{**kwargs}} \textendash{} Keyword arguments to be passed to initialize copy
-
-\end{itemize}
-
-\item[{Returns}] \leavevmode
-A copy of this \_Transformer instance with copies of necessary
-attributes and empty input.
-
-\end{description}\end{quote}
-
-\end{fulllineitems}
-
-\index{t\_func (dalio.pipe.custom.Custom attribute)@\spxentry{t\_func}\spxextra{dalio.pipe.custom.Custom attribute}}
-
-\begin{fulllineitems}
-\pysigline{\sphinxbfcode{\sphinxupquote{t\_func}}\sphinxbfcode{\sphinxupquote{: callable}}\sphinxbfcode{\sphinxupquote{ = None}}}
-\end{fulllineitems}
-
-\index{transform() (dalio.pipe.custom.Custom method)@\spxentry{transform()}\spxextra{dalio.pipe.custom.Custom method}}
-
-\begin{fulllineitems}
-\phantomsection\label{\detokenize{dalio.pipe:dalio.pipe.custom.Custom.transform}}\pysiglinewithargsret{\sphinxbfcode{\sphinxupquote{transform}}}{\emph{data}, \emph{**kwargs}}{}
-Apply a transformation to data returned from source.
-
-This is where the bulk of funtionality in a Pipe lies. And allows it
-to be highly customizable. This will often be the only method needed
-to be overwriten in subclasses.
-\begin{quote}\begin{description}
-\item[{Parameters}] \leavevmode
-\sphinxstyleliteralstrong{\sphinxupquote{data}} \textendash{} data returned by source.
-
-\end{description}\end{quote}
-
-\end{fulllineitems}
-
-
-\end{fulllineitems}
-
-
+\label{\detokenize{dalio.pipe:dalio-pipe-custom}}
 
 \section{dalio.pipe.forecast}
 \label{\detokenize{dalio.pipe:module-dalio.pipe.forecast}}\label{\detokenize{dalio.pipe:dalio-pipe-forecast}}\index{dalio.pipe.forecast (module)@\spxentry{dalio.pipe.forecast}\spxextra{module}}
@@ -2125,6 +2195,44 @@ input data definition
 
 \end{fulllineitems}
 
+\index{copy() (dalio.pipe.pipe.Pipe method)@\spxentry{copy()}\spxextra{dalio.pipe.pipe.Pipe method}}
+
+\begin{fulllineitems}
+\phantomsection\label{\detokenize{dalio.pipe:dalio.pipe.pipe.Pipe.copy}}\pysiglinewithargsret{\sphinxbfcode{\sphinxupquote{copy}}}{\emph{*args}, \emph{**kwargs}}{}
+Makes a copy of transformer, copying its attributes to a new
+instance.
+
+This copy should essentially create a new transformation node, not an
+entire new graph, so the \_source attribute of the returned instance
+should be assigned without being copied. This is also made to be built
+upon by subclasses, such that only new attributes need to be added to
+a class’ copy method.
+\begin{quote}\begin{description}
+\item[{Parameters}] \leavevmode\begin{itemize}
+\item {} 
+\sphinxstyleliteralstrong{\sphinxupquote{*args}} \textendash{} Positional arguments to be passed to initialize copy
+
+\item {} 
+\sphinxstyleliteralstrong{\sphinxupquote{**kwargs}} \textendash{} Keyword arguments to be passed to initialize copy
+
+\end{itemize}
+
+\item[{Returns}] \leavevmode
+A copy of this \_Transformer instance with copies of necessary
+attributes and empty input.
+
+\end{description}\end{quote}
+
+\end{fulllineitems}
+
+\index{get\_input() (dalio.pipe.pipe.Pipe method)@\spxentry{get\_input()}\spxextra{dalio.pipe.pipe.Pipe method}}
+
+\begin{fulllineitems}
+\phantomsection\label{\detokenize{dalio.pipe:dalio.pipe.pipe.Pipe.get_input}}\pysiglinewithargsret{\sphinxbfcode{\sphinxupquote{get\_input}}}{}{}
+Return the input transformer
+
+\end{fulllineitems}
+
 \index{pipeline() (dalio.pipe.pipe.Pipe method)@\spxentry{pipeline()}\spxextra{dalio.pipe.pipe.Pipe method}}
 
 \begin{fulllineitems}
@@ -2198,10 +2306,60 @@ Return copy of this transformer with the new data source.
 
 \end{fulllineitems}
 
+\index{PipeBuilder (class in dalio.pipe.pipe)@\spxentry{PipeBuilder}\spxextra{class in dalio.pipe.pipe}}
+
+\begin{fulllineitems}
+\phantomsection\label{\detokenize{dalio.pipe:dalio.pipe.pipe.PipeBuilder}}\pysigline{\sphinxbfcode{\sphinxupquote{class }}\sphinxcode{\sphinxupquote{dalio.pipe.pipe.}}\sphinxbfcode{\sphinxupquote{PipeBuilder}}}
+Bases: {\hyperref[\detokenize{dalio.pipe:dalio.pipe.pipe.Pipe}]{\sphinxcrossref{\sphinxcode{\sphinxupquote{dalio.pipe.pipe.Pipe}}}}}, \sphinxcode{\sphinxupquote{dalio.base.builder.\_Builder}}
+
+Hybrid builder type for complementing \_Transformer instances.
+
+These specify extra methods implemented by \_Transformer instances.
+\index{copy() (dalio.pipe.pipe.PipeBuilder method)@\spxentry{copy()}\spxextra{dalio.pipe.pipe.PipeBuilder method}}
+
+\begin{fulllineitems}
+\phantomsection\label{\detokenize{dalio.pipe:dalio.pipe.pipe.PipeBuilder.copy}}\pysiglinewithargsret{\sphinxbfcode{\sphinxupquote{copy}}}{\emph{*args}, \emph{**kwargs}}{}
+Makes a copy of transformer, copying its attributes to a new
+instance.
+
+This copy should essentially create a new transformation node, not an
+entire new graph, so the \_source attribute of the returned instance
+should be assigned without being copied. This is also made to be built
+upon by subclasses, such that only new attributes need to be added to
+a class’ copy method.
+\begin{quote}\begin{description}
+\item[{Parameters}] \leavevmode\begin{itemize}
+\item {} 
+\sphinxstyleliteralstrong{\sphinxupquote{*args}} \textendash{} Positional arguments to be passed to initialize copy
+
+\item {} 
+\sphinxstyleliteralstrong{\sphinxupquote{**kwargs}} \textendash{} Keyword arguments to be passed to initialize copy
+
+\end{itemize}
+
+\item[{Returns}] \leavevmode
+A copy of this \_Transformer instance with copies of necessary
+attributes and empty input.
+
+\end{description}\end{quote}
+
+\end{fulllineitems}
+
+\index{with\_piece() (dalio.pipe.pipe.PipeBuilder method)@\spxentry{with\_piece()}\spxextra{dalio.pipe.pipe.PipeBuilder method}}
+
+\begin{fulllineitems}
+\phantomsection\label{\detokenize{dalio.pipe:dalio.pipe.pipe.PipeBuilder.with_piece}}\pysiglinewithargsret{\sphinxbfcode{\sphinxupquote{with\_piece}}}{\emph{param}, \emph{name}, \emph{*args}, \emph{**kwargs}}{}
+Copy self and return with a new piece set
+
+\end{fulllineitems}
+
+
+\end{fulllineitems}
+
 \index{PipeLine (class in dalio.pipe.pipe)@\spxentry{PipeLine}\spxextra{class in dalio.pipe.pipe}}
 
 \begin{fulllineitems}
-\phantomsection\label{\detokenize{dalio.pipe:dalio.pipe.pipe.PipeLine}}\pysiglinewithargsret{\sphinxbfcode{\sphinxupquote{class }}\sphinxcode{\sphinxupquote{dalio.pipe.pipe.}}\sphinxbfcode{\sphinxupquote{PipeLine}}}{\emph{first}, \emph{*args}}{}
+\phantomsection\label{\detokenize{dalio.pipe:dalio.pipe.pipe.PipeLine}}\pysiglinewithargsret{\sphinxbfcode{\sphinxupquote{class }}\sphinxcode{\sphinxupquote{dalio.pipe.pipe.}}\sphinxbfcode{\sphinxupquote{PipeLine}}}{\emph{*args}}{}
 Bases: {\hyperref[\detokenize{dalio.pipe:dalio.pipe.pipe.Pipe}]{\sphinxcrossref{\sphinxcode{\sphinxupquote{dalio.pipe.pipe.Pipe}}}}}
 
 Collection of Pipe transformations.
@@ -2235,8 +2393,10 @@ Make a copy of this Pipeline
 \index{extend() (dalio.pipe.pipe.PipeLine method)@\spxentry{extend()}\spxextra{dalio.pipe.pipe.PipeLine method}}
 
 \begin{fulllineitems}
-\phantomsection\label{\detokenize{dalio.pipe:dalio.pipe.pipe.PipeLine.extend}}\pysiglinewithargsret{\sphinxbfcode{\sphinxupquote{extend}}}{\emph{*args}}{}
+\phantomsection\label{\detokenize{dalio.pipe:dalio.pipe.pipe.PipeLine.extend}}\pysiglinewithargsret{\sphinxbfcode{\sphinxupquote{extend}}}{\emph{*args}, \emph{deep=False}}{}
 Extend existing pipeline with one or more Pipe instances
+
+Keep in mind that this will not mean that
 
 \end{fulllineitems}
 
@@ -2260,176 +2420,7 @@ Pass data sourced from first pipe through every Pipe\textasciigrave{}s
 
 
 \section{dalio.pipe.selection}
-\label{\detokenize{dalio.pipe:module-dalio.pipe.selection}}\label{\detokenize{dalio.pipe:dalio-pipe-selection}}\index{dalio.pipe.selection (module)@\spxentry{dalio.pipe.selection}\spxextra{module}}
-Defines various ways of getting a subset of data based on some condition
-\index{ColSelect (class in dalio.pipe.selection)@\spxentry{ColSelect}\spxextra{class in dalio.pipe.selection}}
-
-\begin{fulllineitems}
-\phantomsection\label{\detokenize{dalio.pipe:dalio.pipe.selection.ColSelect}}\pysiglinewithargsret{\sphinxbfcode{\sphinxupquote{class }}\sphinxcode{\sphinxupquote{dalio.pipe.selection.}}\sphinxbfcode{\sphinxupquote{ColSelect}}}{\emph{cols=None}}{}
-Bases: {\hyperref[\detokenize{dalio.pipe:dalio.pipe.pipe.Pipe}]{\sphinxcrossref{\sphinxcode{\sphinxupquote{dalio.pipe.pipe.Pipe}}}}}
-
-Select columns.
-\index{\_cols (dalio.pipe.selection.ColSelect attribute)@\spxentry{\_cols}\spxextra{dalio.pipe.selection.ColSelect attribute}}
-
-\begin{fulllineitems}
-\phantomsection\label{\detokenize{dalio.pipe:dalio.pipe.selection.ColSelect._cols}}\pysigline{\sphinxbfcode{\sphinxupquote{\_cols}}}
-names of columns to select.
-\begin{quote}\begin{description}
-\item[{Type}] \leavevmode
-list
-
-\end{description}\end{quote}
-
-\end{fulllineitems}
-
-\index{copy() (dalio.pipe.selection.ColSelect method)@\spxentry{copy()}\spxextra{dalio.pipe.selection.ColSelect method}}
-
-\begin{fulllineitems}
-\phantomsection\label{\detokenize{dalio.pipe:dalio.pipe.selection.ColSelect.copy}}\pysiglinewithargsret{\sphinxbfcode{\sphinxupquote{copy}}}{\emph{*args}, \emph{**kwargs}}{}
-Makes a copy of transformer, copying its attributes to a new
-instance.
-
-This copy should essentially create a new transformation node, not an
-entire new graph, so the \_source attribute of the returned instance
-should be assigned without being copied. This is also made to be built
-upon by subclasses, such that only new attributes need to be added to
-a class’ copy method.
-\begin{quote}\begin{description}
-\item[{Parameters}] \leavevmode\begin{itemize}
-\item {} 
-\sphinxstyleliteralstrong{\sphinxupquote{*args}} \textendash{} Positional arguments to be passed to initialize copy
-
-\item {} 
-\sphinxstyleliteralstrong{\sphinxupquote{**kwargs}} \textendash{} Keyword arguments to be passed to initialize copy
-
-\end{itemize}
-
-\item[{Returns}] \leavevmode
-A copy of this \_Transformer instance with copies of necessary
-attributes and empty input.
-
-\end{description}\end{quote}
-
-\end{fulllineitems}
-
-\index{transform() (dalio.pipe.selection.ColSelect method)@\spxentry{transform()}\spxextra{dalio.pipe.selection.ColSelect method}}
-
-\begin{fulllineitems}
-\phantomsection\label{\detokenize{dalio.pipe:dalio.pipe.selection.ColSelect.transform}}\pysiglinewithargsret{\sphinxbfcode{\sphinxupquote{transform}}}{\emph{data}, \emph{**kwargs}}{}
-Selects the specified columns or returns data as is if no column
-was specified.
-\begin{quote}\begin{description}
-\item[{Returns}] \leavevmode
-Data of the same format as before but only only containing the
-specified columns.
-
-\end{description}\end{quote}
-
-\end{fulllineitems}
-
-
-\end{fulllineitems}
-
-\index{DateSelect (class in dalio.pipe.selection)@\spxentry{DateSelect}\spxextra{class in dalio.pipe.selection}}
-
-\begin{fulllineitems}
-\phantomsection\label{\detokenize{dalio.pipe:dalio.pipe.selection.DateSelect}}\pysiglinewithargsret{\sphinxbfcode{\sphinxupquote{class }}\sphinxcode{\sphinxupquote{dalio.pipe.selection.}}\sphinxbfcode{\sphinxupquote{DateSelect}}}{\emph{start=None}, \emph{end=None}}{}
-Bases: {\hyperref[\detokenize{dalio.pipe:dalio.pipe.pipe.Pipe}]{\sphinxcrossref{\sphinxcode{\sphinxupquote{dalio.pipe.pipe.Pipe}}}}}
-
-Select a date range.
-
-This is commonly left as a local variable to control date range being
-used at a piece of a graph.
-\index{\_start (dalio.pipe.selection.DateSelect attribute)@\spxentry{\_start}\spxextra{dalio.pipe.selection.DateSelect attribute}}
-
-\begin{fulllineitems}
-\phantomsection\label{\detokenize{dalio.pipe:dalio.pipe.selection.DateSelect._start}}\pysigline{\sphinxbfcode{\sphinxupquote{\_start}}}
-start date.
-\begin{quote}\begin{description}
-\item[{Type}] \leavevmode
-pd.Timestamp
-
-\end{description}\end{quote}
-
-\end{fulllineitems}
-
-\index{\_end (dalio.pipe.selection.DateSelect attribute)@\spxentry{\_end}\spxextra{dalio.pipe.selection.DateSelect attribute}}
-
-\begin{fulllineitems}
-\phantomsection\label{\detokenize{dalio.pipe:dalio.pipe.selection.DateSelect._end}}\pysigline{\sphinxbfcode{\sphinxupquote{\_end}}}
-end date.
-\begin{quote}\begin{description}
-\item[{Type}] \leavevmode
-pd.Timestamp
-
-\end{description}\end{quote}
-
-\end{fulllineitems}
-
-\index{copy() (dalio.pipe.selection.DateSelect method)@\spxentry{copy()}\spxextra{dalio.pipe.selection.DateSelect method}}
-
-\begin{fulllineitems}
-\phantomsection\label{\detokenize{dalio.pipe:dalio.pipe.selection.DateSelect.copy}}\pysiglinewithargsret{\sphinxbfcode{\sphinxupquote{copy}}}{\emph{*args}, \emph{**kwargs}}{}
-Makes a copy of transformer, copying its attributes to a new
-instance.
-
-This copy should essentially create a new transformation node, not an
-entire new graph, so the \_source attribute of the returned instance
-should be assigned without being copied. This is also made to be built
-upon by subclasses, such that only new attributes need to be added to
-a class’ copy method.
-\begin{quote}\begin{description}
-\item[{Parameters}] \leavevmode\begin{itemize}
-\item {} 
-\sphinxstyleliteralstrong{\sphinxupquote{*args}} \textendash{} Positional arguments to be passed to initialize copy
-
-\item {} 
-\sphinxstyleliteralstrong{\sphinxupquote{**kwargs}} \textendash{} Keyword arguments to be passed to initialize copy
-
-\end{itemize}
-
-\item[{Returns}] \leavevmode
-A copy of this \_Transformer instance with copies of necessary
-attributes and empty input.
-
-\end{description}\end{quote}
-
-\end{fulllineitems}
-
-\index{set\_end() (dalio.pipe.selection.DateSelect method)@\spxentry{set\_end()}\spxextra{dalio.pipe.selection.DateSelect method}}
-
-\begin{fulllineitems}
-\phantomsection\label{\detokenize{dalio.pipe:dalio.pipe.selection.DateSelect.set_end}}\pysiglinewithargsret{\sphinxbfcode{\sphinxupquote{set\_end}}}{\emph{end}}{}
-Set the \_end attribute
-
-\end{fulllineitems}
-
-\index{set\_start() (dalio.pipe.selection.DateSelect method)@\spxentry{set\_start()}\spxextra{dalio.pipe.selection.DateSelect method}}
-
-\begin{fulllineitems}
-\phantomsection\label{\detokenize{dalio.pipe:dalio.pipe.selection.DateSelect.set_start}}\pysiglinewithargsret{\sphinxbfcode{\sphinxupquote{set\_start}}}{\emph{start}}{}
-Set the \_start attribute
-
-\end{fulllineitems}
-
-\index{transform() (dalio.pipe.selection.DateSelect method)@\spxentry{transform()}\spxextra{dalio.pipe.selection.DateSelect method}}
-
-\begin{fulllineitems}
-\phantomsection\label{\detokenize{dalio.pipe:dalio.pipe.selection.DateSelect.transform}}\pysiglinewithargsret{\sphinxbfcode{\sphinxupquote{transform}}}{\emph{data}, \emph{**kwargs}}{}
-Slices time series into selected date range.
-\begin{quote}\begin{description}
-\item[{Returns}] \leavevmode
-Time series of the same format as input containing a subset of
-the original dates.
-
-\end{description}\end{quote}
-
-\end{fulllineitems}
-
-
-\end{fulllineitems}
-
-
+\label{\detokenize{dalio.pipe:dalio-pipe-selection}}
 
 \chapter{dalio.model package}
 \label{\detokenize{dalio.model:dalio-model-package}}\label{\detokenize{dalio.model::doc}}
@@ -2654,82 +2645,6 @@ data for these same tickers.
 Gets weights and uses them to create portfolio prices if weights
 were kept constant.
 
-\end{fulllineitems}
-
-
-\end{fulllineitems}
-
-\index{OptimumWeights (class in dalio.model.financial)@\spxentry{OptimumWeights}\spxextra{class in dalio.model.financial}}
-
-\begin{fulllineitems}
-\phantomsection\label{\detokenize{dalio.model:dalio.model.financial.OptimumWeights}}\pysiglinewithargsret{\sphinxbfcode{\sphinxupquote{class }}\sphinxcode{\sphinxupquote{dalio.model.financial.}}\sphinxbfcode{\sphinxupquote{OptimumWeights}}}{\emph{weight\_bounds=(0}, \emph{1)}, \emph{gamma=0}}{}
-Bases: {\hyperref[\detokenize{dalio.model:dalio.model.financial.MakeEfficientFrontier}]{\sphinxcrossref{\sphinxcode{\sphinxupquote{dalio.model.financial.MakeEfficientFrontier}}}}}, \sphinxcode{\sphinxupquote{dalio.base.builder.\_Builder}}
-
-Get optimum portfolio weights from an efficient frontier.
-This is also a builder with one piece: strategy. The strategy piece
-refers to the optimization strategy.
-\index{build\_model() (dalio.model.financial.OptimumWeights method)@\spxentry{build\_model()}\spxextra{dalio.model.financial.OptimumWeights method}}
-
-\begin{fulllineitems}
-\phantomsection\label{\detokenize{dalio.model:dalio.model.financial.OptimumWeights.build_model}}\pysiglinewithargsret{\sphinxbfcode{\sphinxupquote{build\_model}}}{\emph{data}}{}
-Assemble pieces into a model given some data
-
-The data will opten be optional, but several builder models will
-require it to be fitted on initialization. Which further shows why
-builders are necessary for context\sphinxhyphen{}agnostic graphs.
-\begin{quote}\begin{description}
-\item[{Parameters}] \leavevmode
-\sphinxstyleliteralstrong{\sphinxupquote{data}} \textendash{} data that might be used to build the model.
-
-\end{description}\end{quote}
-
-\end{fulllineitems}
-
-\index{check\_name() (dalio.model.financial.OptimumWeights method)@\spxentry{check\_name()}\spxextra{dalio.model.financial.OptimumWeights method}}
-
-\begin{fulllineitems}
-\phantomsection\label{\detokenize{dalio.model:dalio.model.financial.OptimumWeights.check_name}}\pysiglinewithargsret{\sphinxbfcode{\sphinxupquote{check\_name}}}{\emph{param}, \emph{name}}{}
-Check if name and parameter combination is valid.
-
-This will always be called upon setting a new piece to ensure this
-piece is present dictionary and that the name is valid. Subclasses
-will often override this method to implement the name checks in
-accordance to their specific name parameter combination options.
-Notice that checks cannot be done on arguments before running the
-\_Builder. This also can be called from outside of a \_Builder instance
-to check for the validity of settings.
-\begin{quote}\begin{description}
-\item[{Parameters}] \leavevmode\begin{itemize}
-\item {} 
-\sphinxstyleliteralstrong{\sphinxupquote{piece}} (\sphinxstyleliteralemphasis{\sphinxupquote{str}}) \textendash{} name of the key in the piece dictionary.
-
-\item {} 
-\sphinxstyleliteralstrong{\sphinxupquote{name}} (\sphinxstyleliteralemphasis{\sphinxupquote{str}}) \textendash{} name option to be set to the piece.
-
-\end{itemize}
-
-\end{description}\end{quote}
-
-\end{fulllineitems}
-
-\index{gamma (dalio.model.financial.OptimumWeights attribute)@\spxentry{gamma}\spxextra{dalio.model.financial.OptimumWeights attribute}}
-
-\begin{fulllineitems}
-\phantomsection\label{\detokenize{dalio.model:dalio.model.financial.OptimumWeights.gamma}}\pysigline{\sphinxbfcode{\sphinxupquote{gamma}}\sphinxbfcode{\sphinxupquote{ = None}}}
-\end{fulllineitems}
-
-\index{run() (dalio.model.financial.OptimumWeights method)@\spxentry{run()}\spxextra{dalio.model.financial.OptimumWeights method}}
-
-\begin{fulllineitems}
-\phantomsection\label{\detokenize{dalio.model:dalio.model.financial.OptimumWeights.run}}\pysiglinewithargsret{\sphinxbfcode{\sphinxupquote{run}}}{\emph{**kwargs}}{}
-Get efficient frontier, fit it to model and get weights
-
-\end{fulllineitems}
-
-\index{weight\_bounds (dalio.model.financial.OptimumWeights attribute)@\spxentry{weight\_bounds}\spxextra{dalio.model.financial.OptimumWeights attribute}}
-
-\begin{fulllineitems}
-\phantomsection\label{\detokenize{dalio.model:dalio.model.financial.OptimumWeights.weight_bounds}}\pysigline{\sphinxbfcode{\sphinxupquote{weight\_bounds}}\sphinxbfcode{\sphinxupquote{ = None}}}
 \end{fulllineitems}
 
 
@@ -3026,6 +2941,15 @@ internal data to be graphed.
 
 This Application has one output: data\_out. The data\_out output represents
 an external graph.
+\index{reset\_out() (dalio.application.graphers.Grapher method)@\spxentry{reset\_out()}\spxextra{dalio.application.graphers.Grapher method}}
+
+\begin{fulllineitems}
+\phantomsection\label{\detokenize{dalio.application:dalio.application.graphers.Grapher.reset_out}}\pysiglinewithargsret{\sphinxbfcode{\sphinxupquote{reset\_out}}}{}{}
+Reset the output graph. Figure instances should implement the
+.reset() method.
+
+\end{fulllineitems}
+
 \index{run() (dalio.application.graphers.Grapher method)@\spxentry{run()}\spxextra{dalio.application.graphers.Grapher method}}
 
 \begin{fulllineitems}
@@ -3040,8 +2964,8 @@ Gets data input and plots it
 \index{LMGrapher (class in dalio.application.graphers)@\spxentry{LMGrapher}\spxextra{class in dalio.application.graphers}}
 
 \begin{fulllineitems}
-\phantomsection\label{\detokenize{dalio.application:dalio.application.graphers.LMGrapher}}\pysiglinewithargsret{\sphinxbfcode{\sphinxupquote{class }}\sphinxcode{\sphinxupquote{dalio.application.graphers.}}\sphinxbfcode{\sphinxupquote{LMGrapher}}}{\emph{legend=None}}{}
-Bases: {\hyperref[\detokenize{dalio.application:dalio.application.graphers.Grapher}]{\sphinxcrossref{\sphinxcode{\sphinxupquote{dalio.application.graphers.Grapher}}}}}
+\phantomsection\label{\detokenize{dalio.application:dalio.application.graphers.LMGrapher}}\pysiglinewithargsret{\sphinxbfcode{\sphinxupquote{class }}\sphinxcode{\sphinxupquote{dalio.application.graphers.}}\sphinxbfcode{\sphinxupquote{LMGrapher}}}{\emph{x=None}, \emph{y=None}, \emph{legend=None}}{}
+Bases: {\hyperref[\detokenize{dalio.application:dalio.application.graphers.PandasXYGrapher}]{\sphinxcrossref{\sphinxcode{\sphinxupquote{dalio.application.graphers.PandasXYGrapher}}}}}
 
 Application to graph data and a linear model fitted to it.
 
@@ -3066,6 +2990,70 @@ str, None
 \begin{fulllineitems}
 \phantomsection\label{\detokenize{dalio.application:dalio.application.graphers.LMGrapher.run}}\pysiglinewithargsret{\sphinxbfcode{\sphinxupquote{run}}}{\emph{**kwargs}}{}
 Get data, its fitted coefficients and intercepts and graph them.
+
+\end{fulllineitems}
+
+
+\end{fulllineitems}
+
+\index{MultiGrapher (class in dalio.application.graphers)@\spxentry{MultiGrapher}\spxextra{class in dalio.application.graphers}}
+
+\begin{fulllineitems}
+\phantomsection\label{\detokenize{dalio.application:dalio.application.graphers.MultiGrapher}}\pysiglinewithargsret{\sphinxbfcode{\sphinxupquote{class }}\sphinxcode{\sphinxupquote{dalio.application.graphers.}}\sphinxbfcode{\sphinxupquote{MultiGrapher}}}{\emph{rows}, \emph{cols}}{}
+Bases: {\hyperref[\detokenize{dalio.application:dalio.application.application.Application}]{\sphinxcrossref{\sphinxcode{\sphinxupquote{dalio.application.application.Application}}}}}, \sphinxcode{\sphinxupquote{dalio.base.builder.\_Builder}}
+
+Grapher for multiple inputs taking in the same keyword arguments.
+
+This is useful to greate subplots of the same data processed in
+different ways. Sources are the data inputs and pieces are their kinds,
+args and kwargs.
+
+This applicaiton can N sources and pieces, where N is the total number of
+graphs.
+\index{build\_model() (dalio.application.graphers.MultiGrapher method)@\spxentry{build\_model()}\spxextra{dalio.application.graphers.MultiGrapher method}}
+
+\begin{fulllineitems}
+\phantomsection\label{\detokenize{dalio.application:dalio.application.graphers.MultiGrapher.build_model}}\pysiglinewithargsret{\sphinxbfcode{\sphinxupquote{build\_model}}}{\emph{data}, \emph{**kwargs}}{}
+Return data unprocessed
+
+\end{fulllineitems}
+
+\index{run() (dalio.application.graphers.MultiGrapher method)@\spxentry{run()}\spxextra{dalio.application.graphers.MultiGrapher method}}
+
+\begin{fulllineitems}
+\phantomsection\label{\detokenize{dalio.application:dalio.application.graphers.MultiGrapher.run}}\pysiglinewithargsret{\sphinxbfcode{\sphinxupquote{run}}}{\emph{**kwargs}}{}
+Gets data input from each source and plots it using the set
+information in each piece
+
+\end{fulllineitems}
+
+
+\end{fulllineitems}
+
+\index{PandasMultiGrapher (class in dalio.application.graphers)@\spxentry{PandasMultiGrapher}\spxextra{class in dalio.application.graphers}}
+
+\begin{fulllineitems}
+\phantomsection\label{\detokenize{dalio.application:dalio.application.graphers.PandasMultiGrapher}}\pysiglinewithargsret{\sphinxbfcode{\sphinxupquote{class }}\sphinxcode{\sphinxupquote{dalio.application.graphers.}}\sphinxbfcode{\sphinxupquote{PandasMultiGrapher}}}{\emph{rows}, \emph{cols}}{}
+Bases: {\hyperref[\detokenize{dalio.application:dalio.application.graphers.MultiGrapher}]{\sphinxcrossref{\sphinxcode{\sphinxupquote{dalio.application.graphers.MultiGrapher}}}}}
+
+Multigrapher with column selection mechanisms
+
+In this MultiGrapher, you can select any x, y and z columns as piece
+kwargs and they will be interpreted during the run. Keep in mind that
+this allows for any combination of these layered one on top of each other
+regardless of name. If you specify an “x” and a “z”, the “z” column will
+be treated like a “y” column.
+
+There are also no interpretations of what
+is to be graphed, and thus all wanted columns should be specified.
+
+There is one case for indexes, where the x\_index, y\_index or z\_index
+keyword arguments can be set to True.
+\index{build\_model() (dalio.application.graphers.PandasMultiGrapher method)@\spxentry{build\_model()}\spxextra{dalio.application.graphers.PandasMultiGrapher method}}
+
+\begin{fulllineitems}
+\phantomsection\label{\detokenize{dalio.application:dalio.application.graphers.PandasMultiGrapher.build_model}}\pysiglinewithargsret{\sphinxbfcode{\sphinxupquote{build\_model}}}{\emph{data}, \emph{**kwargs}}{}
+Process data columns
 
 \end{fulllineitems}
 
@@ -3237,12 +3225,19 @@ Index columns at some value
 \index{risk\_metrics() (in module dalio.ops)@\spxentry{risk\_metrics()}\spxextra{in module dalio.ops}}
 
 \begin{fulllineitems}
-\phantomsection\label{\detokenize{dalio.ops:dalio.ops.risk_metrics}}\pysiglinewithargsret{\sphinxcode{\sphinxupquote{dalio.ops.}}\sphinxbfcode{\sphinxupquote{risk\_metrics}}}{\emph{data}, \emph{lam}}{}
+\phantomsection\label{\detokenize{dalio.ops:dalio.ops.risk_metrics}}\pysiglinewithargsret{\sphinxcode{\sphinxupquote{dalio.ops.}}\sphinxbfcode{\sphinxupquote{risk\_metrics}}}{\emph{data}, \emph{lam}, \emph{ignore\_first=True}}{}
 Apply the basic RiskMetrics (EWMA) continuous volatility measure to a
 a dataframe
 \begin{quote}\begin{description}
-\item[{Parameters}] \leavevmode
+\item[{Parameters}] \leavevmode\begin{itemize}
+\item {} 
 \sphinxstyleliteralstrong{\sphinxupquote{lam}} (\sphinxstyleliteralemphasis{\sphinxupquote{float}}) \textendash{} lambda parameter
+
+\item {} 
+\sphinxstyleliteralstrong{\sphinxupquote{ignore\_first}} (\sphinxstyleliteralemphasis{\sphinxupquote{bool}}) \textendash{} whether to ignore the first row. This is often
+the case after a change pipe.
+
+\end{itemize}
 
 \item[{Returns}] \leavevmode
 A copy of data with the continuous volatility of each value
@@ -3469,7 +3464,7 @@ Validates data if it is of type self.\_t
 \label{\detokenize{dalio.validator:module-dalio.validator.pandas_val}}\label{\detokenize{dalio.validator:dalio-validator-pandas-val-module}}\index{dalio.validator.pandas\_val (module)@\spxentry{dalio.validator.pandas\_val}\spxextra{module}}\index{HAS\_COLS (class in dalio.validator.pandas\_val)@\spxentry{HAS\_COLS}\spxextra{class in dalio.validator.pandas\_val}}
 
 \begin{fulllineitems}
-\phantomsection\label{\detokenize{dalio.validator:dalio.validator.pandas_val.HAS_COLS}}\pysiglinewithargsret{\sphinxbfcode{\sphinxupquote{class }}\sphinxcode{\sphinxupquote{dalio.validator.pandas\_val.}}\sphinxbfcode{\sphinxupquote{HAS\_COLS}}}{\emph{cols}}{}
+\phantomsection\label{\detokenize{dalio.validator:dalio.validator.pandas_val.HAS_COLS}}\pysiglinewithargsret{\sphinxbfcode{\sphinxupquote{class }}\sphinxcode{\sphinxupquote{dalio.validator.pandas\_val.}}\sphinxbfcode{\sphinxupquote{HAS\_COLS}}}{\emph{cols}, \emph{level=None}}{}
 Bases: {\hyperref[\detokenize{dalio.validator:dalio.validator.pandas_val.IS_PD_DF}]{\sphinxcrossref{\sphinxcode{\sphinxupquote{dalio.validator.pandas\_val.IS\_PD\_DF}}}}}
 
 Checks if data has certain column names
@@ -3556,6 +3551,22 @@ items that must be present in each of the specified columns
 \phantomsection\label{\detokenize{dalio.validator:dalio.validator.pandas_val.HAS_IN_COLS.validate}}\pysiglinewithargsret{\sphinxbfcode{\sphinxupquote{validate}}}{\emph{data}}{}
 Validates data if items in self.\_items are not present in specified
 columns. Specified columns are all columns if self.\_cols is None.
+
+\end{fulllineitems}
+
+
+\end{fulllineitems}
+
+\index{HAS\_LEVELS (class in dalio.validator.pandas\_val)@\spxentry{HAS\_LEVELS}\spxextra{class in dalio.validator.pandas\_val}}
+
+\begin{fulllineitems}
+\phantomsection\label{\detokenize{dalio.validator:dalio.validator.pandas_val.HAS_LEVELS}}\pysiglinewithargsret{\sphinxbfcode{\sphinxupquote{class }}\sphinxcode{\sphinxupquote{dalio.validator.pandas\_val.}}\sphinxbfcode{\sphinxupquote{HAS\_LEVELS}}}{\emph{levels}, \emph{axis=0}, \emph{comparisson=\textquotesingle{}\textless{}=\textquotesingle{}}}{}
+Bases: {\hyperref[\detokenize{dalio.validator:dalio.validator.pandas_val.IS_PD_DF}]{\sphinxcrossref{\sphinxcode{\sphinxupquote{dalio.validator.pandas\_val.IS\_PD\_DF}}}}}
+\index{validate() (dalio.validator.pandas\_val.HAS\_LEVELS method)@\spxentry{validate()}\spxextra{dalio.validator.pandas\_val.HAS\_LEVELS method}}
+
+\begin{fulllineitems}
+\phantomsection\label{\detokenize{dalio.validator:dalio.validator.pandas_val.HAS_LEVELS.validate}}\pysiglinewithargsret{\sphinxbfcode{\sphinxupquote{validate}}}{\emph{data}}{}
+Validates data if it is of type self.\_t
 
 \end{fulllineitems}
 
@@ -3785,7 +3796,7 @@ matplotlib axis
 \index{plot\_efficient\_frontier() (in module dalio.util.plotting\_utils)@\spxentry{plot\_efficient\_frontier()}\spxextra{in module dalio.util.plotting\_utils}}
 
 \begin{fulllineitems}
-\phantomsection\label{\detokenize{dalio.util:dalio.util.plotting_utils.plot_efficient_frontier}}\pysiglinewithargsret{\sphinxcode{\sphinxupquote{dalio.util.plotting\_utils.}}\sphinxbfcode{\sphinxupquote{plot\_efficient\_frontier}}}{\emph{cla}, \emph{points=100}, \emph{show\_assets=True}, \emph{ax=None}, \emph{**kwargs}}{}
+\phantomsection\label{\detokenize{dalio.util:dalio.util.plotting_utils.plot_efficient_frontier}}\pysiglinewithargsret{\sphinxcode{\sphinxupquote{dalio.util.plotting\_utils.}}\sphinxbfcode{\sphinxupquote{plot\_efficient\_frontier}}}{\emph{cla}, \emph{points=100}, \emph{visible=25}, \emph{show\_assets=True}, \emph{ax=None}, \emph{**kwargs}}{}
 Plot the efficient frontier based on a CLA object
 \begin{quote}\begin{description}
 \item[{Parameters}] \leavevmode\begin{itemize}
@@ -3844,6 +3855,12 @@ matplotlib axis
 \section{dalio.util.processing\_utils module}
 \label{\detokenize{dalio.util:module-dalio.util.processing_utils}}\label{\detokenize{dalio.util:dalio-util-processing-utils-module}}\index{dalio.util.processing\_utils (module)@\spxentry{dalio.util.processing\_utils}\spxextra{module}}
 Data processing utilities
+\index{list\_str() (in module dalio.util.processing\_utils)@\spxentry{list\_str()}\spxextra{in module dalio.util.processing\_utils}}
+
+\begin{fulllineitems}
+\phantomsection\label{\detokenize{dalio.util:dalio.util.processing_utils.list_str}}\pysiglinewithargsret{\sphinxcode{\sphinxupquote{dalio.util.processing\_utils.}}\sphinxbfcode{\sphinxupquote{list\_str}}}{\emph{listi}}{}
+\end{fulllineitems}
+
 \index{process\_cols() (in module dalio.util.processing\_utils)@\spxentry{process\_cols()}\spxextra{in module dalio.util.processing\_utils}}
 
 \begin{fulllineitems}
@@ -3904,6 +3921,34 @@ Process new dataframe given columns and new column names
 \section{dalio.util.translation\_utils module}
 \label{\detokenize{dalio.util:module-dalio.util.translation_utils}}\label{\detokenize{dalio.util:dalio-util-translation-utils-module}}\index{dalio.util.translation\_utils (module)@\spxentry{dalio.util.translation\_utils}\spxextra{module}}
 Translation utilities
+\index{get\_numeric\_column\_names() (in module dalio.util.translation\_utils)@\spxentry{get\_numeric\_column\_names()}\spxextra{in module dalio.util.translation\_utils}}
+
+\begin{fulllineitems}
+\phantomsection\label{\detokenize{dalio.util:dalio.util.translation_utils.get_numeric_column_names}}\pysiglinewithargsret{\sphinxcode{\sphinxupquote{dalio.util.translation\_utils.}}\sphinxbfcode{\sphinxupquote{get\_numeric\_column\_names}}}{\emph{df}}{}
+Return the names of all columns of numeric type.
+\begin{quote}\begin{description}
+\item[{Parameters}] \leavevmode
+\sphinxstyleliteralstrong{\sphinxupquote{df}} (\sphinxstyleliteralemphasis{\sphinxupquote{pandas.DataFrame}}) \textendash{} The dataframe to get numeric column names for.
+
+\item[{Returns}] \leavevmode
+The names of all columns of numeric type.
+
+\item[{Return type}] \leavevmode
+list of str
+
+\end{description}\end{quote}
+\subsubsection*{Example}
+
+\begin{sphinxVerbatim}[commandchars=\\\{\}]
+\PYG{g+gp}{\PYGZgt{}\PYGZgt{}\PYGZgt{} }\PYG{k+kn}{import} \PYG{n+nn}{pandas} \PYG{k}{as} \PYG{n+nn}{pd}\PYG{p}{;} \PYG{k+kn}{import} \PYG{n+nn}{pdpipe} \PYG{k}{as} \PYG{n+nn}{pdp}\PYG{p}{;}
+\PYG{g+gp}{\PYGZgt{}\PYGZgt{}\PYGZgt{} }\PYG{n}{data} \PYG{o}{=} \PYG{p}{[}\PYG{p}{[}\PYG{l+m+mi}{2}\PYG{p}{,} \PYG{l+m+mf}{3.2}\PYG{p}{,} \PYG{l+s+s2}{\PYGZdq{}}\PYG{l+s+s2}{acd}\PYG{l+s+s2}{\PYGZdq{}}\PYG{p}{]}\PYG{p}{,} \PYG{p}{[}\PYG{l+m+mi}{1}\PYG{p}{,} \PYG{l+m+mf}{7.2}\PYG{p}{,} \PYG{l+s+s2}{\PYGZdq{}}\PYG{l+s+s2}{alk}\PYG{l+s+s2}{\PYGZdq{}}\PYG{p}{]}\PYG{p}{,} \PYG{p}{[}\PYG{l+m+mi}{8}\PYG{p}{,} \PYG{l+m+mf}{12.1}\PYG{p}{,} \PYG{l+s+s2}{\PYGZdq{}}\PYG{l+s+s2}{alk}\PYG{l+s+s2}{\PYGZdq{}}\PYG{p}{]}\PYG{p}{]}
+\PYG{g+gp}{\PYGZgt{}\PYGZgt{}\PYGZgt{} }\PYG{n}{df} \PYG{o}{=} \PYG{n}{pd}\PYG{o}{.}\PYG{n}{DataFrame}\PYG{p}{(}\PYG{n}{data}\PYG{p}{,} \PYG{p}{[}\PYG{l+m+mi}{1}\PYG{p}{,}\PYG{l+m+mi}{2}\PYG{p}{,}\PYG{l+m+mi}{3}\PYG{p}{]}\PYG{p}{,} \PYG{p}{[}\PYG{l+s+s2}{\PYGZdq{}}\PYG{l+s+s2}{rank}\PYG{l+s+s2}{\PYGZdq{}}\PYG{p}{,} \PYG{l+s+s2}{\PYGZdq{}}\PYG{l+s+s2}{ph}\PYG{l+s+s2}{\PYGZdq{}}\PYG{p}{,}\PYG{l+s+s2}{\PYGZdq{}}\PYG{l+s+s2}{lbl}\PYG{l+s+s2}{\PYGZdq{}}\PYG{p}{]}\PYG{p}{)}
+\PYG{g+gp}{\PYGZgt{}\PYGZgt{}\PYGZgt{} }\PYG{n+nb}{sorted}\PYG{p}{(}\PYG{n}{get\PYGZus{}numeric\PYGZus{}column\PYGZus{}names}\PYG{p}{(}\PYG{n}{df}\PYG{p}{)}\PYG{p}{)}
+\PYG{g+go}{[\PYGZsq{}ph\PYGZsq{}, \PYGZsq{}rank\PYGZsq{}]}
+\end{sphinxVerbatim}
+
+\end{fulllineitems}
+
 \index{translate\_df() (in module dalio.util.translation\_utils)@\spxentry{translate\_df()}\spxextra{in module dalio.util.translation\_utils}}
 
 \begin{fulllineitems}
@@ -3932,7 +3977,290 @@ translated copy. Optional. Defaults to False.
 
 
 \section{Module contents}
-\label{\detokenize{dalio.util:module-dalio.util}}\label{\detokenize{dalio.util:module-contents}}\index{dalio.util (module)@\spxentry{dalio.util}\spxextra{module}}\index{process\_cols() (in module dalio.util)@\spxentry{process\_cols()}\spxextra{in module dalio.util}}
+\label{\detokenize{dalio.util:module-dalio.util}}\label{\detokenize{dalio.util:module-contents}}\index{dalio.util (module)@\spxentry{dalio.util}\spxextra{module}}\index{extract\_level\_names\_dict() (in module dalio.util)@\spxentry{extract\_level\_names\_dict()}\spxextra{in module dalio.util}}
+
+\begin{fulllineitems}
+\phantomsection\label{\detokenize{dalio.util:dalio.util.extract_level_names_dict}}\pysiglinewithargsret{\sphinxcode{\sphinxupquote{dalio.util.}}\sphinxbfcode{\sphinxupquote{extract\_level\_names\_dict}}}{\emph{df}}{}
+Extract all column names in a dataframe as (level: {\color{red}\bfseries{}names\_} dicitonar7
+\begin{quote}\begin{description}
+\item[{Parameters}] \leavevmode
+\sphinxstyleliteralstrong{\sphinxupquote{df}} (\sphinxstyleliteralemphasis{\sphinxupquote{pd.DataFrame}}) \textendash{} dataframe whose columns will be extracted
+
+\end{description}\end{quote}
+
+\end{fulllineitems}
+
+\index{filter\_levels() (in module dalio.util)@\spxentry{filter\_levels()}\spxextra{in module dalio.util}}
+
+\begin{fulllineitems}
+\phantomsection\label{\detokenize{dalio.util:dalio.util.filter_levels}}\pysiglinewithargsret{\sphinxcode{\sphinxupquote{dalio.util.}}\sphinxbfcode{\sphinxupquote{filter\_levels}}}{\emph{levels}, \emph{filters}}{}
+Filter columns in levels to either be equal to specified
+columns or a filtering function
+\begin{quote}\begin{description}
+\item[{Parameters}] \leavevmode\begin{itemize}
+\item {} 
+\sphinxstyleliteralstrong{\sphinxupquote{levels}} (\sphinxstyleliteralemphasis{\sphinxupquote{dict}}) \textendash{} all column names in a (level: names) dict
+
+\item {} 
+\sphinxstyleliteralstrong{\sphinxupquote{filters}} (\sphinxstyleliteralemphasis{\sphinxupquote{str}}\sphinxstyleliteralemphasis{\sphinxupquote{, }}\sphinxstyleliteralemphasis{\sphinxupquote{list}}\sphinxstyleliteralemphasis{\sphinxupquote{, }}\sphinxstyleliteralemphasis{\sphinxupquote{callable}}\sphinxstyleliteralemphasis{\sphinxupquote{, }}\sphinxstyleliteralemphasis{\sphinxupquote{dict}}) \textendash{} either columns to place on
+a specified level or filter functions to select columns there.
+
+\end{itemize}
+
+\end{description}\end{quote}
+
+\end{fulllineitems}
+
+\index{extract\_cols() (in module dalio.util)@\spxentry{extract\_cols()}\spxextra{in module dalio.util}}
+
+\begin{fulllineitems}
+\phantomsection\label{\detokenize{dalio.util:dalio.util.extract_cols}}\pysiglinewithargsret{\sphinxcode{\sphinxupquote{dalio.util.}}\sphinxbfcode{\sphinxupquote{extract\_cols}}}{\emph{df}, \emph{cols}}{}
+Extract columns from a dataframe
+\begin{quote}\begin{description}
+\item[{Parameters}] \leavevmode\begin{itemize}
+\item {} 
+\sphinxstyleliteralstrong{\sphinxupquote{df}} (\sphinxstyleliteralemphasis{\sphinxupquote{pd.DataFrame}}) \textendash{} dataframe containing the columns
+
+\item {} 
+\sphinxstyleliteralstrong{\sphinxupquote{cols}} (\sphinxstyleliteralemphasis{\sphinxupquote{hashable}}\sphinxstyleliteralemphasis{\sphinxupquote{, }}\sphinxstyleliteralemphasis{\sphinxupquote{iterable}}\sphinxstyleliteralemphasis{\sphinxupquote{, }}\sphinxstyleliteralemphasis{\sphinxupquote{dict}}) \textendash{} single column, list of columnst
+or dict with the level as keys and column(s) as values.
+
+\end{itemize}
+
+\item[{Raises}] \leavevmode
+\sphinxstyleliteralstrong{\sphinxupquote{KeyError}} \textendash{} if columns are not in dataframe
+
+\end{description}\end{quote}
+
+\end{fulllineitems}
+
+\index{insert\_cols() (in module dalio.util)@\spxentry{insert\_cols()}\spxextra{in module dalio.util}}
+
+\begin{fulllineitems}
+\phantomsection\label{\detokenize{dalio.util:dalio.util.insert_cols}}\pysiglinewithargsret{\sphinxcode{\sphinxupquote{dalio.util.}}\sphinxbfcode{\sphinxupquote{insert\_cols}}}{\emph{df}, \emph{new\_data}, \emph{cols}}{}
+Insert new data into specified existing columns
+\begin{quote}\begin{description}
+\item[{Parameters}] \leavevmode\begin{itemize}
+\item {} 
+\sphinxstyleliteralstrong{\sphinxupquote{df}} (\sphinxstyleliteralemphasis{\sphinxupquote{pd.DataFrame}}) \textendash{} dataframe to insert data into.
+
+\item {} 
+\sphinxstyleliteralstrong{\sphinxupquote{new\_data}} (\sphinxstyleliteralemphasis{\sphinxupquote{any}}) \textendash{} new data to be inserted
+
+\item {} 
+\sphinxstyleliteralstrong{\sphinxupquote{cols}} (\sphinxstyleliteralemphasis{\sphinxupquote{hashable}}\sphinxstyleliteralemphasis{\sphinxupquote{, }}\sphinxstyleliteralemphasis{\sphinxupquote{iterable}}\sphinxstyleliteralemphasis{\sphinxupquote{, }}\sphinxstyleliteralemphasis{\sphinxupquote{dict}}) \textendash{} existing columns in data.
+
+\end{itemize}
+
+\item[{Raises}] \leavevmode\begin{itemize}
+\item {} 
+\sphinxstyleliteralstrong{\sphinxupquote{KeyError}} \textendash{} if columns are not in dataframe
+
+\item {} 
+\sphinxstyleliteralstrong{\sphinxupquote{Exception}} \textendash{} if new data doesn’t fit cols dimensions
+
+\end{itemize}
+
+\end{description}\end{quote}
+
+\end{fulllineitems}
+
+\index{drop\_cols() (in module dalio.util)@\spxentry{drop\_cols()}\spxextra{in module dalio.util}}
+
+\begin{fulllineitems}
+\phantomsection\label{\detokenize{dalio.util:dalio.util.drop_cols}}\pysiglinewithargsret{\sphinxcode{\sphinxupquote{dalio.util.}}\sphinxbfcode{\sphinxupquote{drop\_cols}}}{\emph{df}, \emph{cols}}{}
+Drop selected columns from levels
+\begin{quote}\begin{description}
+\item[{Parameters}] \leavevmode\begin{itemize}
+\item {} 
+\sphinxstyleliteralstrong{\sphinxupquote{df}} (\sphinxstyleliteralemphasis{\sphinxupquote{pd.DataFrame}}) \textendash{} dataframe to have columns dropped.
+
+\item {} 
+\sphinxstyleliteralstrong{\sphinxupquote{cols}} (\sphinxstyleliteralemphasis{\sphinxupquote{hashable}}\sphinxstyleliteralemphasis{\sphinxupquote{, }}\sphinxstyleliteralemphasis{\sphinxupquote{iterable}}\sphinxstyleliteralemphasis{\sphinxupquote{, }}\sphinxstyleliteralemphasis{\sphinxupquote{dict}}) \textendash{} column selection
+
+\end{itemize}
+
+\end{description}\end{quote}
+
+\end{fulllineitems}
+
+\index{get\_slice\_from\_dict() (in module dalio.util)@\spxentry{get\_slice\_from\_dict()}\spxextra{in module dalio.util}}
+
+\begin{fulllineitems}
+\phantomsection\label{\detokenize{dalio.util:dalio.util.get_slice_from_dict}}\pysiglinewithargsret{\sphinxcode{\sphinxupquote{dalio.util.}}\sphinxbfcode{\sphinxupquote{get\_slice\_from\_dict}}}{\emph{df}, \emph{cols}}{}
+Get a tuple of slices that locate the specified (level: column)
+combination.
+\begin{quote}\begin{description}
+\item[{Parameters}] \leavevmode\begin{itemize}
+\item {} 
+\sphinxstyleliteralstrong{\sphinxupquote{df}} (\sphinxstyleliteralemphasis{\sphinxupquote{pd.DataFrame}}) \textendash{} dataframe with multiindex
+
+\item {} 
+\sphinxstyleliteralstrong{\sphinxupquote{cols}} (\sphinxstyleliteralemphasis{\sphinxupquote{dict}}) \textendash{} (level: column) dictionary
+
+\end{itemize}
+
+\item[{Raises}] \leavevmode\begin{itemize}
+\item {} 
+\sphinxstyleliteralstrong{\sphinxupquote{ValueError}} \textendash{} if any of the level keys are not integers
+
+\item {} 
+\sphinxstyleliteralstrong{\sphinxupquote{KeyError}} \textendash{} if any level key is out of bounds or if columns are not in
+    the dataframe
+
+\end{itemize}
+
+\end{description}\end{quote}
+
+\end{fulllineitems}
+
+\index{mi\_join() (in module dalio.util)@\spxentry{mi\_join()}\spxextra{in module dalio.util}}
+
+\begin{fulllineitems}
+\phantomsection\label{\detokenize{dalio.util:dalio.util.mi_join}}\pysiglinewithargsret{\sphinxcode{\sphinxupquote{dalio.util.}}\sphinxbfcode{\sphinxupquote{mi\_join}}}{\emph{df1}, \emph{df2}, \emph{*args}, \emph{**kwargs}}{}
+Join two dataframes and sort their columns
+\begin{quote}\begin{description}
+\item[{Parameters}] \leavevmode\begin{itemize}
+\item {} 
+\sphinxstyleliteralstrong{\sphinxupquote{df2}} (\sphinxstyleliteralemphasis{\sphinxupquote{df1}}\sphinxstyleliteralemphasis{\sphinxupquote{,}}) \textendash{} dataframes to join
+
+\item {} 
+\sphinxstyleliteralstrong{\sphinxupquote{**kwargs}} (\sphinxstyleliteralemphasis{\sphinxupquote{*args}}\sphinxstyleliteralemphasis{\sphinxupquote{,}}) \textendash{} 
+arguments for join function (called from df1)
+
+
+\end{itemize}
+
+\item[{Raises}] \leavevmode
+\sphinxstyleliteralstrong{\sphinxupquote{ValueError if number of levels don\textquotesingle{}t match}} \textendash{} 
+
+\end{description}\end{quote}
+
+\end{fulllineitems}
+
+\index{add\_suffix() (in module dalio.util)@\spxentry{add\_suffix()}\spxextra{in module dalio.util}}
+
+\begin{fulllineitems}
+\phantomsection\label{\detokenize{dalio.util:dalio.util.add_suffix}}\pysiglinewithargsret{\sphinxcode{\sphinxupquote{dalio.util.}}\sphinxbfcode{\sphinxupquote{add\_suffix}}}{\emph{all\_cols}, \emph{cols}, \emph{suffix}}{}
+Add suffix to appropriate level in a given column index.
+\begin{quote}\begin{description}
+\item[{Parameters}] \leavevmode\begin{itemize}
+\item {} 
+\sphinxstyleliteralstrong{\sphinxupquote{all\_cols}} (\sphinxstyleliteralemphasis{\sphinxupquote{pd.Index}}\sphinxstyleliteralemphasis{\sphinxupquote{, }}\sphinxstyleliteralemphasis{\sphinxupquote{pd.MultiIndex}}) \textendash{} all columns from an index. This
+is only relevent when the columns at hand are a multindex, as each
+tuple element will contain elements from all levels (not only the
+selected ones)
+
+\item {} 
+\sphinxstyleliteralstrong{\sphinxupquote{cols}} (\sphinxstyleliteralemphasis{\sphinxupquote{str}}\sphinxstyleliteralemphasis{\sphinxupquote{, }}\sphinxstyleliteralemphasis{\sphinxupquote{list}}\sphinxstyleliteralemphasis{\sphinxupquote{, }}\sphinxstyleliteralemphasis{\sphinxupquote{dict}}) \textendash{} selected columns
+
+\item {} 
+\sphinxstyleliteralstrong{\sphinxupquote{suffix}} (\sphinxstyleliteralemphasis{\sphinxupquote{str}}) \textendash{} the suffix to add to the selected columns.
+
+\end{itemize}
+
+\end{description}\end{quote}
+
+\end{fulllineitems}
+
+\index{out\_of\_place\_col\_insert() (in module dalio.util)@\spxentry{out\_of\_place\_col\_insert()}\spxextra{in module dalio.util}}
+
+\begin{fulllineitems}
+\phantomsection\label{\detokenize{dalio.util:dalio.util.out_of_place_col_insert}}\pysiglinewithargsret{\sphinxcode{\sphinxupquote{dalio.util.}}\sphinxbfcode{\sphinxupquote{out\_of\_place\_col\_insert}}}{\emph{df}, \emph{series}, \emph{loc}, \emph{column\_name=None}}{}
+Returns a new dataframe with given column inserted at given location.
+\begin{quote}\begin{description}
+\item[{Parameters}] \leavevmode\begin{itemize}
+\item {} 
+\sphinxstyleliteralstrong{\sphinxupquote{df}} (\sphinxstyleliteralemphasis{\sphinxupquote{pandas.DataFrame}}) \textendash{} The dataframe into which to insert the column.
+
+\item {} 
+\sphinxstyleliteralstrong{\sphinxupquote{series}} (\sphinxstyleliteralemphasis{\sphinxupquote{pandas.Series}}) \textendash{} The pandas series to be inserted.
+
+\item {} 
+\sphinxstyleliteralstrong{\sphinxupquote{loc}} (\sphinxstyleliteralemphasis{\sphinxupquote{int}}) \textendash{} The location into which to insert the new column.
+
+\item {} 
+\sphinxstyleliteralstrong{\sphinxupquote{column\_name}} (\sphinxstyleliteralemphasis{\sphinxupquote{str}}\sphinxstyleliteralemphasis{\sphinxupquote{, }}\sphinxstyleliteralemphasis{\sphinxupquote{default None}}) \textendash{} The name to assign the new column. If None, the given series name
+attribute is attempted; if the given series is missing the name
+attribute a ValueError exception will be raised.
+
+\end{itemize}
+
+\item[{Returns}] \leavevmode
+The resulting dataframe.
+
+\item[{Return type}] \leavevmode
+pandas.DataFrame
+
+\end{description}\end{quote}
+\subsubsection*{Example}
+
+\begin{sphinxVerbatim}[commandchars=\\\{\}]
+\PYG{g+gp}{\PYGZgt{}\PYGZgt{}\PYGZgt{} }\PYG{k+kn}{import} \PYG{n+nn}{pandas} \PYG{k}{as} \PYG{n+nn}{pd}\PYG{p}{;} \PYG{k+kn}{import} \PYG{n+nn}{pdpipe} \PYG{k}{as} \PYG{n+nn}{pdp}\PYG{p}{;}
+\PYG{g+gp}{\PYGZgt{}\PYGZgt{}\PYGZgt{} }\PYG{n}{df} \PYG{o}{=} \PYG{n}{pd}\PYG{o}{.}\PYG{n}{DataFrame}\PYG{p}{(}\PYG{p}{[}\PYG{p}{[}\PYG{l+m+mi}{1}\PYG{p}{,} \PYG{l+s+s1}{\PYGZsq{}}\PYG{l+s+s1}{a}\PYG{l+s+s1}{\PYGZsq{}}\PYG{p}{]}\PYG{p}{,} \PYG{p}{[}\PYG{l+m+mi}{4}\PYG{p}{,} \PYG{l+s+s1}{\PYGZsq{}}\PYG{l+s+s1}{b}\PYG{l+s+s1}{\PYGZsq{}}\PYG{p}{]}\PYG{p}{]}\PYG{p}{,} \PYG{n}{columns}\PYG{o}{=}\PYG{p}{[}\PYG{l+s+s1}{\PYGZsq{}}\PYG{l+s+s1}{a}\PYG{l+s+s1}{\PYGZsq{}}\PYG{p}{,} \PYG{l+s+s1}{\PYGZsq{}}\PYG{l+s+s1}{g}\PYG{l+s+s1}{\PYGZsq{}}\PYG{p}{]}\PYG{p}{)}
+\PYG{g+gp}{\PYGZgt{}\PYGZgt{}\PYGZgt{} }\PYG{n}{ser} \PYG{o}{=} \PYG{n}{pd}\PYG{o}{.}\PYG{n}{Series}\PYG{p}{(}\PYG{p}{[}\PYG{l+m+mi}{7}\PYG{p}{,} \PYG{l+m+mi}{5}\PYG{p}{]}\PYG{p}{)}
+\PYG{g+gp}{\PYGZgt{}\PYGZgt{}\PYGZgt{} }\PYG{n}{out\PYGZus{}of\PYGZus{}place\PYGZus{}col\PYGZus{}insert}\PYG{p}{(}\PYG{n}{df}\PYG{p}{,} \PYG{n}{ser}\PYG{p}{,} \PYG{l+m+mi}{1}\PYG{p}{,} \PYG{l+s+s1}{\PYGZsq{}}\PYG{l+s+s1}{n}\PYG{l+s+s1}{\PYGZsq{}}\PYG{p}{)}
+\PYG{g+go}{   a  n  g}
+\PYG{g+go}{0  1  7  a}
+\PYG{g+go}{1  4  5  b}
+\end{sphinxVerbatim}
+
+\end{fulllineitems}
+
+\index{translate\_df() (in module dalio.util)@\spxentry{translate\_df()}\spxextra{in module dalio.util}}
+
+\begin{fulllineitems}
+\phantomsection\label{\detokenize{dalio.util:dalio.util.translate_df}}\pysiglinewithargsret{\sphinxcode{\sphinxupquote{dalio.util.}}\sphinxbfcode{\sphinxupquote{translate\_df}}}{\emph{translator}, \emph{df}, \emph{inplace=False}}{}
+Translate dataframe column and index names in accordance to translator
+dictionary.
+\begin{quote}\begin{description}
+\item[{Parameters}] \leavevmode\begin{itemize}
+\item {} 
+\sphinxstyleliteralstrong{\sphinxupquote{translator}} (\sphinxstyleliteralemphasis{\sphinxupquote{dict}}) \textendash{} dictionary of \{original: translated\} key value
+pairs.
+
+\item {} 
+\sphinxstyleliteralstrong{\sphinxupquote{df}} (\sphinxstyleliteralemphasis{\sphinxupquote{pd.DataFrame}}) \textendash{} dataframe to have rows and columns translated.
+
+\item {} 
+\sphinxstyleliteralstrong{\sphinxupquote{inplace}} (\sphinxstyleliteralemphasis{\sphinxupquote{bool}}) \textendash{} whether to perform operation inplace or return a
+translated copy. Optional. Defaults to False.
+
+\end{itemize}
+
+\end{description}\end{quote}
+
+\end{fulllineitems}
+
+\index{get\_numeric\_column\_names() (in module dalio.util)@\spxentry{get\_numeric\_column\_names()}\spxextra{in module dalio.util}}
+
+\begin{fulllineitems}
+\phantomsection\label{\detokenize{dalio.util:dalio.util.get_numeric_column_names}}\pysiglinewithargsret{\sphinxcode{\sphinxupquote{dalio.util.}}\sphinxbfcode{\sphinxupquote{get\_numeric\_column\_names}}}{\emph{df}}{}
+Return the names of all columns of numeric type.
+\begin{quote}\begin{description}
+\item[{Parameters}] \leavevmode
+\sphinxstyleliteralstrong{\sphinxupquote{df}} (\sphinxstyleliteralemphasis{\sphinxupquote{pandas.DataFrame}}) \textendash{} The dataframe to get numeric column names for.
+
+\item[{Returns}] \leavevmode
+The names of all columns of numeric type.
+
+\item[{Return type}] \leavevmode
+list of str
+
+\end{description}\end{quote}
+\subsubsection*{Example}
+
+\begin{sphinxVerbatim}[commandchars=\\\{\}]
+\PYG{g+gp}{\PYGZgt{}\PYGZgt{}\PYGZgt{} }\PYG{k+kn}{import} \PYG{n+nn}{pandas} \PYG{k}{as} \PYG{n+nn}{pd}\PYG{p}{;} \PYG{k+kn}{import} \PYG{n+nn}{pdpipe} \PYG{k}{as} \PYG{n+nn}{pdp}\PYG{p}{;}
+\PYG{g+gp}{\PYGZgt{}\PYGZgt{}\PYGZgt{} }\PYG{n}{data} \PYG{o}{=} \PYG{p}{[}\PYG{p}{[}\PYG{l+m+mi}{2}\PYG{p}{,} \PYG{l+m+mf}{3.2}\PYG{p}{,} \PYG{l+s+s2}{\PYGZdq{}}\PYG{l+s+s2}{acd}\PYG{l+s+s2}{\PYGZdq{}}\PYG{p}{]}\PYG{p}{,} \PYG{p}{[}\PYG{l+m+mi}{1}\PYG{p}{,} \PYG{l+m+mf}{7.2}\PYG{p}{,} \PYG{l+s+s2}{\PYGZdq{}}\PYG{l+s+s2}{alk}\PYG{l+s+s2}{\PYGZdq{}}\PYG{p}{]}\PYG{p}{,} \PYG{p}{[}\PYG{l+m+mi}{8}\PYG{p}{,} \PYG{l+m+mf}{12.1}\PYG{p}{,} \PYG{l+s+s2}{\PYGZdq{}}\PYG{l+s+s2}{alk}\PYG{l+s+s2}{\PYGZdq{}}\PYG{p}{]}\PYG{p}{]}
+\PYG{g+gp}{\PYGZgt{}\PYGZgt{}\PYGZgt{} }\PYG{n}{df} \PYG{o}{=} \PYG{n}{pd}\PYG{o}{.}\PYG{n}{DataFrame}\PYG{p}{(}\PYG{n}{data}\PYG{p}{,} \PYG{p}{[}\PYG{l+m+mi}{1}\PYG{p}{,}\PYG{l+m+mi}{2}\PYG{p}{,}\PYG{l+m+mi}{3}\PYG{p}{]}\PYG{p}{,} \PYG{p}{[}\PYG{l+s+s2}{\PYGZdq{}}\PYG{l+s+s2}{rank}\PYG{l+s+s2}{\PYGZdq{}}\PYG{p}{,} \PYG{l+s+s2}{\PYGZdq{}}\PYG{l+s+s2}{ph}\PYG{l+s+s2}{\PYGZdq{}}\PYG{p}{,}\PYG{l+s+s2}{\PYGZdq{}}\PYG{l+s+s2}{lbl}\PYG{l+s+s2}{\PYGZdq{}}\PYG{p}{]}\PYG{p}{)}
+\PYG{g+gp}{\PYGZgt{}\PYGZgt{}\PYGZgt{} }\PYG{n+nb}{sorted}\PYG{p}{(}\PYG{n}{get\PYGZus{}numeric\PYGZus{}column\PYGZus{}names}\PYG{p}{(}\PYG{n}{df}\PYG{p}{)}\PYG{p}{)}
+\PYG{g+go}{[\PYGZsq{}ph\PYGZsq{}, \PYGZsq{}rank\PYGZsq{}]}
+\end{sphinxVerbatim}
+
+\end{fulllineitems}
+
+\index{process\_cols() (in module dalio.util)@\spxentry{process\_cols()}\spxextra{in module dalio.util}}
 
 \begin{fulllineitems}
 \phantomsection\label{\detokenize{dalio.util:dalio.util.process_cols}}\pysiglinewithargsret{\sphinxcode{\sphinxupquote{dalio.util.}}\sphinxbfcode{\sphinxupquote{process\_cols}}}{\emph{cols}}{}
@@ -3990,7 +4318,7 @@ Process new dataframe given columns and new column names
 \index{translate\_df() (in module dalio.util)@\spxentry{translate\_df()}\spxextra{in module dalio.util}}
 
 \begin{fulllineitems}
-\phantomsection\label{\detokenize{dalio.util:dalio.util.translate_df}}\pysiglinewithargsret{\sphinxcode{\sphinxupquote{dalio.util.}}\sphinxbfcode{\sphinxupquote{translate\_df}}}{\emph{translator}, \emph{df}, \emph{inplace=False}}{}
+\pysiglinewithargsret{\sphinxcode{\sphinxupquote{dalio.util.}}\sphinxbfcode{\sphinxupquote{translate\_df}}}{\emph{translator}, \emph{df}, \emph{inplace=False}}{}
 Translate dataframe column and index names in accordance to translator
 dictionary.
 \begin{quote}\begin{description}
@@ -4015,7 +4343,7 @@ translated copy. Optional. Defaults to False.
 \index{plot\_efficient\_frontier() (in module dalio.util)@\spxentry{plot\_efficient\_frontier()}\spxextra{in module dalio.util}}
 
 \begin{fulllineitems}
-\phantomsection\label{\detokenize{dalio.util:dalio.util.plot_efficient_frontier}}\pysiglinewithargsret{\sphinxcode{\sphinxupquote{dalio.util.}}\sphinxbfcode{\sphinxupquote{plot\_efficient\_frontier}}}{\emph{cla}, \emph{points=100}, \emph{show\_assets=True}, \emph{ax=None}, \emph{**kwargs}}{}
+\phantomsection\label{\detokenize{dalio.util:dalio.util.plot_efficient_frontier}}\pysiglinewithargsret{\sphinxcode{\sphinxupquote{dalio.util.}}\sphinxbfcode{\sphinxupquote{plot\_efficient\_frontier}}}{\emph{cla}, \emph{points=100}, \emph{visible=25}, \emph{show\_assets=True}, \emph{ax=None}, \emph{**kwargs}}{}
 Plot the efficient frontier based on a CLA object
 \begin{quote}\begin{description}
 \item[{Parameters}] \leavevmode\begin{itemize}
@@ -4139,10 +4467,8 @@ matplotlib axis
 \item\relax\sphinxstyleindexentry{dalio.ops}\sphinxstyleindexpageref{dalio.ops:\detokenize{module-dalio.ops}}
 \item\relax\sphinxstyleindexentry{dalio.pipe.builders}\sphinxstyleindexpageref{dalio.pipe:\detokenize{module-dalio.pipe.builders}}
 \item\relax\sphinxstyleindexentry{dalio.pipe.col\_generation}\sphinxstyleindexpageref{dalio.pipe:\detokenize{module-dalio.pipe.col_generation}}
-\item\relax\sphinxstyleindexentry{dalio.pipe.custom}\sphinxstyleindexpageref{dalio.pipe:\detokenize{module-dalio.pipe.custom}}
 \item\relax\sphinxstyleindexentry{dalio.pipe.forecast}\sphinxstyleindexpageref{dalio.pipe:\detokenize{module-dalio.pipe.forecast}}
 \item\relax\sphinxstyleindexentry{dalio.pipe.pipe}\sphinxstyleindexpageref{dalio.pipe:\detokenize{module-dalio.pipe.pipe}}
-\item\relax\sphinxstyleindexentry{dalio.pipe.selection}\sphinxstyleindexpageref{dalio.pipe:\detokenize{module-dalio.pipe.selection}}
 \item\relax\sphinxstyleindexentry{dalio.translator.file}\sphinxstyleindexpageref{dalio.translator:\detokenize{module-dalio.translator.file}}
 \item\relax\sphinxstyleindexentry{dalio.translator.pdr}\sphinxstyleindexpageref{dalio.translator:\detokenize{module-dalio.translator.pdr}}
 \item\relax\sphinxstyleindexentry{dalio.translator.quandl}\sphinxstyleindexpageref{dalio.translator:\detokenize{module-dalio.translator.quandl}}

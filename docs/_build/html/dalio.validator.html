@@ -4,7 +4,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
   <head>
     <meta charset="utf-8" />
-    <title>dalio.validator &#8212; Dal.io 0.1.1 documentation</title>
+    <title>dalio.validator package &#8212; Dal.io 0.1.1 documentation</title>
     <link rel="stylesheet" href="_static/sphinxdoc.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
     <script id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
@@ -14,8 +14,8 @@
     <script src="_static/language_data.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
-    <link rel="next" title="dalio.util" href="dalio.util.html" />
-    <link rel="prev" title="dalio.base" href="dalio.base.html" /> 
+    <link rel="next" title="dalio.util package" href="dalio.util.html" />
+    <link rel="prev" title="dalio.base package" href="dalio.base.html" /> 
   </head><body>
     <div class="related" role="navigation" aria-label="related navigation">
       <h3>Navigation</h3>
@@ -27,10 +27,10 @@
           <a href="py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
         <li class="right" >
-          <a href="dalio.util.html" title="dalio.util"
+          <a href="dalio.util.html" title="dalio.util package"
              accesskey="N">next</a> |</li>
         <li class="right" >
-          <a href="dalio.base.html" title="dalio.base"
+          <a href="dalio.base.html" title="dalio.base package"
              accesskey="P">previous</a> |</li>
         <li class="nav-item nav-item-0"><a href="index.html">Dal.io 0.1.1 documentation</a> &#187;</li> 
       </ul>
@@ -42,7 +42,7 @@
             </a></p>
   <h3><a href="index.html">Table of Contents</a></h3>
   <ul>
-<li><a class="reference internal" href="#">dalio.validator</a><ul>
+<li><a class="reference internal" href="#">dalio.validator package</a><ul>
 <li><a class="reference internal" href="#submodules">Submodules</a></li>
 <li><a class="reference internal" href="#module-dalio.validator.array_val">dalio.validator.array_val module</a></li>
 <li><a class="reference internal" href="#module-dalio.validator.base_val">dalio.validator.base_val module</a></li>
@@ -56,10 +56,10 @@
 
   <h4>Previous topic</h4>
   <p class="topless"><a href="dalio.base.html"
-                        title="previous chapter">dalio.base</a></p>
+                        title="previous chapter">dalio.base package</a></p>
   <h4>Next topic</h4>
   <p class="topless"><a href="dalio.util.html"
-                        title="next chapter">dalio.util</a></p>
+                        title="next chapter">dalio.util package</a></p>
   <div role="note" aria-label="source link">
     <h3>This Page</h3>
     <ul class="this-page-menu">
@@ -85,8 +85,8 @@
         <div class="bodywrapper">
           <div class="body" role="main">
             
-  <div class="section" id="dalio-validator">
-<h1>dalio.validator<a class="headerlink" href="#dalio-validator" title="Permalink to this headline">¶</a></h1>
+  <div class="section" id="dalio-validator-package">
+<h1>dalio.validator package<a class="headerlink" href="#dalio-validator-package" title="Permalink to this headline">¶</a></h1>
 <div class="section" id="submodules">
 <h2>Submodules<a class="headerlink" href="#submodules" title="Permalink to this headline">¶</a></h2>
 </div>
@@ -210,7 +210,7 @@ self._t</p>
 <span id="dalio-validator-pandas-val-module"></span><h2>dalio.validator.pandas_val module<a class="headerlink" href="#module-dalio.validator.pandas_val" title="Permalink to this headline">¶</a></h2>
 <dl class="class">
 <dt id="dalio.validator.pandas_val.HAS_COLS">
-<em class="property">class </em><code class="sig-prename descclassname">dalio.validator.pandas_val.</code><code class="sig-name descname">HAS_COLS</code><span class="sig-paren">(</span><em class="sig-param">cols</em><span class="sig-paren">)</span><a class="headerlink" href="#dalio.validator.pandas_val.HAS_COLS" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><code class="sig-prename descclassname">dalio.validator.pandas_val.</code><code class="sig-name descname">HAS_COLS</code><span class="sig-paren">(</span><em class="sig-param">cols</em>, <em class="sig-param">level=None</em><span class="sig-paren">)</span><a class="headerlink" href="#dalio.validator.pandas_val.HAS_COLS" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference internal" href="#dalio.validator.pandas_val.IS_PD_DF" title="dalio.validator.pandas_val.IS_PD_DF"><code class="xref py py-class docutils literal notranslate"><span class="pre">dalio.validator.pandas_val.IS_PD_DF</span></code></a></p>
 <p>Checks if data has certain column names</p>
 <dl class="attribute">
@@ -275,6 +275,18 @@ dataframe</p>
 <code class="sig-name descname">validate</code><span class="sig-paren">(</span><em class="sig-param">data</em><span class="sig-paren">)</span><a class="headerlink" href="#dalio.validator.pandas_val.HAS_IN_COLS.validate" title="Permalink to this definition">¶</a></dt>
 <dd><p>Validates data if items in self._items are not present in specified
 columns. Specified columns are all columns if self._cols is None.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="dalio.validator.pandas_val.HAS_LEVELS">
+<em class="property">class </em><code class="sig-prename descclassname">dalio.validator.pandas_val.</code><code class="sig-name descname">HAS_LEVELS</code><span class="sig-paren">(</span><em class="sig-param">levels</em>, <em class="sig-param">axis=0</em>, <em class="sig-param">comparisson='&lt;='</em><span class="sig-paren">)</span><a class="headerlink" href="#dalio.validator.pandas_val.HAS_LEVELS" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#dalio.validator.pandas_val.IS_PD_DF" title="dalio.validator.pandas_val.IS_PD_DF"><code class="xref py py-class docutils literal notranslate"><span class="pre">dalio.validator.pandas_val.IS_PD_DF</span></code></a></p>
+<dl class="method">
+<dt id="dalio.validator.pandas_val.HAS_LEVELS.validate">
+<code class="sig-name descname">validate</code><span class="sig-paren">(</span><em class="sig-param">data</em><span class="sig-paren">)</span><a class="headerlink" href="#dalio.validator.pandas_val.HAS_LEVELS.validate" title="Permalink to this definition">¶</a></dt>
+<dd><p>Validates data if it is of type self._t</p>
 </dd></dl>
 
 </dd></dl>
@@ -412,10 +424,10 @@ specific validation condition, and None if data is valid.</p>
           <a href="py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
         <li class="right" >
-          <a href="dalio.util.html" title="dalio.util"
+          <a href="dalio.util.html" title="dalio.util package"
              >next</a> |</li>
         <li class="right" >
-          <a href="dalio.base.html" title="dalio.base"
+          <a href="dalio.base.html" title="dalio.base package"
              >previous</a> |</li>
         <li class="nav-item nav-item-0"><a href="index.html">Dal.io 0.1.1 documentation</a> &#187;</li> 
       </ul>

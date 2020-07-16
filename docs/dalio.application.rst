@@ -4,7 +4,7 @@ dalio.application package
 Submodules
 ----------
 
-dalio.application.application
+dalio.application.application module
 ------------------------------------
 
 .. automodule:: dalio.application.application
@@ -12,7 +12,7 @@ dalio.application.application
    :undoc-members:
    :show-inheritance:
 
-dalio.application.graphers
+dalio.application.graphers module
 ---------------------------------
 
 .. automodule:: dalio.application.graphers
@@ -20,10 +20,19 @@ dalio.application.graphers
    :undoc-members:
    :show-inheritance:
 
-dalio.application.printers
+dalio.application.printers module
 ---------------------------------
 
 .. automodule:: dalio.application.printers
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+
+Module contents
+---------------
+
+.. automodule:: dalio.application
    :members:
    :undoc-members:
    :show-inheritance:

@@ -44,10 +44,11 @@
   <ul>
 <li><a class="reference internal" href="#">dalio.translator package</a><ul>
 <li><a class="reference internal" href="#submodules">Submodules</a></li>
-<li><a class="reference internal" href="#module-dalio.translator.file">dalio.translator.file</a></li>
-<li><a class="reference internal" href="#module-dalio.translator.pdr">dalio.translator.pdr</a></li>
-<li><a class="reference internal" href="#module-dalio.translator.quandl">dalio.translator.quandl</a></li>
-<li><a class="reference internal" href="#module-dalio.translator.translator">dalio.translator.translator</a></li>
+<li><a class="reference internal" href="#module-dalio.translator.file">dalio.translator.file module</a></li>
+<li><a class="reference internal" href="#module-dalio.translator.pdr">dalio.translator.pdr module</a></li>
+<li><a class="reference internal" href="#module-dalio.translator.quandl">dalio.translator.quandl module</a></li>
+<li><a class="reference internal" href="#module-dalio.translator.translator">dalio.translator.translator module</a></li>
+<li><a class="reference internal" href="#module-dalio.translator">Module contents</a></li>
 </ul>
 </li>
 </ul>
@@ -89,7 +90,7 @@
 <h2>Submodules<a class="headerlink" href="#submodules" title="Permalink to this headline">¶</a></h2>
 </div>
 <div class="section" id="module-dalio.translator.file">
-<span id="dalio-translator-file"></span><h2>dalio.translator.file<a class="headerlink" href="#module-dalio.translator.file" title="Permalink to this headline">¶</a></h2>
+<span id="dalio-translator-file-module"></span><h2>dalio.translator.file module<a class="headerlink" href="#module-dalio.translator.file" title="Permalink to this headline">¶</a></h2>
 <p>Translator for common file imports</p>
 <p>These will often be very specific to the file being imported, but should
 strive to still be as flexible as possible. These will often hold the format
@@ -187,7 +188,7 @@ TICKER: single ticker or iterable of tickers to filter for</p>
 
 </div>
 <div class="section" id="module-dalio.translator.pdr">
-<span id="dalio-translator-pdr"></span><h2>dalio.translator.pdr<a class="headerlink" href="#module-dalio.translator.pdr" title="Permalink to this headline">¶</a></h2>
+<span id="dalio-translator-pdr-module"></span><h2>dalio.translator.pdr module<a class="headerlink" href="#module-dalio.translator.pdr" title="Permalink to this headline">¶</a></h2>
 <p>Define translators for data from the pandas_datareader package</p>
 <dl class="class">
 <dt id="dalio.translator.pdr.YahooStockTranslator">
@@ -215,7 +216,7 @@ TICKER: ticker to get data from.</p>
 
 </div>
 <div class="section" id="module-dalio.translator.quandl">
-<span id="dalio-translator-quandl"></span><h2>dalio.translator.quandl<a class="headerlink" href="#module-dalio.translator.quandl" title="Permalink to this headline">¶</a></h2>
+<span id="dalio-translator-quandl-module"></span><h2>dalio.translator.quandl module<a class="headerlink" href="#module-dalio.translator.quandl" title="Permalink to this headline">¶</a></h2>
 <p>Define Translator instances for data imported from quandl.</p>
 <p>These should be designed with both input and output in mind as quandl inputs
 can, for a good extent, known from the table and query, both of which are
@@ -261,7 +262,7 @@ according to the STOCK_INFO validator preset.</p>
 
 </div>
 <div class="section" id="module-dalio.translator.translator">
-<span id="dalio-translator-translator"></span><h2>dalio.translator.translator<a class="headerlink" href="#module-dalio.translator.translator" title="Permalink to this headline">¶</a></h2>
+<span id="dalio-translator-translator-module"></span><h2>dalio.translator.translator module<a class="headerlink" href="#module-dalio.translator.translator" title="Permalink to this headline">¶</a></h2>
 <p>Define Translator class</p>
 <p>Translators are the root of all data that feeds your graph. Objects of this
 take in data from some external source then “translates” it into a format that
@@ -348,6 +349,160 @@ attributes and empty input.</p>
 <code class="sig-name descname">with_input</code><span class="sig-paren">(</span><em class="sig-param">new_input</em><span class="sig-paren">)</span><a class="headerlink" href="#dalio.translator.translator.Translator.with_input" title="Permalink to this definition">¶</a></dt>
 <dd><p>See base class</p>
 </dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="module-dalio.translator">
+<span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-dalio.translator" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="dalio.translator.QuandlSharadarSF1Translator">
+<em class="property">class </em><code class="sig-prename descclassname">dalio.translator.</code><code class="sig-name descname">QuandlSharadarSF1Translator</code><a class="headerlink" href="#dalio.translator.QuandlSharadarSF1Translator" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#dalio.translator.translator.Translator" title="dalio.translator.translator.Translator"><code class="xref py py-class docutils literal notranslate"><span class="pre">dalio.translator.translator.Translator</span></code></a></p>
+<p>Import and translate data from the SHARADAR/SF1 table</p>
+<dl class="method">
+<dt id="dalio.translator.QuandlSharadarSF1Translator.run">
+<code class="sig-name descname">run</code><span class="sig-paren">(</span><em class="sig-param">**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#dalio.translator.QuandlSharadarSF1Translator.run" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get input from quandl’s SHARADAR/SF1 table, and format
+according to the STOCK_STREAM validator preset.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="dalio.translator.QuandlSharadarSF1Translator.translations">
+<code class="sig-name descname">translations</code><em class="property"> = None</em><a class="headerlink" href="#dalio.translator.QuandlSharadarSF1Translator.translations" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="dalio.translator.QuandlTickerInfoTranslator">
+<em class="property">class </em><code class="sig-prename descclassname">dalio.translator.</code><code class="sig-name descname">QuandlTickerInfoTranslator</code><a class="headerlink" href="#dalio.translator.QuandlTickerInfoTranslator" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#dalio.translator.translator.Translator" title="dalio.translator.translator.Translator"><code class="xref py py-class docutils literal notranslate"><span class="pre">dalio.translator.translator.Translator</span></code></a></p>
+<p>Import and translate data from the SHARADAR/TICKERS table</p>
+<dl class="method">
+<dt id="dalio.translator.QuandlTickerInfoTranslator.run">
+<code class="sig-name descname">run</code><span class="sig-paren">(</span><em class="sig-param">**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#dalio.translator.QuandlTickerInfoTranslator.run" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get input from quandl’s SHARADAR/TICKER table, and format
+according to the STOCK_INFO validator preset.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="dalio.translator.QuandlTickerInfoTranslator.translations">
+<code class="sig-name descname">translations</code><em class="property"> = None</em><a class="headerlink" href="#dalio.translator.QuandlTickerInfoTranslator.translations" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="dalio.translator.YahooStockTranslator">
+<em class="property">class </em><code class="sig-prename descclassname">dalio.translator.</code><code class="sig-name descname">YahooStockTranslator</code><a class="headerlink" href="#dalio.translator.YahooStockTranslator" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#dalio.translator.translator.Translator" title="dalio.translator.translator.Translator"><code class="xref py py-class docutils literal notranslate"><span class="pre">dalio.translator.translator.Translator</span></code></a></p>
+<p>Translate stock data gathered from Yahoo! Finance</p>
+<dl class="method">
+<dt id="dalio.translator.YahooStockTranslator.run">
+<code class="sig-name descname">run</code><span class="sig-paren">(</span><em class="sig-param">**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#dalio.translator.YahooStockTranslator.run" title="Permalink to this definition">¶</a></dt>
+<dd><p>Request data subset and translate columns</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>**kwargs</strong> – optional run arguments.
+TICKER: ticker to get data from.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="dalio.translator.YahooStockTranslator.translations">
+<code class="sig-name descname">translations</code><em class="property"> = None</em><a class="headerlink" href="#dalio.translator.YahooStockTranslator.translations" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="dalio.translator.StockStreamFileTranslator">
+<em class="property">class </em><code class="sig-prename descclassname">dalio.translator.</code><code class="sig-name descname">StockStreamFileTranslator</code><span class="sig-paren">(</span><em class="sig-param">date_col=None</em>, <em class="sig-param">att_name=None</em><span class="sig-paren">)</span><a class="headerlink" href="#dalio.translator.StockStreamFileTranslator" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#dalio.translator.translator.Translator" title="dalio.translator.translator.Translator"><code class="xref py py-class docutils literal notranslate"><span class="pre">dalio.translator.translator.Translator</span></code></a></p>
+<p>Create a DataFrame conforming to the STOCK_STREAM validator preset.</p>
+<dl class="simple">
+<dt>The STOCK_STREAM preset includes:</dt><dd><ol class="loweralpha simple">
+<li><p>having a time series index,</p></li>
+<li><p>being a dataframe,</p></li>
+<li><dl class="simple">
+<dt>having a multiindex column with levels named ATTRIBUTE and TICKER.</dt><dd><p>Such that an imported excel file will have column names renamed
+that or assume a single column name row is of ticker names.</p>
+</dd>
+</dl>
+</li>
+</ol>
+</dd>
+</dl>
+<dl class="attribute">
+<dt id="dalio.translator.StockStreamFileTranslator.date_col">
+<code class="sig-name descname">date_col</code><a class="headerlink" href="#dalio.translator.StockStreamFileTranslator.date_col" title="Permalink to this definition">¶</a></dt>
+<dd><p>column name to get date data from.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p>str</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="dalio.translator.StockStreamFileTranslator.att_name">
+<code class="sig-name descname">att_name</code><a class="headerlink" href="#dalio.translator.StockStreamFileTranslator.att_name" title="Permalink to this definition">¶</a></dt>
+<dd><p>name of the attribute column if imported dataframe
+column has only one level.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p>str</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="dalio.translator.StockStreamFileTranslator.copy">
+<code class="sig-name descname">copy</code><span class="sig-paren">(</span><em class="sig-param">*args</em>, <em class="sig-param">**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#dalio.translator.StockStreamFileTranslator.copy" title="Permalink to this definition">¶</a></dt>
+<dd><p>Makes a copy of transformer, copying its attributes to a new
+instance.</p>
+<p>This copy should essentially create a new transformation node, not an
+entire new graph, so the _source attribute of the returned instance
+should be assigned without being copied. This is also made to be built
+upon by subclasses, such that only new attributes need to be added to
+a class’ copy method.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>*args</strong> – Positional arguments to be passed to initialize copy</p></li>
+<li><p><strong>**kwargs</strong> – Keyword arguments to be passed to initialize copy</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>A copy of this _Transformer instance with copies of necessary
+attributes and empty input.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="dalio.translator.StockStreamFileTranslator.run">
+<code class="sig-name descname">run</code><span class="sig-paren">(</span><em class="sig-param">**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#dalio.translator.StockStreamFileTranslator.run" title="Permalink to this definition">¶</a></dt>
+<dd><p>Request pandas data from file and format it into a dataframe that
+complies with the STOCK_STREAM validator preset</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>**kwargs</strong> – <p>Optional request arguments
+TICKER: single ticker or iterable of tickers to filter for</p>
+<blockquote>
+<div><p>in data.</p>
+</div></blockquote>
+</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="dalio.translator.StockStreamFileTranslator.translations">
+<code class="sig-name descname">translations</code><em class="property"> = None</em><a class="headerlink" href="#dalio.translator.StockStreamFileTranslator.translations" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
 
 </dd></dl>
 

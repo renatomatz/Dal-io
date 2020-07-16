@@ -1,72 +1,192 @@
 ![logo](https://github.com/renatomatz/Dal-IO/blob/master/docs/images/logo.png?raw=true)
 
-# Understanding Graphs
+# The Dal.io Documentation
 
-## What do I mean by "graphical structure"?
-In a graphical structures data is represented as nodes and operations as edges. Think of it as a way to represent many inter-connected transformations and their input and output data.
+## Table of Contents
 
-## Why is a graphical structure optimal for financial modeling.
-* Modern automated finantial modes retrieve data, clean and dirty, from various sources and through cleaning and itegration are able to join them, further process this product and finally derive insigts. The problem is that as these models utilize more and more data from various sources, created models tend to become confusing for both technical and non technical people. Also, as there is no unified workflow to deal with these, created models tend to become highly inflexible and lacking portability (onto other models or projects.) A graphical architecture offers an intuitive workflow for working with data, where inputs can have a unified translation, data can be constantly checked for validity and otuputs can be used in flexible ways as parts of a bigger system or drive actions.
+* [Introduction](#introduction)
+* [Instalation](#instalation)
+* [A Guided Example](#a-guided-example)
+* [Next Steps](#next-steps)
 
-* Utilizing large ammounts of data can also end up being highly memory-inneficient when data sources are varied and outputs are as simple as a buy/sell command. As in the tensorflow graphical architecture, using these constructs allow for automatic parallelization of models to better use modern hardware. Applications can also be built to fit multiple models, and updated independently from the rest of the system.
 
-* Graphs are easy to interpret visualy, which is useful for understanding the flow of data and interpreting output or bugs. They are also higly flexible, allowing users to modify pieces or generate new connections while keeping an enforcable system of data integrity.
+## Introduction
 
-* Perhaps most importantly, these graphs are extremely lightweight and portable, which is key for widespread distribution and access. While every piece can be accessed and tested on-the-go for better ease of development, they are ultimately just pieces of a bigger structure, where data flows continuously and leftover data is dicared automatically, keeping the memory and processing burden at a minimum when dealing with massive datasets.
+Dal-io is a financial modeling package for python aiming to facilitate the gathering, wrangling and analysis of financial data. The library uses **graphical object structures** and **progressive display of complexity** to make workflows suit the user's specific proficiency in python whithout making efficiency
+sacrifices. 
 
-# Base Classes and Consepts
+The core library implements common workflows from well-supported packages and the means to flexibly interlink them, and aims to continue adding relevent features. However, the user is not constrained by these features, and is free to extend pieces through inheritance in order to implement extra functionality that can be used with the rest of the package. See `developers_guide` for more information on extending core features.
 
-## Validator
-Validators are the building blocks of data integrity in the graph. As modularity is key, validators ensure that data sourced from a DataDef is what it is mean to be or that errors are targeted to make debugging easier. Validators can have any attribute needed, but functionality is stored in the .validate function, which either passes warning data on or stops execution with an error. These can and should be reused with multiple DataDef instanges.
 
-## Node
-Node instances represent data. They have a connection to some data input, internal or external, and make requests to this data as well as ensure their integrity. These form the basis for External and DataDef classes.
+## Instalation
 
-### DataDef <Node>
-DataDef instances are sources of data and implement mechanisms to ensure the integrity of that data, as input from sources is uncertain.
+You can clone this repository from git using
 
-KEEP IN MIND that this is a tool only usued by developpers while creating new transformations, actual users do not enter in contact with neither Validator nor DataDef instances.
+```bash
+    git clone https://github.com/renatomatz/Dal-io
+```
 
-**Validation:** In order to hold descriptions true, the data is validated by a chain of <Validator> functions before returning any actual data, in order to enure that if data is actually returned, it is accurate to its descriptions and won't break the subsequent transformation. These are referred to as descriptions inside DataDef instances and are added to them upon initialization of a Transformer instance.
+If you are using Windows, make sure you are in the package folder to use the functionality and that you run the following command before importing the modules.
 
-**Speed Concerns:** While it's understandable that these might pose a significant speed burden to applications, they are designed to reduce these by as much as possible. Firstly, validations are not dependent on each other and can thus be parallelized. Also, they can be turned off as needed, thoug this must be done with caution.
+```python
+    import sys
+    sys.path.append("/path-to-dalio/Dal-io") 
+```
 
-### External <Node>
-External class instances manage connections between your environment and an external source. Class instacnes will often be redundant with existing connection handlers, but at least subclasses will allow for more integrated connection handling and collection, so that you can have a single supplicant object for each external connection.
+For Linux and Mac, you can access the package contents from your python environment anywhere with
 
-## Transformer
-Transformers represent transformations on data. They have one or more sources and one or more outputs, internal or external. Transformers source data from Nodes, transforms them and outputs them.
+```bash
+    export PYTHONPATH=$PYTHONPATH:"path/to/Dal-io"
+```
 
-### Translator <Transformer>
-Translators are the root of all data that feeds your graph. Objects of this class connect with some external source, imports raw data, then "translates" it into a format that can be used universaly through the model. 
-### Pipe <Transformer>
-Pipes are a base class that represents any kind of data modification with one internal input and one internal output. All pipes must implement the .transform() method, which takes in the output from sourced data and returns it transformed. The .run() method in turn has a default implementation to actually source the input data from the input node and pass it onto the .transform() method; this default implementation is often changed to modify keyword arguments passed onto the source node and the .transform() call. 
 
-**Configuration:** Sources often require additional ids, secrets or paths in order to access their data. The .config attribute aims to summarise all key configuration details and data needed to access a resource. Additional functions can be added as needed to facilitate one-time connection needs.
+## A Guided Example
 
-**Factories:** Sources, typically web APIs, will give users various functionalities with the same base configurations. The .make() method can be implemeted to return subclasses that inherit parent processing and configuration.
+Let's go through a quick example of what Dal-io can do. We'll build a simple portfolio optimization workflow and test it out with some sample stocks.
 
-### PipeLine <Pipe>
-As Pipe instances implement a normally small operation and have only one imput and one output, you are able to join them together, thorugh the \_\_add\_\_() internal method to create a sequence of transformations linked one after the other. These simply pass the output of one Pipe instance's .transform() method as the input to another, so be carefull with data integrity here. KEEP IN MIND that good alternatives to these is just linking Pipe instances together in order to validate the data at every stage of the pipeline.
+This example will be fairly dry, so if you want to jump right into it with some understanding of the Dal-io mechanics, you can go through the `beginners_guide` first. If you just want to see what the library is capable of, let's get right to it.
 
-### Model <Transformer>
-Models are a lot like transformers as they take in inputs and has a single output. Models do differ from transformers as they can take in multiple inputs and be much more flexible with additional methods for different strategies or for small data storage. Also, keep in mind models do not have a \_\_call\_\_ method inherited or a single function that transforms its inputs. Models are supposed to perform more intricate operations, beyond a simple transformation.
+We'll start off by importing the Dal-io pieces
 
-### Applications <Model>
-While Models are normally the last stage of a model, it still has a single output which might have limited value in itself. Applications are tools used for the interpretation of multiple, which are not constrained by those output by models, but often are. These can have a broad range of applications, from graphing to trading. The main functionality is in the .execute() method, which gets input data and interprets it as needed. 
+```python
+    import numpy as np
 
-## Key Concepts, Differences and Philosophy
+    import dalio.external as de
+    import dalio.translator as dt
+    import dalio.pipe as dp
+    import dalio.model as dm
+    import dalio.application as da
+```
 
-<!--### Modularity -->
+Specific pieces can also be imported inidvidually, though for testing this sub-module import structure is preferred.
 
-<!--### Data Integrity-->
+Now lets set up our stock data input from Yahoo! Finance.
 
-<!--### Portability-->
+```python
+    tickers = ["GOOG", "MSFT", "ATVI", "TTWO", "GM", "FORD", "SPY"]
+    
+    stocks = dt.YahooStockTranslator()\
+        .set_input(de.YahooDR())
+```
 
-### running vs requesting
-You might have notices that classes that inherit from <Pipe> have .run() methods, classes that inherit from <Node> have .request() methods, both of which return some forrm of data. While these two essentally have the same output functionality, they differ in implementation, where .run() methods get data from a source and modifies is while .get() methods get data, also from some source, and validates it. Thus, the idea of a DataOrigin compared to a Pipe becomes clearer.
+Easy right? Notice that the stock input is composed of one external source (in this case `de.YahooDR`) and one translator (`dt.YahooStockTranslator`). This is the case for any input, with one piece getting raw data from an external source and another one translating it to a format friendly to Dal-io pieces. For more on formatting, go to `formatting`. 
 
-### describing vs tagging
-The .tags and .desc attributes might seem to be redundant, as both are used to describe some sort of data passing by them and both can be used to search for nodes in the graph. Firsly, and most importantly, the .desc attribute is common to all DataDef instances that inherit from another DataDef, while the .tag attribute is unique to that node, unless it is also present on the parent DataDef or shared with other DataDefs upon instanciation. 
+Notice the `.set_input` call that took in the YahooDR object. Every all translators, pipes, models and applications share this method that allows them to plug the ourput of another object as their own input. This idea of connecting different objects like nodes in a graph is at the core of the **graphical object design**.
 
-They also do defer in "strictness," as tags will not be checked for truthfulness, while descriptions will be tested on the data, unless, of course, users turn checking off. Tags are included as a feature to allow more flexible, personalizable descriptions thatdescribe groups or structures within the graph rather than a certain functionality.
+At this point you can try out running the model with :code:`stocks.run(ticker=tickers)` which will get the OHLCV data for the ticker symbols assigned to :code"`tickers`, though you can specify any ticker available in Yahoo! finance. Notice that the column names where standardized to be all lower-case with undercores (\_) instead of spaces. This is performed as part of the translation step to ensure all imported data can be referenced with common string representations.
+
+Now lets create a data processing pipeline for our input data.
+
+```python
+    time_conf = dp.DateSelect()
+
+    close = dp.PipeLine(
+        dp.ColSelect(columns="close"),
+        time_conf
+    )(stocks)
+
+    annual_rets = close + \
+        dp.Period("Y", agg_func=lambda x: x[-1]) + \
+        dp.Change(strategy="pct_change")
+
+    cov = dp.Custom(lambda df: df.cov(), strategy="pipe")\
+        .with_input(annual_rets)
+
+    exp_rets = annual_rets + dp.Custom(np.mean)
+```
+
+That was a bit more challenging! Let's take it step by step.
+
+We started off defining a DateSelect pipe (which we will use later) and passingit into a pipeline with other pipes to get a company's annual returns. Pipelines aggregate zero or more Pipe objects and pass in a common input through all of their transformations. This skips data integrity checking while still allowing users to control pipes inside the pipeline from the outside (as we will with `time_conf`)
+
+We then passed added a custom pipe that applies the np.mean function to the annualr returns to get the expected returns for each stock.
+
+Finally, we did the exact same thing but with a lambda that calls the pd.DataFrame internal method .cov() to get the dataframe's covariance. As we will be passing the whole dataframe to the function at once, we set the Custom strategy to "pipe".
+
+Notice how we didn't use `.set_input()` as we did before, that's because we utilized alternative ways of establishing this same node-to-node connection. 
+
+We can connect nodes with:
+
+1. `p1.set_input(p2)` set p1's input to p2.
+
+1. `p1.with_input(p2)` create a copy of p1 and set its input to p2.
+
+1. `p1(p2)` same as `p1.with_input(p2)`.
+
+1. `pL + p2` set p2 as the last transformation in the PipeLine pL.
+
+Now let's set up our efficient frontier model, get the optimal weights and finally create our optimal portfolio model.
+
+```python
+    ef = dm.MakeEfficientFrontier(weight_bounds=(-0.5, 1))\
+        .set_input("sample_covariance", cov)\
+        .set_input("expected_returns", exp_rets)\
+
+    weights = dp.OptimumWeights()(ef)\
+        .set_piece("strategy", "max_sharpe", risk_free_rate=0.0)
+
+    opt_port = dm.OptimumPortfolio()\
+        .set_input("weights_in", weights)\
+        .set_input("data_in", close)
+```
+
+And those are two examples of Dal-io Models! As you can see, models can have multiple named inputs, which can be set the same way as you would in a pipe but also having to specify their name. You also saw an example of a Builder, which has pieces (that can be set with the `.set_piece()`) method which allow for more modular flexibility when deciding characteristics of certain pipes or models.We could go into what each source and pieces represents, but that can be better done through the documentation.
+
+Now, as a final step, lets graph the performance of the optimal portfolio.
+
+```python
+    graph = da.PandasXYGrapher(x=None, y="close", legend="upper_right")\
+        .set_input("data_in", dp.Index(100)(opt_port))\
+        .set_output("data_out", de.PyPlotGraph(figsize=(12, 8)))
+```
+
+Additionally, you can change the time range of the whole model at any point using the `time_conf` object we created all the way in the beginning. Below is an example of setting the dates from 2016 to 2020.
+
+```python
+    time_conf.set_start("2016-01-01")
+    time_conf.set_end("2019-12-31")
+```
+
+And that's it! 
+
+All that you have to do now is run the model with :code:`graph.run(ticker=tickers)` to 
+
+1. Get stock data from Yahoo! Finance
+
+1. Process data 
+
+1. Optimize portfolio weights
+
+1. Get an optimum portfolio
+
+1. Graph optimum portfolio
+
+Which yields this figure:
+
+![port-opt-graph](https://github.com/renatomatz/Dal-IO/blob/master/docs/images/port_opt_cook_graph.png)
+
+Notice how this :code:`.run()` call was the same as you did all the way back when you only had your imported data. This method is also common to all translators, pipes, models and applications, and it gives you the piece's output. 
+
+This means you can get information of any of the stages you created like this, and for anly stock that you'd like. For example, we can run the :code:`weights` object we created to get the weights associated with the portfolio we just plotted.
+
+```python
+    weights.run(ticker=tickers)
+```
+
+```bash
+    >>> {'GOOG': 0.45514,
+         'MSFT': 0.82602,
+         'ATVI': -0.49995,
+         'TTWO': 0.29241,
+         'GM': -0.43788,
+         'FORD': 0.38413,
+         'SPY': -0.01986}
+```
+
+Hope this example was enough to show how you can create clean and powerful models using just a few lines of code!
+
+## Next Steps
+
+If you read and enjoyed the example above, that's great! Now comes the part where you get to understand its various pieces, workflows and internal logic for you to start creating your own models with Dal-io. 
+
+Check out our documentation at [the Dal-io Documentation](https://dalio.readthedocs.io/en/latest/)

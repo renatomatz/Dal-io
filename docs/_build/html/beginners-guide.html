@@ -1,0 +1,217 @@
+
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta charset="utf-8" />
+    <title>Understanding Graphs &#8212; Dal.io 0.1.1 documentation</title>
+    <link rel="stylesheet" href="_static/sphinxdoc.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <script id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+    <script src="_static/jquery.js"></script>
+    <script src="_static/underscore.js"></script>
+    <script src="_static/doctools.js"></script>
+    <script src="_static/language_data.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Core Classes and Consepts" href="developers-guide.html" />
+    <link rel="prev" title="dalio.util package" href="dalio.util.html" /> 
+  </head><body>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="developers-guide.html" title="Core Classes and Consepts"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="dalio.util.html" title="dalio.util package"
+             accesskey="P">previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="index.html">Dal.io 0.1.1 documentation</a> &#187;</li> 
+      </ul>
+    </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+            <p class="logo"><a href="index.html">
+              <img class="logo" src="_static/logo.png" alt="Logo"/>
+            </a></p>
+  <h3><a href="index.html">Table of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">Understanding Graphs</a><ul>
+<li><a class="reference internal" href="#what-do-i-mean-by-graphical-structure">What do I mean by “graphical structure”?</a></li>
+<li><a class="reference internal" href="#why-is-a-graphical-structure-optimal-for-financial-modeling">Why is a graphical structure optimal for financial modeling?</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#basic-classes">Basic Classes</a><ul>
+<li><a class="reference internal" href="#external-node">External &lt;Node&gt;</a></li>
+<li><a class="reference internal" href="#transformer">_Transformer</a></li>
+<li><a class="reference internal" href="#translator-transformer">Translator &lt;_Transformer&gt;</a></li>
+<li><a class="reference internal" href="#pipe-transformer">Pipe &lt;_Transformer&gt;</a></li>
+<li><a class="reference internal" href="#model-transformer">Model &lt;_Transformer&gt;</a></li>
+<li><a class="reference internal" href="#applications-model">Applications &lt;Model&gt;</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#extra-classes">Extra Classes</a><ul>
+<li><a class="reference internal" href="#pipeline-pipe">PipeLine &lt;Pipe&gt;</a></li>
+<li><a class="reference internal" href="#memory-transformer">Memory &lt;_Transformer&gt;</a></li>
+<li><a class="reference internal" href="#lazyrunner-transformer">LazyRunner &lt;_Transformer&gt;</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#tips-and-tricks">Tips and Tricks</a><ul>
+<li><a class="reference internal" href="#the-basic-workflow">The Basic Workflow</a></li>
+<li><a class="reference internal" href="#when-reading-the-docs">When Reading the Docs</a></li>
+<li><a class="reference internal" href="#must-know-classes">Must-Know Classes</a></li>
+</ul>
+</li>
+</ul>
+
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="dalio.util.html"
+                        title="previous chapter">dalio.util package</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="developers-guide.html"
+                        title="next chapter">Core Classes and Consepts</a></p>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="_sources/beginners-guide.rst.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" />
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script>$('#searchbox').show(0);</script>
+        </div>
+      </div>
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="understanding-graphs">
+<span id="beginners-guide"></span><h1>Understanding Graphs<a class="headerlink" href="#understanding-graphs" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="what-do-i-mean-by-graphical-structure">
+<h2>What do I mean by “graphical structure”?<a class="headerlink" href="#what-do-i-mean-by-graphical-structure" title="Permalink to this headline">¶</a></h2>
+<p>In a graphical structures data is represented as nodes and operations as edges. Think of it as a way to represent many inter-connected transformations and their input and output data.</p>
+</div>
+<div class="section" id="why-is-a-graphical-structure-optimal-for-financial-modeling">
+<h2>Why is a graphical structure optimal for financial modeling?<a class="headerlink" href="#why-is-a-graphical-structure-optimal-for-financial-modeling" title="Permalink to this headline">¶</a></h2>
+<blockquote>
+<div><ul class="simple">
+<li><p>Modern automated finantial models retrieve data, clean and dirty, from various sources and through cleaning and itegration are able to join them, further process this product and finally derive insigts. The problem is that as these models utilize more and more data from various sources, created models tend to become confusing for both technical and non technical people. Also, as there is no unified workflow to deal with these, created models tend to become highly inflexible and lacking portability (onto other models or projects.) A graphical architecture offers an intuitive workflow for working with data, where inputs can have a unified translation, data can be constantly checked for validity and otuputs can be used in flexible ways as parts of a bigger system or drive actions.</p></li>
+<li><p>Utilizing large ammounts of data can also end up being highly memory-inneficient when data sources are varied and outputs are as simple as a buy/sell command. As in the tensorflow graphical architecture, using these constructs allow for automatic parallelization of models to better use modern hardware. Applications can also be built to fit multiple models, and updated independently from the rest of the system.</p></li>
+<li><p>Graphs are easy to interpret visualy, which is useful for understanding the flow of data and interpreting output or bugs. They are also higly flexible, allowing users to modify pieces or generate new connections while keeping an enforcable system of data integrity.</p></li>
+<li><p>Perhaps most importantly, these graphs are extremely lightweight and portable, which is key for widespread distribution and access. While every piece can be accessed and tested on-the-go for better ease of development, they are ultimately just pieces of a bigger structure, where data flows continuously and leftover data is dicared automatically, keeping the memory and processing burden at a minimum when dealing with massive datasets.</p></li>
+</ul>
+</div></blockquote>
+</div>
+</div>
+<div class="section" id="basic-classes">
+<h1>Basic Classes<a class="headerlink" href="#basic-classes" title="Permalink to this headline">¶</a></h1>
+<p>These are the classes you will use throughout an analalysis, or rather a class that implements their functionality. Getting to know them is important as it makes it easier to identify one when you see one and make it easier to search for one when you don’t really remember where to find it.</p>
+<div class="section" id="external-node">
+<h2>External &lt;Node&gt;<a class="headerlink" href="#external-node" title="Permalink to this headline">¶</a></h2>
+<p>External class instances manage connections between your environment and an external source. Class instacnes will often be redundant with existing connection handlers, but at least subclasses will allow for more integrated connection handling and collection, so that you can have a single supplicant object for each external connection.</p>
+</div>
+<div class="section" id="transformer">
+<h2>_Transformer<a class="headerlink" href="#transformer" title="Permalink to this headline">¶</a></h2>
+<p>Transformers represent transformations on data. They have one or more sources and one or more outputs, internal or external. Transformers source data from Nodes, transforms them and outputs them. You won’t be using these directly in your analyses, but will definitely use one of its subclasses.</p>
+</div>
+<div class="section" id="translator-transformer">
+<h2>Translator &lt;_Transformer&gt;<a class="headerlink" href="#translator-transformer" title="Permalink to this headline">¶</a></h2>
+<p>Translators are the root of all data that feeds your graph. Objects of this class connect with some external source, imports raw data, then “translates” it into a format that can be used universaly through the model.</p>
+</div>
+<div class="section" id="pipe-transformer">
+<h2>Pipe &lt;_Transformer&gt;<a class="headerlink" href="#pipe-transformer" title="Permalink to this headline">¶</a></h2>
+<p>Pipes are a base class that represents any kind of data modification with one internal input and one internal output. All pipes must implement the .transform() method, which takes in the output from sourced data and returns it transformed. The .run() method in turn has a default implementation to actually source the input data from the input node and pass it onto the .transform() method; this default implementation is often changed to modify keyword arguments passed onto the source node and the .transform() call.</p>
+<p><strong>Configuration:</strong> Sources often require additional ids, secrets or paths in order to access their data. The .config attribute aims to summarise all key configuration details and data needed to access a resource. Additional functions can be added as needed to facilitate one-time connection needs.</p>
+<p><strong>Factories:</strong> Sources, typically web APIs, will give users various functionalities with the same base configurations. The .make() method can be implemeted to return subclasses that inherit parent processing and configuration.</p>
+</div>
+<div class="section" id="model-transformer">
+<h2>Model &lt;_Transformer&gt;<a class="headerlink" href="#model-transformer" title="Permalink to this headline">¶</a></h2>
+<p>Models are a lot like transformers as they take in inputs and has a single output. Models do differ from transformers as they can take in multiple inputs and be much more flexible with additional methods for different strategies or for small data storage. Also, keep in mind models do not have a __call__ method inherited or a single function that transforms its inputs. Models are supposed to perform more intricate operations, beyond a simple transformation.</p>
+</div>
+<div class="section" id="applications-model">
+<h2>Applications &lt;Model&gt;<a class="headerlink" href="#applications-model" title="Permalink to this headline">¶</a></h2>
+<p>While Models are normally the last stage of a model, it still has a single output which might have limited value in itself. Applications are tools used for the interpretation of multiple, which are not constrained by those output by models, but often are. These can have a broad range of applications, from graphing to trading. The main functionality is in the .execute() method, which gets input data and interprets it as needed.</p>
+</div>
+</div>
+<div class="section" id="extra-classes">
+<h1>Extra Classes<a class="headerlink" href="#extra-classes" title="Permalink to this headline">¶</a></h1>
+<p>Now that we’ve seen what will make your models work, lets jump into what will make your models <strong>work incredibly.</strong></p>
+<div class="section" id="pipeline-pipe">
+<h2>PipeLine &lt;Pipe&gt;<a class="headerlink" href="#pipeline-pipe" title="Permalink to this headline">¶</a></h2>
+<p>As Pipe instances implement a normally small operation and have only one imput and one output, you are able to join them together, thorugh the __add__() internal method (which overrides the + operator) to create a sequence of transformations linked one after the other. These simply pass the output of one Pipe instance’s .transform() method as the input to another, which can be a significant speed boost, though you should be carefull with data integrity here.</p>
+<p>KEEP IN MIND that good alternatives to these is just linking Pipe instances together in order to validate the data at every stage of the pipeline. This will have the same output as a PipeLine, but compromise on speed and possibly aesthetics.</p>
+</div>
+<div class="section" id="memory-transformer">
+<h2>Memory &lt;_Transformer&gt;<a class="headerlink" href="#memory-transformer" title="Permalink to this headline">¶</a></h2>
+<p>When using APIs to fetch online data, there is often a delay that ranges from a few to a few dozen seconds. This might be completely fine if data will only pass through your model once to feed an application, for example, but will become a problem if you are also performing analyses on several pieces of the model or have several Model instances in your graph (which call on an input once for every source). The solution to this lies in Memory instances that temporarily save model imputs to some location and retrieves it when ran.</p>
+<p>Notice that Memory inherits from a _Transformer, which makes it compatible as input to any piece of your graph and behaves like any other input (most closely resembling a Pipe.)</p>
+<p>Subclasses will implement different storage strategies for different locations. These will have their own data requirements and storage and retrieval logic - imagine the different in data structure, storage and retrieval required for storing data on a database vs on the local python session.</p>
+<p>One thing to keep in mind is that these only store one piece of memory, so if you, for example, want to vary your .run() kwargs, this might not be the best option beyond building and debugging your model. If you still want the speed advantages of Memory while allowing for more runtime argument flexibility, check out the LazyRunner class below.</p>
+</div>
+<div class="section" id="lazyrunner-transformer">
+<h2>LazyRunner &lt;_Transformer&gt;<a class="headerlink" href="#lazyrunner-transformer" title="Permalink to this headline">¶</a></h2>
+<p>These objects are the solution to storing multible Memory instances for different runtime kwargs that pass through the instance. These do not store the data itself, but rather the memory instances that do. This allows for more flexibility, as any single Memory subclass can be used to store the data. These are created when a new keyword argument is seen, and it does so by getting the data from a _Transformer input and setting its result as the source of a new Memory instance. The Memory type and initialization arguments are all specified in the LazyRunner initialization.</p>
+<p>KEEP IN MIND that these could mean a significant memory burden, if you are widly saving data from different inputs with several kwargs combinations passed on to them.</p>
+<p>The solution to the memory problem comes in the buffer= initialization argument of the LazyRunner. These will limmit the number of Memory instances that are saved at any point. This also comes with the update= initialization argument for whether or not stored Memory instances should be updaed in FIFO order once the buffer is full or whether an error should be thrown.</p>
+<p>KEEP IN MIND that this will not notice if its source data input has any sort of input changes itself (this could be a change in date range, for example or data source.) This will become a problem as changes will not be relayed if the runtime kwargs are the same as before a change. This happens as the LazyRunner will assume that nothing changed, see the kwarg and return the (old) saved version of the response. This can be solved by calling the .clear() method to reset the memory dictionary.</p>
+</div>
+</div>
+<div class="section" id="tips-and-tricks">
+<h1>Tips and Tricks<a class="headerlink" href="#tips-and-tricks" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="the-basic-workflow">
+<h2>The Basic Workflow<a class="headerlink" href="#the-basic-workflow" title="Permalink to this headline">¶</a></h2>
+</div>
+<div class="section" id="when-reading-the-docs">
+<h2>When Reading the Docs<a class="headerlink" href="#when-reading-the-docs" title="Permalink to this headline">¶</a></h2>
+</div>
+<div class="section" id="must-know-classes">
+<h2>Must-Know Classes<a class="headerlink" href="#must-know-classes" title="Permalink to this headline">¶</a></h2>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="developers-guide.html" title="Core Classes and Consepts"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="dalio.util.html" title="dalio.util package"
+             >previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="index.html">Dal.io 0.1.1 documentation</a> &#187;</li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &#169; Copyright 2020, Renato Zimmermann.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 2.4.0.
+    </div>
+  </body>
+</html>

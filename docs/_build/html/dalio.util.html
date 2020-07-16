@@ -4,7 +4,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
   <head>
     <meta charset="utf-8" />
-    <title>dalio.util &#8212; Dal.io 0.1.1 documentation</title>
+    <title>dalio.util package &#8212; Dal.io 0.1.1 documentation</title>
     <link rel="stylesheet" href="_static/sphinxdoc.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
     <script id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
@@ -14,7 +14,7 @@
     <script src="_static/language_data.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
-    <link rel="prev" title="dalio.validator" href="dalio.validator.html" /> 
+    <link rel="prev" title="dalio.validator package" href="dalio.validator.html" /> 
   </head><body>
     <div class="related" role="navigation" aria-label="related navigation">
       <h3>Navigation</h3>
@@ -26,7 +26,7 @@
           <a href="py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
         <li class="right" >
-          <a href="dalio.validator.html" title="dalio.validator"
+          <a href="dalio.validator.html" title="dalio.validator package"
              accesskey="P">previous</a> |</li>
         <li class="nav-item nav-item-0"><a href="index.html">Dal.io 0.1.1 documentation</a> &#187;</li> 
       </ul>
@@ -38,10 +38,12 @@
             </a></p>
   <h3><a href="index.html">Table of Contents</a></h3>
   <ul>
-<li><a class="reference internal" href="#">dalio.util</a><ul>
+<li><a class="reference internal" href="#">dalio.util package</a><ul>
 <li><a class="reference internal" href="#submodules">Submodules</a></li>
+<li><a class="reference internal" href="#module-dalio.util.level_utils">dalio.util.level_utils module</a></li>
 <li><a class="reference internal" href="#module-dalio.util.plotting_utils">dalio.util.plotting_utils module</a></li>
 <li><a class="reference internal" href="#module-dalio.util.processing_utils">dalio.util.processing_utils module</a></li>
+<li><a class="reference internal" href="#module-dalio.util.transformation_utils">dalio.util.transformation_utils module</a></li>
 <li><a class="reference internal" href="#module-dalio.util.translation_utils">dalio.util.translation_utils module</a></li>
 <li><a class="reference internal" href="#module-dalio.util">Module contents</a></li>
 </ul>
@@ -50,7 +52,7 @@
 
   <h4>Previous topic</h4>
   <p class="topless"><a href="dalio.validator.html"
-                        title="previous chapter">dalio.validator</a></p>
+                        title="previous chapter">dalio.validator package</a></p>
   <div role="note" aria-label="source link">
     <h3>This Page</h3>
     <ul class="this-page-menu">
@@ -76,10 +78,152 @@
         <div class="bodywrapper">
           <div class="body" role="main">
             
-  <div class="section" id="dalio-util">
-<h1>dalio.util<a class="headerlink" href="#dalio-util" title="Permalink to this headline">¶</a></h1>
+  <div class="section" id="dalio-util-package">
+<h1>dalio.util package<a class="headerlink" href="#dalio-util-package" title="Permalink to this headline">¶</a></h1>
 <div class="section" id="submodules">
 <h2>Submodules<a class="headerlink" href="#submodules" title="Permalink to this headline">¶</a></h2>
+</div>
+<div class="section" id="module-dalio.util.level_utils">
+<span id="dalio-util-level-utils-module"></span><h2>dalio.util.level_utils module<a class="headerlink" href="#module-dalio.util.level_utils" title="Permalink to this headline">¶</a></h2>
+<p>Utilities for dealing with DataFrame index or column levels</p>
+<dl class="function">
+<dt id="dalio.util.level_utils.add_suffix">
+<code class="sig-prename descclassname">dalio.util.level_utils.</code><code class="sig-name descname">add_suffix</code><span class="sig-paren">(</span><em class="sig-param">all_cols</em>, <em class="sig-param">cols</em>, <em class="sig-param">suffix</em><span class="sig-paren">)</span><a class="headerlink" href="#dalio.util.level_utils.add_suffix" title="Permalink to this definition">¶</a></dt>
+<dd><p>Add suffix to appropriate level in a given column index.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>all_cols</strong> (<em>pd.Index</em><em>, </em><em>pd.MultiIndex</em>) – all columns from an index. This
+is only relevent when the columns at hand are a multindex, as each
+tuple element will contain elements from all levels (not only the
+selected ones)</p></li>
+<li><p><strong>cols</strong> (<em>str</em><em>, </em><em>list</em><em>, </em><em>dict</em>) – selected columns</p></li>
+<li><p><strong>suffix</strong> (<em>str</em>) – the suffix to add to the selected columns.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
+<dt id="dalio.util.level_utils.drop_cols">
+<code class="sig-prename descclassname">dalio.util.level_utils.</code><code class="sig-name descname">drop_cols</code><span class="sig-paren">(</span><em class="sig-param">df</em>, <em class="sig-param">cols</em><span class="sig-paren">)</span><a class="headerlink" href="#dalio.util.level_utils.drop_cols" title="Permalink to this definition">¶</a></dt>
+<dd><p>Drop selected columns from levels</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>df</strong> (<em>pd.DataFrame</em>) – dataframe to have columns dropped.</p></li>
+<li><p><strong>cols</strong> (<em>hashable</em><em>, </em><em>iterable</em><em>, </em><em>dict</em>) – column selection</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
+<dt id="dalio.util.level_utils.extract_cols">
+<code class="sig-prename descclassname">dalio.util.level_utils.</code><code class="sig-name descname">extract_cols</code><span class="sig-paren">(</span><em class="sig-param">df</em>, <em class="sig-param">cols</em><span class="sig-paren">)</span><a class="headerlink" href="#dalio.util.level_utils.extract_cols" title="Permalink to this definition">¶</a></dt>
+<dd><p>Extract columns from a dataframe</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>df</strong> (<em>pd.DataFrame</em>) – dataframe containing the columns</p></li>
+<li><p><strong>cols</strong> (<em>hashable</em><em>, </em><em>iterable</em><em>, </em><em>dict</em>) – single column, list of columnst
+or dict with the level as keys and column(s) as values.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Raises</dt>
+<dd class="field-even"><p><strong>KeyError</strong> – if columns are not in dataframe</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
+<dt id="dalio.util.level_utils.extract_level_names_dict">
+<code class="sig-prename descclassname">dalio.util.level_utils.</code><code class="sig-name descname">extract_level_names_dict</code><span class="sig-paren">(</span><em class="sig-param">df</em><span class="sig-paren">)</span><a class="headerlink" href="#dalio.util.level_utils.extract_level_names_dict" title="Permalink to this definition">¶</a></dt>
+<dd><p>Extract all column names in a dataframe as (level: <a href="#id5"><span class="problematic" id="id6">names_</span></a> dicitonar7</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>df</strong> (<em>pd.DataFrame</em>) – dataframe whose columns will be extracted</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
+<dt id="dalio.util.level_utils.filter_levels">
+<code class="sig-prename descclassname">dalio.util.level_utils.</code><code class="sig-name descname">filter_levels</code><span class="sig-paren">(</span><em class="sig-param">levels</em>, <em class="sig-param">filters</em><span class="sig-paren">)</span><a class="headerlink" href="#dalio.util.level_utils.filter_levels" title="Permalink to this definition">¶</a></dt>
+<dd><p>Filter columns in levels to either be equal to specified
+columns or a filtering function</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>levels</strong> (<em>dict</em>) – all column names in a (level: names) dict</p></li>
+<li><p><strong>filters</strong> (<em>str</em><em>, </em><em>list</em><em>, </em><em>callable</em><em>, </em><em>dict</em>) – either columns to place on
+a specified level or filter functions to select columns there.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
+<dt id="dalio.util.level_utils.get_slice_from_dict">
+<code class="sig-prename descclassname">dalio.util.level_utils.</code><code class="sig-name descname">get_slice_from_dict</code><span class="sig-paren">(</span><em class="sig-param">df</em>, <em class="sig-param">cols</em><span class="sig-paren">)</span><a class="headerlink" href="#dalio.util.level_utils.get_slice_from_dict" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get a tuple of slices that locate the specified (level: column)
+combination.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>df</strong> (<em>pd.DataFrame</em>) – dataframe with multiindex</p></li>
+<li><p><strong>cols</strong> (<em>dict</em>) – (level: column) dictionary</p></li>
+</ul>
+</dd>
+<dt class="field-even">Raises</dt>
+<dd class="field-even"><ul class="simple">
+<li><p><strong>ValueError</strong> – if any of the level keys are not integers</p></li>
+<li><p><strong>KeyError</strong> – if any level key is out of bounds or if columns are not in
+    the dataframe</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
+<dt id="dalio.util.level_utils.insert_cols">
+<code class="sig-prename descclassname">dalio.util.level_utils.</code><code class="sig-name descname">insert_cols</code><span class="sig-paren">(</span><em class="sig-param">df</em>, <em class="sig-param">new_data</em>, <em class="sig-param">cols</em><span class="sig-paren">)</span><a class="headerlink" href="#dalio.util.level_utils.insert_cols" title="Permalink to this definition">¶</a></dt>
+<dd><p>Insert new data into specified existing columns</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>df</strong> (<em>pd.DataFrame</em>) – dataframe to insert data into.</p></li>
+<li><p><strong>new_data</strong> (<em>any</em>) – new data to be inserted</p></li>
+<li><p><strong>cols</strong> (<em>hashable</em><em>, </em><em>iterable</em><em>, </em><em>dict</em>) – existing columns in data.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Raises</dt>
+<dd class="field-even"><ul class="simple">
+<li><p><strong>KeyError</strong> – if columns are not in dataframe</p></li>
+<li><p><strong>Exception</strong> – if new data doesn’t fit cols dimensions</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
+<dt id="dalio.util.level_utils.mi_join">
+<code class="sig-prename descclassname">dalio.util.level_utils.</code><code class="sig-name descname">mi_join</code><span class="sig-paren">(</span><em class="sig-param">df1</em>, <em class="sig-param">df2</em>, <em class="sig-param">*args</em>, <em class="sig-param">**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#dalio.util.level_utils.mi_join" title="Permalink to this definition">¶</a></dt>
+<dd><p>Join two dataframes and sort their columns</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>df2</strong> (<em>df1</em><em>,</em>) – dataframes to join</p></li>
+<li><p><strong>**kwargs</strong> (<em>*args</em><em>,</em>) – <p>arguments for join function (called from df1)</p>
+</p></li>
+</ul>
+</dd>
+<dt class="field-even">Raises</dt>
+<dd class="field-even"><p><strong>ValueError if number of levels don't match</strong> – </p>
+</dd>
+</dl>
+</dd></dl>
+
 </div>
 <div class="section" id="module-dalio.util.plotting_utils">
 <span id="dalio-util-plotting-utils-module"></span><h2>dalio.util.plotting_utils module<a class="headerlink" href="#module-dalio.util.plotting_utils" title="Permalink to this headline">¶</a></h2>
@@ -175,6 +319,11 @@ be created if none is specified.</p></li>
 <span id="dalio-util-processing-utils-module"></span><h2>dalio.util.processing_utils module<a class="headerlink" href="#module-dalio.util.processing_utils" title="Permalink to this headline">¶</a></h2>
 <p>Data processing utilities</p>
 <dl class="function">
+<dt id="dalio.util.processing_utils.list_str">
+<code class="sig-prename descclassname">dalio.util.processing_utils.</code><code class="sig-name descname">list_str</code><span class="sig-paren">(</span><em class="sig-param">listi</em><span class="sig-paren">)</span><a class="headerlink" href="#dalio.util.processing_utils.list_str" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
 <dt id="dalio.util.processing_utils.process_cols">
 <code class="sig-prename descclassname">dalio.util.processing_utils.</code><code class="sig-name descname">process_cols</code><span class="sig-paren">(</span><em class="sig-param">cols</em><span class="sig-paren">)</span><a class="headerlink" href="#dalio.util.processing_utils.process_cols" title="Permalink to this definition">¶</a></dt>
 <dd><p>Standardize input columns</p>
@@ -215,9 +364,71 @@ be created if none is specified.</p></li>
 </dd></dl>
 
 </div>
+<div class="section" id="module-dalio.util.transformation_utils">
+<span id="dalio-util-transformation-utils-module"></span><h2>dalio.util.transformation_utils module<a class="headerlink" href="#module-dalio.util.transformation_utils" title="Permalink to this headline">¶</a></h2>
+<dl class="function">
+<dt id="dalio.util.transformation_utils.out_of_place_col_insert">
+<code class="sig-prename descclassname">dalio.util.transformation_utils.</code><code class="sig-name descname">out_of_place_col_insert</code><span class="sig-paren">(</span><em class="sig-param">df</em>, <em class="sig-param">series</em>, <em class="sig-param">loc</em>, <em class="sig-param">column_name=None</em><span class="sig-paren">)</span><a class="headerlink" href="#dalio.util.transformation_utils.out_of_place_col_insert" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns a new dataframe with given column inserted at given location.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>df</strong> (<em>pandas.DataFrame</em>) – The dataframe into which to insert the column.</p></li>
+<li><p><strong>series</strong> (<em>pandas.Series</em>) – The pandas series to be inserted.</p></li>
+<li><p><strong>loc</strong> (<em>int</em>) – The location into which to insert the new column.</p></li>
+<li><p><strong>column_name</strong> (<em>str</em><em>, </em><em>default None</em>) – The name to assign the new column. If None, the given series name
+attribute is attempted; if the given series is missing the name
+attribute a ValueError exception will be raised.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>The resulting dataframe.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>pandas.DataFrame</p>
+</dd>
+</dl>
+<p class="rubric">Example</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span><span class="p">;</span> <span class="kn">import</span> <span class="nn">pdpipe</span> <span class="k">as</span> <span class="nn">pdp</span><span class="p">;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">([[</span><span class="mi">1</span><span class="p">,</span> <span class="s1">&#39;a&#39;</span><span class="p">],</span> <span class="p">[</span><span class="mi">4</span><span class="p">,</span> <span class="s1">&#39;b&#39;</span><span class="p">]],</span> <span class="n">columns</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;a&#39;</span><span class="p">,</span> <span class="s1">&#39;g&#39;</span><span class="p">])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">ser</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">Series</span><span class="p">([</span><span class="mi">7</span><span class="p">,</span> <span class="mi">5</span><span class="p">])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">out_of_place_col_insert</span><span class="p">(</span><span class="n">df</span><span class="p">,</span> <span class="n">ser</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="s1">&#39;n&#39;</span><span class="p">)</span>
+<span class="go">   a  n  g</span>
+<span class="go">0  1  7  a</span>
+<span class="go">1  4  5  b</span>
+</pre></div>
+</div>
+</dd></dl>
+
+</div>
 <div class="section" id="module-dalio.util.translation_utils">
 <span id="dalio-util-translation-utils-module"></span><h2>dalio.util.translation_utils module<a class="headerlink" href="#module-dalio.util.translation_utils" title="Permalink to this headline">¶</a></h2>
 <p>Translation utilities</p>
+<dl class="function">
+<dt id="dalio.util.translation_utils.get_numeric_column_names">
+<code class="sig-prename descclassname">dalio.util.translation_utils.</code><code class="sig-name descname">get_numeric_column_names</code><span class="sig-paren">(</span><em class="sig-param">df</em><span class="sig-paren">)</span><a class="headerlink" href="#dalio.util.translation_utils.get_numeric_column_names" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return the names of all columns of numeric type.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>df</strong> (<em>pandas.DataFrame</em>) – The dataframe to get numeric column names for.</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>The names of all columns of numeric type.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>list of str</p>
+</dd>
+</dl>
+<p class="rubric">Example</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span><span class="p">;</span> <span class="kn">import</span> <span class="nn">pdpipe</span> <span class="k">as</span> <span class="nn">pdp</span><span class="p">;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">data</span> <span class="o">=</span> <span class="p">[[</span><span class="mi">2</span><span class="p">,</span> <span class="mf">3.2</span><span class="p">,</span> <span class="s2">&quot;acd&quot;</span><span class="p">],</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mf">7.2</span><span class="p">,</span> <span class="s2">&quot;alk&quot;</span><span class="p">],</span> <span class="p">[</span><span class="mi">8</span><span class="p">,</span> <span class="mf">12.1</span><span class="p">,</span> <span class="s2">&quot;alk&quot;</span><span class="p">]]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">],</span> <span class="p">[</span><span class="s2">&quot;rank&quot;</span><span class="p">,</span> <span class="s2">&quot;ph&quot;</span><span class="p">,</span><span class="s2">&quot;lbl&quot;</span><span class="p">])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">sorted</span><span class="p">(</span><span class="n">get_numeric_column_names</span><span class="p">(</span><span class="n">df</span><span class="p">))</span>
+<span class="go">[&#39;ph&#39;, &#39;rank&#39;]</span>
+</pre></div>
+</div>
+</dd></dl>
+
 <dl class="function">
 <dt id="dalio.util.translation_utils.translate_df">
 <code class="sig-prename descclassname">dalio.util.translation_utils.</code><code class="sig-name descname">translate_df</code><span class="sig-paren">(</span><em class="sig-param">translator</em>, <em class="sig-param">df</em>, <em class="sig-param">inplace=False</em><span class="sig-paren">)</span><a class="headerlink" href="#dalio.util.translation_utils.translate_df" title="Permalink to this definition">¶</a></dt>
@@ -239,6 +450,221 @@ translated copy. Optional. Defaults to False.</p></li>
 </div>
 <div class="section" id="module-dalio.util">
 <span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-dalio.util" title="Permalink to this headline">¶</a></h2>
+<dl class="function">
+<dt id="dalio.util.extract_level_names_dict">
+<code class="sig-prename descclassname">dalio.util.</code><code class="sig-name descname">extract_level_names_dict</code><span class="sig-paren">(</span><em class="sig-param">df</em><span class="sig-paren">)</span><a class="headerlink" href="#dalio.util.extract_level_names_dict" title="Permalink to this definition">¶</a></dt>
+<dd><p>Extract all column names in a dataframe as (level: <a href="#id7"><span class="problematic" id="id8">names_</span></a> dicitonar7</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>df</strong> (<em>pd.DataFrame</em>) – dataframe whose columns will be extracted</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
+<dt id="dalio.util.filter_levels">
+<code class="sig-prename descclassname">dalio.util.</code><code class="sig-name descname">filter_levels</code><span class="sig-paren">(</span><em class="sig-param">levels</em>, <em class="sig-param">filters</em><span class="sig-paren">)</span><a class="headerlink" href="#dalio.util.filter_levels" title="Permalink to this definition">¶</a></dt>
+<dd><p>Filter columns in levels to either be equal to specified
+columns or a filtering function</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>levels</strong> (<em>dict</em>) – all column names in a (level: names) dict</p></li>
+<li><p><strong>filters</strong> (<em>str</em><em>, </em><em>list</em><em>, </em><em>callable</em><em>, </em><em>dict</em>) – either columns to place on
+a specified level or filter functions to select columns there.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
+<dt id="dalio.util.extract_cols">
+<code class="sig-prename descclassname">dalio.util.</code><code class="sig-name descname">extract_cols</code><span class="sig-paren">(</span><em class="sig-param">df</em>, <em class="sig-param">cols</em><span class="sig-paren">)</span><a class="headerlink" href="#dalio.util.extract_cols" title="Permalink to this definition">¶</a></dt>
+<dd><p>Extract columns from a dataframe</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>df</strong> (<em>pd.DataFrame</em>) – dataframe containing the columns</p></li>
+<li><p><strong>cols</strong> (<em>hashable</em><em>, </em><em>iterable</em><em>, </em><em>dict</em>) – single column, list of columnst
+or dict with the level as keys and column(s) as values.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Raises</dt>
+<dd class="field-even"><p><strong>KeyError</strong> – if columns are not in dataframe</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
+<dt id="dalio.util.insert_cols">
+<code class="sig-prename descclassname">dalio.util.</code><code class="sig-name descname">insert_cols</code><span class="sig-paren">(</span><em class="sig-param">df</em>, <em class="sig-param">new_data</em>, <em class="sig-param">cols</em><span class="sig-paren">)</span><a class="headerlink" href="#dalio.util.insert_cols" title="Permalink to this definition">¶</a></dt>
+<dd><p>Insert new data into specified existing columns</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>df</strong> (<em>pd.DataFrame</em>) – dataframe to insert data into.</p></li>
+<li><p><strong>new_data</strong> (<em>any</em>) – new data to be inserted</p></li>
+<li><p><strong>cols</strong> (<em>hashable</em><em>, </em><em>iterable</em><em>, </em><em>dict</em>) – existing columns in data.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Raises</dt>
+<dd class="field-even"><ul class="simple">
+<li><p><strong>KeyError</strong> – if columns are not in dataframe</p></li>
+<li><p><strong>Exception</strong> – if new data doesn’t fit cols dimensions</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
+<dt id="dalio.util.drop_cols">
+<code class="sig-prename descclassname">dalio.util.</code><code class="sig-name descname">drop_cols</code><span class="sig-paren">(</span><em class="sig-param">df</em>, <em class="sig-param">cols</em><span class="sig-paren">)</span><a class="headerlink" href="#dalio.util.drop_cols" title="Permalink to this definition">¶</a></dt>
+<dd><p>Drop selected columns from levels</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>df</strong> (<em>pd.DataFrame</em>) – dataframe to have columns dropped.</p></li>
+<li><p><strong>cols</strong> (<em>hashable</em><em>, </em><em>iterable</em><em>, </em><em>dict</em>) – column selection</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
+<dt id="dalio.util.get_slice_from_dict">
+<code class="sig-prename descclassname">dalio.util.</code><code class="sig-name descname">get_slice_from_dict</code><span class="sig-paren">(</span><em class="sig-param">df</em>, <em class="sig-param">cols</em><span class="sig-paren">)</span><a class="headerlink" href="#dalio.util.get_slice_from_dict" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get a tuple of slices that locate the specified (level: column)
+combination.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>df</strong> (<em>pd.DataFrame</em>) – dataframe with multiindex</p></li>
+<li><p><strong>cols</strong> (<em>dict</em>) – (level: column) dictionary</p></li>
+</ul>
+</dd>
+<dt class="field-even">Raises</dt>
+<dd class="field-even"><ul class="simple">
+<li><p><strong>ValueError</strong> – if any of the level keys are not integers</p></li>
+<li><p><strong>KeyError</strong> – if any level key is out of bounds or if columns are not in
+    the dataframe</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
+<dt id="dalio.util.mi_join">
+<code class="sig-prename descclassname">dalio.util.</code><code class="sig-name descname">mi_join</code><span class="sig-paren">(</span><em class="sig-param">df1</em>, <em class="sig-param">df2</em>, <em class="sig-param">*args</em>, <em class="sig-param">**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#dalio.util.mi_join" title="Permalink to this definition">¶</a></dt>
+<dd><p>Join two dataframes and sort their columns</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>df2</strong> (<em>df1</em><em>,</em>) – dataframes to join</p></li>
+<li><p><strong>**kwargs</strong> (<em>*args</em><em>,</em>) – <p>arguments for join function (called from df1)</p>
+</p></li>
+</ul>
+</dd>
+<dt class="field-even">Raises</dt>
+<dd class="field-even"><p><strong>ValueError if number of levels don't match</strong> – </p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
+<dt id="dalio.util.add_suffix">
+<code class="sig-prename descclassname">dalio.util.</code><code class="sig-name descname">add_suffix</code><span class="sig-paren">(</span><em class="sig-param">all_cols</em>, <em class="sig-param">cols</em>, <em class="sig-param">suffix</em><span class="sig-paren">)</span><a class="headerlink" href="#dalio.util.add_suffix" title="Permalink to this definition">¶</a></dt>
+<dd><p>Add suffix to appropriate level in a given column index.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>all_cols</strong> (<em>pd.Index</em><em>, </em><em>pd.MultiIndex</em>) – all columns from an index. This
+is only relevent when the columns at hand are a multindex, as each
+tuple element will contain elements from all levels (not only the
+selected ones)</p></li>
+<li><p><strong>cols</strong> (<em>str</em><em>, </em><em>list</em><em>, </em><em>dict</em>) – selected columns</p></li>
+<li><p><strong>suffix</strong> (<em>str</em>) – the suffix to add to the selected columns.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
+<dt id="dalio.util.out_of_place_col_insert">
+<code class="sig-prename descclassname">dalio.util.</code><code class="sig-name descname">out_of_place_col_insert</code><span class="sig-paren">(</span><em class="sig-param">df</em>, <em class="sig-param">series</em>, <em class="sig-param">loc</em>, <em class="sig-param">column_name=None</em><span class="sig-paren">)</span><a class="headerlink" href="#dalio.util.out_of_place_col_insert" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns a new dataframe with given column inserted at given location.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>df</strong> (<em>pandas.DataFrame</em>) – The dataframe into which to insert the column.</p></li>
+<li><p><strong>series</strong> (<em>pandas.Series</em>) – The pandas series to be inserted.</p></li>
+<li><p><strong>loc</strong> (<em>int</em>) – The location into which to insert the new column.</p></li>
+<li><p><strong>column_name</strong> (<em>str</em><em>, </em><em>default None</em>) – The name to assign the new column. If None, the given series name
+attribute is attempted; if the given series is missing the name
+attribute a ValueError exception will be raised.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>The resulting dataframe.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>pandas.DataFrame</p>
+</dd>
+</dl>
+<p class="rubric">Example</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span><span class="p">;</span> <span class="kn">import</span> <span class="nn">pdpipe</span> <span class="k">as</span> <span class="nn">pdp</span><span class="p">;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">([[</span><span class="mi">1</span><span class="p">,</span> <span class="s1">&#39;a&#39;</span><span class="p">],</span> <span class="p">[</span><span class="mi">4</span><span class="p">,</span> <span class="s1">&#39;b&#39;</span><span class="p">]],</span> <span class="n">columns</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;a&#39;</span><span class="p">,</span> <span class="s1">&#39;g&#39;</span><span class="p">])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">ser</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">Series</span><span class="p">([</span><span class="mi">7</span><span class="p">,</span> <span class="mi">5</span><span class="p">])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">out_of_place_col_insert</span><span class="p">(</span><span class="n">df</span><span class="p">,</span> <span class="n">ser</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="s1">&#39;n&#39;</span><span class="p">)</span>
+<span class="go">   a  n  g</span>
+<span class="go">0  1  7  a</span>
+<span class="go">1  4  5  b</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="function">
+<dt id="dalio.util.translate_df">
+<code class="sig-prename descclassname">dalio.util.</code><code class="sig-name descname">translate_df</code><span class="sig-paren">(</span><em class="sig-param">translator</em>, <em class="sig-param">df</em>, <em class="sig-param">inplace=False</em><span class="sig-paren">)</span><a class="headerlink" href="#dalio.util.translate_df" title="Permalink to this definition">¶</a></dt>
+<dd><p>Translate dataframe column and index names in accordance to translator
+dictionary.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>translator</strong> (<em>dict</em>) – dictionary of {original: translated} key value
+pairs.</p></li>
+<li><p><strong>df</strong> (<em>pd.DataFrame</em>) – dataframe to have rows and columns translated.</p></li>
+<li><p><strong>inplace</strong> (<em>bool</em>) – whether to perform operation inplace or return a
+translated copy. Optional. Defaults to False.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
+<dt id="dalio.util.get_numeric_column_names">
+<code class="sig-prename descclassname">dalio.util.</code><code class="sig-name descname">get_numeric_column_names</code><span class="sig-paren">(</span><em class="sig-param">df</em><span class="sig-paren">)</span><a class="headerlink" href="#dalio.util.get_numeric_column_names" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return the names of all columns of numeric type.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>df</strong> (<em>pandas.DataFrame</em>) – The dataframe to get numeric column names for.</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>The names of all columns of numeric type.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>list of str</p>
+</dd>
+</dl>
+<p class="rubric">Example</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span><span class="p">;</span> <span class="kn">import</span> <span class="nn">pdpipe</span> <span class="k">as</span> <span class="nn">pdp</span><span class="p">;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">data</span> <span class="o">=</span> <span class="p">[[</span><span class="mi">2</span><span class="p">,</span> <span class="mf">3.2</span><span class="p">,</span> <span class="s2">&quot;acd&quot;</span><span class="p">],</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mf">7.2</span><span class="p">,</span> <span class="s2">&quot;alk&quot;</span><span class="p">],</span> <span class="p">[</span><span class="mi">8</span><span class="p">,</span> <span class="mf">12.1</span><span class="p">,</span> <span class="s2">&quot;alk&quot;</span><span class="p">]]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">],</span> <span class="p">[</span><span class="s2">&quot;rank&quot;</span><span class="p">,</span> <span class="s2">&quot;ph&quot;</span><span class="p">,</span><span class="s2">&quot;lbl&quot;</span><span class="p">])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">sorted</span><span class="p">(</span><span class="n">get_numeric_column_names</span><span class="p">(</span><span class="n">df</span><span class="p">))</span>
+<span class="go">[&#39;ph&#39;, &#39;rank&#39;]</span>
+</pre></div>
+</div>
+</dd></dl>
+
 <dl class="function">
 <dt id="dalio.util.process_cols">
 <code class="sig-prename descclassname">dalio.util.</code><code class="sig-name descname">process_cols</code><span class="sig-paren">(</span><em class="sig-param">cols</em><span class="sig-paren">)</span><a class="headerlink" href="#dalio.util.process_cols" title="Permalink to this definition">¶</a></dt>
@@ -280,8 +706,8 @@ translated copy. Optional. Defaults to False.</p></li>
 </dd></dl>
 
 <dl class="function">
-<dt id="dalio.util.translate_df">
-<code class="sig-prename descclassname">dalio.util.</code><code class="sig-name descname">translate_df</code><span class="sig-paren">(</span><em class="sig-param">translator</em>, <em class="sig-param">df</em>, <em class="sig-param">inplace=False</em><span class="sig-paren">)</span><a class="headerlink" href="#dalio.util.translate_df" title="Permalink to this definition">¶</a></dt>
+<dt>
+<code class="sig-prename descclassname">dalio.util.</code><code class="sig-name descname">translate_df</code><span class="sig-paren">(</span><em class="sig-param">translator</em>, <em class="sig-param">df</em>, <em class="sig-param">inplace=False</em><span class="sig-paren">)</span></dt>
 <dd><p>Translate dataframe column and index names in accordance to translator
 dictionary.</p>
 <dl class="field-list simple">
@@ -380,7 +806,7 @@ be created if none is specified.</p></li>
           <a href="py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
         <li class="right" >
-          <a href="dalio.validator.html" title="dalio.validator"
+          <a href="dalio.validator.html" title="dalio.validator package"
              >previous</a> |</li>
         <li class="nav-item nav-item-0"><a href="index.html">Dal.io 0.1.1 documentation</a> &#187;</li> 
       </ul>

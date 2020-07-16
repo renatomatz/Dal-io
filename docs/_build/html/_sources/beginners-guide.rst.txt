@@ -1,0 +1,107 @@
+.. _beginners_guide:
+
+Understanding Graphs
+====================
+
+What do I mean by "graphical structure"?
+----------------------------------------
+
+In a graphical structures data is represented as nodes and operations as edges. Think of it as a way to represent many inter-connected transformations and their input and output data.
+
+Why is a graphical structure optimal for financial modeling?
+------------------------------------------------------------
+
+    * Modern automated finantial models retrieve data, clean and dirty, from various sources and through cleaning and itegration are able to join them, further process this product and finally derive insigts. The problem is that as these models utilize more and more data from various sources, created models tend to become confusing for both technical and non technical people. Also, as there is no unified workflow to deal with these, created models tend to become highly inflexible and lacking portability (onto other models or projects.) A graphical architecture offers an intuitive workflow for working with data, where inputs can have a unified translation, data can be constantly checked for validity and otuputs can be used in flexible ways as parts of a bigger system or drive actions.
+
+    * Utilizing large ammounts of data can also end up being highly memory-inneficient when data sources are varied and outputs are as simple as a buy/sell command. As in the tensorflow graphical architecture, using these constructs allow for automatic parallelization of models to better use modern hardware. Applications can also be built to fit multiple models, and updated independently from the rest of the system.
+
+    * Graphs are easy to interpret visualy, which is useful for understanding the flow of data and interpreting output or bugs. They are also higly flexible, allowing users to modify pieces or generate new connections while keeping an enforcable system of data integrity.
+
+    * Perhaps most importantly, these graphs are extremely lightweight and portable, which is key for widespread distribution and access. While every piece can be accessed and tested on-the-go for better ease of development, they are ultimately just pieces of a bigger structure, where data flows continuously and leftover data is dicared automatically, keeping the memory and processing burden at a minimum when dealing with massive datasets.
+
+
+Basic Classes
+=============
+
+These are the classes you will use throughout an analalysis, or rather a class that implements their functionality. Getting to know them is important as it makes it easier to identify one when you see one and make it easier to search for one when you don't really remember where to find it.
+
+External <Node>
+---------------
+
+External class instances manage connections between your environment and an external source. Class instacnes will often be redundant with existing connection handlers, but at least subclasses will allow for more integrated connection handling and collection, so that you can have a single supplicant object for each external connection.
+
+_Transformer
+------------
+
+Transformers represent transformations on data. They have one or more sources and one or more outputs, internal or external. Transformers source data from Nodes, transforms them and outputs them. You won't be using these directly in your analyses, but will definitely use one of its subclasses.
+
+Translator <_Transformer>
+-------------------------
+
+Translators are the root of all data that feeds your graph. Objects of this class connect with some external source, imports raw data, then "translates" it into a format that can be used universaly through the model. 
+
+Pipe <_Transformer>
+-------------------
+
+Pipes are a base class that represents any kind of data modification with one internal input and one internal output. All pipes must implement the .transform() method, which takes in the output from sourced data and returns it transformed. The .run() method in turn has a default implementation to actually source the input data from the input node and pass it onto the .transform() method; this default implementation is often changed to modify keyword arguments passed onto the source node and the .transform() call. 
+
+**Configuration:** Sources often require additional ids, secrets or paths in order to access their data. The .config attribute aims to summarise all key configuration details and data needed to access a resource. Additional functions can be added as needed to facilitate one-time connection needs.
+
+**Factories:** Sources, typically web APIs, will give users various functionalities with the same base configurations. The .make() method can be implemeted to return subclasses that inherit parent processing and configuration.
+
+Model <_Transformer>
+--------------------
+
+Models are a lot like transformers as they take in inputs and has a single output. Models do differ from transformers as they can take in multiple inputs and be much more flexible with additional methods for different strategies or for small data storage. Also, keep in mind models do not have a \_\_call\_\_ method inherited or a single function that transforms its inputs. Models are supposed to perform more intricate operations, beyond a simple transformation.
+
+Applications <Model>
+--------------------
+
+While Models are normally the last stage of a model, it still has a single output which might have limited value in itself. Applications are tools used for the interpretation of multiple, which are not constrained by those output by models, but often are. These can have a broad range of applications, from graphing to trading. The main functionality is in the .execute() method, which gets input data and interprets it as needed. 
+
+Extra Classes
+=============
+
+Now that we've seen what will make your models work, lets jump into what will make your models **work incredibly.** 
+
+PipeLine <Pipe>
+---------------
+
+As Pipe instances implement a normally small operation and have only one imput and one output, you are able to join them together, thorugh the \_\_add\_\_() internal method (which overrides the + operator) to create a sequence of transformations linked one after the other. These simply pass the output of one Pipe instance's .transform() method as the input to another, which can be a significant speed boost, though you should be carefull with data integrity here. 
+
+KEEP IN MIND that good alternatives to these is just linking Pipe instances together in order to validate the data at every stage of the pipeline. This will have the same output as a PipeLine, but compromise on speed and possibly aesthetics.
+
+Memory <_Transformer>
+---------------------
+
+When using APIs to fetch online data, there is often a delay that ranges from a few to a few dozen seconds. This might be completely fine if data will only pass through your model once to feed an application, for example, but will become a problem if you are also performing analyses on several pieces of the model or have several Model instances in your graph (which call on an input once for every source). The solution to this lies in Memory instances that temporarily save model imputs to some location and retrieves it when ran. 
+
+Notice that Memory inherits from a _Transformer, which makes it compatible as input to any piece of your graph and behaves like any other input (most closely resembling a Pipe.)
+
+Subclasses will implement different storage strategies for different locations. These will have their own data requirements and storage and retrieval logic - imagine the different in data structure, storage and retrieval required for storing data on a database vs on the local python session.
+
+One thing to keep in mind is that these only store one piece of memory, so if you, for example, want to vary your .run() kwargs, this might not be the best option beyond building and debugging your model. If you still want the speed advantages of Memory while allowing for more runtime argument flexibility, check out the LazyRunner class below.
+
+LazyRunner <_Transformer>
+-------------------------
+
+These objects are the solution to storing multible Memory instances for different runtime kwargs that pass through the instance. These do not store the data itself, but rather the memory instances that do. This allows for more flexibility, as any single Memory subclass can be used to store the data. These are created when a new keyword argument is seen, and it does so by getting the data from a _Transformer input and setting its result as the source of a new Memory instance. The Memory type and initialization arguments are all specified in the LazyRunner initialization. 
+
+KEEP IN MIND that these could mean a significant memory burden, if you are widly saving data from different inputs with several kwargs combinations passed on to them.
+
+The solution to the memory problem comes in the buffer= initialization argument of the LazyRunner. These will limmit the number of Memory instances that are saved at any point. This also comes with the update= initialization argument for whether or not stored Memory instances should be updaed in FIFO order once the buffer is full or whether an error should be thrown.
+
+KEEP IN MIND that this will not notice if its source data input has any sort of input changes itself (this could be a change in date range, for example or data source.) This will become a problem as changes will not be relayed if the runtime kwargs are the same as before a change. This happens as the LazyRunner will assume that nothing changed, see the kwarg and return the (old) saved version of the response. This can be solved by calling the .clear() method to reset the memory dictionary.
+
+Tips and Tricks
+===============
+
+The Basic Workflow 
+-------------------
+
+When Reading the Docs
+---------------------
+
+Must-Know Classes
+-----------------
+

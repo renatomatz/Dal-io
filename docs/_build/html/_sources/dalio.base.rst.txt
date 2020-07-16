@@ -1,5 +1,5 @@
-dalio.base
-==========
+dalio.base package
+==================
 
 Submodules
 ----------
@@ -24,6 +24,14 @@ dalio.base.datadef module
 -------------------------
 
 .. automodule:: dalio.base.datadef
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+dalio.base.memory module
+------------------------
+
+.. automodule:: dalio.base.memory
    :members:
    :undoc-members:
    :show-inheritance:
