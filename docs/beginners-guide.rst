@@ -30,8 +30,8 @@ Why is a graphical structure optimal for financial modeling?
     * Perhaps most importantly, these graphs are extremely lightweight and portable, which is key for widespread distribution and access. While every piece can be accessed and tested on-the-go for better ease of development, they are ultimately just pieces of a bigger structure, where data flows continuously and leftover data is dicared automatically, keeping the memory and processing burden at a minimum when dealing with massive datasets.
 
 
-Basic Classes
-=============
+Base Classes
+============
 
 These are the classes you will use throughout an analalysis, or rather a class that implements their functionality. Getting to know them is important as it makes it easier to identify one when you see one and make it easier to search for one when you don't really remember where to find it.
 
@@ -46,55 +46,183 @@ Every model requires an origin to the data it uses, and often wants to send this
 
 :code:`External` class instacnes will often be redundant with existing connection handlers, but at least subclasses will allow for more integrated connection handling and collection, so that you can have a single supplicant object for each external connection.
 
-As a child class of :code:`_Node`,:code:`External` implements the :code:`.request(**kwargs)` method, as shown below.
+As a child class of :code:`_Node`,:code:`External` implements the :code:`.request(**kwargs)` method, which takes in requests and executed valid ones on their external connections.
 
 While this method is responsible for the main requests to and from the data, subclasses will often have other methods to perform more specific actions on it. Additionally, the :code:`**kwargs` parameter will rarely be the same as the one relayed through the :code:`_Transformer.run()` as  :code:`Translator` and :code:`Application` instances will often curate these to be more generalizable to multiple :code:`External` implementations.
+
+**What to Look For:**
+
+    * What the external source is.
+
+    * Is it reliant on configuration? If so, what configuration parameters are required/considered?
+
 
 _Transformer
 ------------
 
-**Represent data transformations**
+**Represent data transformations.**
 
 :code:`_Transformer` instances are defined by their inputs and outputs. IO can be limmited to one or more sources and the source can be either internal or external (as defined in :ref:`external`). 
 
-Transformers source data from Nodes, transforms them and outputs them. All transformers use the :code:`.run(**kwargs)` method to:
+All :code:`_Transformer` instances implement the the :code:`.run(**kwargs)` method to:
 
-    # Request source data.
+    #. Request source data from a :code:`_Node` instance.
 
-    # Apply specific transformations to the sourced data.
+    #. Apply specific transformations to the sourced data.
 
-    # Return the transformed data.
+    #. Return the transformed data.
+
+This process will vary depending on the subclass, though the one thing to keep in mind is that the output of this method is what will be fed onto the next node on the graph, so it's a powerful tool for debugging.
+
+:code:`_Transformer` instances also define each input in their initialization by using :code:`Validator` instances. You can find more about these in the Developpers Guide section on the :ref:`validator` but for now, you can use the :code:`_Transformer.describe()` method to get an idea of what kind of inputs this piece requires or prefers.
+
+.. Talk about the input methods and copy
 
 You won't be using these directly in your analyses, but will definitely use one of its subclasses.
+
+**What to Look For:**
+
+    * Number of input and outputs.
+
+    * Sources/destinations of inputs and outputs.
+
+    * Input descriptions.
 
 Translator <_Transformer>
 -------------------------
 
-Translators are the root of all data that feeds your graph. Objects of this class connect with some external source, imports raw data, then "translates" it into a format that can be used universaly through the model. 
+**Request and standardize external data.**
+
+*One external input, one internal output*
+
+While :code:`External` instances are the origin of all data, :code:`Translator` instances are the root of all *clean and standardized* data. Objects of this class have :code:`External` instances as their source and are tasked with creating requests undestandable by that instance and standardize the response data into a useable format. 
+
+For more information on the Dal-io formatting standards, check out :ref:`formatting`.
+
+All :code:`Translator` instances implement the the :code:`.run(**kwargs)` method to:
+
+    #. Source data from an :code:`External` instance.
+
+    #. Translate the data into a format as specified by the formatting guide.
+
+    #. Return the translated data.
+
+These also tend to be the PipeLine stages where :code:`kwargs` source from.
+
+**What to Look For:**
+
+    * Compatible :code:`External` instances.
+
+    * What translation format is being used and how will the output contain.
+
+    * What are the keyword arguments it can interpret.
 
 Pipe <_Transformer>
 -------------------
 
-Pipes are a base class that represents any kind of data modification with one internal input and one internal output. All pipes must implement the .transform() method, which takes in the output from sourced data and returns it transformed. The .run() method in turn has a default implementation to actually source the input data from the input node and pass it onto the .transform() method; this default implementation is often changed to modify keyword arguments passed onto the source node and the .transform() call. 
+**Transform a single input into a single output.**
 
-**Configuration:** Sources often require additional ids, secrets or paths in order to access their data. The .config attribute aims to summarise all key configuration details and data needed to access a resource. Additional functions can be added as needed to facilitate one-time connection needs.
+*One internal input, one internal output*
 
-**Factories:** Sources, typically web APIs, will give users various functionalities with the same base configurations. The .make() method can be implemeted to return subclasses that inherit parent processing and configuration.
+Pipes will compose the majority of data wranging and processing in your graphs, and are designed to be easily extendable by users.
+
+All pipes must implement the :code:`.transform(data, **kwargs)` method, which takes in the output from sourced data and returns it transformed. This has three main purposes.
+
+    #. Subclasses can more objectively focuss on transforming and outputting the :code:`data` parameter instead of having to deal with sourcing it.
+
+    #. It makes it possible to use :code:`Pipe` instances to transform data outside of the Dal-io library directly, which is useful for applications outside of the library's scope or for testing the transformation.
+
+    #. More efficient compatibility with :ref:`pipeline` objects.
+
+All :code:`Pipe` instances implement the the :code:`.run(**kwargs)` method to:
+
+    #. Define input requirements.
+
+    #. Source data from another :code:`_Transformer` instance, applying integrity checks.
+
+    #. Pass it as the :code:`data` parameter to the :code:`.transform()` method.
+    #. Return the transformed data.
+
+While the default implementation of the :code:`.run()` method simply sources data and passes into :code:`.transform`, it is often changed to modify keyword arguments passed onto the source node and the .transform() call. 
+
+**What to Look For:**
+
+    * What are the input requirements.
+
+    * What the :code:`.transform` method does.
+
+    * What are changeable attributes that affect the data processing.
 
 Model <_Transformer>
 --------------------
 
-Models are a lot like transformers as they take in inputs and has a single output. Models do differ from transformers as they can take in multiple inputs and be much more flexible with additional methods for different strategies or for small data storage. Also, keep in mind models do not have a \_\_call\_\_ method inherited or a single function that transforms its inputs. Models are supposed to perform more intricate operations, beyond a simple transformation.
+**Utilize multiple input sources to get one output.**
 
-Applications <Model>
---------------------
+*Multiple internal inputs, one internal output*
 
-While Models are normally the last stage of a model, it still has a single output which might have limited value in itself. Applications are tools used for the interpretation of multiple, which are not constrained by those output by models, but often are. These can have a broad range of applications, from graphing to trading. The main functionality is in the .execute() method, which gets input data and interprets it as needed. 
+:code:`Model` instances are a lot like :code:`Pipe` instances as their main task it to transform inputs to get an output. Though taking in multiple inputs might not seem like enough to warrant a whole different class, the key differences come from all the extra considerations needed when creating a :code:`Model` instance. 
 
-Extra Classes
-=============
+There are two main uses for :code:`Model` instances:
+
+    #. Getting multiple inputs and joining them to form a single output.
+
+    #. Using the output of one of the inputs to format a request to another input.
+
+These objectives thus require a lot more flexibility when it comes to sourcing the inputs, which is why, unlike :code:`Pipe` instances, :code:`Model` instances do not have a :code:`.transform()` method, and instead rely solely on their :code:`run()` method to:
+
+    #. Source data from inputs.
+
+    #. Process and transform data.
+
+    #. (Possibly) source more data given the above transformations.
+
+    #. (Possibly) join all sourced data.
+
+    #. Return the final product.
+
+**What to Look For:**
+
+    #. All the input names and what they represent.
+
+    #. The requirements for each input.
+
+    #. How the :code:`.run()` method deals with each input piece.
+
+    #. What changeable attributes affect the data processing.
+
+Application <Model>
+-------------------
+
+**Act on external sources**
+*Multiple internal inputs, zero or more external or internal outputs*
+
+While you might be using Dal-io mostly for processing data for further use in your python session, :code:`Application` instances offer methods of using this processed data to interact with external sources. These will be managed by :code:`External` instances which are called by the application with data it sources from its inputs. These interactions can take a broad range of forms, from simple printing to the console to graphing, executing trade orders or actively requesting more data from the inputs. Ultimately, :code:`Application` instances offer the greatest set of possibilities for users wanting to implement their own, as it is not bound by the scope of what the library can do.
+
+All :code:`Application` instances implement the the :code:`.run(**kwargs)` method to:
+
+    #. Source, validate, process and/or combine data from different inputs.
+
+    #. Use processed input data to send a request to an external source.
+
+    #. Get responses from external sources and further interactions.
+
+
+**What to Look For:**
+
+    #. All the input names and what they represent.
+
+    #. The requirements for each input.
+
+    # All the output names and what they represent.
+
+    #. How the :code:`.run()` method deals with each input piece and how will it be transmitted to the output.
+
+Extra Classes and Concepts
+==========================
 
 Now that we've seen what will make your models work, lets jump into what will make your models **work incredibly.** 
+
+.. _pipeline:
 
 PipeLine <Pipe>
 ---------------
@@ -124,6 +252,10 @@ KEEP IN MIND that these could mean a significant memory burden, if you are widly
 The solution to the memory problem comes in the buffer= initialization argument of the LazyRunner. These will limmit the number of Memory instances that are saved at any point. This also comes with the update= initialization argument for whether or not stored Memory instances should be updaed in FIFO order once the buffer is full or whether an error should be thrown.
 
 KEEP IN MIND that this will not notice if its source data input has any sort of input changes itself (this could be a change in date range, for example or data source.) This will become a problem as changes will not be relayed if the runtime kwargs are the same as before a change. This happens as the LazyRunner will assume that nothing changed, see the kwarg and return the (old) saved version of the response. This can be solved by calling the .clear() method to reset the memory dictionary.
+
+Keyword Arguments
+-----------------
+
 
 Tips and Tricks
 ===============

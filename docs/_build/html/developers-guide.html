@@ -45,6 +45,14 @@
 <li><a class="reference internal" href="#builder">_Builder</a></li>
 </ul>
 </li>
+<li><a class="reference internal" href="#development-notes-on-base-classes">Development Notes on Base Classes</a><ul>
+<li><a class="reference internal" href="#external-node">External &lt;_Node&gt;</a></li>
+<li><a class="reference internal" href="#translator-transformer">Translator &lt;_Transformer&gt;</a></li>
+<li><a class="reference internal" href="#pipe-transformer">Pipe &lt;_Transformer&gt;</a></li>
+<li><a class="reference internal" href="#model-transformer">Model &lt;_Transformer&gt;</a></li>
+<li><a class="reference internal" href="#applications-model">Applications &lt;Model&gt;</a></li>
+</ul>
+</li>
 <li><a class="reference internal" href="#key-concepts-differences-and-philosophy">Key Concepts, Differences and Philosophy</a><ul>
 <li><a class="reference internal" href="#running-vs-requesting">running vs requesting</a></li>
 <li><a class="reference internal" href="#describing-vs-tagging">describing vs tagging</a></li>
@@ -83,7 +91,7 @@
   <div class="section" id="core-classes-and-concepts">
 <span id="developers-guide"></span><h1>Core Classes and Concepts<a class="headerlink" href="#core-classes-and-concepts" title="Permalink to this headline">¶</a></h1>
 <div class="section" id="validator">
-<h2>Validator<a class="headerlink" href="#validator" title="Permalink to this headline">¶</a></h2>
+<span id="id1"></span><h2>Validator<a class="headerlink" href="#validator" title="Permalink to this headline">¶</a></h2>
 <p>Validators are the building blocks of data integrity in the graph. As modularity is key, validators ensure that data sourced from a DataDef is what it is mean to be or that errors are targeted to make debugging easier. Validators can have any attribute needed, but functionality is stored in the .validate function, which either passes warning data on or stops execution with an error. These can and should be reused with multiple DataDef instanges.</p>
 </div>
 <div class="section" id="node">
@@ -101,6 +109,26 @@
 <h2>_Builder<a class="headerlink" href="#builder" title="Permalink to this headline">¶</a></h2>
 <p>Builders are a solution to the problem of standardizing several package workflows into something more consistent to the inexperienced user.</p>
 <p>Take the MakeARCH builder as an example. In the arch package, users have to assemple an ARCH model starting with an arch.mean model initialized _with_ the data, followed by setting arch.variance and arch.distribution objects, each with their own respective parameters. Keeping this interface would have been highly inflexible and required the user to essentially learn how to use the package from scratch. Inheritting from _Builder allowed the MakeARCH pipe to maintain this flexibility of setting different pieces as well as creating the model’s structure before actually having any data (which wouldn’t be possible with the original package).</p>
+</div>
+</div>
+<div class="section" id="development-notes-on-base-classes">
+<h1>Development Notes on Base Classes<a class="headerlink" href="#development-notes-on-base-classes" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="external-node">
+<h2>External &lt;_Node&gt;<a class="headerlink" href="#external-node" title="Permalink to this headline">¶</a></h2>
+<p><strong>Configuration:</strong> Sources often require additional ids, secrets or paths in order to access their data. The .config attribute aims to summarise all key configuration details and data needed to access a resource. Additional functions can be added as needed to facilitate one-time connection needs.</p>
+<p><strong>Factories:</strong> Sources, typically web APIs, will give users various functionalities with the same base configurations. The .make() method can be implemeted to return subclasses that inherit parent processing and configuration.</p>
+</div>
+<div class="section" id="translator-transformer">
+<h2>Translator &lt;_Transformer&gt;<a class="headerlink" href="#translator-transformer" title="Permalink to this headline">¶</a></h2>
+</div>
+<div class="section" id="pipe-transformer">
+<h2>Pipe &lt;_Transformer&gt;<a class="headerlink" href="#pipe-transformer" title="Permalink to this headline">¶</a></h2>
+</div>
+<div class="section" id="model-transformer">
+<h2>Model &lt;_Transformer&gt;<a class="headerlink" href="#model-transformer" title="Permalink to this headline">¶</a></h2>
+</div>
+<div class="section" id="applications-model">
+<h2>Applications &lt;Model&gt;<a class="headerlink" href="#applications-model" title="Permalink to this headline">¶</a></h2>
 </div>
 </div>
 <div class="section" id="key-concepts-differences-and-philosophy">

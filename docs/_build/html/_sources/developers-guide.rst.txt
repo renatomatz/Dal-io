@@ -3,6 +3,8 @@
 Core Classes and Concepts
 =========================
 
+.. _validator:
+
 Validator
 ---------
 
@@ -30,6 +32,29 @@ _Builder
 Builders are a solution to the problem of standardizing several package workflows into something more consistent to the inexperienced user. 
 
 Take the MakeARCH builder as an example. In the arch package, users have to assemple an ARCH model starting with an arch.mean model initialized _with_ the data, followed by setting arch.variance and arch.distribution objects, each with their own respective parameters. Keeping this interface would have been highly inflexible and required the user to essentially learn how to use the package from scratch. Inheritting from _Builder allowed the MakeARCH pipe to maintain this flexibility of setting different pieces as well as creating the model's structure before actually having any data (which wouldn't be possible with the original package).
+
+
+Development Notes on Base Classes
+=================================
+
+External <_Node>
+----------------
+
+**Configuration:** Sources often require additional ids, secrets or paths in order to access their data. The .config attribute aims to summarise all key configuration details and data needed to access a resource. Additional functions can be added as needed to facilitate one-time connection needs.
+
+**Factories:** Sources, typically web APIs, will give users various functionalities with the same base configurations. The .make() method can be implemeted to return subclasses that inherit parent processing and configuration.
+
+Translator <_Transformer>
+-------------------------
+
+Pipe <_Transformer>
+-------------------
+
+Model <_Transformer>
+--------------------
+
+Applications <Model>
+--------------------
 
 
 Key Concepts, Differences and Philosophy

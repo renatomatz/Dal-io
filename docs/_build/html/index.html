@@ -107,8 +107,8 @@
 <p class="caption"><span class="caption-text">Beginner's Guide</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="beginners-guide.html">Understanding Graphs</a></li>
-<li class="toctree-l1"><a class="reference internal" href="beginners-guide.html#basic-classes">Basic Classes</a></li>
-<li class="toctree-l1"><a class="reference internal" href="beginners-guide.html#extra-classes">Extra Classes</a></li>
+<li class="toctree-l1"><a class="reference internal" href="beginners-guide.html#base-classes">Base Classes</a></li>
+<li class="toctree-l1"><a class="reference internal" href="beginners-guide.html#extra-classes-and-concepts">Extra Classes and Concepts</a></li>
 <li class="toctree-l1"><a class="reference internal" href="beginners-guide.html#tips-and-tricks">Tips and Tricks</a></li>
 </ul>
 </div>
@@ -116,6 +116,7 @@
 <p class="caption"><span class="caption-text">Developer's Guide</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="developers-guide.html">Core Classes and Concepts</a></li>
+<li class="toctree-l1"><a class="reference internal" href="developers-guide.html#development-notes-on-base-classes">Development Notes on Base Classes</a></li>
 <li class="toctree-l1"><a class="reference internal" href="developers-guide.html#key-concepts-differences-and-philosophy">Key Concepts, Differences and Philosophy</a></li>
 </ul>
 </div>
@@ -179,8 +180,8 @@ sacrifices.</p>
     <span class="o">.</span><span class="n">set_input</span><span class="p">(</span><span class="n">de</span><span class="o">.</span><span class="n">YahooDR</span><span class="p">())</span>
 </pre></div>
 </div>
-<p>Easy right? Notice that the stock input is composed of one external source (in this case de.YahooDR) and one translator (dt.YahooStockTranslator). This is the case for any input, with one piece getting raw data from an external source and another one translating it to a format friendly to Dal-io pieces. For more on formatting, go to <a class="reference internal" href="formatting.html#formatting"><span class="std std-ref">Formatting</span></a>.</p>
-<p>Notice the .set_input call that took in the YahooDR object. Every all translators, pipes, models and applications share this method that allows them to plug the ourput of another object as their own input. This idea of connecting different objects like nodes in a graph is at the core of the <strong>graphical object design</strong>.</p>
+<p>Easy right? Notice that the stock input is composed of one external source (in this case <code class="code docutils literal notranslate"><span class="pre">de.YahooDR</span></code>) and one translator (<code class="code docutils literal notranslate"><span class="pre">dt.YahooStockTranslator</span></code>). This is the case for any input, with one piece getting raw data from an external source and another one translating it to a format friendly to Dal-io pieces. For more on formatting, go to <a class="reference internal" href="formatting.html#formatting"><span class="std std-ref">Formatting</span></a>.</p>
+<p>Notice the <code class="code docutils literal notranslate"><span class="pre">.set_input</span></code> call that took in the YahooDR object. Every all translators, pipes, models and applications share this method that allows them to plug the ourput of another object as their own input. This idea of connecting different objects like nodes in a graph is at the core of the <strong>graphical object design</strong>.</p>
 <p>At this point you can try out running the model with <code class="code docutils literal notranslate"><span class="pre">stocks.run(ticker=tickers)</span></code> which will get the OHLCV data for the ticker symbols assigned to :code”<cite>tickers</cite>, though you can specify any ticker available in Yahoo! finance. Notice that the column names where standardized to be all lower-case with undercores (_) instead of spaces. This is performed as part of the translation step to ensure all imported data can be referenced with common string representations.</p>
 <p>Now lets create a data processing pipeline for our input data.</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">time_conf</span> <span class="o">=</span> <span class="n">dp</span><span class="o">.</span><span class="n">DateSelect</span><span class="p">()</span>
@@ -201,7 +202,7 @@ sacrifices.</p>
 </pre></div>
 </div>
 <p>That was a bit more challenging! Let’s take it step by step.</p>
-<p>We started off defining a DateSelect pipe (which we will use later) and passingit into a pipeline with other pipes to get a company’s annual returns. Pipelines aggregate zero or more Pipe objects and pass in a common input through all of their transformations. This skips data integrity checking while still allowing users to control pipes inside the pipeline from the outside (as we will with time_conf)</p>
+<p>We started off defining a DateSelect pipe (which we will use later) and passingit into a pipeline with other pipes to get a company’s annual returns. Pipelines aggregate zero or more Pipe objects and pass in a common input through all of their transformations. This skips data integrity checking while still allowing users to control pipes inside the pipeline from the outside (as we will with :code”<cite>time_conf</cite>)</p>
 <p>We then passed added a custom pipe that applies the np.mean function to the annualr returns to get the expected returns for each stock.</p>
 <p>Finally, we did the exact same thing but with a lambda that calls the pd.DataFrame internal method .cov() to get the dataframe’s covariance. As we will be passing the whole dataframe to the function at once, we set the Custom strategy to “pipe”.</p>
 <p>Notice how we didn’t use <code class="code docutils literal notranslate"><span class="pre">.set_input()</span></code> as we did before, that’s because we utilized alternative ways of establishing this same node-to-node connection.</p>

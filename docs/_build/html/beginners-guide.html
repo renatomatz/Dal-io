@@ -14,7 +14,7 @@
     <script src="_static/language_data.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
-    <link rel="next" title="Core Classes and Consepts" href="developers-guide.html" />
+    <link rel="next" title="Core Classes and Concepts" href="developers-guide.html" />
     <link rel="prev" title="dalio.util package" href="dalio.util.html" /> 
   </head><body>
     <div class="related" role="navigation" aria-label="related navigation">
@@ -27,7 +27,7 @@
           <a href="py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
         <li class="right" >
-          <a href="developers-guide.html" title="Core Classes and Consepts"
+          <a href="developers-guide.html" title="Core Classes and Concepts"
              accesskey="N">next</a> |</li>
         <li class="right" >
           <a href="dalio.util.html" title="dalio.util package"
@@ -44,11 +44,12 @@
   <ul>
 <li><a class="reference internal" href="#">Understanding Graphs</a><ul>
 <li><a class="reference internal" href="#what-do-i-mean-by-graphical-structure">What do I mean by “graphical structure”?</a></li>
+<li><a class="reference internal" href="#progressive-disclosure-of-complexity">Progressive Disclosure of Complexity</a></li>
 <li><a class="reference internal" href="#why-is-a-graphical-structure-optimal-for-financial-modeling">Why is a graphical structure optimal for financial modeling?</a></li>
 </ul>
 </li>
-<li><a class="reference internal" href="#basic-classes">Basic Classes</a><ul>
-<li><a class="reference internal" href="#external-node">External &lt;Node&gt;</a></li>
+<li><a class="reference internal" href="#base-classes">Base Classes</a><ul>
+<li><a class="reference internal" href="#external-node">External &lt;_Node&gt;</a></li>
 <li><a class="reference internal" href="#transformer">_Transformer</a></li>
 <li><a class="reference internal" href="#translator-transformer">Translator &lt;_Transformer&gt;</a></li>
 <li><a class="reference internal" href="#pipe-transformer">Pipe &lt;_Transformer&gt;</a></li>
@@ -56,10 +57,11 @@
 <li><a class="reference internal" href="#applications-model">Applications &lt;Model&gt;</a></li>
 </ul>
 </li>
-<li><a class="reference internal" href="#extra-classes">Extra Classes</a><ul>
+<li><a class="reference internal" href="#extra-classes-and-concepts">Extra Classes and Concepts</a><ul>
 <li><a class="reference internal" href="#pipeline-pipe">PipeLine &lt;Pipe&gt;</a></li>
 <li><a class="reference internal" href="#memory-transformer">Memory &lt;_Transformer&gt;</a></li>
 <li><a class="reference internal" href="#lazyrunner-transformer">LazyRunner &lt;_Transformer&gt;</a></li>
+<li><a class="reference internal" href="#keyword-arguments">Keyword Arguments</a></li>
 </ul>
 </li>
 <li><a class="reference internal" href="#tips-and-tricks">Tips and Tricks</a><ul>
@@ -75,7 +77,7 @@
                         title="previous chapter">dalio.util package</a></p>
   <h4>Next topic</h4>
   <p class="topless"><a href="developers-guide.html"
-                        title="next chapter">Core Classes and Consepts</a></p>
+                        title="next chapter">Core Classes and Concepts</a></p>
   <div role="note" aria-label="source link">
     <h3>This Page</h3>
     <ul class="this-page-menu">
@@ -107,6 +109,12 @@
 <h2>What do I mean by “graphical structure”?<a class="headerlink" href="#what-do-i-mean-by-graphical-structure" title="Permalink to this headline">¶</a></h2>
 <p>In a graphical structures data is represented as nodes and operations as edges. Think of it as a way to represent many inter-connected transformations and their input and output data.</p>
 </div>
+<div class="section" id="progressive-disclosure-of-complexity">
+<h2>Progressive Disclosure of Complexity<a class="headerlink" href="#progressive-disclosure-of-complexity" title="Permalink to this headline">¶</a></h2>
+<p>The main philosophy begind the graphical structure of Dal-io come from the Deep Learning library Keras. In their documentation, they state that “A core principle of Keras is <strong>progressive disclosure of complexity</strong>. You should always be able to get into lower-level workflows in a gradual way. You shouldn’t fall off a cliff if the high-level functionality doesn’t exactly match your use case. You should be able to gain more control over the small details while retaing a commensurate amount of high-level convenience.”</p>
+<p>So you are familiar with Keras, you will understand that they provide users with a plethora of pre-implemented classes (layers and models) that fit into each other, though the user is also free to create subclasses of their own that can be integrated into the Deep Neural Network and iteract with it as just another layer.</p>
+<p>Likewise, all of the classes described below where made with the objective of being easily customized by more experienced users. After all, the great majority of objects you will be using where implemented like that! Once you feel like you got a hang of Dal-io and want to build your own pieces, check out the <a class="reference external" href="https://github.com/renatomatz/Dal-io">source code</a> or the <a class="reference internal" href="developers-guide.html#developers-guide"><span class="std std-ref">Core Classes and Concepts</span></a>.</p>
+</div>
 <div class="section" id="why-is-a-graphical-structure-optimal-for-financial-modeling">
 <h2>Why is a graphical structure optimal for financial modeling?<a class="headerlink" href="#why-is-a-graphical-structure-optimal-for-financial-modeling" title="Permalink to this headline">¶</a></h2>
 <blockquote>
@@ -119,41 +127,130 @@
 </div></blockquote>
 </div>
 </div>
-<div class="section" id="basic-classes">
-<h1>Basic Classes<a class="headerlink" href="#basic-classes" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="base-classes">
+<h1>Base Classes<a class="headerlink" href="#base-classes" title="Permalink to this headline">¶</a></h1>
 <p>These are the classes you will use throughout an analalysis, or rather a class that implements their functionality. Getting to know them is important as it makes it easier to identify one when you see one and make it easier to search for one when you don’t really remember where to find it.</p>
 <div class="section" id="external-node">
-<h2>External &lt;Node&gt;<a class="headerlink" href="#external-node" title="Permalink to this headline">¶</a></h2>
-<p>External class instances manage connections between your environment and an external source. Class instacnes will often be redundant with existing connection handlers, but at least subclasses will allow for more integrated connection handling and collection, so that you can have a single supplicant object for each external connection.</p>
+<span id="external"></span><h2>External &lt;_Node&gt;<a class="headerlink" href="#external-node" title="Permalink to this headline">¶</a></h2>
+<p><strong>Manage connections between your environment and an external source.</strong></p>
+<p>Every model requires an origin to the data it uses, and often wants to send this data out again once it’s processed. Subclasses of <code class="code docutils literal notranslate"><span class="pre">External</span></code> will implement systems to manage the input and output of data to and from an external sources. An external source is any data or application located outside of your python environment. Two common examples are files and graphs. While these can be manipulated from the python environemt, the actual data is stored outside.</p>
+<p><code class="code docutils literal notranslate"><span class="pre">External</span></code> class instacnes will often be redundant with existing connection handlers, but at least subclasses will allow for more integrated connection handling and collection, so that you can have a single supplicant object for each external connection.</p>
+<p>As a child class of <code class="code docutils literal notranslate"><span class="pre">_Node</span></code>,:code:<cite>External</cite> implements the <code class="code docutils literal notranslate"><span class="pre">.request(**kwargs)</span></code> method, which takes in requests and executed valid ones on their external connections.</p>
+<p>While this method is responsible for the main requests to and from the data, subclasses will often have other methods to perform more specific actions on it. Additionally, the <code class="code docutils literal notranslate"><span class="pre">**kwargs</span></code> parameter will rarely be the same as the one relayed through the <code class="code docutils literal notranslate"><span class="pre">_Transformer.run()</span></code> as  <code class="code docutils literal notranslate"><span class="pre">Translator</span></code> and <code class="code docutils literal notranslate"><span class="pre">Application</span></code> instances will often curate these to be more generalizable to multiple <code class="code docutils literal notranslate"><span class="pre">External</span></code> implementations.</p>
+<p><strong>What to Look For:</strong></p>
+<blockquote>
+<div><ol class="arabic simple">
+<li><p>What the external source is.</p></li>
+<li><p>Is it reliant on configuration? If so, what configuration parameters are required/considered?</p></li>
+</ol>
+</div></blockquote>
 </div>
 <div class="section" id="transformer">
 <h2>_Transformer<a class="headerlink" href="#transformer" title="Permalink to this headline">¶</a></h2>
-<p>Transformers represent transformations on data. They have one or more sources and one or more outputs, internal or external. Transformers source data from Nodes, transforms them and outputs them. You won’t be using these directly in your analyses, but will definitely use one of its subclasses.</p>
+<p><strong>Represent data transformations.</strong></p>
+<p><code class="code docutils literal notranslate"><span class="pre">_Transformer</span></code> instances are defined by their inputs and outputs. IO can be limmited to one or more sources and the source can be either internal or external (as defined in <a class="reference internal" href="#external"><span class="std std-ref">External &lt;_Node&gt;</span></a>).</p>
+<p>All <code class="code docutils literal notranslate"><span class="pre">_Transformer</span></code> instances implement the the <code class="code docutils literal notranslate"><span class="pre">.run(**kwargs)</span></code> method to:</p>
+<blockquote>
+<div><ol class="arabic simple">
+<li><p>Request source data from a <code class="code docutils literal notranslate"><span class="pre">_Node</span></code> instance.</p></li>
+<li><p>Apply specific transformations to the sourced data.</p></li>
+<li><p>Return the transformed data.</p></li>
+</ol>
+</div></blockquote>
+<p>This process will vary depending on the subclass, though the one thing to keep in mind is that the output of this method is what will be fed onto the next node on the graph, so it’s a powerful tool for debugging.</p>
+<p><code class="code docutils literal notranslate"><span class="pre">_Transformer</span></code> instances also define each input in their initialization by using <code class="code docutils literal notranslate"><span class="pre">Validator</span></code> instances. You can find more about these in the Developpers Guide section on the <span class="xref std std-ref">validator</span> but for now, you can use the <code class="code docutils literal notranslate"><span class="pre">_Transformer.describe()</span></code> method to get an idea of what kind of inputs this piece requires or prefers.</p>
+<p>You won’t be using these directly in your analyses, but will definitely use one of its subclasses.</p>
+<p><strong>What to Look For:</strong></p>
+<blockquote>
+<div><ol class="arabic simple">
+<li><p>Number of input and outputs.</p></li>
+<li><p>Sources/destinations of inputs and outputs.</p></li>
+<li><p>Input descriptions.</p></li>
+</ol>
+</div></blockquote>
 </div>
 <div class="section" id="translator-transformer">
 <h2>Translator &lt;_Transformer&gt;<a class="headerlink" href="#translator-transformer" title="Permalink to this headline">¶</a></h2>
-<p>Translators are the root of all data that feeds your graph. Objects of this class connect with some external source, imports raw data, then “translates” it into a format that can be used universaly through the model.</p>
+<p><strong>Request and standardize external data.</strong></p>
+<p><em>One external input, one internal output</em></p>
+<p>While <code class="code docutils literal notranslate"><span class="pre">External</span></code> instances are the origin of all data, <code class="code docutils literal notranslate"><span class="pre">Translator</span></code> instances are the root of all <em>clean and standardized</em> data. Objects of this class have <code class="code docutils literal notranslate"><span class="pre">External</span></code> instances as their source and are tasked with creating requests undestandable by that instance and standardize the response data into a useable format.</p>
+<p>For more information on the Dal-io formatting standards, check out <a class="reference internal" href="formatting.html#formatting"><span class="std std-ref">Formatting</span></a>.</p>
+<p>All <code class="code docutils literal notranslate"><span class="pre">Translator</span></code> instances implement the the <code class="code docutils literal notranslate"><span class="pre">.run(**kwargs)</span></code> method to:</p>
+<blockquote>
+<div><ol class="arabic simple">
+<li><p>Source data from an <code class="code docutils literal notranslate"><span class="pre">External</span></code> instance.</p></li>
+<li><p>Translate the data into a format as specified by the formatting guide.</p></li>
+<li><p>Return the translated data.</p></li>
+</ol>
+</div></blockquote>
+<p>These also tend to be the PipeLine stages where <code class="code docutils literal notranslate"><span class="pre">kwargs</span></code> source from.</p>
+<p><strong>What to Look For:</strong></p>
+<blockquote>
+<div><ol class="arabic simple">
+<li><p>Compatible <code class="code docutils literal notranslate"><span class="pre">External</span></code> instances.</p></li>
+<li><p>What translation format is being used and how will the output contain.</p></li>
+<li><p>What are the keyword arguments it can interpret.</p></li>
+</ol>
+</div></blockquote>
 </div>
 <div class="section" id="pipe-transformer">
 <h2>Pipe &lt;_Transformer&gt;<a class="headerlink" href="#pipe-transformer" title="Permalink to this headline">¶</a></h2>
-<p>Pipes are a base class that represents any kind of data modification with one internal input and one internal output. All pipes must implement the .transform() method, which takes in the output from sourced data and returns it transformed. The .run() method in turn has a default implementation to actually source the input data from the input node and pass it onto the .transform() method; this default implementation is often changed to modify keyword arguments passed onto the source node and the .transform() call.</p>
-<p><strong>Configuration:</strong> Sources often require additional ids, secrets or paths in order to access their data. The .config attribute aims to summarise all key configuration details and data needed to access a resource. Additional functions can be added as needed to facilitate one-time connection needs.</p>
-<p><strong>Factories:</strong> Sources, typically web APIs, will give users various functionalities with the same base configurations. The .make() method can be implemeted to return subclasses that inherit parent processing and configuration.</p>
+<p><strong>Transform a single input into a single output.</strong></p>
+<p><em>One internal input, one internal output</em></p>
+<p>Pipes will compose the majority of data wranging and processing in your graphs, and are designed to be easily extendable by users.</p>
+<p>All pipes must implement the <code class="code docutils literal notranslate"><span class="pre">.transform(data,</span> <span class="pre">**kwargs)</span></code> method, which takes in the output from sourced data and returns it transformed. This has three main purposes.</p>
+<blockquote>
+<div><ol class="arabic simple">
+<li><p>Subclasses can more objectively focuss on transforming and outputting the <code class="code docutils literal notranslate"><span class="pre">data</span></code> parameter instead of having to deal with sourcing it.</p></li>
+<li><p>It makes it possible to use <code class="code docutils literal notranslate"><span class="pre">Pipe</span></code> instances to transform data outside of the Dal-io library directly, which is useful for applications outside of the library’s scope or for testing the transformation.</p></li>
+<li><p>More efficient compatibility with <a class="reference internal" href="#pipeline"><span class="std std-ref">PipeLine &lt;Pipe&gt;</span></a> objects.</p></li>
+</ol>
+</div></blockquote>
+<p>All <code class="code docutils literal notranslate"><span class="pre">Pipe</span></code> instances implement the the <code class="code docutils literal notranslate"><span class="pre">.run(**kwargs)</span></code> method to:</p>
+<blockquote>
+<div><ol class="arabic simple">
+<li><p>Define input requirements.</p></li>
+<li><p>Source data from another <code class="code docutils literal notranslate"><span class="pre">_Transformer</span></code> instance, applying integrity checks.</p></li>
+<li><p>Pass it as the <code class="code docutils literal notranslate"><span class="pre">data</span></code> parameter to the <code class="code docutils literal notranslate"><span class="pre">.transform()</span></code> method.</p></li>
+<li><p>Return the transformed data.</p></li>
+</ol>
+</div></blockquote>
+<p>While the default implementation of the <code class="code docutils literal notranslate"><span class="pre">.run()</span></code> method simply sources data and passes into <code class="code docutils literal notranslate"><span class="pre">.transform</span></code>, it is often changed to modify keyword arguments passed onto the source node and the .transform() call.</p>
+<p><strong>What to Look For:</strong></p>
+<blockquote>
+<div><ol class="arabic simple">
+<li><p>What are the input requirements.</p></li>
+<li><p>What the <code class="code docutils literal notranslate"><span class="pre">.transform</span></code> method does.</p></li>
+<li><p>What are changeable attributes that affect the data processing.</p></li>
+</ol>
+</div></blockquote>
 </div>
 <div class="section" id="model-transformer">
 <h2>Model &lt;_Transformer&gt;<a class="headerlink" href="#model-transformer" title="Permalink to this headline">¶</a></h2>
 <p>Models are a lot like transformers as they take in inputs and has a single output. Models do differ from transformers as they can take in multiple inputs and be much more flexible with additional methods for different strategies or for small data storage. Also, keep in mind models do not have a __call__ method inherited or a single function that transforms its inputs. Models are supposed to perform more intricate operations, beyond a simple transformation.</p>
+<p><strong>What to Look For:</strong></p>
+<blockquote>
+<div><ol class="arabic simple">
+<li></li>
+</ol>
+</div></blockquote>
 </div>
 <div class="section" id="applications-model">
 <h2>Applications &lt;Model&gt;<a class="headerlink" href="#applications-model" title="Permalink to this headline">¶</a></h2>
 <p>While Models are normally the last stage of a model, it still has a single output which might have limited value in itself. Applications are tools used for the interpretation of multiple, which are not constrained by those output by models, but often are. These can have a broad range of applications, from graphing to trading. The main functionality is in the .execute() method, which gets input data and interprets it as needed.</p>
+<p><strong>What to Look For:</strong></p>
+<blockquote>
+<div><ol class="arabic simple">
+<li></li>
+</ol>
+</div></blockquote>
 </div>
 </div>
-<div class="section" id="extra-classes">
-<h1>Extra Classes<a class="headerlink" href="#extra-classes" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="extra-classes-and-concepts">
+<h1>Extra Classes and Concepts<a class="headerlink" href="#extra-classes-and-concepts" title="Permalink to this headline">¶</a></h1>
 <p>Now that we’ve seen what will make your models work, lets jump into what will make your models <strong>work incredibly.</strong></p>
 <div class="section" id="pipeline-pipe">
-<h2>PipeLine &lt;Pipe&gt;<a class="headerlink" href="#pipeline-pipe" title="Permalink to this headline">¶</a></h2>
+<span id="pipeline"></span><h2>PipeLine &lt;Pipe&gt;<a class="headerlink" href="#pipeline-pipe" title="Permalink to this headline">¶</a></h2>
 <p>As Pipe instances implement a normally small operation and have only one imput and one output, you are able to join them together, thorugh the __add__() internal method (which overrides the + operator) to create a sequence of transformations linked one after the other. These simply pass the output of one Pipe instance’s .transform() method as the input to another, which can be a significant speed boost, though you should be carefull with data integrity here.</p>
 <p>KEEP IN MIND that good alternatives to these is just linking Pipe instances together in order to validate the data at every stage of the pipeline. This will have the same output as a PipeLine, but compromise on speed and possibly aesthetics.</p>
 </div>
@@ -170,6 +267,9 @@
 <p>KEEP IN MIND that these could mean a significant memory burden, if you are widly saving data from different inputs with several kwargs combinations passed on to them.</p>
 <p>The solution to the memory problem comes in the buffer= initialization argument of the LazyRunner. These will limmit the number of Memory instances that are saved at any point. This also comes with the update= initialization argument for whether or not stored Memory instances should be updaed in FIFO order once the buffer is full or whether an error should be thrown.</p>
 <p>KEEP IN MIND that this will not notice if its source data input has any sort of input changes itself (this could be a change in date range, for example or data source.) This will become a problem as changes will not be relayed if the runtime kwargs are the same as before a change. This happens as the LazyRunner will assume that nothing changed, see the kwarg and return the (old) saved version of the response. This can be solved by calling the .clear() method to reset the memory dictionary.</p>
+</div>
+<div class="section" id="keyword-arguments">
+<h2>Keyword Arguments<a class="headerlink" href="#keyword-arguments" title="Permalink to this headline">¶</a></h2>
 </div>
 </div>
 <div class="section" id="tips-and-tricks">
@@ -201,7 +301,7 @@
           <a href="py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
         <li class="right" >
-          <a href="developers-guide.html" title="Core Classes and Consepts"
+          <a href="developers-guide.html" title="Core Classes and Concepts"
              >next</a> |</li>
         <li class="right" >
           <a href="dalio.util.html" title="dalio.util package"
