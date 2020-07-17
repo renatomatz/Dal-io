@@ -174,13 +174,13 @@ This means you can get information of any of the stages you created like this, a
 ```
 
 ```bash
-    >>> {'GOOG': 0.45514,
-         'MSFT': 0.82602,
-         'ATVI': -0.49995,
-         'TTWO': 0.29241,
-         'GM': -0.43788,
-         'FORD': 0.38413,
-         'SPY': -0.01986}
+    {'GOOG': 0.45514,
+     'MSFT': 0.82602,
+     'ATVI': -0.49995,
+     'TTWO': 0.29241,
+     'GM': -0.43788,
+     'FORD': 0.38413,
+     'SPY': -0.01986}
 ```
 
 Hope this example was enough to show how you can create clean and powerful models using just a few lines of code!

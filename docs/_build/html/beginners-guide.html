@@ -54,7 +54,7 @@
 <li><a class="reference internal" href="#translator-transformer">Translator &lt;_Transformer&gt;</a></li>
 <li><a class="reference internal" href="#pipe-transformer">Pipe &lt;_Transformer&gt;</a></li>
 <li><a class="reference internal" href="#model-transformer">Model &lt;_Transformer&gt;</a></li>
-<li><a class="reference internal" href="#applications-model">Applications &lt;Model&gt;</a></li>
+<li><a class="reference internal" href="#application-model">Application &lt;Model&gt;</a></li>
 </ul>
 </li>
 <li><a class="reference internal" href="#extra-classes-and-concepts">Extra Classes and Concepts</a><ul>
@@ -65,6 +65,7 @@
 </ul>
 </li>
 <li><a class="reference internal" href="#tips-and-tricks">Tips and Tricks</a><ul>
+<li><a class="reference internal" href="#importing">Importing</a></li>
 <li><a class="reference internal" href="#the-basic-workflow">The Basic Workflow</a></li>
 <li><a class="reference internal" href="#when-reading-the-docs">When Reading the Docs</a></li>
 <li><a class="reference internal" href="#must-know-classes">Must-Know Classes</a></li>
@@ -111,45 +112,45 @@
 </div>
 <div class="section" id="progressive-disclosure-of-complexity">
 <h2>Progressive Disclosure of Complexity<a class="headerlink" href="#progressive-disclosure-of-complexity" title="Permalink to this headline">¶</a></h2>
-<p>The main philosophy begind the graphical structure of Dal-io come from the Deep Learning library Keras. In their documentation, they state that “A core principle of Keras is <strong>progressive disclosure of complexity</strong>. You should always be able to get into lower-level workflows in a gradual way. You shouldn’t fall off a cliff if the high-level functionality doesn’t exactly match your use case. You should be able to gain more control over the small details while retaing a commensurate amount of high-level convenience.”</p>
-<p>So you are familiar with Keras, you will understand that they provide users with a plethora of pre-implemented classes (layers and models) that fit into each other, though the user is also free to create subclasses of their own that can be integrated into the Deep Neural Network and iteract with it as just another layer.</p>
+<p>The main philosophy behind the graphical structure of Dal-io come from the Deep Learning library Keras. In their documentation, they state that “A core principle of Keras is <strong>progressive disclosure of complexity</strong>. You should always be able to get into lower-level workflows in a gradual way. You shouldn’t fall off a cliff if the high-level functionality doesn’t exactly match your use case. You should be able to gain more control over the small details while retaining a commensurate amount of high-level convenience.”</p>
+<p>So you are familiar with Keras, you will understand that they provide users with a plethora of pre-implemented classes (layers and models) that fit into each other, though the user is also free to create subclasses of their own that can be integrated into the Deep Neural Network and interact with it as just another layer.</p>
 <p>Likewise, all of the classes described below where made with the objective of being easily customized by more experienced users. After all, the great majority of objects you will be using where implemented like that! Once you feel like you got a hang of Dal-io and want to build your own pieces, check out the <a class="reference external" href="https://github.com/renatomatz/Dal-io">source code</a> or the <a class="reference internal" href="developers-guide.html#developers-guide"><span class="std std-ref">Core Classes and Concepts</span></a>.</p>
 </div>
 <div class="section" id="why-is-a-graphical-structure-optimal-for-financial-modeling">
 <h2>Why is a graphical structure optimal for financial modeling?<a class="headerlink" href="#why-is-a-graphical-structure-optimal-for-financial-modeling" title="Permalink to this headline">¶</a></h2>
 <blockquote>
 <div><ul class="simple">
-<li><p>Modern automated finantial models retrieve data, clean and dirty, from various sources and through cleaning and itegration are able to join them, further process this product and finally derive insigts. The problem is that as these models utilize more and more data from various sources, created models tend to become confusing for both technical and non technical people. Also, as there is no unified workflow to deal with these, created models tend to become highly inflexible and lacking portability (onto other models or projects.) A graphical architecture offers an intuitive workflow for working with data, where inputs can have a unified translation, data can be constantly checked for validity and otuputs can be used in flexible ways as parts of a bigger system or drive actions.</p></li>
-<li><p>Utilizing large ammounts of data can also end up being highly memory-inneficient when data sources are varied and outputs are as simple as a buy/sell command. As in the tensorflow graphical architecture, using these constructs allow for automatic parallelization of models to better use modern hardware. Applications can also be built to fit multiple models, and updated independently from the rest of the system.</p></li>
-<li><p>Graphs are easy to interpret visualy, which is useful for understanding the flow of data and interpreting output or bugs. They are also higly flexible, allowing users to modify pieces or generate new connections while keeping an enforcable system of data integrity.</p></li>
-<li><p>Perhaps most importantly, these graphs are extremely lightweight and portable, which is key for widespread distribution and access. While every piece can be accessed and tested on-the-go for better ease of development, they are ultimately just pieces of a bigger structure, where data flows continuously and leftover data is dicared automatically, keeping the memory and processing burden at a minimum when dealing with massive datasets.</p></li>
+<li><p>Modern automated financial models retrieve data, clean and dirty, from various sources and through cleaning and integration are able to join them, further process this product and finally derive insights. The problem is that as these models utilize more and more data from various sources, created models tend to become confusing for both technical and non technical people. Also, as there is no unified workflow to deal with these, created models tend to become highly inflexible and lacking portability (onto other models or projects.) A graphical architecture offers an intuitive workflow for working with data, where inputs can have a unified translation, data can be constantly checked for validity and outputs can be used in flexible ways as parts of a bigger system or drive actions.</p></li>
+<li><p>Utilizing large amounts of data can also end up being highly memory-inefficient when data sources are varied and outputs are as simple as a buy/sell command. As in the TensorFlow graphical architecture, using these constructs allow for automatic parallelization of models to better use modern hardware. Applications can also be built to fit multiple models, and updated independently from the rest of the system.</p></li>
+<li><p>Graphs are easy to interpret visually, which is useful for understanding the flow of data and interpreting output or bugs. They are also highly flexible, allowing users to modify pieces or generate new connections while keeping an enforceable system of data integrity.</p></li>
+<li><p>Perhaps most importantly, these graphs are extremely lightweight and portable, which is key for widespread distribution and access. While every piece can be accessed and tested on-the-go for better ease of development, they are ultimately just pieces of a bigger structure, where data flows continuously and leftover data is discarded automatically, keeping the memory and processing burden at a minimum when dealing with massive datasets.</p></li>
 </ul>
 </div></blockquote>
 </div>
 </div>
 <div class="section" id="base-classes">
 <h1>Base Classes<a class="headerlink" href="#base-classes" title="Permalink to this headline">¶</a></h1>
-<p>These are the classes you will use throughout an analalysis, or rather a class that implements their functionality. Getting to know them is important as it makes it easier to identify one when you see one and make it easier to search for one when you don’t really remember where to find it.</p>
+<p>These are the classes you will use throughout an analysis, or rather a class that implements their functionality. Getting to know them is important as it makes it easier to identify one when you see one and make it easier to search for one when you don’t really remember where to find it.</p>
 <div class="section" id="external-node">
 <span id="external"></span><h2>External &lt;_Node&gt;<a class="headerlink" href="#external-node" title="Permalink to this headline">¶</a></h2>
 <p><strong>Manage connections between your environment and an external source.</strong></p>
 <p>Every model requires an origin to the data it uses, and often wants to send this data out again once it’s processed. Subclasses of <code class="code docutils literal notranslate"><span class="pre">External</span></code> will implement systems to manage the input and output of data to and from an external sources. An external source is any data or application located outside of your python environment. Two common examples are files and graphs. While these can be manipulated from the python environemt, the actual data is stored outside.</p>
-<p><code class="code docutils literal notranslate"><span class="pre">External</span></code> class instacnes will often be redundant with existing connection handlers, but at least subclasses will allow for more integrated connection handling and collection, so that you can have a single supplicant object for each external connection.</p>
+<p><code class="code docutils literal notranslate"><span class="pre">External</span></code> class instances will often be redundant with existing connection handlers, but at least subclasses will allow for more integrated connection handling and collection, so that you can have a single supplicant object for each external connection.</p>
 <p>As a child class of <code class="code docutils literal notranslate"><span class="pre">_Node</span></code>,:code:<cite>External</cite> implements the <code class="code docutils literal notranslate"><span class="pre">.request(**kwargs)</span></code> method, which takes in requests and executed valid ones on their external connections.</p>
 <p>While this method is responsible for the main requests to and from the data, subclasses will often have other methods to perform more specific actions on it. Additionally, the <code class="code docutils literal notranslate"><span class="pre">**kwargs</span></code> parameter will rarely be the same as the one relayed through the <code class="code docutils literal notranslate"><span class="pre">_Transformer.run()</span></code> as  <code class="code docutils literal notranslate"><span class="pre">Translator</span></code> and <code class="code docutils literal notranslate"><span class="pre">Application</span></code> instances will often curate these to be more generalizable to multiple <code class="code docutils literal notranslate"><span class="pre">External</span></code> implementations.</p>
 <p><strong>What to Look For:</strong></p>
 <blockquote>
-<div><ol class="arabic simple">
+<div><ul class="simple">
 <li><p>What the external source is.</p></li>
 <li><p>Is it reliant on configuration? If so, what configuration parameters are required/considered?</p></li>
-</ol>
+</ul>
 </div></blockquote>
 </div>
 <div class="section" id="transformer">
 <h2>_Transformer<a class="headerlink" href="#transformer" title="Permalink to this headline">¶</a></h2>
 <p><strong>Represent data transformations.</strong></p>
-<p><code class="code docutils literal notranslate"><span class="pre">_Transformer</span></code> instances are defined by their inputs and outputs. IO can be limmited to one or more sources and the source can be either internal or external (as defined in <a class="reference internal" href="#external"><span class="std std-ref">External &lt;_Node&gt;</span></a>).</p>
-<p>All <code class="code docutils literal notranslate"><span class="pre">_Transformer</span></code> instances implement the the <code class="code docutils literal notranslate"><span class="pre">.run(**kwargs)</span></code> method to:</p>
+<p><code class="code docutils literal notranslate"><span class="pre">_Transformer</span></code> instances are defined by their inputs and outputs. IO can be limited to one or more sources and the source can be either internal or external (as defined in <a class="reference internal" href="#external"><span class="std std-ref">External &lt;_Node&gt;</span></a>).</p>
+<p>All <code class="code docutils literal notranslate"><span class="pre">_Transformer</span></code> instances implement the <code class="code docutils literal notranslate"><span class="pre">.run(**kwargs)</span></code> method to:</p>
 <blockquote>
 <div><ol class="arabic simple">
 <li><p>Request source data from a <code class="code docutils literal notranslate"><span class="pre">_Node</span></code> instance.</p></li>
@@ -158,24 +159,24 @@
 </ol>
 </div></blockquote>
 <p>This process will vary depending on the subclass, though the one thing to keep in mind is that the output of this method is what will be fed onto the next node on the graph, so it’s a powerful tool for debugging.</p>
-<p><code class="code docutils literal notranslate"><span class="pre">_Transformer</span></code> instances also define each input in their initialization by using <code class="code docutils literal notranslate"><span class="pre">Validator</span></code> instances. You can find more about these in the Developpers Guide section on the <span class="xref std std-ref">validator</span> but for now, you can use the <code class="code docutils literal notranslate"><span class="pre">_Transformer.describe()</span></code> method to get an idea of what kind of inputs this piece requires or prefers.</p>
+<p><code class="code docutils literal notranslate"><span class="pre">_Transformer</span></code> instances also define each input in their initialization by using <code class="code docutils literal notranslate"><span class="pre">Validator</span></code> instances. You can find more about these in the <span class="xref std std-ref">developers-guide</span> section on the <a class="reference internal" href="developers-guide.html#validator"><span class="std std-ref">Validator</span></a> but for now, you can use the <code class="code docutils literal notranslate"><span class="pre">_Transformer.describe()</span></code> method to get an idea of what kind of inputs this piece requires or prefers.</p>
 <p>You won’t be using these directly in your analyses, but will definitely use one of its subclasses.</p>
 <p><strong>What to Look For:</strong></p>
 <blockquote>
-<div><ol class="arabic simple">
+<div><ul class="simple">
 <li><p>Number of input and outputs.</p></li>
 <li><p>Sources/destinations of inputs and outputs.</p></li>
 <li><p>Input descriptions.</p></li>
-</ol>
+</ul>
 </div></blockquote>
 </div>
 <div class="section" id="translator-transformer">
 <h2>Translator &lt;_Transformer&gt;<a class="headerlink" href="#translator-transformer" title="Permalink to this headline">¶</a></h2>
 <p><strong>Request and standardize external data.</strong></p>
 <p><em>One external input, one internal output</em></p>
-<p>While <code class="code docutils literal notranslate"><span class="pre">External</span></code> instances are the origin of all data, <code class="code docutils literal notranslate"><span class="pre">Translator</span></code> instances are the root of all <em>clean and standardized</em> data. Objects of this class have <code class="code docutils literal notranslate"><span class="pre">External</span></code> instances as their source and are tasked with creating requests undestandable by that instance and standardize the response data into a useable format.</p>
+<p>While <code class="code docutils literal notranslate"><span class="pre">External</span></code> instances are the origin of all data, <code class="code docutils literal notranslate"><span class="pre">Translator</span></code> instances are the root of all <em>clean and standardized</em> data. Objects of this class have <code class="code docutils literal notranslate"><span class="pre">External</span></code> instances as their source and are tasked with creating requests understandable by that instance and standardize the response data into an acceptable format.</p>
 <p>For more information on the Dal-io formatting standards, check out <a class="reference internal" href="formatting.html#formatting"><span class="std std-ref">Formatting</span></a>.</p>
-<p>All <code class="code docutils literal notranslate"><span class="pre">Translator</span></code> instances implement the the <code class="code docutils literal notranslate"><span class="pre">.run(**kwargs)</span></code> method to:</p>
+<p>All <code class="code docutils literal notranslate"><span class="pre">Translator</span></code> instances implement the <code class="code docutils literal notranslate"><span class="pre">.run(**kwargs)</span></code> method to:</p>
 <blockquote>
 <div><ol class="arabic simple">
 <li><p>Source data from an <code class="code docutils literal notranslate"><span class="pre">External</span></code> instance.</p></li>
@@ -186,11 +187,11 @@
 <p>These also tend to be the PipeLine stages where <code class="code docutils literal notranslate"><span class="pre">kwargs</span></code> source from.</p>
 <p><strong>What to Look For:</strong></p>
 <blockquote>
-<div><ol class="arabic simple">
+<div><ul class="simple">
 <li><p>Compatible <code class="code docutils literal notranslate"><span class="pre">External</span></code> instances.</p></li>
 <li><p>What translation format is being used and how will the output contain.</p></li>
 <li><p>What are the keyword arguments it can interpret.</p></li>
-</ol>
+</ul>
 </div></blockquote>
 </div>
 <div class="section" id="pipe-transformer">
@@ -201,12 +202,12 @@
 <p>All pipes must implement the <code class="code docutils literal notranslate"><span class="pre">.transform(data,</span> <span class="pre">**kwargs)</span></code> method, which takes in the output from sourced data and returns it transformed. This has three main purposes.</p>
 <blockquote>
 <div><ol class="arabic simple">
-<li><p>Subclasses can more objectively focuss on transforming and outputting the <code class="code docutils literal notranslate"><span class="pre">data</span></code> parameter instead of having to deal with sourcing it.</p></li>
+<li><p>Subclasses can more objectively focus on transforming and outputting the <code class="code docutils literal notranslate"><span class="pre">data</span></code> parameter instead of having to deal with sourcing it.</p></li>
 <li><p>It makes it possible to use <code class="code docutils literal notranslate"><span class="pre">Pipe</span></code> instances to transform data outside of the Dal-io library directly, which is useful for applications outside of the library’s scope or for testing the transformation.</p></li>
 <li><p>More efficient compatibility with <a class="reference internal" href="#pipeline"><span class="std std-ref">PipeLine &lt;Pipe&gt;</span></a> objects.</p></li>
 </ol>
 </div></blockquote>
-<p>All <code class="code docutils literal notranslate"><span class="pre">Pipe</span></code> instances implement the the <code class="code docutils literal notranslate"><span class="pre">.run(**kwargs)</span></code> method to:</p>
+<p>All <code class="code docutils literal notranslate"><span class="pre">Pipe</span></code> instances implement the <code class="code docutils literal notranslate"><span class="pre">.run(**kwargs)</span></code> method to:</p>
 <blockquote>
 <div><ol class="arabic simple">
 <li><p>Define input requirements.</p></li>
@@ -218,30 +219,65 @@
 <p>While the default implementation of the <code class="code docutils literal notranslate"><span class="pre">.run()</span></code> method simply sources data and passes into <code class="code docutils literal notranslate"><span class="pre">.transform</span></code>, it is often changed to modify keyword arguments passed onto the source node and the .transform() call.</p>
 <p><strong>What to Look For:</strong></p>
 <blockquote>
-<div><ol class="arabic simple">
+<div><ul class="simple">
 <li><p>What are the input requirements.</p></li>
 <li><p>What the <code class="code docutils literal notranslate"><span class="pre">.transform</span></code> method does.</p></li>
 <li><p>What are changeable attributes that affect the data processing.</p></li>
-</ol>
+</ul>
 </div></blockquote>
 </div>
 <div class="section" id="model-transformer">
 <h2>Model &lt;_Transformer&gt;<a class="headerlink" href="#model-transformer" title="Permalink to this headline">¶</a></h2>
-<p>Models are a lot like transformers as they take in inputs and has a single output. Models do differ from transformers as they can take in multiple inputs and be much more flexible with additional methods for different strategies or for small data storage. Also, keep in mind models do not have a __call__ method inherited or a single function that transforms its inputs. Models are supposed to perform more intricate operations, beyond a simple transformation.</p>
+<p><strong>Utilize multiple input sources to get one output.</strong></p>
+<p><em>Multiple internal inputs, one internal output</em></p>
+<p><code class="code docutils literal notranslate"><span class="pre">Model</span></code> instances are a lot like <code class="code docutils literal notranslate"><span class="pre">Pipe</span></code> instances as their main task it to transform inputs to get an output. Though taking in multiple inputs might not seem like enough to warrant a whole different class, the key differences come from all the extra considerations needed when creating a <code class="code docutils literal notranslate"><span class="pre">Model</span></code> instance.</p>
+<p>There are two main uses for <code class="code docutils literal notranslate"><span class="pre">Model</span></code> instances:</p>
+<blockquote>
+<div><ol class="arabic simple">
+<li><p>Getting multiple inputs and joining them to form a single output.</p></li>
+<li><p>Using the output of one of the inputs to format a request to another input.</p></li>
+</ol>
+</div></blockquote>
+<p>These objectives thus require a lot more flexibility when it comes to sourcing the inputs, which is why, unlike <code class="code docutils literal notranslate"><span class="pre">Pipe</span></code> instances, <code class="code docutils literal notranslate"><span class="pre">Model</span></code> instances do not have a <code class="code docutils literal notranslate"><span class="pre">.transform()</span></code> method, and instead rely solely on their <code class="code docutils literal notranslate"><span class="pre">run()</span></code> method to:</p>
+<blockquote>
+<div><ol class="arabic simple">
+<li><p>Source data from inputs.</p></li>
+<li><p>Process and transform data.</p></li>
+<li><p>(Possibly) source more data given the above transformations.</p></li>
+<li><p>(Possibly) join all sourced data.</p></li>
+<li><p>Return the final product.</p></li>
+</ol>
+</div></blockquote>
 <p><strong>What to Look For:</strong></p>
 <blockquote>
 <div><ol class="arabic simple">
-<li></li>
+<li><p>All the input names and what they represent.</p></li>
+<li><p>The requirements for each input.</p></li>
+<li><p>How the <code class="code docutils literal notranslate"><span class="pre">.run()</span></code> method deals with each input piece.</p></li>
+<li><p>What changeable attributes affect the data processing.</p></li>
 </ol>
 </div></blockquote>
 </div>
-<div class="section" id="applications-model">
-<h2>Applications &lt;Model&gt;<a class="headerlink" href="#applications-model" title="Permalink to this headline">¶</a></h2>
-<p>While Models are normally the last stage of a model, it still has a single output which might have limited value in itself. Applications are tools used for the interpretation of multiple, which are not constrained by those output by models, but often are. These can have a broad range of applications, from graphing to trading. The main functionality is in the .execute() method, which gets input data and interprets it as needed.</p>
+<div class="section" id="application-model">
+<h2>Application &lt;Model&gt;<a class="headerlink" href="#application-model" title="Permalink to this headline">¶</a></h2>
+<p><strong>Act on external sources</strong>
+<em>Multiple internal inputs, zero or more external or internal outputs</em></p>
+<p>While you might be using Dal-io mostly for processing data for further use in your python session, <code class="code docutils literal notranslate"><span class="pre">Application</span></code> instances offer methods of using this processed data to interact with external sources. These will be managed by <code class="code docutils literal notranslate"><span class="pre">External</span></code> instances which are called by the application with data it sources from its inputs. These interactions can take a broad range of forms, from simple printing to the console to graphing, executing trade orders or actively requesting more data from the inputs. Ultimately, <code class="code docutils literal notranslate"><span class="pre">Application</span></code> instances offer the greatest set of possibilities for users wanting to implement their own, as it is not bound by the scope of what the library can do.</p>
+<p>All <code class="code docutils literal notranslate"><span class="pre">Application</span></code> instances implement the <code class="code docutils literal notranslate"><span class="pre">.run(**kwargs)</span></code> method to:</p>
+<blockquote>
+<div><ol class="arabic simple">
+<li><p>Source, validate, process and/or combine data from different inputs.</p></li>
+<li><p>Use processed input data to send a request to an external source.</p></li>
+<li><p>Get responses from external sources and further interactions.</p></li>
+</ol>
+</div></blockquote>
 <p><strong>What to Look For:</strong></p>
 <blockquote>
 <div><ol class="arabic simple">
-<li></li>
+<li><p>All the input names and what they represent.</p></li>
+<li><p>The requirements for each input.</p></li>
+<li><p>All the output names and what they represent.</p></li>
+<li><p>How the <code class="code docutils literal notranslate"><span class="pre">.run()</span></code> method deals with each input piece and how will it be transmitted to the output.</p></li>
 </ol>
 </div></blockquote>
 </div>
@@ -251,37 +287,364 @@
 <p>Now that we’ve seen what will make your models work, lets jump into what will make your models <strong>work incredibly.</strong></p>
 <div class="section" id="pipeline-pipe">
 <span id="pipeline"></span><h2>PipeLine &lt;Pipe&gt;<a class="headerlink" href="#pipeline-pipe" title="Permalink to this headline">¶</a></h2>
-<p>As Pipe instances implement a normally small operation and have only one imput and one output, you are able to join them together, thorugh the __add__() internal method (which overrides the + operator) to create a sequence of transformations linked one after the other. These simply pass the output of one Pipe instance’s .transform() method as the input to another, which can be a significant speed boost, though you should be carefull with data integrity here.</p>
+<p>As Pipe instances implement a normally small operation and have only one input and one output, you are able to join them together, through the __add__() internal method (which overrides the + operator) to create a sequence of transformations linked one after the other. These simply pass the output of one Pipe instance’s .transform() method as the input to another, which can be a significant speed boost, though you should be careful with data integrity here.</p>
 <p>KEEP IN MIND that good alternatives to these is just linking Pipe instances together in order to validate the data at every stage of the pipeline. This will have the same output as a PipeLine, but compromise on speed and possibly aesthetics.</p>
 </div>
 <div class="section" id="memory-transformer">
 <h2>Memory &lt;_Transformer&gt;<a class="headerlink" href="#memory-transformer" title="Permalink to this headline">¶</a></h2>
-<p>When using APIs to fetch online data, there is often a delay that ranges from a few to a few dozen seconds. This might be completely fine if data will only pass through your model once to feed an application, for example, but will become a problem if you are also performing analyses on several pieces of the model or have several Model instances in your graph (which call on an input once for every source). The solution to this lies in Memory instances that temporarily save model imputs to some location and retrieves it when ran.</p>
+<p>When using APIs to fetch online data, there is often a delay that ranges from a few to a few dozen seconds. This might be completely fine if data will only pass through your model once to feed an application, for example, but will become a problem if you are also performing analyses on several pieces of the model or have several Model instances in your graph (which call on an input once for every source). The solution to this lies in Memory instances that temporarily save model inputs to some location and retrieves it when ran.</p>
 <p>Notice that Memory inherits from a _Transformer, which makes it compatible as input to any piece of your graph and behaves like any other input (most closely resembling a Pipe.)</p>
 <p>Subclasses will implement different storage strategies for different locations. These will have their own data requirements and storage and retrieval logic - imagine the different in data structure, storage and retrieval required for storing data on a database vs on the local python session.</p>
 <p>One thing to keep in mind is that these only store one piece of memory, so if you, for example, want to vary your .run() kwargs, this might not be the best option beyond building and debugging your model. If you still want the speed advantages of Memory while allowing for more runtime argument flexibility, check out the LazyRunner class below.</p>
 </div>
 <div class="section" id="lazyrunner-transformer">
 <h2>LazyRunner &lt;_Transformer&gt;<a class="headerlink" href="#lazyrunner-transformer" title="Permalink to this headline">¶</a></h2>
-<p>These objects are the solution to storing multible Memory instances for different runtime kwargs that pass through the instance. These do not store the data itself, but rather the memory instances that do. This allows for more flexibility, as any single Memory subclass can be used to store the data. These are created when a new keyword argument is seen, and it does so by getting the data from a _Transformer input and setting its result as the source of a new Memory instance. The Memory type and initialization arguments are all specified in the LazyRunner initialization.</p>
-<p>KEEP IN MIND that these could mean a significant memory burden, if you are widly saving data from different inputs with several kwargs combinations passed on to them.</p>
-<p>The solution to the memory problem comes in the buffer= initialization argument of the LazyRunner. These will limmit the number of Memory instances that are saved at any point. This also comes with the update= initialization argument for whether or not stored Memory instances should be updaed in FIFO order once the buffer is full or whether an error should be thrown.</p>
+<p>These objects are the solution to storing multiple Memory instances for different runtime kwargs that pass through the instance. These do not store the data itself, but rather the memory instances that do. This allows for more flexibility, as any single Memory subclass can be used to store the data. These are created when a new keyword argument is seen, and it does so by getting the data from a _Transformer input and setting its result as the source of a new Memory instance. The Memory type and initialization arguments are all specified in the LazyRunner initialization.</p>
+<p>KEEP IN MIND that these could mean a significant memory burden, if you are widely saving data from different inputs with several kwargs combinations passed on to them.</p>
+<p>The solution to the memory problem comes in the buffer= initialization argument of the LazyRunner. These will limit the number of Memory instances that are saved at any point. This also comes with the update= initialization argument for whether or not stored Memory instances should be updated in FIFO order once the buffer is full or whether an error should be thrown.</p>
 <p>KEEP IN MIND that this will not notice if its source data input has any sort of input changes itself (this could be a change in date range, for example or data source.) This will become a problem as changes will not be relayed if the runtime kwargs are the same as before a change. This happens as the LazyRunner will assume that nothing changed, see the kwarg and return the (old) saved version of the response. This can be solved by calling the .clear() method to reset the memory dictionary.</p>
 </div>
 <div class="section" id="keyword-arguments">
 <h2>Keyword Arguments<a class="headerlink" href="#keyword-arguments" title="Permalink to this headline">¶</a></h2>
+<p>Just like data propagates forward in the network through nodes and transformers, requests propagate backwards through <code class="code docutils literal notranslate"><span class="pre">.run()</span></code> and <code class="code docutils literal notranslate"><span class="pre">request()</span></code> keyword arguments. Though often you won’t need them (and much less often need to implement a new one), keyword arguments (aka kwargs) are a way on which a front piece of your graph can communicate with pieces before them at runtime. In essence, kwargs are passed from run to request over and over until they reach a node that can use them. These nodes can use these kwargs in different ways.They can:</p>
+<blockquote>
+<div><ul class="simple">
+<li><p>Use them to filter sourced data.</p></li>
+<li><p>Use them to create another request, based on previously-unknown information.</p></li>
+</ul>
+</div></blockquote>
+<p>Though they might seem like an amazing way of making your graph act more like a function, adding new kwarg requirements should be done very rarely and done with full knowledge of what are the taken kwarg names, as conflicting names will certainly cause several unforeseen bugs.</p>
 </div>
 </div>
 <div class="section" id="tips-and-tricks">
 <h1>Tips and Tricks<a class="headerlink" href="#tips-and-tricks" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="importing">
+<h2>Importing<a class="headerlink" href="#importing" title="Permalink to this headline">¶</a></h2>
+<p>As any other python (or any other programming language) workflow, we start with imports. Dal-io will often require several pieces to be used in a workflow, each of which is located within a submodule named after the base classes we have seen above. This means that importing the whole <code class="code docutils literal notranslate"><span class="pre">dalio</span></code> package and instantiating piece by piece will often create unappealing code, which is why the following techniques are preferred.</p>
+<p><strong>Import submodules with an alias:</strong></p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">dalio.external</span> <span class="k">as</span> <span class="nn">de</span>
+<span class="kn">import</span> <span class="nn">dalio.translator</span> <span class="k">as</span> <span class="nn">dt</span>
+<span class="kn">import</span> <span class="nn">dalio.pipe</span> <span class="k">as</span> <span class="nn">dp</span>
+<span class="kn">import</span> <span class="nn">dalio.model</span> <span class="k">as</span> <span class="nn">dm</span>
+<span class="kn">import</span> <span class="nn">dalio.application</span> <span class="k">as</span> <span class="nn">da</span>
+</pre></div>
+</div>
+<p>This technique might not be the most standard or space efficient, but is very useful when you are still testing out models and architectures. For most worflows where you want to try out new paths and strategies, having these imports will give you all the core functionality you need while keeping your code clean.</p>
+<p><strong>Import specific pieces from each submodule:</strong></p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">dalio.external</span> <span class="kn">import</span> <span class="n">YahooDR</span><span class="p">,</span> <span class="n">PyPlotGraph</span>
+
+<span class="kn">from</span> <span class="nn">dalio.translator</span> <span class="kn">import</span> <span class="n">YahooStockTranslator</span>
+
+<span class="kn">from</span> <span class="nn">dalio.pipe</span> <span class="kn">import</span> <span class="p">(</span>
+    <span class="n">Change</span><span class="p">,</span>
+    <span class="n">ColSelect</span><span class="p">,</span>
+    <span class="n">Custom</span><span class="p">,</span>
+    <span class="n">DateSelect</span><span class="p">,</span>
+<span class="p">)</span>
+
+<span class="kn">from</span> <span class="nn">dalio.model</span> <span class="kn">import</span> <span class="p">(</span>
+    <span class="n">OptimumWeights</span><span class="p">,</span>
+    <span class="n">OptimumPortfolio</span><span class="p">,</span>
+<span class="p">)</span>
+
+<span class="kn">from</span> <span class="nn">dalio.application</span> <span class="kn">import</span> <span class="n">Grapher</span>
+</pre></div>
+</div>
+<p>This doing this is more standard to match common workflows like those in <code class="code docutils literal notranslate"><span class="pre">keras</span></code> and <code class="code docutils literal notranslate"><span class="pre">sklearn</span></code>  though can easily grow out of hand ind a Dal-io workflow, especially when trying to experiment with new inputs and pieces.</p>
+<p>This is preferred once you have created a graph you are happy with and is ready for use. Importing all pieces explicitly not only makes your code more readable, it also makes the used pieces more explicit to the ones reading your implementation.</p>
+<p><strong>A use hybrid approach:</strong></p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">dalio.external</span> <span class="kn">import</span> <span class="n">YahooDR</span><span class="p">,</span> <span class="n">PyPlotGraph</span>
+<span class="kn">from</span> <span class="nn">dalio.translator</span> <span class="kn">import</span> <span class="n">YahooStockTranslator</span>
+
+<span class="kn">import</span> <span class="nn">dalio.pipe</span> <span class="k">as</span> <span class="nn">dp</span>
+<span class="kn">import</span> <span class="nn">dalio.model</span> <span class="k">as</span> <span class="nn">dm</span>
+
+<span class="kn">from</span> <span class="nn">dalio.application</span> <span class="kn">import</span> <span class="n">Grapher</span>
+</pre></div>
+</div>
+<p>This approach is a great way of reconciling both importing workflows, as it keeps the most relevant pieces of the graph explicit (the original input, the application and the final output) while giving you flexibility of accessing all <code class="code docutils literal notranslate"><span class="pre">Pipe</span></code> and <code class="code docutils literal notranslate"><span class="pre">Model</span></code> pieces available for testing.</p>
+</div>
 <div class="section" id="the-basic-workflow">
 <h2>The Basic Workflow<a class="headerlink" href="#the-basic-workflow" title="Permalink to this headline">¶</a></h2>
+<p>Now that you are familiar with the most common parent classes used in the Dal-io system and ways of importing them, we can start talking about how a basic workflow with them will tend to look like.</p>
+<p>We will separate our basic workflow into the following steps.</p>
+<blockquote>
+<div><ol class="arabic simple">
+<li><p>Set up imports.</p></li>
+<li><p>Set up core data sources.</p></li>
+<li><p>Data wrangling and processing.</p></li>
+<li><p>Application set-up.</p></li>
+</ol>
+</div></blockquote>
+<p><strong>Set up imports:</strong></p>
+<p>This is the stage where you use set up and configure any <code class="code docutils literal notranslate"><span class="pre">External</span></code> object instances and set them as inputs to a Translator. This defines the core of the data that will be sent to the rest of your graph, so it is always positive to have test runs of this raw input.</p>
+<p><strong>Set up core data sources:</strong></p>
+<p>Now that you have your inputs, perform any sort of transformations which will further standardize it to your specific needs. These can be selecting specific columns (like only the “close” column if your source gets OCHLV data) or joining sources.</p>
+<p>This is an optional, yet often relevant step, and you should see this as a preparation to the data that will feed every step following this.</p>
+<p>If we were to picture a graph with various nodes and edges which source data from a single node, this step is setting up a few nodes between the source and the actual first node that other pieces often get data from. In other words, no other pieces but the ones used in this step will be interacting with the pieces that come before it.</p>
+<p><strong>Data wrangling and processing:</strong></p>
+<p>This is the most general step and is all about setting up processing pipelines for your data. This might involve performing transformations, joining sources into models and maybe even setting up different diagnostic applications midway. Theres no overwhelming structure to these other than setting up the inputs that will feed your last nodes.</p>
+<p><strong>Application set-up:</strong></p>
+<p>While applications are not a requirement for a graph, they are often the very last nodes in one. Above that, <code class="code docutils literal notranslate"><span class="pre">Application</span></code> instances often have the largest burden of setup, so deciding all of their pieces and putting together inputs is a common last step.</p>
+<p>Once applications are set up, the following analysis will be for the most part a process of actually using it or optimizing your results by tweaking some of the steps done previously.</p>
 </div>
 <div class="section" id="when-reading-the-docs">
 <h2>When Reading the Docs<a class="headerlink" href="#when-reading-the-docs" title="Permalink to this headline">¶</a></h2>
+<p>I find it that reading the docs can be a completely different experience depending on the package I am researching. Whether you want to find out whether a specific process currently exists in the Dal-io library or if you just want to get more specifications on a single piece you know exists, there are a couple of breadcrumbs left as part of the documentation structure that where placed to guide you there.</p>
+<p><strong>Know how your piece fits:</strong></p>
+<p>As you have seen throughout the beginners guide, every Dal-io piece inherits from a base class, which represents a certain state of data or transformation. Knowing well what you are looking for in terms of these states or transformations can go a long way on trying to find the submodule to look for the piece.</p>
+<p>You can ask questions like:</p>
+<blockquote>
+<div><ul class="simple">
+<li><p>Is this a transformation on data or a representation of data?</p></li>
+<li><p>How many inputs does this transformation have?</p></li>
+<li><p>Are there any external inputs or outputs involved in this specific piece?</p></li>
+</ul>
+</div></blockquote>
+<p>Beyond the base class submodules, these are further organized into different script folders to ensure there is further separation of what the base class implementations do. Definitely see what are the current available submodule “categories” to further narrow your search. The good thing is that while there are separated into links in the <span class="xref std std-ref">user-modules</span> page, they are all joined together into the same specific submodule page.</p>
+<p><strong>Know how to explore your piece:</strong></p>
+<p>Once you have pinpointed your piece, explore its definition or source code to know how to fully utilize it in your specific case. While one could argue that only by going through the source could one fully understand an implementation’s full potential, this is often a tedious approach and definitely not beginner-friendly.</p>
+<p>If you want to cut to the chase when it comes to knowing a function, look for the things specified under the “What to look for” sessions on each of the base class descriptions above.</p>
 </div>
 <div class="section" id="must-know-classes">
 <h2>Must-Know Classes<a class="headerlink" href="#must-know-classes" title="Permalink to this headline">¶</a></h2>
+<p>Now that you are fully armed with the knowledge needed to venture into the package, let’s get you introduced to a couple of pieces the development team (currently composed of one) has used with frequently.</p>
+<dl class="class">
+<dt id="dalio.pipe.col_generation.Custom">
+<em class="property">class </em><code class="sig-prename descclassname">dalio.pipe.col_generation.</code><code class="sig-name descname">Custom</code><span class="sig-paren">(</span><em class="sig-param">func</em>, <em class="sig-param">*args</em>, <em class="sig-param">columns=None</em>, <em class="sig-param">new_cols=None</em>, <em class="sig-param">strategy='apply'</em>, <em class="sig-param">axis=0</em>, <em class="sig-param">drop=True</em>, <em class="sig-param">reintegrate=False</em>, <em class="sig-param">**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#dalio.pipe.col_generation.Custom" title="Permalink to this definition">¶</a></dt>
+<dd><p>Apply custom function.</p>
+<dl class="attribute">
+<dt id="dalio.pipe.col_generation.Custom.strategy">
+<code class="sig-name descname">strategy</code><a class="headerlink" href="#dalio.pipe.col_generation.Custom.strategy" title="Permalink to this definition">¶</a></dt>
+<dd><p>strategy for applying value function.
+One of [“apply”, “transform”, “agg”, “pipe”]</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p>str, default “pipe”</p>
+</dd>
+</dl>
+</dd></dl>
+
+<p class="rubric">Example</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span><span class="p">;</span> <span class="kn">from</span> <span class="nn">dalio.pipe</span> <span class="kn">import</span> <span class="n">Custom</span><span class="p">;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">data</span> <span class="o">=</span> <span class="p">[[</span><span class="mi">3</span><span class="p">,</span> <span class="mi">2143</span><span class="p">],</span> <span class="p">[</span><span class="mi">10</span><span class="p">,</span> <span class="mi">1321</span><span class="p">],</span> <span class="p">[</span><span class="mi">7</span><span class="p">,</span> <span class="mi">1255</span><span class="p">]]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">],</span> <span class="p">[</span><span class="s1">&#39;years&#39;</span><span class="p">,</span> <span class="s1">&#39;avg_revenue&#39;</span><span class="p">])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">total_rev</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">row</span><span class="p">:</span> <span class="n">row</span><span class="p">[</span><span class="s1">&#39;years&#39;</span><span class="p">]</span> <span class="o">*</span> <span class="n">row</span><span class="p">[</span><span class="s1">&#39;avg_revenue&#39;</span><span class="p">]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">add_total_rev</span> <span class="o">=</span> <span class="n">Custom</span><span class="p">(</span><span class="n">total_rev</span><span class="p">,</span> <span class="s1">&#39;total_revenue&#39;</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">add_total_rev</span><span class="o">.</span><span class="n">transform</span><span class="p">(</span><span class="n">df</span><span class="p">)</span>
+<span class="go">   years  avg_revenue  total_revenue</span>
+<span class="go">1      3         2143           6429</span>
+<span class="go">2     10         1321          13210</span>
+<span class="go">3      7         1255           8785</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">def</span> <span class="nf">halfer</span><span class="p">(</span><span class="n">row</span><span class="p">):</span>
+<span class="gp">... </span>    <span class="n">new</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;year/2&#39;</span><span class="p">:</span> <span class="n">row</span><span class="p">[</span><span class="s1">&#39;years&#39;</span><span class="p">]</span><span class="o">/</span><span class="mi">2</span><span class="p">,</span>
+<span class="gp">... </span>           <span class="s1">&#39;rev/2&#39;</span><span class="p">:</span> <span class="n">row</span><span class="p">[</span><span class="s1">&#39;avg_revenue&#39;</span><span class="p">]</span><span class="o">/</span><span class="mi">2</span><span class="p">}</span>
+<span class="gp">... </span>    <span class="k">return</span> <span class="n">pd</span><span class="o">.</span><span class="n">Series</span><span class="p">(</span><span class="n">new</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">half_cols</span> <span class="o">=</span> <span class="n">Custom</span><span class="p">(</span><span class="n">halfer</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">drop</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">half_cols</span><span class="o">.</span><span class="n">transform</span><span class="p">(</span><span class="n">df</span><span class="p">)</span>
+<span class="go">   years  avg_revenue   rev/2  year/2</span>
+<span class="go">1      3         2143  1071.5     1.5</span>
+<span class="go">2     10         1321   660.5     5.0</span>
+<span class="go">3      7         1255   627.5     3.5</span>
+</pre></div>
+</div>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">data</span> <span class="o">=</span> <span class="p">[[</span><span class="mi">3</span><span class="p">,</span> <span class="mi">3</span><span class="p">],</span> <span class="p">[</span><span class="mi">2</span><span class="p">,</span> <span class="mi">4</span><span class="p">],</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">5</span><span class="p">]]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">],</span> <span class="p">[</span><span class="s2">&quot;A&quot;</span><span class="p">,</span><span class="s2">&quot;B&quot;</span><span class="p">])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">func</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">df</span><span class="p">:</span> <span class="n">df</span><span class="p">[</span><span class="s1">&#39;A&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="n">df</span><span class="p">[</span><span class="s1">&#39;B&#39;</span><span class="p">]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">add_equal</span> <span class="o">=</span> <span class="n">Custom</span><span class="p">(</span><span class="n">func</span><span class="p">,</span> <span class="s2">&quot;A==B&quot;</span><span class="p">,</span> <span class="n">strategy</span><span class="o">=</span><span class="s2">&quot;pipe&quot;</span><span class="p">,</span> <span class="n">drop</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">add_equal</span><span class="o">.</span><span class="n">transform</span><span class="p">(</span><span class="n">df</span><span class="p">)</span>
+<span class="go">   A  B   A==B</span>
+<span class="go">1  3  3   True</span>
+<span class="go">2  2  4  False</span>
+<span class="go">3  1  5  False</span>
+</pre></div>
+</div>
+<dl class="method">
+<dt id="dalio.pipe.col_generation.Custom.__init__">
+<code class="sig-name descname">__init__</code><span class="sig-paren">(</span><em class="sig-param">func</em>, <em class="sig-param">*args</em>, <em class="sig-param">columns=None</em>, <em class="sig-param">new_cols=None</em>, <em class="sig-param">strategy='apply'</em>, <em class="sig-param">axis=0</em>, <em class="sig-param">drop=True</em>, <em class="sig-param">reintegrate=False</em>, <em class="sig-param">**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#dalio.pipe.col_generation.Custom.__init__" title="Permalink to this definition">¶</a></dt>
+<dd><p>Initialize instance and set up input DataDef.</p>
+<p>In Pipe instance initializations, data definitions are described
+and attributes are checked.</p>
+</dd></dl>
+
+</dd></dl>
+
+<p>The <code class="code docutils literal notranslate"><span class="pre">Custom</span></code> pipe does what the name implies: it applies a custom transformation to an input <code class="code docutils literal notranslate"><span class="pre">pandas.DataFrame</span></code> instance. It inherits most of its functionality from the :code”<cite>_ColGeneration</cite> abstract class, so reading its description will help you understand how flexible your transformations can be when it comes to reintegrating it back into the original dataframe while keeping its column structure intact.</p>
+<dl class="class">
+<dt id="dalio.pipe.col_generation._ColGeneration">
+<em class="property">class </em><code class="sig-prename descclassname">dalio.pipe.col_generation.</code><code class="sig-name descname">_ColGeneration</code><span class="sig-paren">(</span><em class="sig-param">*args</em>, <em class="sig-param">columns=None</em>, <em class="sig-param">new_cols=None</em>, <em class="sig-param">axis=0</em>, <em class="sig-param">drop=True</em>, <em class="sig-param">reintegrate=False</em>, <em class="sig-param">**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#dalio.pipe.col_generation._ColGeneration" title="Permalink to this definition">¶</a></dt>
+<dd><p>Generate column based on a selection from a dataframe.</p>
+<p>These are very useful for simple operations or for testing, as no
+additional class definitions or understanding of the documentation is
+requred.
+.. attribute:: columns</p>
+<blockquote>
+<div><p>Column labels in the DataFrame
+to be mapped.</p>
+<dl class="field-list simple">
+<dt class="field-odd">type</dt>
+<dd class="field-odd"><p>single label or list-like</p>
+</dd>
+</dl>
+</div></blockquote>
+<dl class="attribute">
+<dt id="dalio.pipe.col_generation._ColGeneration.func">
+<code class="sig-name descname">func</code><a class="headerlink" href="#dalio.pipe.col_generation._ColGeneration.func" title="Permalink to this definition">¶</a></dt>
+<dd><p>The function to be applied to each row of the
+processed DataFrame.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p>callable</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="dalio.pipe.col_generation._ColGeneration.result_columns">
+<code class="sig-name descname">result_columns</code><a class="headerlink" href="#dalio.pipe.col_generation._ColGeneration.result_columns" title="Permalink to this definition">¶</a></dt>
+<dd><p>If list-like, labels
+for the new columns resulting from the mapping operation. Must be
+of the same length as columns. If str, the suffix mapped columns
+gain if no new column labels are given. If None, behavior depends
+on the replace parameter.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p>str or list-like, default None</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="dalio.pipe.col_generation._ColGeneration.axis">
+<code class="sig-name descname">axis</code><a class="headerlink" href="#dalio.pipe.col_generation._ColGeneration.axis" title="Permalink to this definition">¶</a></dt>
+<dd><p>axis to apply value funciton to. Irrelevant if
+strategy = “pipe”.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p>int, default 1</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="dalio.pipe.col_generation._ColGeneration.drop">
+<code class="sig-name descname">drop</code><a class="headerlink" href="#dalio.pipe.col_generation._ColGeneration.drop" title="Permalink to this definition">¶</a></dt>
+<dd><p>If set to True, source columns are dropped
+after being mapped.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p>bool, default True</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="dalio.pipe.col_generation._ColGeneration.reintegrate">
+<code class="sig-name descname">reintegrate</code><a class="headerlink" href="#dalio.pipe.col_generation._ColGeneration.reintegrate" title="Permalink to this definition">¶</a></dt>
+<dd><p>If set to False, modified version is
+returned without being placed back into original dataframe. If set
+to True, an insertion is attemtped; if the transformation changes
+the data’s shape, a RuntimeError will be raised.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p>bool, default False</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="dalio.pipe.col_generation._ColGeneration._args">
+<code class="sig-name descname">_args</code><a class="headerlink" href="#dalio.pipe.col_generation._ColGeneration._args" title="Permalink to this definition">¶</a></dt>
+<dd><p>arguments to be passed onto the function at execution time.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="dalio.pipe.col_generation._ColGeneration._kwargs">
+<code class="sig-name descname">_kwargs</code><a class="headerlink" href="#dalio.pipe.col_generation._ColGeneration._kwargs" title="Permalink to this definition">¶</a></dt>
+<dd><p>keyword arguments to be passed onto the function at
+execution time.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="dalio.pipe.col_generation._ColGeneration.__init__">
+<code class="sig-name descname">__init__</code><span class="sig-paren">(</span><em class="sig-param">*args</em>, <em class="sig-param">columns=None</em>, <em class="sig-param">new_cols=None</em>, <em class="sig-param">axis=0</em>, <em class="sig-param">drop=True</em>, <em class="sig-param">reintegrate=False</em>, <em class="sig-param">**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#dalio.pipe.col_generation._ColGeneration.__init__" title="Permalink to this definition">¶</a></dt>
+<dd><p>Initialize instance and set up input DataDef.</p>
+<p>In Pipe instance initializations, data definitions are described
+and attributes are checked.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="dalio.pipe.col_generation._ColGeneration.transform">
+<code class="sig-name descname">transform</code><span class="sig-paren">(</span><em class="sig-param">data</em>, <em class="sig-param">**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#dalio.pipe.col_generation._ColGeneration.transform" title="Permalink to this definition">¶</a></dt>
+<dd><p>Apply custom transformation and insert back as specified</p>
+<p>This applies the transformation in three main steps:
+1. Extract specified columns
+2. Apply modification
+3. Insert columns if needed or return modified dataframe</p>
+<p>These steps have further details for dealing with levels.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Raises</dt>
+<dd class="field-odd"><p><strong>RuntimeError</strong> – if transformed data is to be reintegrated but has a
+    different shape than data being reintegrated on the dataframe.</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<p>This class is extremely important as it essentially the user’s first point of entry into creating their custom transformations. <code class="code docutils literal notranslate"><span class="pre">Custom</span></code> pipes work by applying your specified function to either the dataframe’s rows or columns (specified through the :code”<cite>axis</cite> parameter).</p>
+<p>The application itself is divided into different pandas strategies (specified through the :code”<cite>strategy</cite> parameter, set to <code class="code docutils literal notranslate"><span class="pre">\&quot;apply\&quot;</span></code> by default.) The strategies correspond to <code class="code docutils literal notranslate"><span class="pre">pandas.DataFrame</span></code> methods, really, so if you want to get to the specifics of its, just read the <a class="reference external" href="https://pandas.pydata.org/pandas-docs/stable/reference/index.html">pandas documentaion</a> for the <code class="code docutils literal notranslate"><span class="pre">\&quot;apply\&quot;</span></code>, <code class="code docutils literal notranslate"><span class="pre">\&quot;transform\&quot;</span></code>, <code class="code docutils literal notranslate"><span class="pre">\&quot;agg\&quot;</span></code> and <code class="code docutils literal notranslate"><span class="pre">\&quot;pipe\&quot;</span></code> descriptions. But for most cases, you will be using two strategies.</p>
+<blockquote>
+<div><ul class="simple">
+<li><p><code class="code docutils literal notranslate"><span class="pre">\&quot;apply\&quot;</span></code>: here, each row or column is passed onto the custom function as <code class="code docutils literal notranslate"><span class="pre">pd.Series</span></code> instances. This is the most generic strategy and should used the most often.</p></li>
+<li><p><code class="code docutils literal notranslate"><span class="pre">\&quot;pipe\&quot;</span></code>: unlike <code class="code docutils literal notranslate"><span class="pre">\&quot;apply\&quot;</span></code>, here the whole dataframe is passed onto your custom function at once, which can be useful for experimenting with specific functions you might want to implement as a piece later.</p></li>
+</ul>
+</div></blockquote>
+<dl class="class">
+<dt id="dalio.pipe.select.DateSelect">
+<em class="property">class </em><code class="sig-prename descclassname">dalio.pipe.select.</code><code class="sig-name descname">DateSelect</code><span class="sig-paren">(</span><em class="sig-param">start=None</em>, <em class="sig-param">end=None</em><span class="sig-paren">)</span><a class="headerlink" href="#dalio.pipe.select.DateSelect" title="Permalink to this definition">¶</a></dt>
+<dd><p>Select a date range.</p>
+<p>This is commonly left as a local variable to control date range being
+used at a piece of a graph.</p>
+<dl class="attribute">
+<dt id="dalio.pipe.select.DateSelect._start">
+<code class="sig-name descname">_start</code><a class="headerlink" href="#dalio.pipe.select.DateSelect._start" title="Permalink to this definition">¶</a></dt>
+<dd><p>start date.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p>pd.Timestamp</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="dalio.pipe.select.DateSelect._end">
+<code class="sig-name descname">_end</code><a class="headerlink" href="#dalio.pipe.select.DateSelect._end" title="Permalink to this definition">¶</a></dt>
+<dd><p>end date.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p>pd.Timestamp</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="dalio.pipe.select.DateSelect.set_end">
+<code class="sig-name descname">set_end</code><span class="sig-paren">(</span><em class="sig-param">end</em><span class="sig-paren">)</span><a class="headerlink" href="#dalio.pipe.select.DateSelect.set_end" title="Permalink to this definition">¶</a></dt>
+<dd><p>Set the _end attribute</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="dalio.pipe.select.DateSelect.set_start">
+<code class="sig-name descname">set_start</code><span class="sig-paren">(</span><em class="sig-param">start</em><span class="sig-paren">)</span><a class="headerlink" href="#dalio.pipe.select.DateSelect.set_start" title="Permalink to this definition">¶</a></dt>
+<dd><p>Set the _start attribute</p>
+</dd></dl>
+
+</dd></dl>
+
+<p>This piece also has a name as intuitive as what it does. It essentially takes in a time series <code class="code docutils literal notranslate"><span class="pre">pandas.DataFrame</span></code> (one which has a <code class="code docutils literal notranslate"><span class="pre">pandas.DatetimeIndex</span></code> as its index) and returns a subset of its dates. What makes it so powerful is its use as a “remote control” for your input time interval.</p>
+<p>This effectively gives you an adjustable “filter” that can be adjusted at any point of your analysis to decide what section of the data to perform it on, which is crucial in various kinds of time series analyses.</p>
+<p>For an interesting use case of this, check out the backtesting cookbook!</p>
 </div>
 </div>
 

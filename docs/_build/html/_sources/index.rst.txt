@@ -34,15 +34,15 @@ Table of Contents
 
 Introduction
 ============
-Dal-io is a financial modeling package for python aiming to facilitate the gathering, wrangling and analysis of financial data. The library uses **graphical object structures** and **progressive display of complexity** to make workflows suit the user's specific proficiency in python whithout making efficiency
+Dal-io is a financial modeling package for python aiming to facilitate the gathering, wrangling and analysis of financial data. The library uses **graphical object structures** and **progressive display of complexity** to make workflows suit the user's specific proficiency in python without making efficiency
 sacrifices. 
 
-The core library implements common workflows from well-supported packages and the means to flexibly interlink them, and aims to continue adding relevent features. However, the user is not constrained by these features, and is free to extend pieces through inheritance in order to implement extra functionality that can be used with the rest of the package. See :ref:`developers_guide` for more information on extending core features.
+The core library implements common workflows from well-supported packages and the means to flexibly interlink them, and aims to continue adding relevant features. However, the user is not constrained by these features, and is free to extend pieces through inheritance in order to implement extra functionality that can be used with the rest of the package. See :ref:`developers_guide` for more information on extending core features.
 
 .. _instalation:
 
-Instalation
-===========
+Installation
+============
 You can clone this repository from git using
 
 .. code-block:: text
@@ -83,7 +83,7 @@ We'll start off by importing the Dal-io pieces
     import dalio.model as dm
     import dalio.application as da
 
-Specific pieces can also be imported inidvidually, though for testing this sub-module import structure is preferred.
+Specific pieces can also be imported individually, though for testing this sub-module import structure is preferred.
 
 Now lets set up our stock data input from Yahoo! Finance.
 
@@ -96,9 +96,9 @@ Now lets set up our stock data input from Yahoo! Finance.
 
 Easy right? Notice that the stock input is composed of one external source (in this case :code:`de.YahooDR`) and one translator (:code:`dt.YahooStockTranslator`). This is the case for any input, with one piece getting raw data from an external source and another one translating it to a format friendly to Dal-io pieces. For more on formatting, go to :ref:`formatting`. 
 
-Notice the :code:`.set_input` call that took in the YahooDR object. Every all translators, pipes, models and applications share this method that allows them to plug the ourput of another object as their own input. This idea of connecting different objects like nodes in a graph is at the core of the **graphical object design**.
+Notice the :code:`.set_input` call that took in the YahooDR object. Every all translators, pipes, models and applications share this method that allows them to plug the output of another object as their own input. This idea of connecting different objects like nodes in a graph is at the core of the **graphical object design**.
 
-At this point you can try out running the model with :code:`stocks.run(ticker=tickers)` which will get the OHLCV data for the ticker symbols assigned to :code"`tickers`, though you can specify any ticker available in Yahoo! finance. Notice that the column names where standardized to be all lower-case with undercores (_) instead of spaces. This is performed as part of the translation step to ensure all imported data can be referenced with common string representations.
+At this point you can try out running the model with :code:`stocks.run(ticker=tickers)` which will get the OHLCV data for the ticker symbols assigned to :code"`tickers`, though you can specify any ticker available in Yahoo! Finance. Notice that the column names where standardized to be all lower-case with underscores (_) instead of spaces. This is performed as part of the translation step to ensure all imported data can be referenced with common string representations.
 
 Now lets create a data processing pipeline for our input data.
 
@@ -122,9 +122,9 @@ Now lets create a data processing pipeline for our input data.
 
 That was a bit more challenging! Let's take it step by step.
 
-We started off defining a DateSelect pipe (which we will use later) and passingit into a pipeline with other pipes to get a company's annual returns. Pipelines aggregate zero or more Pipe objects and pass in a common input through all of their transformations. This skips data integrity checking while still allowing users to control pipes inside the pipeline from the outside (as we will with :code"`time_conf`)
+We started off defining a :code:`DateSelect` pipe (which we will use later) and passing it into a pipeline with other pipes to get a company's annual returns. Pipelines aggregate zero or more Pipe objects and pass in a common input through all of their transformations. This skips data integrity checking while still allowing users to control pipes inside the pipeline from the outside (as we will with :code"`time_conf`)
 
-We then passed added a custom pipe that applies the np.mean function to the annualr returns to get the expected returns for each stock.
+We then added a custom pipe that applies the np.mean function to the annual returns to get the expected returns for each stock.
 
 Finally, we did the exact same thing but with a lambda that calls the pd.DataFrame internal method .cov() to get the dataframe's covariance. As we will be passing the whole dataframe to the function at once, we set the Custom strategy to "pipe".
 
@@ -192,7 +192,7 @@ Which yields this figure:
 
 Notice how this :code:`.run()` call was the same as you did all the way back when you only had your imported data. This method is also common to all translators, pipes, models and applications, and it gives you the piece's output. 
 
-This means you can get information of any of the stages you created like this, and for anly stock that you'd like. For example, we can run the :code:`weights` object we created to get the weights associated with the portfolio we just plotted.
+This means you can get information of any of the stages you created like this, and for any stock that you'd like. For example, we can run the :code:`weights` object we created to get the weights associated with the portfolio we just plotted.
 
 .. code-block:: python
 
@@ -200,15 +200,15 @@ This means you can get information of any of the stages you created like this, a
 
 .. code-block:: text
 
-    >>> {'GOOG': 0.45514,
-         'MSFT': 0.82602,
-         'ATVI': -0.49995,
-         'TTWO': 0.29241,
-         'GM': -0.43788,
-         'FORD': 0.38413,
-         'SPY': -0.01986}
+    {'GOOG': 0.45514,
+     'MSFT': 0.82602,
+     'ATVI': -0.49995,
+     'TTWO': 0.29241,
+     'GM': -0.43788,
+     'FORD': 0.38413,
+     'SPY': -0.01986}
 
-Also, every time you run a set of stocks or time intervals, the new run will be automatically layered with the old one and indexed at 100, which can be great for comparring how multiple portfolios would have fared! To clear this, just re-define the graph.
+Also, every time you run a set of stocks or time intervals, the new run will be automatically layered with the old one and indexed at 100, which can be great for comparing how multiple portfolios would have fared! To clear this, just re-define the graph.
 
 Hope this example was enough to show how you can create clean and powerful models using just a few lines of code!
 
@@ -219,7 +219,7 @@ Next Steps
 
 If you read and enjoyed the example above, that's great! Now comes the part where you get to understand its various pieces, workflows and internal logic for you to start creating your own models with Dal-io. 
 
-A good first step, if you havent already is reading the :ref:`beginners_guide`. 
+A good first step, if you haven't already is reading the :ref:`beginners_guide`. 
 
 If you understood these core concepts well and are ready for some more examples, check out the cookbook.
 

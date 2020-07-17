@@ -32,7 +32,8 @@
         <li class="right" >
           <a href="dalio.translator.html" title="dalio.translator package"
              accesskey="P">previous</a> |</li>
-        <li class="nav-item nav-item-0"><a href="index.html">Dal.io 0.1.1 documentation</a> &#187;</li> 
+        <li class="nav-item nav-item-0"><a href="index.html">Dal.io 0.1.1 documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="modules.html" accesskey="U">User Modules</a> &#187;</li> 
       </ul>
     </div>
       <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
@@ -629,7 +630,7 @@ shifted by this constant.</p>
 <dl class="class">
 <dt id="dalio.pipe.col_generation.Change">
 <em class="property">class </em><code class="sig-prename descclassname">dalio.pipe.col_generation.</code><code class="sig-name descname">Change</code><span class="sig-paren">(</span><em class="sig-param">*args</em>, <em class="sig-param">strategy='diff'</em>, <em class="sig-param">columns=None</em>, <em class="sig-param">new_cols=None</em>, <em class="sig-param">drop=True</em>, <em class="sig-param">reintegrate=False</em>, <em class="sig-param">**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#dalio.pipe.col_generation.Change" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">dalio.pipe.col_generation._ColGeneration</span></code></p>
+<dd><p>Bases: <a class="reference internal" href="beginners-guide.html#dalio.pipe.col_generation._ColGeneration" title="dalio.pipe.col_generation._ColGeneration"><code class="xref py py-class docutils literal notranslate"><span class="pre">dalio.pipe.col_generation._ColGeneration</span></code></a></p>
 <p>Perform item-by-item change</p>
 <p>This has two main forms, percentage change and absolute change
 (difference).</p>
@@ -673,7 +674,7 @@ attributes and empty input.</p>
 <dl class="class">
 <dt id="dalio.pipe.col_generation.Custom">
 <em class="property">class </em><code class="sig-prename descclassname">dalio.pipe.col_generation.</code><code class="sig-name descname">Custom</code><span class="sig-paren">(</span><em class="sig-param">func</em>, <em class="sig-param">*args</em>, <em class="sig-param">columns=None</em>, <em class="sig-param">new_cols=None</em>, <em class="sig-param">strategy='apply'</em>, <em class="sig-param">axis=0</em>, <em class="sig-param">drop=True</em>, <em class="sig-param">reintegrate=False</em>, <em class="sig-param">**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#dalio.pipe.col_generation.Custom" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">dalio.pipe.col_generation._ColGeneration</span></code></p>
+<dd><p>Bases: <a class="reference internal" href="beginners-guide.html#dalio.pipe.col_generation._ColGeneration" title="dalio.pipe.col_generation._ColGeneration"><code class="xref py py-class docutils literal notranslate"><span class="pre">dalio.pipe.col_generation._ColGeneration</span></code></a></p>
 <p>Apply custom function.</p>
 <dl class="attribute">
 <dt id="dalio.pipe.col_generation.Custom.strategy">
@@ -687,6 +688,40 @@ One of [“apply”, “transform”, “agg”, “pipe”]</p>
 </dl>
 </dd></dl>
 
+<p class="rubric">Example</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span><span class="p">;</span> <span class="kn">from</span> <span class="nn">dalio.pipe</span> <span class="kn">import</span> <span class="n">Custom</span><span class="p">;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">data</span> <span class="o">=</span> <span class="p">[[</span><span class="mi">3</span><span class="p">,</span> <span class="mi">2143</span><span class="p">],</span> <span class="p">[</span><span class="mi">10</span><span class="p">,</span> <span class="mi">1321</span><span class="p">],</span> <span class="p">[</span><span class="mi">7</span><span class="p">,</span> <span class="mi">1255</span><span class="p">]]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">],</span> <span class="p">[</span><span class="s1">&#39;years&#39;</span><span class="p">,</span> <span class="s1">&#39;avg_revenue&#39;</span><span class="p">])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">total_rev</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">row</span><span class="p">:</span> <span class="n">row</span><span class="p">[</span><span class="s1">&#39;years&#39;</span><span class="p">]</span> <span class="o">*</span> <span class="n">row</span><span class="p">[</span><span class="s1">&#39;avg_revenue&#39;</span><span class="p">]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">add_total_rev</span> <span class="o">=</span> <span class="n">Custom</span><span class="p">(</span><span class="n">total_rev</span><span class="p">,</span> <span class="s1">&#39;total_revenue&#39;</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">add_total_rev</span><span class="o">.</span><span class="n">transform</span><span class="p">(</span><span class="n">df</span><span class="p">)</span>
+<span class="go">   years  avg_revenue  total_revenue</span>
+<span class="go">1      3         2143           6429</span>
+<span class="go">2     10         1321          13210</span>
+<span class="go">3      7         1255           8785</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">def</span> <span class="nf">halfer</span><span class="p">(</span><span class="n">row</span><span class="p">):</span>
+<span class="gp">... </span>    <span class="n">new</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;year/2&#39;</span><span class="p">:</span> <span class="n">row</span><span class="p">[</span><span class="s1">&#39;years&#39;</span><span class="p">]</span><span class="o">/</span><span class="mi">2</span><span class="p">,</span>
+<span class="gp">... </span>           <span class="s1">&#39;rev/2&#39;</span><span class="p">:</span> <span class="n">row</span><span class="p">[</span><span class="s1">&#39;avg_revenue&#39;</span><span class="p">]</span><span class="o">/</span><span class="mi">2</span><span class="p">}</span>
+<span class="gp">... </span>    <span class="k">return</span> <span class="n">pd</span><span class="o">.</span><span class="n">Series</span><span class="p">(</span><span class="n">new</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">half_cols</span> <span class="o">=</span> <span class="n">Custom</span><span class="p">(</span><span class="n">halfer</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">drop</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">half_cols</span><span class="o">.</span><span class="n">transform</span><span class="p">(</span><span class="n">df</span><span class="p">)</span>
+<span class="go">   years  avg_revenue   rev/2  year/2</span>
+<span class="go">1      3         2143  1071.5     1.5</span>
+<span class="go">2     10         1321   660.5     5.0</span>
+<span class="go">3      7         1255   627.5     3.5</span>
+</pre></div>
+</div>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">data</span> <span class="o">=</span> <span class="p">[[</span><span class="mi">3</span><span class="p">,</span> <span class="mi">3</span><span class="p">],</span> <span class="p">[</span><span class="mi">2</span><span class="p">,</span> <span class="mi">4</span><span class="p">],</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">5</span><span class="p">]]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">],</span> <span class="p">[</span><span class="s2">&quot;A&quot;</span><span class="p">,</span><span class="s2">&quot;B&quot;</span><span class="p">])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">func</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">df</span><span class="p">:</span> <span class="n">df</span><span class="p">[</span><span class="s1">&#39;A&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="n">df</span><span class="p">[</span><span class="s1">&#39;B&#39;</span><span class="p">]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">add_equal</span> <span class="o">=</span> <span class="n">Custom</span><span class="p">(</span><span class="n">func</span><span class="p">,</span> <span class="s2">&quot;A==B&quot;</span><span class="p">,</span> <span class="n">strategy</span><span class="o">=</span><span class="s2">&quot;pipe&quot;</span><span class="p">,</span> <span class="n">drop</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">add_equal</span><span class="o">.</span><span class="n">transform</span><span class="p">(</span><span class="n">df</span><span class="p">)</span>
+<span class="go">   A  B   A==B</span>
+<span class="go">1  3  3   True</span>
+<span class="go">2  2  4  False</span>
+<span class="go">3  1  5  False</span>
+</pre></div>
+</div>
 <dl class="method">
 <dt id="dalio.pipe.col_generation.Custom.copy">
 <code class="sig-name descname">copy</code><span class="sig-paren">(</span><em class="sig-param">*args</em>, <em class="sig-param">**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#dalio.pipe.col_generation.Custom.copy" title="Permalink to this definition">¶</a></dt>
@@ -761,7 +796,7 @@ to ensure resulting column lengths match.</p>
 <dl class="class">
 <dt id="dalio.pipe.col_generation.Index">
 <em class="property">class </em><code class="sig-prename descclassname">dalio.pipe.col_generation.</code><code class="sig-name descname">Index</code><span class="sig-paren">(</span><em class="sig-param">index_at</em>, <em class="sig-param">*args</em>, <em class="sig-param">columns=None</em>, <em class="sig-param">new_cols=None</em>, <em class="sig-param">drop=True</em>, <em class="sig-param">reintegrate=False</em>, <em class="sig-param">**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#dalio.pipe.col_generation.Index" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">dalio.pipe.col_generation._ColGeneration</span></code></p>
+<dd><p>Bases: <a class="reference internal" href="beginners-guide.html#dalio.pipe.col_generation._ColGeneration" title="dalio.pipe.col_generation._ColGeneration"><code class="xref py py-class docutils literal notranslate"><span class="pre">dalio.pipe.col_generation._ColGeneration</span></code></a></p>
 <dl class="method">
 <dt id="dalio.pipe.col_generation.Index.copy">
 <code class="sig-name descname">copy</code><span class="sig-paren">(</span><em class="sig-param">*args</em>, <em class="sig-param">**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#dalio.pipe.col_generation.Index.copy" title="Permalink to this definition">¶</a></dt>
@@ -870,7 +905,7 @@ mapped by its index to its values.</p>
 <dl class="class">
 <dt id="dalio.pipe.col_generation.Period">
 <em class="property">class </em><code class="sig-prename descclassname">dalio.pipe.col_generation.</code><code class="sig-name descname">Period</code><span class="sig-paren">(</span><em class="sig-param">period</em>, <em class="sig-param">*args</em>, <em class="sig-param">agg_func=&lt;function mean&gt;</em>, <em class="sig-param">columns=None</em>, <em class="sig-param">new_cols=None</em>, <em class="sig-param">axis=0</em>, <em class="sig-param">drop=True</em>, <em class="sig-param">reintegrate=False</em>, <em class="sig-param">**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#dalio.pipe.col_generation.Period" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">dalio.pipe.col_generation._ColGeneration</span></code></p>
+<dd><p>Bases: <a class="reference internal" href="beginners-guide.html#dalio.pipe.col_generation._ColGeneration" title="dalio.pipe.col_generation._ColGeneration"><code class="xref py py-class docutils literal notranslate"><span class="pre">dalio.pipe.col_generation._ColGeneration</span></code></a></p>
 <p>Resample input time series data to a different period</p>
 <blockquote>
 <div><dl class="simple">
@@ -922,7 +957,7 @@ attributes and empty input.</p>
 <dl class="class">
 <dt id="dalio.pipe.col_generation.Rolling">
 <em class="property">class </em><code class="sig-prename descclassname">dalio.pipe.col_generation.</code><code class="sig-name descname">Rolling</code><span class="sig-paren">(</span><em class="sig-param">func</em>, <em class="sig-param">*args</em>, <em class="sig-param">columns=None</em>, <em class="sig-param">new_cols=None</em>, <em class="sig-param">rolling_window=2</em>, <em class="sig-param">axis=0</em>, <em class="sig-param">drop=True</em>, <em class="sig-param">reintegrate=False</em>, <em class="sig-param">**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#dalio.pipe.col_generation.Rolling" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">dalio.pipe.col_generation._ColGeneration</span></code></p>
+<dd><p>Bases: <a class="reference internal" href="beginners-guide.html#dalio.pipe.col_generation._ColGeneration" title="dalio.pipe.col_generation._ColGeneration"><code class="xref py py-class docutils literal notranslate"><span class="pre">dalio.pipe.col_generation._ColGeneration</span></code></a></p>
 <p>Apply rolling function</p>
 <dl class="attribute">
 <dt id="dalio.pipe.col_generation.Rolling.rolling_window">
@@ -965,7 +1000,7 @@ attributes and empty input.</p>
 <dl class="class">
 <dt id="dalio.pipe.col_generation.StockReturns">
 <em class="property">class </em><code class="sig-prename descclassname">dalio.pipe.col_generation.</code><code class="sig-name descname">StockReturns</code><span class="sig-paren">(</span><em class="sig-param">columns=None</em>, <em class="sig-param">new_cols=None</em>, <em class="sig-param">drop=True</em>, <em class="sig-param">reintegrate=False</em><span class="sig-paren">)</span><a class="headerlink" href="#dalio.pipe.col_generation.StockReturns" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">dalio.pipe.col_generation._ColGeneration</span></code></p>
+<dd><p>Bases: <a class="reference internal" href="beginners-guide.html#dalio.pipe.col_generation._ColGeneration" title="dalio.pipe.col_generation._ColGeneration"><code class="xref py py-class docutils literal notranslate"><span class="pre">dalio.pipe.col_generation._ColGeneration</span></code></a></p>
 <p>Perform percent change and minor aesthetic changes to data</p>
 </dd></dl>
 
@@ -1774,7 +1809,7 @@ the first data definition will be enforced.</p>
 <dl class="class">
 <dt id="dalio.pipe.Custom">
 <em class="property">class </em><code class="sig-prename descclassname">dalio.pipe.</code><code class="sig-name descname">Custom</code><span class="sig-paren">(</span><em class="sig-param">func</em>, <em class="sig-param">*args</em>, <em class="sig-param">columns=None</em>, <em class="sig-param">new_cols=None</em>, <em class="sig-param">strategy='apply'</em>, <em class="sig-param">axis=0</em>, <em class="sig-param">drop=True</em>, <em class="sig-param">reintegrate=False</em>, <em class="sig-param">**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#dalio.pipe.Custom" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">dalio.pipe.col_generation._ColGeneration</span></code></p>
+<dd><p>Bases: <a class="reference internal" href="beginners-guide.html#dalio.pipe.col_generation._ColGeneration" title="dalio.pipe.col_generation._ColGeneration"><code class="xref py py-class docutils literal notranslate"><span class="pre">dalio.pipe.col_generation._ColGeneration</span></code></a></p>
 <p>Apply custom function.</p>
 <dl class="attribute">
 <dt id="dalio.pipe.Custom.strategy">
@@ -1788,6 +1823,40 @@ One of [“apply”, “transform”, “agg”, “pipe”]</p>
 </dl>
 </dd></dl>
 
+<p class="rubric">Example</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span><span class="p">;</span> <span class="kn">from</span> <span class="nn">dalio.pipe</span> <span class="kn">import</span> <span class="n">Custom</span><span class="p">;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">data</span> <span class="o">=</span> <span class="p">[[</span><span class="mi">3</span><span class="p">,</span> <span class="mi">2143</span><span class="p">],</span> <span class="p">[</span><span class="mi">10</span><span class="p">,</span> <span class="mi">1321</span><span class="p">],</span> <span class="p">[</span><span class="mi">7</span><span class="p">,</span> <span class="mi">1255</span><span class="p">]]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">],</span> <span class="p">[</span><span class="s1">&#39;years&#39;</span><span class="p">,</span> <span class="s1">&#39;avg_revenue&#39;</span><span class="p">])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">total_rev</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">row</span><span class="p">:</span> <span class="n">row</span><span class="p">[</span><span class="s1">&#39;years&#39;</span><span class="p">]</span> <span class="o">*</span> <span class="n">row</span><span class="p">[</span><span class="s1">&#39;avg_revenue&#39;</span><span class="p">]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">add_total_rev</span> <span class="o">=</span> <span class="n">Custom</span><span class="p">(</span><span class="n">total_rev</span><span class="p">,</span> <span class="s1">&#39;total_revenue&#39;</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">add_total_rev</span><span class="o">.</span><span class="n">transform</span><span class="p">(</span><span class="n">df</span><span class="p">)</span>
+<span class="go">   years  avg_revenue  total_revenue</span>
+<span class="go">1      3         2143           6429</span>
+<span class="go">2     10         1321          13210</span>
+<span class="go">3      7         1255           8785</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">def</span> <span class="nf">halfer</span><span class="p">(</span><span class="n">row</span><span class="p">):</span>
+<span class="gp">... </span>    <span class="n">new</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;year/2&#39;</span><span class="p">:</span> <span class="n">row</span><span class="p">[</span><span class="s1">&#39;years&#39;</span><span class="p">]</span><span class="o">/</span><span class="mi">2</span><span class="p">,</span>
+<span class="gp">... </span>           <span class="s1">&#39;rev/2&#39;</span><span class="p">:</span> <span class="n">row</span><span class="p">[</span><span class="s1">&#39;avg_revenue&#39;</span><span class="p">]</span><span class="o">/</span><span class="mi">2</span><span class="p">}</span>
+<span class="gp">... </span>    <span class="k">return</span> <span class="n">pd</span><span class="o">.</span><span class="n">Series</span><span class="p">(</span><span class="n">new</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">half_cols</span> <span class="o">=</span> <span class="n">Custom</span><span class="p">(</span><span class="n">halfer</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">drop</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">half_cols</span><span class="o">.</span><span class="n">transform</span><span class="p">(</span><span class="n">df</span><span class="p">)</span>
+<span class="go">   years  avg_revenue   rev/2  year/2</span>
+<span class="go">1      3         2143  1071.5     1.5</span>
+<span class="go">2     10         1321   660.5     5.0</span>
+<span class="go">3      7         1255   627.5     3.5</span>
+</pre></div>
+</div>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">data</span> <span class="o">=</span> <span class="p">[[</span><span class="mi">3</span><span class="p">,</span> <span class="mi">3</span><span class="p">],</span> <span class="p">[</span><span class="mi">2</span><span class="p">,</span> <span class="mi">4</span><span class="p">],</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">5</span><span class="p">]]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">],</span> <span class="p">[</span><span class="s2">&quot;A&quot;</span><span class="p">,</span><span class="s2">&quot;B&quot;</span><span class="p">])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">func</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">df</span><span class="p">:</span> <span class="n">df</span><span class="p">[</span><span class="s1">&#39;A&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="n">df</span><span class="p">[</span><span class="s1">&#39;B&#39;</span><span class="p">]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">add_equal</span> <span class="o">=</span> <span class="n">Custom</span><span class="p">(</span><span class="n">func</span><span class="p">,</span> <span class="s2">&quot;A==B&quot;</span><span class="p">,</span> <span class="n">strategy</span><span class="o">=</span><span class="s2">&quot;pipe&quot;</span><span class="p">,</span> <span class="n">drop</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">add_equal</span><span class="o">.</span><span class="n">transform</span><span class="p">(</span><span class="n">df</span><span class="p">)</span>
+<span class="go">   A  B   A==B</span>
+<span class="go">1  3  3   True</span>
+<span class="go">2  2  4  False</span>
+<span class="go">3  1  5  False</span>
+</pre></div>
+</div>
 <dl class="method">
 <dt id="dalio.pipe.Custom.copy">
 <code class="sig-name descname">copy</code><span class="sig-paren">(</span><em class="sig-param">*args</em>, <em class="sig-param">**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#dalio.pipe.Custom.copy" title="Permalink to this definition">¶</a></dt>
@@ -1817,7 +1886,7 @@ attributes and empty input.</p>
 <dl class="class">
 <dt id="dalio.pipe.Rolling">
 <em class="property">class </em><code class="sig-prename descclassname">dalio.pipe.</code><code class="sig-name descname">Rolling</code><span class="sig-paren">(</span><em class="sig-param">func</em>, <em class="sig-param">*args</em>, <em class="sig-param">columns=None</em>, <em class="sig-param">new_cols=None</em>, <em class="sig-param">rolling_window=2</em>, <em class="sig-param">axis=0</em>, <em class="sig-param">drop=True</em>, <em class="sig-param">reintegrate=False</em>, <em class="sig-param">**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#dalio.pipe.Rolling" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">dalio.pipe.col_generation._ColGeneration</span></code></p>
+<dd><p>Bases: <a class="reference internal" href="beginners-guide.html#dalio.pipe.col_generation._ColGeneration" title="dalio.pipe.col_generation._ColGeneration"><code class="xref py py-class docutils literal notranslate"><span class="pre">dalio.pipe.col_generation._ColGeneration</span></code></a></p>
 <p>Apply rolling function</p>
 <dl class="attribute">
 <dt id="dalio.pipe.Rolling.rolling_window">
@@ -2337,7 +2406,7 @@ to be overwriten in subclasses.</p>
 <dl class="class">
 <dt id="dalio.pipe.Change">
 <em class="property">class </em><code class="sig-prename descclassname">dalio.pipe.</code><code class="sig-name descname">Change</code><span class="sig-paren">(</span><em class="sig-param">*args</em>, <em class="sig-param">strategy='diff'</em>, <em class="sig-param">columns=None</em>, <em class="sig-param">new_cols=None</em>, <em class="sig-param">drop=True</em>, <em class="sig-param">reintegrate=False</em>, <em class="sig-param">**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#dalio.pipe.Change" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">dalio.pipe.col_generation._ColGeneration</span></code></p>
+<dd><p>Bases: <a class="reference internal" href="beginners-guide.html#dalio.pipe.col_generation._ColGeneration" title="dalio.pipe.col_generation._ColGeneration"><code class="xref py py-class docutils literal notranslate"><span class="pre">dalio.pipe.col_generation._ColGeneration</span></code></a></p>
 <p>Perform item-by-item change</p>
 <p>This has two main forms, percentage change and absolute change
 (difference).</p>
@@ -2381,14 +2450,14 @@ attributes and empty input.</p>
 <dl class="class">
 <dt id="dalio.pipe.StockReturns">
 <em class="property">class </em><code class="sig-prename descclassname">dalio.pipe.</code><code class="sig-name descname">StockReturns</code><span class="sig-paren">(</span><em class="sig-param">columns=None</em>, <em class="sig-param">new_cols=None</em>, <em class="sig-param">drop=True</em>, <em class="sig-param">reintegrate=False</em><span class="sig-paren">)</span><a class="headerlink" href="#dalio.pipe.StockReturns" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">dalio.pipe.col_generation._ColGeneration</span></code></p>
+<dd><p>Bases: <a class="reference internal" href="beginners-guide.html#dalio.pipe.col_generation._ColGeneration" title="dalio.pipe.col_generation._ColGeneration"><code class="xref py py-class docutils literal notranslate"><span class="pre">dalio.pipe.col_generation._ColGeneration</span></code></a></p>
 <p>Perform percent change and minor aesthetic changes to data</p>
 </dd></dl>
 
 <dl class="class">
 <dt id="dalio.pipe.Period">
 <em class="property">class </em><code class="sig-prename descclassname">dalio.pipe.</code><code class="sig-name descname">Period</code><span class="sig-paren">(</span><em class="sig-param">period</em>, <em class="sig-param">*args</em>, <em class="sig-param">agg_func=&lt;function mean&gt;</em>, <em class="sig-param">columns=None</em>, <em class="sig-param">new_cols=None</em>, <em class="sig-param">axis=0</em>, <em class="sig-param">drop=True</em>, <em class="sig-param">reintegrate=False</em>, <em class="sig-param">**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#dalio.pipe.Period" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">dalio.pipe.col_generation._ColGeneration</span></code></p>
+<dd><p>Bases: <a class="reference internal" href="beginners-guide.html#dalio.pipe.col_generation._ColGeneration" title="dalio.pipe.col_generation._ColGeneration"><code class="xref py py-class docutils literal notranslate"><span class="pre">dalio.pipe.col_generation._ColGeneration</span></code></a></p>
 <p>Resample input time series data to a different period</p>
 <blockquote>
 <div><dl class="simple">
@@ -2440,7 +2509,7 @@ attributes and empty input.</p>
 <dl class="class">
 <dt id="dalio.pipe.Index">
 <em class="property">class </em><code class="sig-prename descclassname">dalio.pipe.</code><code class="sig-name descname">Index</code><span class="sig-paren">(</span><em class="sig-param">index_at</em>, <em class="sig-param">*args</em>, <em class="sig-param">columns=None</em>, <em class="sig-param">new_cols=None</em>, <em class="sig-param">drop=True</em>, <em class="sig-param">reintegrate=False</em>, <em class="sig-param">**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#dalio.pipe.Index" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">dalio.pipe.col_generation._ColGeneration</span></code></p>
+<dd><p>Bases: <a class="reference internal" href="beginners-guide.html#dalio.pipe.col_generation._ColGeneration" title="dalio.pipe.col_generation._ColGeneration"><code class="xref py py-class docutils literal notranslate"><span class="pre">dalio.pipe.col_generation._ColGeneration</span></code></a></p>
 <dl class="method">
 <dt id="dalio.pipe.Index.copy">
 <code class="sig-name descname">copy</code><span class="sig-paren">(</span><em class="sig-param">*args</em>, <em class="sig-param">**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#dalio.pipe.Index.copy" title="Permalink to this definition">¶</a></dt>
@@ -3144,7 +3213,8 @@ to check for the validity of settings.</p>
         <li class="right" >
           <a href="dalio.translator.html" title="dalio.translator package"
              >previous</a> |</li>
-        <li class="nav-item nav-item-0"><a href="index.html">Dal.io 0.1.1 documentation</a> &#187;</li> 
+        <li class="nav-item nav-item-0"><a href="index.html">Dal.io 0.1.1 documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="modules.html" >User Modules</a> &#187;</li> 
       </ul>
     </div>
     <div class="footer" role="contentinfo">

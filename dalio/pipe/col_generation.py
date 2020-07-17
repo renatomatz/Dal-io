@@ -60,38 +60,6 @@ class _ColGeneration(_ColSelection):
         _args: arguments to be passed onto the function at execution time.
         _kwargs: keyword arguments to be passed onto the function at
             execution time.
-
-    Example:
-        >>> import pandas as pd; from dalio.pipe import Custom;
-        >>> data = [[3, 2143], [10, 1321], [7, 1255]]
-        >>> df = pd.DataFrame(data, [1,2,3], ['years', 'avg_revenue'])
-        >>> total_rev = lambda row: row['years'] * row['avg_revenue']
-        >>> add_total_rev = Custom(total_rev, 'total_revenue', axis=1)
-        >>> add_total_rev.transform(df)
-           years  avg_revenue  total_revenue
-        1      3         2143           6429
-        2     10         1321          13210
-        3      7         1255           8785
-        >>> def halfer(row):
-        ...     new = {'year/2': row['years']/2,
-        ...            'rev/2': row['avg_revenue']/2}
-        ...     return pd.Series(new)
-        >>> half_cols = Custom(halfer, axis=1, drop=False)
-        >>> half_cols.transform(df)
-           years  avg_revenue   rev/2  year/2
-        1      3         2143  1071.5     1.5
-        2     10         1321   660.5     5.0
-        3      7         1255   627.5     3.5
-
-        >>> data = [[3, 3], [2, 4], [1, 5]]
-        >>> df = pd.DataFrame(data, [1,2,3], ["A","B"])
-        >>> func = lambda df: df['A'] == df['B']
-        >>> add_equal = Custom(func, "A==B", strategy="pipe", drop=False)
-        >>> add_equal.transform(df)
-           A  B   A==B
-        1  3  3   True
-        2  2  4  False
-        3  1  5  False
     """
 
     def __init__(self,
@@ -199,6 +167,38 @@ class Custom(_ColGeneration):
     Attributes:
         strategy (str, default "pipe"): strategy for applying value function.
             One of ["apply", "transform", "agg", "pipe"]
+
+    Example:
+        >>> import pandas as pd; from dalio.pipe import Custom;
+        >>> data = [[3, 2143], [10, 1321], [7, 1255]]
+        >>> df = pd.DataFrame(data, [1,2,3], ['years', 'avg_revenue'])
+        >>> total_rev = lambda row: row['years'] * row['avg_revenue']
+        >>> add_total_rev = Custom(total_rev, 'total_revenue', axis=1)
+        >>> add_total_rev.transform(df)
+           years  avg_revenue  total_revenue
+        1      3         2143           6429
+        2     10         1321          13210
+        3      7         1255           8785
+        >>> def halfer(row):
+        ...     new = {'year/2': row['years']/2,
+        ...            'rev/2': row['avg_revenue']/2}
+        ...     return pd.Series(new)
+        >>> half_cols = Custom(halfer, axis=1, drop=False)
+        >>> half_cols.transform(df)
+           years  avg_revenue   rev/2  year/2
+        1      3         2143  1071.5     1.5
+        2     10         1321   660.5     5.0
+        3      7         1255   627.5     3.5
+
+        >>> data = [[3, 3], [2, 4], [1, 5]]
+        >>> df = pd.DataFrame(data, [1,2,3], ["A","B"])
+        >>> func = lambda df: df['A'] == df['B']
+        >>> add_equal = Custom(func, "A==B", strategy="pipe", drop=False)
+        >>> add_equal.transform(df)
+           A  B   A==B
+        1  3  3   True
+        2  2  4  False
+        3  1  5  False
     """
 
     def __init__(self,
