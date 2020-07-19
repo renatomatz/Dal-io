@@ -1,56 +1,108 @@
 \babel@toc {english}{}
-\contentsline {chapter}{\numberline {1}dalio.external package}{1}{chapter.1}% 
-\contentsline {section}{\numberline {1.1}Submodules}{1}{section.1.1}% 
-\contentsline {section}{\numberline {1.2}dalio.external.external}{1}{section.1.2}% 
-\contentsline {section}{\numberline {1.3}dalio.external.file}{2}{section.1.3}% 
-\contentsline {section}{\numberline {1.4}dalio.external.image}{3}{section.1.4}% 
-\contentsline {section}{\numberline {1.5}dalio.external.web}{4}{section.1.5}% 
-\contentsline {chapter}{\numberline {2}dalio.translator package}{7}{chapter.2}% 
-\contentsline {section}{\numberline {2.1}Submodules}{7}{section.2.1}% 
-\contentsline {section}{\numberline {2.2}dalio.translator.file}{7}{section.2.2}% 
-\contentsline {section}{\numberline {2.3}dalio.translator.pdr}{8}{section.2.3}% 
-\contentsline {section}{\numberline {2.4}dalio.translator.quandl}{8}{section.2.4}% 
-\contentsline {section}{\numberline {2.5}dalio.translator.translator}{9}{section.2.5}% 
-\contentsline {chapter}{\numberline {3}dalio.pipe package}{11}{chapter.3}% 
-\contentsline {section}{\numberline {3.1}Submodules}{11}{section.3.1}% 
-\contentsline {section}{\numberline {3.2}dalio.pipe.builders}{11}{section.3.2}% 
-\contentsline {section}{\numberline {3.3}dalio.pipe.col\_generation}{15}{section.3.3}% 
-\contentsline {section}{\numberline {3.4}dalio.pipe.custom}{20}{section.3.4}% 
-\contentsline {section}{\numberline {3.5}dalio.pipe.forecast}{20}{section.3.5}% 
-\contentsline {section}{\numberline {3.6}dalio.pipe.pipe}{21}{section.3.6}% 
-\contentsline {section}{\numberline {3.7}dalio.pipe.selection}{23}{section.3.7}% 
-\contentsline {chapter}{\numberline {4}dalio.model package}{25}{chapter.4}% 
-\contentsline {section}{\numberline {4.1}Submodules}{25}{section.4.1}% 
-\contentsline {section}{\numberline {4.2}dalio.model.financial}{25}{section.4.2}% 
-\contentsline {section}{\numberline {4.3}dalio.model.model}{26}{section.4.3}% 
-\contentsline {chapter}{\numberline {5}dalio.application package}{29}{chapter.5}% 
-\contentsline {section}{\numberline {5.1}Submodules}{29}{section.5.1}% 
-\contentsline {section}{\numberline {5.2}dalio.application.application}{29}{section.5.2}% 
-\contentsline {section}{\numberline {5.3}dalio.application.graphers}{30}{section.5.3}% 
-\contentsline {section}{\numberline {5.4}dalio.application.printers}{32}{section.5.4}% 
-\contentsline {chapter}{\numberline {6}dalio.ops module}{33}{chapter.6}% 
-\contentsline {chapter}{\numberline {7}dalio.base}{35}{chapter.7}% 
-\contentsline {section}{\numberline {7.1}Submodules}{35}{section.7.1}% 
-\contentsline {section}{\numberline {7.2}dalio.base.builder module}{35}{section.7.2}% 
-\contentsline {section}{\numberline {7.3}dalio.base.constants module}{35}{section.7.3}% 
-\contentsline {section}{\numberline {7.4}dalio.base.datadef module}{35}{section.7.4}% 
-\contentsline {section}{\numberline {7.5}dalio.base.node module}{35}{section.7.5}% 
-\contentsline {section}{\numberline {7.6}dalio.base.transformer module}{36}{section.7.6}% 
-\contentsline {section}{\numberline {7.7}Module contents}{36}{section.7.7}% 
-\contentsline {chapter}{\numberline {8}dalio.validator}{37}{chapter.8}% 
-\contentsline {section}{\numberline {8.1}Submodules}{37}{section.8.1}% 
-\contentsline {section}{\numberline {8.2}dalio.validator.array\_val module}{37}{section.8.2}% 
-\contentsline {section}{\numberline {8.3}dalio.validator.base\_val module}{37}{section.8.3}% 
-\contentsline {section}{\numberline {8.4}dalio.validator.pandas\_val module}{38}{section.8.4}% 
-\contentsline {section}{\numberline {8.5}dalio.validator.presets module}{39}{section.8.5}% 
-\contentsline {section}{\numberline {8.6}dalio.validator.validator module}{39}{section.8.6}% 
-\contentsline {section}{\numberline {8.7}Module contents}{40}{section.8.7}% 
-\contentsline {chapter}{\numberline {9}dalio.util}{41}{chapter.9}% 
-\contentsline {section}{\numberline {9.1}Submodules}{41}{section.9.1}% 
-\contentsline {section}{\numberline {9.2}dalio.util.plotting\_utils module}{41}{section.9.2}% 
-\contentsline {section}{\numberline {9.3}dalio.util.processing\_utils module}{42}{section.9.3}% 
-\contentsline {section}{\numberline {9.4}dalio.util.translation\_utils module}{43}{section.9.4}% 
-\contentsline {section}{\numberline {9.5}Module contents}{43}{section.9.5}% 
-\contentsline {chapter}{\numberline {10}Indices and tables}{49}{chapter.10}% 
-\contentsline {chapter}{Python Module Index}{51}{section*.273}% 
-\contentsline {chapter}{Index}{53}{section*.274}% 
+\contentsline {chapter}{\numberline {1}Quick Links}{1}{chapter.1}% 
+\contentsline {section}{\numberline {1.1}User Modules}{1}{section.1.1}% 
+\contentsline {subsection}{\numberline {1.1.1}dalio.external package}{1}{subsection.1.1.1}% 
+\contentsline {subsubsection}{Submodules}{1}{subsubsection*.3}% 
+\contentsline {subsubsection}{dalio.external.external module}{1}{subsubsection*.4}% 
+\contentsline {subsubsection}{dalio.external.file module}{2}{subsubsection*.12}% 
+\contentsline {subsubsection}{dalio.external.image module}{3}{subsubsection*.22}% 
+\contentsline {subsubsection}{dalio.external.web module}{4}{subsubsection*.41}% 
+\contentsline {subsubsection}{Module contents}{5}{subsubsection*.49}% 
+\contentsline {subsection}{\numberline {1.1.2}dalio.translator package}{8}{subsection.1.1.2}% 
+\contentsline {subsubsection}{Submodules}{8}{subsubsection*.82}% 
+\contentsline {subsubsection}{dalio.translator.file module}{8}{subsubsection*.83}% 
+\contentsline {subsubsection}{dalio.translator.pdr module}{9}{subsubsection*.90}% 
+\contentsline {subsubsection}{dalio.translator.quandl module}{9}{subsubsection*.94}% 
+\contentsline {subsubsection}{dalio.translator.translator module}{9}{subsubsection*.101}% 
+\contentsline {subsubsection}{Module contents}{10}{subsubsection*.110}% 
+\contentsline {subsection}{\numberline {1.1.3}dalio.pipe package}{12}{subsection.1.1.3}% 
+\contentsline {subsubsection}{Submodules}{12}{subsubsection*.126}% 
+\contentsline {subsubsection}{dalio.pipe.builders module}{12}{subsubsection*.127}% 
+\contentsline {subsubsection}{dalio.pipe.col\_generation module}{16}{subsubsection*.162}% 
+\contentsline {subsubsection}{dalio.pipe.forecast module}{22}{subsubsection*.191}% 
+\contentsline {subsubsection}{dalio.pipe.pipe module}{22}{subsubsection*.198}% 
+\contentsline {subsubsection}{dalio.pipe.select module}{24}{subsubsection*.216}% 
+\contentsline {subsubsection}{Module contents}{30}{subsubsection*.246}% 
+\contentsline {subsection}{\numberline {1.1.4}dalio.model package}{45}{subsection.1.1.4}% 
+\contentsline {subsubsection}{Submodules}{45}{subsubsection*.343}% 
+\contentsline {subsubsection}{dalio.model.basic module}{45}{subsubsection*.344}% 
+\contentsline {subsubsection}{dalio.model.financial module}{45}{subsubsection*.348}% 
+\contentsline {subsubsection}{dalio.model.model module}{47}{subsubsection*.368}% 
+\contentsline {subsubsection}{dalio.model.statistical module}{48}{subsubsection*.375}% 
+\contentsline {subsubsection}{Module contents}{48}{subsubsection*.380}% 
+\contentsline {subsection}{\numberline {1.1.5}dalio.application package}{51}{subsection.1.1.5}% 
+\contentsline {subsubsection}{Submodules}{51}{subsubsection*.407}% 
+\contentsline {subsubsection}{dalio.application.application module}{51}{subsubsection*.408}% 
+\contentsline {subsubsection}{dalio.application.graphers module}{52}{subsubsection*.415}% 
+\contentsline {subsubsection}{dalio.application.printers module}{54}{subsubsection*.437}% 
+\contentsline {subsubsection}{Module contents}{54}{subsubsection*.440}% 
+\contentsline {section}{\numberline {1.2}Developer Modules}{56}{section.1.2}% 
+\contentsline {subsection}{\numberline {1.2.1}dalio.ops module}{56}{subsection.1.2.1}% 
+\contentsline {subsection}{\numberline {1.2.2}dalio.base package}{56}{subsection.1.2.2}% 
+\contentsline {subsubsection}{Submodules}{56}{subsubsection*.465}% 
+\contentsline {subsubsection}{dalio.base.builder module}{56}{subsubsection*.466}% 
+\contentsline {subsubsection}{dalio.base.constants module}{57}{subsubsection*.467}% 
+\contentsline {subsubsection}{dalio.base.datadef module}{57}{subsubsection*.468}% 
+\contentsline {subsubsection}{dalio.base.memory module}{57}{subsubsection*.469}% 
+\contentsline {subsubsection}{dalio.base.node module}{59}{subsubsection*.497}% 
+\contentsline {subsubsection}{dalio.base.transformer module}{59}{subsubsection*.498}% 
+\contentsline {subsubsection}{Module contents}{60}{subsubsection*.499}% 
+\contentsline {subsection}{\numberline {1.2.3}dalio.validator package}{60}{subsection.1.2.3}% 
+\contentsline {subsubsection}{Submodules}{60}{subsubsection*.500}% 
+\contentsline {subsubsection}{dalio.validator.array\_val module}{60}{subsubsection*.501}% 
+\contentsline {subsubsection}{dalio.validator.base\_val module}{60}{subsubsection*.506}% 
+\contentsline {subsubsection}{dalio.validator.pandas\_val module}{61}{subsubsection*.515}% 
+\contentsline {subsubsection}{dalio.validator.presets module}{62}{subsubsection*.532}% 
+\contentsline {subsubsection}{dalio.validator.validator module}{62}{subsubsection*.533}% 
+\contentsline {subsubsection}{Module contents}{63}{subsubsection*.541}% 
+\contentsline {subsection}{\numberline {1.2.4}dalio.util package}{63}{subsection.1.2.4}% 
+\contentsline {subsubsection}{Submodules}{63}{subsubsection*.542}% 
+\contentsline {subsubsection}{dalio.util.level\_utils module}{63}{subsubsection*.543}% 
+\contentsline {subsubsection}{dalio.util.plotting\_utils module}{64}{subsubsection*.552}% 
+\contentsline {subsubsection}{dalio.util.processing\_utils module}{65}{subsubsection*.557}% 
+\contentsline {subsubsection}{dalio.util.transformation\_utils module}{66}{subsubsection*.563}% 
+\contentsline {subsubsection}{dalio.util.translation\_utils module}{66}{subsubsection*.565}% 
+\contentsline {subsubsection}{Module contents}{67}{subsubsection*.568}% 
+\contentsline {section}{\numberline {1.3}Understanding Graphs}{71}{section.1.3}% 
+\contentsline {subsection}{\numberline {1.3.1}What do I mean by “graphical structure”?}{71}{subsection.1.3.1}% 
+\contentsline {subsection}{\numberline {1.3.2}Progressive Disclosure of Complexity}{71}{subsection.1.3.2}% 
+\contentsline {subsection}{\numberline {1.3.3}Why is a graphical structure optimal for financial modeling?}{71}{subsection.1.3.3}% 
+\contentsline {section}{\numberline {1.4}Base Classes}{72}{section.1.4}% 
+\contentsline {subsection}{\numberline {1.4.1}External \textless {}\_Node\textgreater {}}{72}{subsection.1.4.1}% 
+\contentsline {subsection}{\numberline {1.4.2}\_Transformer}{72}{subsection.1.4.2}% 
+\contentsline {subsection}{\numberline {1.4.3}Translator \textless {}\_Transformer\textgreater {}}{73}{subsection.1.4.3}% 
+\contentsline {subsection}{\numberline {1.4.4}Pipe \textless {}\_Transformer\textgreater {}}{73}{subsection.1.4.4}% 
+\contentsline {subsection}{\numberline {1.4.5}Model \textless {}\_Transformer\textgreater {}}{74}{subsection.1.4.5}% 
+\contentsline {subsection}{\numberline {1.4.6}Application \textless {}Model\textgreater {}}{74}{subsection.1.4.6}% 
+\contentsline {section}{\numberline {1.5}Extra Classes and Concepts}{75}{section.1.5}% 
+\contentsline {subsection}{\numberline {1.5.1}PipeLine \textless {}Pipe\textgreater {}}{75}{subsection.1.5.1}% 
+\contentsline {subsection}{\numberline {1.5.2}Memory \textless {}\_Transformer\textgreater {}}{75}{subsection.1.5.2}% 
+\contentsline {subsection}{\numberline {1.5.3}LazyRunner \textless {}\_Transformer\textgreater {}}{76}{subsection.1.5.3}% 
+\contentsline {subsection}{\numberline {1.5.4}Keyword Arguments}{76}{subsection.1.5.4}% 
+\contentsline {section}{\numberline {1.6}Tips and Tricks}{76}{section.1.6}% 
+\contentsline {subsection}{\numberline {1.6.1}Importing}{76}{subsection.1.6.1}% 
+\contentsline {subsection}{\numberline {1.6.2}The Basic Workflow}{77}{subsection.1.6.2}% 
+\contentsline {subsection}{\numberline {1.6.3}When Reading the Docs}{78}{subsection.1.6.3}% 
+\contentsline {subsection}{\numberline {1.6.4}Must\sphinxhyphen {}Know Classes}{79}{subsection.1.6.4}% 
+\contentsline {section}{\numberline {1.7}Core Classes and Concepts}{82}{section.1.7}% 
+\contentsline {subsection}{\numberline {1.7.1}Validator}{82}{subsection.1.7.1}% 
+\contentsline {subsection}{\numberline {1.7.2}\_Node}{82}{subsection.1.7.2}% 
+\contentsline {subsection}{\numberline {1.7.3}\_DataDef \textless {}Node\textgreater {}}{82}{subsection.1.7.3}% 
+\contentsline {subsection}{\numberline {1.7.4}\_Builder}{82}{subsection.1.7.4}% 
+\contentsline {section}{\numberline {1.8}Development Notes on Base Classes}{83}{section.1.8}% 
+\contentsline {subsection}{\numberline {1.8.1}External \textless {}\_Node\textgreater {}}{83}{subsection.1.8.1}% 
+\contentsline {subsection}{\numberline {1.8.2}Translator \textless {}\_Transformer\textgreater {}}{83}{subsection.1.8.2}% 
+\contentsline {subsection}{\numberline {1.8.3}Pipe \textless {}\_Transformer\textgreater {}}{83}{subsection.1.8.3}% 
+\contentsline {subsection}{\numberline {1.8.4}Model \textless {}\_Transformer\textgreater {}}{83}{subsection.1.8.4}% 
+\contentsline {subsection}{\numberline {1.8.5}Applications \textless {}Model\textgreater {}}{83}{subsection.1.8.5}% 
+\contentsline {section}{\numberline {1.9}Key Concepts, Differences and Philosophy}{83}{section.1.9}% 
+\contentsline {subsection}{\numberline {1.9.1}running vs requesting}{83}{subsection.1.9.1}% 
+\contentsline {subsection}{\numberline {1.9.2}describing vs tagging}{83}{subsection.1.9.2}% 
+\contentsline {chapter}{\numberline {2}Table of Contents}{85}{chapter.2}% 
+\contentsline {chapter}{\numberline {3}Introduction}{87}{chapter.3}% 
+\contentsline {chapter}{\numberline {4}Installation}{89}{chapter.4}% 
+\contentsline {chapter}{\numberline {5}A Guided Example}{91}{chapter.5}% 
+\contentsline {chapter}{\numberline {6}Next Steps}{95}{chapter.6}% 
+\contentsline {chapter}{\numberline {7}Indices and tables}{97}{chapter.7}% 
+\contentsline {chapter}{Python Module Index}{99}{section*.605}% 
+\contentsline {chapter}{Index}{101}{section*.606}% 

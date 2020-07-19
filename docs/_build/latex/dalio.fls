@@ -242,6 +242,7 @@ INPUT /usr/share/texmf-dist/fonts/tfm/public/amsfonts/symbols/msam7.tfm
 INPUT /usr/share/texmf-dist/fonts/tfm/public/amsfonts/symbols/msam5.tfm
 INPUT /usr/share/texmf-dist/fonts/tfm/public/amsfonts/symbols/msbm7.tfm
 INPUT /usr/share/texmf-dist/fonts/tfm/public/amsfonts/symbols/msbm5.tfm
+OUTPUT dalio.toc
 INPUT /usr/share/texmf-dist/fonts/vf/adobe/helvetic/phvb8t.vf
 INPUT /usr/share/texmf-dist/fonts/tfm/adobe/helvetic/phvb8r.tfm
 INPUT /usr/share/texmf-dist/fonts/vf/adobe/times/ptmb8t.vf
@@ -250,7 +251,8 @@ INPUT /usr/share/texmf-dist/fonts/vf/adobe/times/ptmr8t.vf
 INPUT /usr/share/texmf-dist/fonts/tfm/adobe/times/ptmr8r.tfm
 INPUT /usr/share/texmf-dist/fonts/vf/adobe/helvetic/phvb8t.vf
 INPUT /usr/share/texmf-dist/fonts/tfm/adobe/helvetic/phvb8r.tfm
-OUTPUT dalio.toc
+INPUT /usr/share/texmf-dist/fonts/tfm/adobe/times/ptmr8t.tfm
+INPUT /usr/share/texmf-dist/fonts/tfm/adobe/helvetic/phvr8t.tfm
 INPUT /usr/share/texmf-dist/tex/latex/psnfss/t1pcr.fd
 INPUT /usr/share/texmf-dist/tex/latex/psnfss/t1pcr.fd
 INPUT /usr/share/texmf-dist/fonts/tfm/adobe/courier/pcrb8t.tfm
@@ -283,8 +285,18 @@ INPUT /usr/share/texmf-dist/fonts/tfm/adobe/courier/pcrb8r.tfm
 INPUT /usr/share/texmf-dist/fonts/vf/adobe/courier/pcrr8t.vf
 INPUT /usr/share/texmf-dist/fonts/tfm/adobe/courier/pcrr8r.tfm
 INPUT /usr/share/texmf-dist/fonts/vf/adobe/courier/pcrr8c.vf
+INPUT /usr/share/texmf-dist/fonts/tfm/adobe/courier/pcrro8c.tfm
+INPUT /usr/share/texmf-dist/fonts/vf/adobe/courier/pcrro8c.vf
+INPUT /usr/share/texmf-dist/fonts/tfm/adobe/times/ptmr8t.tfm
+INPUT /usr/share/texmf-dist/fonts/vf/adobe/times/ptmr8t.vf
+INPUT /usr/share/texmf-dist/fonts/tfm/adobe/times/ptmr8r.tfm
 INPUT /usr/share/texmf-dist/fonts/tfm/adobe/courier/pcrb8c.tfm
 INPUT /usr/share/texmf-dist/fonts/vf/adobe/courier/pcrb8c.vf
+INPUT port_opt_cook_graph.png
+INPUT ./port_opt_cook_graph.png
+INPUT ./port_opt_cook_graph.png
+INPUT port_opt_cook_graph.png
+INPUT ./port_opt_cook_graph.png
 INPUT /usr/share/texmf-dist/fonts/vf/adobe/helvetic/phvr8t.vf
 INPUT /usr/share/texmf-dist/fonts/tfm/adobe/helvetic/phvr8r.tfm
 INPUT dalio.ind

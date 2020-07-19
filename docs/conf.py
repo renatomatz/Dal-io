@@ -19,11 +19,10 @@ sys.path.insert(0, os.path.abspath('..'))
 
 project = 'Dal.io'
 copyright = '2020, Renato Zimmermann'
-author = 'Renato Zimmermann'
+author = 'Renato Mateus Zimmermann'
 
 # The full version, including alpha/beta/rc tags
-version = '0.1'
-release = '0.1.1'
+release = '0.0.1'
 
 
 # -- General configuration ---------------------------------------------------

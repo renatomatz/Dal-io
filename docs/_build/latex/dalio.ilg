@@ -1,7 +1,7 @@
 This is makeindex, version 2.15 [TeX Live 2019] (kpathsea + Thai support).
 Scanning style file ./python.ist.......done (7 attributes redefined, 0 ignored).
-Scanning input file dalio.idx....done (310 entries accepted, 0 rejected).
-Sorting entries.....done (2697 comparisons).
-Generating output file dalio.ind....done (442 lines written, 0 warnings).
+Scanning input file dalio.idx....done (604 entries accepted, 0 rejected).
+Sorting entries.......done (5909 comparisons).
+Generating output file dalio.ind....done (780 lines written, 0 warnings).
 Output written in dalio.ind.
 Transcript written in dalio.ilg.
