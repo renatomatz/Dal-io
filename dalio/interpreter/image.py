@@ -12,14 +12,14 @@ import matplotlib.pyplot as plt
 
 from pypfopt import CLA
 
-from dalio.external import External
+from dalio.base import _Interpreter
 
 from dalio.util import plot_efficient_frontier, \
     plot_covariance, plot_weights
 
 
-class _Figure(External):
-    """Base Figure class
+class _Figure(_Interpreter):
+    """Base Figure class, implements _Interpreter.
 
     These serve to implement the basic logic of a figure, and are not limited
     to any specific python package. Python packages should be standardazied
@@ -36,24 +36,6 @@ class _Figure(External):
     def __init__(self, figsize=None):
         """Initializes instance and set empty figure"""
         super().__init__()
-        self._figsize = figsize
-        self.reset()
-
-    def request(self, **kwargs):
-        """Processes a request based on the figure.
-
-        Args:
-            **kwargs: additional request options.
-        """
-        query = kwargs.get("query", None)
-        if query == "GET":
-            return self._connection
-        else:
-            return self._connection
-
-    def check(self):
-        """Check if there is a figure to return"""
-        return self._connection is not None
 
     def plot(self, data, kind=None, **graph_opts):
         """Plots data on the figure.
@@ -65,9 +47,15 @@ class _Figure(External):
         """
         raise NotImplementedError()
 
-    def reset(self):
-        """Resets figure to default, empty state"""
-        self._connection = None
+    @property
+    def figsize(self):
+        """Get figure size"""
+        raise NotImplementedError()
+
+    @figsize.setter(self, figsize):
+        """Set figure size"""
+        raise NotImplementedError()
+
 
 
 class _MultiFigure(_Figure):

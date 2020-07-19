@@ -5,11 +5,11 @@ import pandas as pd
 
 from sklearn.linear_model import LinearRegression
 
-from dalio.base import _Builder
+from dalio.base import _Factory
 from dalio.model import Model
 
 
-class XYLinearModel(Model, _Builder):
+class XYLinearModel(Model, _Factory):
     """Generalized Linear model for arrays from two sources.
 
     This Model has two sources, x and y.
@@ -57,7 +57,9 @@ class XYLinearModel(Model, _Builder):
         return self.build_model((x, y)).fit(x, y)
 
     def copy(self, *args, **kwargs):
-        return _Builder.copy(self, *args, **kwargs)
+        ret = super().copy(*args, **kwargs)
+        ret._pieces = self._pieces
+        return ret
 
     def build_model(self, data, **kwargs):
         """Build model by returning the chosen model and initialization

@@ -9,85 +9,94 @@ import os
 
 import pandas as pd
 
-from dalio.external import External
+from dalio.interpreter import _Interpreter
 
 
-class FileWriter(External):
+class FileWriter(_Interpreter):
     """File string writer
 
     Attributes:
-        _connection: any file instance that can be written on
+        _engine: any file instance that can be written on
     """
 
-    _connection: io.TextIOWrapper
+    engine: io.TextIOWrapper
 
-    def __init__(self, out_file=sys.stdout):
+    def __init__(self, file_io_eng=sys.stdout):
         """Initialize instance and set file
 
         Args:
-            out_file: output file or path to an existing file
+            file_io_eng: output file or path to an existing file
         """
         super().__init__()
-        self.set_connection(out_file)
+        self.engine = file_io_eng
 
-    def request(self, **kwargs):
+    def write(self, data):
         """Write a request string onto a file"""
-        if not self.check():
-            raise ValueError("Please set a connection before making a\
-                request")
 
-        self._connection.write(str(kwargs["query"]))
+        self.engine.write(str(data))
 
-    def check(self):
-        """Check if there is an open file as the connection"""
-        # TODO: make this more solid to ensure file can be written to
-        return self._connection is not None
+    def clear(self, data):
+        """Deletes engine"""
+        del(self.engine)
 
     def __del__(self):
         """Close connections when deleted"""
-        if self._connection is not None:
-            self._connection.close()
+        del(self.engine)
+        super().__dell__()
 
-    def set_connection(self, new_connection):
-        """Set current connection
+    @property
+    def engine(self):
+        if self.engine is not None:
+            return self.engine
+
+        raise AttributeError("file io engine not set")
+
+    @engine.setter
+    def engine(self, newengine):
+        """Set file io engine
 
         Set connection to opened file or open a new file given the path to
         one.
 
         Args:
-            new_connection: open file instance or path to an existing file.
+            newengine: open file instance or path to an existing file.
         Raises:
             IOError: if specified path does not exist.
-            TypeError: if specified "new_connection" argument is of an
+            TypeError: if specified "newengine" argument is of an
                 invalid type
         """
-        old = self._connection
+        del(self.engine)
 
-        if isinstance(new_connection, io.TextIOWrapper) \
-                or new_connection is None:
-            self._connection = new_connection
-        elif isinstance(new_connection, str):
-            if os.path.exists(new_connection):
-                self._connection = open(new_connection)
+        if isinstance(newengine, io.TextIOWrapper) \
+                or newengine is None:
+            self.engine = newengine
+        elif isinstance(newengine, str):
+            if os.path.exists(newengine):
+                self.engine = open(newengine)
             else:
-                raise IOError(f"specified path {new_connection}\
+                raise IOError(f"specified path {newengine}\
                     does not exist")
         else:
-            raise TypeError(f"invalid connection type {type(new_connection)}")
+            raise TypeError(f"invalid connection type {type(newengine)}")
 
-        if old is not None:
-            old.close()
+    @engine.deleter
+    def engine(self):
+        try:
+            self.engine.close()
+            self.engine = None
+        except AttributeError:
+            pass
 
 
 class PandasInFile(External):
     """Get data from a file using the pandas package
 
     Attributes:
-        _connection (str): path to a file that can be read by some pandas
+        engine (str): path to a file that can be read by some pandas
             function.
     """
 
-    _connection: str
+    engine: str
 
     def __init__(self, in_file):
         """Initialize instance and check in_file
@@ -102,7 +111,7 @@ class PandasInFile(External):
         super().__init__()
         if isinstance(in_file, str):
             if os.path.exists(in_file):
-                self._connection = in_file
+                self.engine = in_file
             else:
                 raise IOError(f"specified path {in_file} \
                     does not exist")
@@ -116,15 +125,15 @@ class PandasInFile(External):
         Args:
             **kwargs: arguments to the inport function.
         """
-        ext = self._connection.split(".")[-1]
+        ext = self.engine.split(".")[-1]
         if ext in ["xls", "xlsx"]:
             return pd.read_excel(
-                self._connection,
+                self.engine,
                 engine="xlrd",
                 **kwargs
             )
         elif ext == "csv":
-            return pd.read_csv(self._connection, **kwargs)
+            return pd.read_csv(self.engine, **kwargs)
 
     def check(self):
-        return self._connection is not None
+        return self.engine is not None

@@ -1,22 +1,23 @@
-from dalio.external.external import External
+from dalio.interpreter.interpreter import _Interpreter
 
-from dalio.external.file import (
+from dalio.interpreter.file import (
     FileWriter,
     PandasInFile,
 )
 
-from dalio.external.image import (
+from dalio.interpreter.image import (
     PyPlotGraph,
     PySubplotGraph,
     PyPfOptGraph,
 )
 
-from dalio.external.web import (
+from dalio.interpreter.web import (
     YahooDR,
     QuandlAPI,
 )
 
 __all__ = [
+    "_Interpreter",
     "FileWriter",
     "PandasInFile",
     "PyPlotGraph",

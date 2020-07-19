@@ -5,7 +5,7 @@ from itertools import product
 import numpy as np
 
 from dalio.base.constants import RETURNS, MAX_EXEDENCE
-from dalio.base import _Builder
+from dalio.base import _Factory
 from dalio.application import Application
 from dalio.validator import IS_PD_DF, HAS_COLS, IS_PD_TS, HAS_ATTR
 from dalio.util import process_cols
@@ -53,7 +53,7 @@ class Grapher(Application):
         return self
 
 
-class MultiGrapher(Application, _Builder):
+class MultiGrapher(Application, _Factory):
     """Grapher for multiple inputs taking in the same keyword arguments.
 
     This is useful to greate subplots of the same data processed in
