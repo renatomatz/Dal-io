@@ -12,14 +12,12 @@ import pandas as pd
 from dalio.interpreter import _Interpreter
 
 
-class FileWriter(_Interpreter):
+class FileInterpreter(_Interpreter):
     """File string writer
 
     Attributes:
         _engine: any file instance that can be written on
     """
-
-    engine: io.TextIOWrapper
 
     def __init__(self, file_io_eng=sys.stdout):
         """Initialize instance and set file
@@ -30,24 +28,26 @@ class FileWriter(_Interpreter):
         super().__init__()
         self.engine = file_io_eng
 
-    def write(self, data):
+    def write(self, data, *args, **kwargs):
         """Write a request string onto a file"""
+        self.engine.write(str(data), *args, **kwargs)
 
-        self.engine.write(str(data))
+    def read(self, *args, **kwargs):
+        """Read contents of the file"""
+        return self.engine.read(*args, **kwargs)
 
-    def clear(self, data):
+    def clear(self):
         """Deletes engine"""
-        del(self.engine)
+        del self.engine
 
     def __del__(self):
         """Close connections when deleted"""
-        del(self.engine)
-        super().__dell__()
+        del self.engine
 
     @property
     def engine(self):
-        if self.engine is not None:
-            return self.engine
+        if self._engine is not None:
+            return self._engine
 
         raise AttributeError("file io engine not set")
 
@@ -65,14 +65,14 @@ class FileWriter(_Interpreter):
             TypeError: if specified "newengine" argument is of an
                 invalid type
         """
-        del(self.engine)
+        del self._engine
 
         if isinstance(newengine, io.TextIOWrapper) \
                 or newengine is None:
-            self.engine = newengine
+            self._engine = newengine
         elif isinstance(newengine, str):
             if os.path.exists(newengine):
-                self.engine = open(newengine)
+                self._engine = open(newengine)
             else:
                 raise IOError(f"specified path {newengine}\
                     does not exist")
@@ -88,52 +88,33 @@ class FileWriter(_Interpreter):
             pass
 
 
-class PandasInFile(External):
-    """Get data from a file using the pandas package
+class PandasInterpreter(FileInterpreter):
+    """Get data from a file using the pandas package"""
 
-    Attributes:
-        engine (str): path to a file that can be read by some pandas
-            function.
-    """
+    def read(self, *args, **kwargs):
 
-    engine: str
+        ext = self.engine.name.split(".")[-1]
 
-    def __init__(self, in_file):
-        """Initialize instance and check in_file
-
-        Args:
-            in_file: path to input file.
-
-        Raises:
-            IOError: if specified path does not exist.
-            TypeError: if specified "in_file" argument is not a string
-        """
-        super().__init__()
-        if isinstance(in_file, str):
-            if os.path.exists(in_file):
-                self.engine = in_file
-            else:
-                raise IOError(f"specified path {in_file} \
-                    does not exist")
-        else:
-            raise TypeError(f"in_file must be a string with a path to the \
-                input file")
-
-    def request(self, **kwargs):
-        """Get data input from a file according to its extension
-
-        Args:
-            **kwargs: arguments to the inport function.
-        """
-        ext = self.engine.split(".")[-1]
         if ext in ["xls", "xlsx"]:
             return pd.read_excel(
                 self.engine,
                 engine="xlrd",
+                *args,
                 **kwargs
             )
         elif ext == "csv":
             return pd.read_csv(self.engine, **kwargs)
 
-    def check(self):
-        return self.engine is not None
+        raise IOError(f"Invalid file extension, {ext}")
+
+    def write(self, data, *args, **kwargs):
+
+        name = self.engine.name
+        ext = name.split(".")[-1]
+
+        if ext in ["xls", "xlsx"]:
+            data.to_excel(name, *args, **kwargs)
+        elif ext == "csv":
+            data.to_csv(name, *args, **kwargs)
+
+        raise IOError(f"Invalid file extension, {ext}")

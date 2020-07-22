@@ -10,11 +10,11 @@ class _Interpreter:
     standardized way.
 
     Attributes:
-        engine (any): engine which has actions performed on.
+        _engine (any): engine which has actions performed on.
     """
 
     def __init__(self):
-        raise NotImplementedError()
+        self._engine = None
 
     def set_engine(self, engine):
         """Explicit setter for engine for chaining"""

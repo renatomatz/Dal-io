@@ -12,6 +12,28 @@ from sklearn.linear_model import LinearRegression
 from pypfopt import CovarianceShrinkage
 from pypfopt.expected_returns import return_model as ReturnModel
 
+from arch.univariate.base import ARCHModel
+
+# Import mean models
+from arch.univariate import (
+    ConstantMean,
+    ARX
+)
+
+# Import variance models
+from arch.univariate import (
+    ARCH,
+    GARCH,
+    EWMAVariance
+)
+
+# Import distribution models
+from arch.univariate import (
+    Normal,
+    StudentsT,
+    SkewStudent
+)
+
 from dalio.base.constants import (
     SIC_CODE,
     TICKER,
@@ -19,8 +41,6 @@ from dalio.base.constants import (
     MAX_EXEDENCE,
     EXPECTED_SHORTFALL,
 )
-
-from dalio.interpreter import _ARCH
 
 from dalio.pipe import Pipe, PipeBuilder
 
@@ -325,14 +345,33 @@ class MakeARCH(PipeBuilder):
     """Build arch model and make it based on input data.
 
     This class allows for the creation of arch models by configuring three
-    pieces: the mean, volatility and distribution and the parameters for
-    fiting the model. These are set after initialization through the _Builder
-    interface. They can be either names or objects compatible with the
-    specific interpreter set.
+    pieces: the mean, volatility and distribution. These are set after
+    initialization through the _Builder interface.
 
     Attributes:
         _piece (list): see _Builder class.
     """
+
+    _MEAN_DICT = {
+        "ConstantMean": ConstantMean,
+        "constant": ConstantMean,
+        "ARX": ARX,
+        "arx": ARX
+    }
+    _VOL_DICT = {
+        "ARCH": ARCH,
+        "GARCH": GARCH,
+        "EWMAVariance": EWMAVariance,
+        "EWMA": EWMAVariance,
+        "RiskMetrics": EWMAVariance
+    }
+    _DIST_DICT = {
+        "Normal": Normal,
+        "normal": Normal,
+        "StudentsT": StudentsT,
+        "SkewStudent": SkewStudent
+    }
+    # TODO: make this agnostic to upper or lower case
 
     def __init__(self):
         """Initialize instance and pieces"""
@@ -341,8 +380,7 @@ class MakeARCH(PipeBuilder):
         self._init_piece([
             "mean",
             "volatility",
-            "distribution",
-            "fit",
+            "distribution"
         ])
 
         self._source\
@@ -359,43 +397,53 @@ class MakeARCH(PipeBuilder):
             A built arch model from the arch package.
         """
 
-        # set mean model piece with the current data
+        # set mean model piece
         mean = self._pieces["mean"]
-        self.interpreter.init_mean(
+        am = MakeARCH._MEAN_DICT[mean.name](
             data,
-            mean.name,
             *mean.args,
             **mean.kwargs
         )
 
         # set volatility model piece
         vol = self._pieces["volatility"]
-        if len(vol.args) + len(vol.kwargs) == 0:
-            self.interpreter.volatility = vol.name
-        else:
-            self.interpreter.init_volatility(
-                data,
-                vol.name,
-                *vol.args,
-                **vol.kwargs,
-            )
+        am.volatility = MakeARCH._VOL_DICT[vol.name](
+            *vol.args,
+            **vol.kwargs,
+        )
 
         # set distribution model piece
         dist = self._pieces["distribution"]
-        if len(dist.args) + len(dist.kwargs) == 0:
-            self.interpreter.distribution = dist.name
-        else:
-            self.interpreter.init_distribution(
-                data,
-                dist.name,
-                *dist.args,
-                **dist.kwargs,
-            )
+        am.distribution = MakeARCH._DIST_DICT[dist.name](
+            *dist.args,
+            **dist.kwargs,
+        )
 
-        fit = self._pieces["fit"]
-        self.interpreter.fit(*fit.args, **fit.kwargs)
+        return am
 
-        return self.interpreter
+    def assimilate(self, model):
+        """Assimilate core pieces of an existent ARCH Model.
+
+        Assimilation means setting this model's' pieces in accordance to an
+        existing model's pieces. Assimilation is shallow, so only the main
+        pieces are assimilated, not their parameters.
+
+        Args:
+            model (ARCHModel): Existing ARCH Model.
+        """
+
+        self.set_piece(
+            "mean",
+            type(model).__name__
+        )
+        self.set_piece(
+            "volatility",
+            type(model.volatility).__name__
+        )
+        self.set_piece(
+            "distribution",
+            type(model.distribution).__name__
+        )
 
 
 class ValueAtRisk(Pipe):
@@ -426,7 +474,7 @@ class ValueAtRisk(Pipe):
         super().__init__()
 
         self._source\
-            .add_desc(IS_TYPE(_ARCH))\
+            .add_desc(IS_TYPE(ARCHModel))\
             .add_desc(HAS_ATTR("fit"))
 
         if isinstance(quantiles, list):
@@ -463,27 +511,43 @@ class ValueAtRisk(Pipe):
 
         # This might seem redundant considering the above FitARCHModel pipe
         # but keep in mind here we need both the fitted results and the model
+        if "fit_opts" in kwargs:
+            fit_opts = kwargs.pop("fit_opts")
+        else:
+            fit_opts = {}
+
+        fit_res = data.fit(**fit_opts)
 
         # prepare returns data
-        returns = data.get_orig_data()
+        returns = data._y_original
         while type(returns.columns).__name__ == "MultiIndex":
             returns = returns.droplevel(1, axis=1)
         returns.columns = [RETURNS]
 
         # start is the earliest index fitted by the algorithm
-        start = returns.index[max(0, data.get_fit_indices()[0]-1)]
+        start = returns.index[max(0, fit_res._fit_indices[0]-1)]
 
         if returns is None:
             raise ValueError("Invalid ARCH model: does not have returns")
 
-        cond_mean = data.forecast_mean(start=start)[start:]
-        cond_var = data.forecast_variance(start=start)[start:]
+        forecasts = fit_res.forecast(start=start)
 
-        params = data.get_fit_params()
+        cond_mean = forecasts.mean[start:]
+        cond_var = forecasts.variance[start:]
+
+        dist = type(data.distribution).__name__
 
         # set ppf parameters according to data distribution
+        if dist == "Normal":
+            params = None
+        elif dist == "StudentsT":
+            params = fit_res.params[-1]
+        elif dist == "SkewStudent":
+            params = fit_res.params[-2:]
+        else:
+            raise TypeError(f"model has unsuported distribution {dist}")
 
-        q = data.get_dist_ppf()(self._quantiles, params)
+        q = data.distribution.ppf(self._quantiles, params)
 
         cols = ["".join([str(n*100), "%"]) for n in self._quantiles]
 
@@ -549,19 +613,55 @@ class ExpectedShortfall(ValueAtRisk):
         )
 
 
-class OptimumWeights(Pipe):
+class OptimumWeights(PipeBuilder):
     """Get optimum portfolio weights from an efficient frontier or CLA.
     This is also a builder with one piece: strategy. The strategy piece
     refers to the optimization strategy.
     """
+
+    _STRATEGY_PRESETS = [
+        "max_sharpe",
+        "min_volatility",
+    ]
 
     def __init__(self):
         """Initialize instance and strategy builder piece."""
         super().__init__()
 
         self._source\
-            .add_desc(IS_TYPE(_PortfolioOptimizer))
+            .add_desc(HAS_ATTR(["max_sharpe", "min_volatility"]))
+
+        self._init_piece([
+            "strategy"
+        ])
 
     def transform(self, data, **kwargs):
         """Get efficient frontier, fit it to model and get weights"""
-        return data.weights 
+        self.build_model(data)()
+        return data.clean_weights()
+
+    def build_model(self, data, **kwargs):
+        strat = self._pieces["strategy"]
+
+        if strat.name is None:
+            ValueError("piece 'strategy' is not set")
+        elif strat.name == "max_sharpe":
+            strat_func = data.max_sharpe
+        elif strat.name == "min_volatility":
+            strat_func = data.min_volatility
+        elif strat.name == "max_quadratic_utility":
+            strat_func = data.max_quadratic_utility
+        elif strat.name == "dataficient_risk":
+            strat_func = data.efficient_risk
+        elif strat.name == "dataficient_return":
+            strat_func = data.efficient_return
+
+        return partial(strat_func,
+                       *strat.args,
+                       **strat.kwargs)
+
+    def check_name(self, param, name):
+        super().check_name(param, name)
+        if name not in OptimumWeights._STRATEGY_PRESETS:
+            ValueError("invalid strategy name, please select one of \
+                {OptimumWeights._STRATEGY_PRESETS}")

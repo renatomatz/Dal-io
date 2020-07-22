@@ -1,14 +1,8 @@
 The Dal.io Documentation
 ========================
 
-Quick Links
-===========
-
-.. toctree::
-    :maxdepth: 2
-    :caption: Modules
-
-    modules
+Table of Contents
+=================
 
 .. toctree::
     :maxdepth: 1
@@ -22,8 +16,14 @@ Quick Links
 
     developers-guide
 
-Table of Contents
-=================
+.. toctree::
+    :maxdepth: 2
+    :caption: Modules
+
+    modules
+
+Index
+=====
 
 .. toctree::
     :maxdepth: 1
@@ -98,7 +98,7 @@ Easy right? Notice that the stock input is composed of one external source (in t
 
 Notice the :code:`.set_input` call that took in the YahooDR object. Every all translators, pipes, models and applications share this method that allows them to plug the output of another object as their own input. This idea of connecting different objects like nodes in a graph is at the core of the **graphical object design**.
 
-At this point you can try out running the model with :code:`stocks.run(ticker=tickers)` which will get the OHLCV data for the ticker symbols assigned to :code"`tickers`, though you can specify any ticker available in Yahoo! Finance. Notice that the column names where standardized to be all lower-case with underscores (_) instead of spaces. This is performed as part of the translation step to ensure all imported data can be referenced with common string representations.
+At this point you can try out running the model with :code:`stocks.run(ticker=tickers)` which will get the OHLCV data for the ticker symbols assigned to :code:`tickers`, though you can specify any ticker available in Yahoo! Finance. Notice that the column names where standardized to be all lower-case with underscores (_) instead of spaces. This is performed as part of the translation step to ensure all imported data can be referenced with common string representations.
 
 Now lets create a data processing pipeline for our input data.
 
@@ -115,14 +115,14 @@ Now lets create a data processing pipeline for our input data.
         dp.Period("Y", agg_func=lambda x: x[-1]) + \
         dp.Change(strategy="pct_change")
 
-    cov = dp.Custom(lambda df: df.cov(), strategy="pipe")\
+    cov = dp.Custom(lambda df: df.cov(), strategy="pipe") \
         .with_input(annual_rets)
 
     exp_rets = annual_rets + dp.Custom(np.mean)
 
 That was a bit more challenging! Let's take it step by step.
 
-We started off defining a :code:`DateSelect` pipe (which we will use later) and passing it into a pipeline with other pipes to get a company's annual returns. Pipelines aggregate zero or more Pipe objects and pass in a common input through all of their transformations. This skips data integrity checking while still allowing users to control pipes inside the pipeline from the outside (as we will with :code"`time_conf`)
+We started off defining a :code:`DateSelect` pipe (which we will use later) and passing it into a pipeline with other pipes to get a company's annual returns. Pipelines aggregate zero or more Pipe objects and pass in a common input through all of their transformations. This skips data integrity checking while still allowing users to control pipes inside the pipeline from the outside (as we will with :code:`time_conf`)
 
 We then added a custom pipe that applies the np.mean function to the annual returns to get the expected returns for each stock.
 
@@ -144,15 +144,16 @@ Now let's set up our efficient frontier model, get the optimal weights and final
 
 .. code-block:: python
 
-    ef = dm.MakeEfficientFrontier(weight_bounds=(-0.5, 1))\
-        .set_input("sample_covariance", cov)\
-        .set_input("expected_returns", exp_rets)\
+    ef = dm.MakeEfficientFrontier(weight_bounds=(-0.5, 1)) \
+        .set_input("sample_covariance", cov) \
+        .set_input("expected_returns", exp_rets)
 
-    weights = dp.OptimumWeights()(ef)\
-        .set_piece("strategy", "max_sharpe", risk_free_rate=0.0)
+    weights = dp.OptimumWeights() \
+        .set_piece("strategy", "max_sharpe", risk_free_rate=0.0) \
+        .set_input(ef)
 
-    opt_port = dm.OptimumPortfolio()\
-        .set_input("weights_in", weights)\
+    opt_port = dm.OptimumPortfolio() \
+        .set_input("weights_in", weights) \
         .set_input("data_in", close)
 
 And those are two examples of Dal-io Models! As you can see, models can have multiple named inputs, which can be set the same way as you would in a pipe but also having to specify their name. You also saw an example of a Builder, which has pieces (that can be set with the :code:`.set_piece()`) method which allow for more modular flexibility when deciding characteristics of certain pipes or models.We could go into what each source and pieces represents, but that can be better done through the documentation.
@@ -161,8 +162,8 @@ Now, as a final step, lets graph the performance of the optimal portfolio.
 
 .. code-block:: python
 
-    graph = da.PandasXYGrapher(x=None, y="close", legend="upper_right")\
-        .set_input("data_in", dp.Index(100)(opt_port))\
+    graph = da.PandasXYGrapher(x=None, y="close", legend="upper_right") \
+        .set_input("data_in", dp.Index(100)(opt_port)) \
         .set_output("data_out", de.PyPlotGraph(figsize=(12, 8)))
 
 Additionally, you can change the time range of the whole model at any point using the :code:`time_conf` object we created all the way in the beginning. Below is an example of setting the dates from 2016 to 2020.

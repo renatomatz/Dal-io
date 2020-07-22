@@ -2,76 +2,169 @@
 
 import os
 
+import json
+
 import requests
 
 import quandl
-import pandas_datareader as web
+import pandas_datareader.data as web
 
-from dalio.external import External
+from dalio.interpreter import _Interpreter
+
+class _Web(_Interpreter):
+    """Represents external data coming from a web API
+
+    This is a base representation for functionaliy common to most apis.
+
+    Attributes:
+        _engine (any): API engine
+        path_to_config (str): path to a config file containing configuration
+            details. File must be of .json format
+        _api_key (str): API key for engine authentication. Can be either set
+            manually or be in an "api_key" key in a specified config file.
+        _api_secret (str): API secret for engine authentication. Can be
+            either set manually or be in an "api_secret" key in a specified
+            config file.
+    """
+
+    def __init__(self, path_to_config=None, api_key=None, api_secret=None):
+        """Initializes instance and assigns a datareader instance to the
+        connection.
+        """
+        super().__init__()
+
+        if path_to_config is not None and not os.path.exists(path_to_config):
+            raise IOError("path to config file does not exist")
+
+        self.path_to_config = path_to_config
+
+        self._api_key = api_key
+        self._api_secret = api_secret
+
+        self.clear()
+
+    @property
+    def api_key(self):
+        """Get api key from variable if it is set, or else from a file"""
+        if self._api_key is None and self.path_to_config is not None:
+            try:
+                with open(self.path_to_config) as f:
+                    return json.load(f)["api_key"]
+            except KeyError:
+                raise KeyError("config file does not have an 'api_key' key")
+
+        return self._api_key
+
+    @api_key.setter
+    def api_key(self, api_key):
+        self._api_key = api_key
+
+    @property
+    def api_secret(self):
+        """Get api secret from variable if it is set, or else from a file"""
+        if self._api_secret is None and self.path_to_config is not None:
+            try:
+                with open(self.path_to_config) as f:
+                    return json.load(f)["api_secret"]
+            except KeyError:
+                raise KeyError("config file does not have an 'api_secret'\
+                    key")
+
+        return self._api_key
+
+    @api_secret.setter
+    def api_secret(self, api_secret):
+        self._api_secret = api_secret
+
+    def request(self, query, *args, **kwargs):
+        """Send generic request
+
+        Args:
+            query (str): request string
+            *args, **kwargs: request function parameters. Function calls
+                might be dependent on some of these.
+        """
+        raise NotImplementedError()
 
 
-class _PDR(External):
+class BaseDR(_Web):
     """Represents external data coming from the pandas_datareader package
 
     This is a base representation for functionaliy common to DataReader
     instances, but mostly used as a base class.
     """
 
-    def __init__(self, config=None):
+    def __init__(self, path_to_config=None, api_key=None):
         """Initializes instance and assigns a datareader instance to the
         connection.
         """
-        super().__init__(config)
-        self.set_connection(web.DataReader)
+        super().__init__(path_to_config=None, api_key=None)
+        self.clear()
 
-    def request(self, **kwargs):
-        """See base class"""
-        raise NotImplementedError()
+    @property
+    def engine(self):
+        return self._engine
 
-    def make(self, name=None):
-        """Make an instance of a specified subclass name"""
-        ret = type(self)()
+    @engine.setter
+    def engine(self, engine):
+        if callable(engine):
+            self._engine = engine
+        raise AttributeError("engine must be callable")
 
-        if name == "yahoo":
-            ret = YahooDR()
+    def clear(self):
+        self.engine = web.DataReader
 
-        ret.update_config(self._config)
-        return ret
+    def request(self, query, *args, **kwargs):
+        """Get data from a pandas-datareader source
+
+        KEEP IN MIND calling this from PDRBase requires a source in the *args
+        """
+        return self.engine.__call__(query, *args, **kwargs)
+
+    @staticmethod
+    def from_source(source, *args, **kwargs):
+        """Make a _PDR subclass instance from a specified source name
+
+        Args:
+            source (str): name of the pandas-datareader source.
+            *args, **kwargs: initialization parameters.
+        """
+
+        if source == "yahoo":
+            return YahooDR(*args, **kwargs)
+
+        raise ValueError(f"{source} is not an available source")
 
 
-class YahooDR(_PDR):
+class YahooDR(BaseDR):
     """Represents financial data from Yahoo! Finance"""
 
-    def request(self, **kwargs):
-        """Get data from specified tickers"""
-        return self._connection(kwargs["ticker"], "yahoo")
+    def request(self, query, *args, **kwargs):
+        return self.engine.__call__(query, "yahoo", *args, **kwargs)
 
 
-class QuandlAPI(External):
-    '''Set up the Quandl API and request table data from quandl.
+class QuandlAPI(_Web):
+    """Set up the Quandl API and request table data from quandl."""
 
-    Attributes:
-        _quandl_conf: Quandl API config object
-    '''
+    def __init__(self, path_to_config=None, api_key=None):
+        """Initialize instance and set the api key if possible"""
+        super().__init__(path_to_config=None, api_key=None)
 
-    def __init__(self, config=None):
-        """Initialize instance and set config file to a default"""
+        self.clear()
 
-        if config is None and os.path.exists("config/quandl_config.json"):
-            config = "quandl_config.json"
+    @property
+    def engine(self):
+        return self._engine
 
-        super().__init__(config)
+    def clear(self):
+        self._engine = quandl
 
-        self.set_connection(quandl.ApiConfig)
-
-    def request(self, **kwargs):
+    def request(self, query, *args, **kwargs):
         """Request table data from quandl
 
         Args:
-            **kwargs: keyword arguments for quandl request.
-                query: table to get data from.
-                filter: dictionary of filters for data. Depends on table.
-                columns: columns to select.
+            query (str): table to get data from.
+            *args, **kwargs: keyword arguments for quandl request.
 
         Raises:
             IOError: if api key is not set.
@@ -80,30 +173,18 @@ class QuandlAPI(External):
         if not self.check():
             raise IOError("Connection is not valid")
 
-        filters = kwargs.get("filters", {})
-
-        if not isinstance(filters, dict):
-            raise ValueError("'filters' keyword argument must be a \
-                dictionary of valid Qaudnl column filters")
-
-        # set up queue options
-        qopts = dict()
-
-        if "columns" in kwargs:
-            qopts["columns"] = kwargs["columns"]
-
-        return quandl.get_table(kwargs["query"],
-                                ticker=kwargs.get("ticker", None),
-                                paginate=True,
-                                qopts=qopts,
-                                **filters)
+        return self.engine.get_table(query,
+                                     *args,
+                                     paginate=True,
+                                     **kwargs)
 
     def check(self):
         """Check if the api key is set"""
-        if self._connection.api_key is None:
+        if self.engine.ApiConfig.api_key is None:
             return self.authenticate()
-        else:
-            return True
+
+        return True
+
 
     def authenticate(self):
         """Set the api key if it is available in the config dictionary
@@ -111,8 +192,6 @@ class QuandlAPI(External):
         Returns:
             True if key was successfully set, False otherwise
         """
-        if "api_key" in self._config:
-            self._connection.api_key = self._config["api_key"]
-            return True
-        else:
-            return False
+        self.engine.ApiConfig.api_key = self.api_key
+
+        return True

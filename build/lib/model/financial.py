@@ -197,11 +197,10 @@ class MakeEfficientFrontier(MakeCriticalLine):
 
         # dropping levels are allowed as by this point both mu and S are
         # derived from STOCK_STREAM dataframes
-        ef = self.interpreter
-
-        ef.optimize((mu.droplevel(0), S.droplevel(0)),
-                    weight_bounds=self.weight_bounds,
-                    gamma=self.gamma)
+        ef = EfficientFrontier(mu.droplevel(0),
+                               S.droplevel(0),
+                               weight_bounds=self.weight_bounds,
+                               gamma=self.gamma)
 
         for obj in self._objectives:
             ef.add_objective(obj["func"], *obj["args"], **obj["kwargs"])
