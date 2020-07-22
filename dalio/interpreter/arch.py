@@ -32,6 +32,12 @@ class _ARCH(_Interpreter):
 
     This lays out the basic features and mechanics of an ARCH model and
     its subclasses can implement them to fit a specific package.
+
+    Attributes:
+        _engine: model functionality engine
+        _mean: mean model to be used on ARCH fitting
+        _volatility: volatility model
+        _distribution: data distribution function
     """
 
     def __init__(self):

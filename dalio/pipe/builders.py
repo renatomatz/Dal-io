@@ -142,11 +142,6 @@ class PandasLinearModel(PipeBuilder):
     which linear model should be used to fit the data.
     """
 
-    _STRATEGIES = {
-        "LinearRegression": LinearRegression
-    }
-    # TODO: make this agnostic to upper or lower case
-
     def __init__(self):
         """Initialize instance
 
@@ -169,7 +164,7 @@ class PandasLinearModel(PipeBuilder):
         """
         X = np.arange(len(data.index)).reshape([-1, 1])
         y = data.to_numpy()
-        return self.build_model(data).fit(X, y)
+        return self.build_model((X, y))
 
     def build_model(self, data, **kwargs):
         """Build model by returning the chosen model and initialization
@@ -179,12 +174,12 @@ class PandasLinearModel(PipeBuilder):
             Unfitted linear model
         """
         strategy = self._pieces["strategy"]
-        lm = PandasLinearModel._STRATEGIES[strategy.name](
+        return self.interpreter.fit(
+            data,
+            strategy.name,
             *strategy.args,
             **strategy.kwargs
         )
-
-        return lm
 
 
 class CovShrink(PipeBuilder):
