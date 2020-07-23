@@ -1,0 +1,180 @@
+dalio package
+*************
+
+
+Subpackages
+===========
+
+* dalio.application package
+
+  * Submodules
+
+  * dalio.application.application module
+
+  * dalio.application.graphers module
+
+  * dalio.application.printers module
+
+  * Module contents
+
+* dalio.base package
+
+  * Submodules
+
+  * dalio.base.builder module
+
+  * dalio.base.constants module
+
+  * dalio.base.datadef module
+
+  * dalio.base.memory module
+
+  * dalio.base.node module
+
+  * dalio.base.transformer module
+
+  * Module contents
+
+* dalio.external package
+
+  * Submodules
+
+  * dalio.external.external module
+
+  * dalio.external.file module
+
+  * dalio.external.image module
+
+  * dalio.external.web module
+
+  * Module contents
+
+* dalio.model package
+
+  * Submodules
+
+  * dalio.model.basic module
+
+  * dalio.model.financial module
+
+  * dalio.model.model module
+
+  * dalio.model.statistical module
+
+  * Module contents
+
+* dalio.mods package
+
+  * Module contents
+
+* dalio.pipe package
+
+  * Submodules
+
+  * dalio.pipe.builders module
+
+  * dalio.pipe.col_generation module
+
+  * dalio.pipe.forecast module
+
+  * dalio.pipe.pipe module
+
+  * dalio.pipe.select module
+
+  * Module contents
+
+* dalio.translator package
+
+  * Submodules
+
+  * dalio.translator.file module
+
+  * dalio.translator.pdr module
+
+  * dalio.translator.quandl module
+
+  * dalio.translator.translator module
+
+  * Module contents
+
+* dalio.util package
+
+  * Submodules
+
+  * dalio.util.level_utils module
+
+  * dalio.util.plotting_utils module
+
+  * dalio.util.processing_utils module
+
+  * dalio.util.transformation_utils module
+
+  * dalio.util.translation_utils module
+
+  * Module contents
+
+* dalio.validator package
+
+  * Submodules
+
+  * dalio.validator.array_val module
+
+  * dalio.validator.base_val module
+
+  * dalio.validator.pandas_val module
+
+  * dalio.validator.presets module
+
+  * dalio.validator.validator module
+
+  * Module contents
+
+
+Submodules
+==========
+
+
+dalio.ops module
+================
+
+Define various operations
+
+dalio.ops.get_comps_by_sic(data, ticker, max_ticks=None)
+
+   Get an equity’s comps based on market cap and sic code similarity
+
+   This has the major flaw of getting too many comps for common
+   industries.
+
+   Parameters:
+      * **data** (*pd.DataFrame*) – data containing all possible
+        comparisson candidates.
+
+      * **ticker** (*str*) – ticker of main stock.
+
+      * **max_ticks** (*int*) – maximum number of tickers to return.
+
+   Raises:
+      **KeyError** – if stock is not present in data.
+
+dalio.ops.index_cols(df, i=100)
+
+   Index columns at some value
+
+dalio.ops.risk_metrics(data, lam, ignore_first=True)
+
+   Apply the basic RiskMetrics (EWMA) continuous volatility measure to
+   a a dataframe
+
+   Parameters:
+      * **lam** (*float*) – lambda parameter
+
+      * **ignore_first** (*bool*) – whether to ignore the first row.
+        This is often the case after a change pipe.
+
+   Returns:
+      A copy of data with the continuous volatility of each value
+
+
+Module contents
+===============

@@ -1,0 +1,2593 @@
+dalio.pipe package
+******************
+
+
+Submodules
+==========
+
+
+dalio.pipe.builders module
+==========================
+
+Builder Pipes
+
+class dalio.pipe.builders.CovShrink(frequency=252)
+
+   Bases: "dalio.pipe.pipe.PipeBuilder"
+
+   Perform Covariance Shrinkage on data
+
+   Builder with a single piece: shirnkage. Shrinkage defines what kind
+   of shrinkage to apply on a resultant covariance matrix. If none is
+   set, covariance will not be shrunk.
+
+   frequency
+
+      data time period frequency
+
+      Type:
+         int
+
+   build_model(data, **kwargs)
+
+      Builds Covariance Srhinkage object and returns selected
+      shrinkage strategy
+
+      Returns:
+         Function fitted on the data.
+
+   check_name(param, name)
+
+      Check if name and parameter combination is valid.
+
+      This will always be called upon setting a new piece to ensure
+      this piece is present dictionary and that the name is valid.
+      Subclasses will often override this method to implement the name
+      checks in accordance to their specific name parameter
+      combination options. Notice that checks cannot be done on
+      arguments before running the _Builder. This also can be called
+      from outside of a _Builder instance to check for the validity of
+      settings.
+
+      Parameters:
+         * **piece** (*str*) -- name of the key in the piece
+           dictionary.
+
+         * **name** (*str*) -- name option to be set to the piece.
+
+   copy(*args, **kwargs)
+
+      Makes a copy of transformer, copying its attributes to a new
+      instance.
+
+      This copy should essentially create a new transformation node,
+      not an entire new graph, so the _source attribute of the
+      returned instance should be assigned without being copied. This
+      is also made to be built upon by subclasses, such that only new
+      attributes need to be added to a class' copy method.
+
+      Parameters:
+         * ***args** -- Positional arguments to be passed to
+           initialize copy
+
+         * ****kwargs** -- Keyword arguments to be passed to
+           initialize copy
+
+      Returns:
+         A copy of this _Transformer instance with copies of necessary
+         attributes and empty input.
+
+   frequency: int = None
+
+   transform(data, **kwargs)
+
+      Build model using data get results.
+
+      Returns:
+         A covariance matrix
+
+class dalio.pipe.builders.ExpectedReturns
+
+   Bases: "dalio.pipe.pipe.PipeBuilder"
+
+   Get stock's time series expected returns.
+
+   Builder with a single piece: return_model. return_model is what
+   model to get the expected returns from.
+
+   build_model(data, **kwargs)
+
+      Assemble pieces into a model given some data
+
+      The data will opten be optional, but several builder models will
+      require it to be fitted on initialization. Which further shows
+      why builders are necessary for context-agnostic graphs.
+
+      Parameters:
+         * **data** -- data that might be used to build the model.
+
+         * ****kwargs** -- any additional argument used in building
+
+   check_name(param, name)
+
+      Check if name and parameter combination is valid.
+
+      This will always be called upon setting a new piece to ensure
+      this piece is present dictionary and that the name is valid.
+      Subclasses will often override this method to implement the name
+      checks in accordance to their specific name parameter
+      combination options. Notice that checks cannot be done on
+      arguments before running the _Builder. This also can be called
+      from outside of a _Builder instance to check for the validity of
+      settings.
+
+      Parameters:
+         * **piece** (*str*) -- name of the key in the piece
+           dictionary.
+
+         * **name** (*str*) -- name option to be set to the piece.
+
+   transform(data, **kwargs)
+
+      Builds model using data and gets expected returns from it
+
+class dalio.pipe.builders.ExpectedShortfall(quantiles=None)
+
+   Bases: "dalio.pipe.builders.ValueAtRisk"
+
+   Get expected shortfal for given quantiles
+
+   See base class for more in depth explanation.
+
+   transform(data, **kwargs)
+
+      Get the value at risk given by an arch model and calculate the
+      expected shortfall at given quantiles.
+
+class dalio.pipe.builders.MakeARCH
+
+   Bases: "dalio.pipe.pipe.PipeBuilder"
+
+   Build arch model and make it based on input data.
+
+   This class allows for the creation of arch models by configuring
+   three pieces: the mean, volatility and distribution. These are set
+   after initialization through the _Builder interface.
+
+   _piece
+
+      see _Builder class.
+
+      Type:
+         list
+
+   assimilate(model)
+
+      Assimilate core pieces of an existent ARCH Model.
+
+      Assimilation means setting this model's' pieces in accordance to
+      an existing model's pieces. Assimilation is shallow, so only the
+      main pieces are assimilated, not their parameters.
+
+      Parameters:
+         **model** (*ARCHModel*) -- Existing ARCH Model.
+
+   build_model(data, **kwargs)
+
+      Build ARCH Model using data, set pieces and their arguments
+
+      Returns:
+         A built arch model from the arch package.
+
+   transform(data, **kwargs)
+
+      Build model with sourced data
+
+class dalio.pipe.builders.OptimumWeights
+
+   Bases: "dalio.pipe.pipe.PipeBuilder"
+
+   Get optimum portfolio weights from an efficient frontier or CLA.
+   This is also a builder with one piece: strategy. The strategy piece
+   refers to the optimization strategy.
+
+   build_model(data, **kwargs)
+
+      Assemble pieces into a model given some data
+
+      The data will opten be optional, but several builder models will
+      require it to be fitted on initialization. Which further shows
+      why builders are necessary for context-agnostic graphs.
+
+      Parameters:
+         * **data** -- data that might be used to build the model.
+
+         * ****kwargs** -- any additional argument used in building
+
+   check_name(param, name)
+
+      Check if name and parameter combination is valid.
+
+      This will always be called upon setting a new piece to ensure
+      this piece is present dictionary and that the name is valid.
+      Subclasses will often override this method to implement the name
+      checks in accordance to their specific name parameter
+      combination options. Notice that checks cannot be done on
+      arguments before running the _Builder. This also can be called
+      from outside of a _Builder instance to check for the validity of
+      settings.
+
+      Parameters:
+         * **piece** (*str*) -- name of the key in the piece
+           dictionary.
+
+         * **name** (*str*) -- name option to be set to the piece.
+
+   transform(data, **kwargs)
+
+      Get efficient frontier, fit it to model and get weights
+
+class dalio.pipe.builders.PandasLinearModel
+
+   Bases: "dalio.pipe.pipe.PipeBuilder"
+
+   Create a linear model from input pandas dataframe, using its index
+   as the X value.
+
+   This builder is made up of a single piece: strategy. This piece
+   sets which linear model should be used to fit the data.
+
+   build_model(data, **kwargs)
+
+      Build model by returning the chosen model and initialization
+      parameters
+
+      Returns:
+         Unfitted linear model
+
+   transform(data, **kwargs)
+
+      Set up fitting parameters and fit built model.
+
+      Returns:
+         Fitted linear model
+
+class dalio.pipe.builders.StockComps(strategy='sic_code', max_ticks=6)
+
+   Bases: "dalio.pipe.pipe.Pipe"
+
+   Get a list of a ticker's comparable stocks
+
+   This can utilize any strategy of getting stock comparative
+   companies and return up to a certain ammount of comps.
+
+   _strategy
+
+      comparisson strategy name or function.
+
+      Type:
+         str, callable
+
+   max_ticks
+
+      maximum number of tickers to return.
+
+      Type:
+         int
+
+   copy(*args, **kwargs)
+
+      Makes a copy of transformer, copying its attributes to a new
+      instance.
+
+      This copy should essentially create a new transformation node,
+      not an entire new graph, so the _source attribute of the
+      returned instance should be assigned without being copied. This
+      is also made to be built upon by subclasses, such that only new
+      attributes need to be added to a class' copy method.
+
+      Parameters:
+         * ***args** -- Positional arguments to be passed to
+           initialize copy
+
+         * ****kwargs** -- Keyword arguments to be passed to
+           initialize copy
+
+      Returns:
+         A copy of this _Transformer instance with copies of necessary
+         attributes and empty input.
+
+   max_ticks: int = None
+
+   run(**kwargs)
+
+      Gets ticker argument and passes an empty ticker request to
+      transform.
+
+      Empty ticker requests are supposed to return all tickers
+      available in a source, so this allows the compariisson to be
+      made in all stocks from a certain source.
+
+      Raises:
+         **ValueError** -- if ticker is more than a single symbol.
+
+   transform(data, **kwargs)
+
+      Get comps according to the set strategy
+
+class dalio.pipe.builders.ValueAtRisk(quantiles=None)
+
+   Bases: "dalio.pipe.pipe.Pipe"
+
+   Get the value at risk for data based on an ARHC Model
+
+   This takes in an ARCH Model maker, not data, which might be
+   unintuitive, yet necessary, as this allows users to modify the ARCH
+   model generating these values separately. A useful strategy that
+   allows for this is using a pipeline with an arch model as its first
+   input and a ValueAtRisk instance as its second layer. This allows
+   us to treat the PipeLine as a data input with VaR output and still
+   have control over the ARCH Model pieces (given you left a local
+   variable for it behind.)
+
+   _quantiles
+
+      list of quantiles to check the value at risk for.
+
+      Type:
+         list
+
+   copy(*args, **kwargs)
+
+      Makes a copy of transformer, copying its attributes to a new
+      instance.
+
+      This copy should essentially create a new transformation node,
+      not an entire new graph, so the _source attribute of the
+      returned instance should be assigned without being copied. This
+      is also made to be built upon by subclasses, such that only new
+      attributes need to be added to a class' copy method.
+
+      Parameters:
+         * ***args** -- Positional arguments to be passed to
+           initialize copy
+
+         * ****kwargs** -- Keyword arguments to be passed to
+           initialize copy
+
+      Returns:
+         A copy of this _Transformer instance with copies of necessary
+         attributes and empty input.
+
+   transform(data, **kwargs)
+
+      Get values at risk at each quantile and each results maximum
+      exedence from the mean.
+
+      The maximum exedence columns tells which quantile the loss is
+      placed on. The word "maximum" might be misleading as it is
+      compared to the minimum quantile, however, this definition is
+      accurate as the column essentially answers the question: "what
+      quantile furthest away from the mean does the data exeed?"
+
+      Thank you for the creators of the arch package for the beautiful
+      visualizations and ideas!
+
+      Raises:
+         * **ValueError** -- if ARCH model does not have returns. This
+           is often     the case for unfitted models. Ensure your
+           graph is complete.
+
+         * **TypeError** -- if ARCH model has unsuported distribution
+           parameter.
+
+
+dalio.pipe.col_generation module
+================================
+
+Implement transformations that generates new colums from exising ones
+
+class dalio.pipe.col_generation.Bin(bin_map, *args, bin_strat='normal', columns=None, new_cols=None, drop=True, reintegrate=False, **kwargs)
+
+   Bases: "dalio.pipe.col_generation.Custom"
+
+   A pipeline stage that adds a binned version of a column or columns.
+
+   If drop is set to True the new columns retain the names of the
+   source columns; otherwise, the resulting column gain the suffix
+   '_bin'
+
+   bin_map
+
+      implicitly projects a left-most bin containing all elements
+      smaller than the left-most end point and a right-most bin
+      containing all elements larger that the right-most end point.
+      For example, the list [0, 5, 8] is interpreted as the bins (-∞,
+      0), [0-5), [5-8) and [8, ∞).
+
+      Type:
+         array-like
+
+   bin_strat
+
+      binning strategy to use. "normal" uses the default binning
+      strategy per a list of value separations or number of bins.
+      "quantile" uses a list of quantiles or a preset quantile range
+      (4 for quartiles and 10 for deciles).
+
+      Type:
+         str, default "normal"
+
+   -[ Example ]-
+
+   >>> import pandas as pd; import pdpipe as pdp;
+   >>> df = pd.DataFrame([[-3],[4],[5], [9]], [1,2,3, 4], ['speed'])
+   >>> pdp.Bin({'speed': [5]}, drop=False).apply(df)
+      speed speed_bin
+   1     -3        <5
+   2      4        <5
+   3      5        5≤
+   4      9        5≤
+   >>> pdp.Bin({'speed': [0,5,8]}, drop=False).apply(df)
+      speed speed_bin
+   1     -3        <0
+   2      4       0-5
+   3      5       5-8
+   4      9        8≤
+
+class dalio.pipe.col_generation.BoxCox(*args, columns=None, new_cols=None, non_neg=False, const_shift=None, drop=True, reintegrate=False, **kwargs)
+
+   Bases: "dalio.pipe.col_generation.Custom"
+
+   A pipeline stage that applies the BoxCox transformation on data.
+
+   const_shift
+
+      If given, each transformed column is first shifted by this
+      constant. If non_neg is True then that transformation is applied
+      first, and only then is the column shifted by this constant.
+
+      Type:
+         int, optional
+
+class dalio.pipe.col_generation.Change(*args, strategy='diff', columns=None, new_cols=None, drop=True, reintegrate=False, **kwargs)
+
+   Bases: "dalio.pipe.col_generation._ColGeneration"
+
+   Perform item-by-item change
+
+   This has two main forms, percentage change and absolute change
+   (difference).
+
+   _strategy
+
+      change strategy.
+
+      Type:
+         str, callable
+
+   copy(*args, **kwargs)
+
+      Makes a copy of transformer, copying its attributes to a new
+      instance.
+
+      This copy should essentially create a new transformation node,
+      not an entire new graph, so the _source attribute of the
+      returned instance should be assigned without being copied. This
+      is also made to be built upon by subclasses, such that only new
+      attributes need to be added to a class' copy method.
+
+      Parameters:
+         * ***args** -- Positional arguments to be passed to
+           initialize copy
+
+         * ****kwargs** -- Keyword arguments to be passed to
+           initialize copy
+
+      Returns:
+         A copy of this _Transformer instance with copies of necessary
+         attributes and empty input.
+
+class dalio.pipe.col_generation.Custom(func, *args, columns=None, new_cols=None, strategy='apply', axis=0, drop=True, reintegrate=False, **kwargs)
+
+   Bases: "dalio.pipe.col_generation._ColGeneration"
+
+   Apply custom function.
+
+   strategy
+
+      strategy for applying value function. One of ["apply",
+      "transform", "agg", "pipe"]
+
+      Type:
+         str, default "pipe"
+
+   -[ Example ]-
+
+   >>> import pandas as pd; from dalio.pipe import Custom;
+   >>> data = [[3, 2143], [10, 1321], [7, 1255]]
+   >>> df = pd.DataFrame(data, [1,2,3], ['years', 'avg_revenue'])
+   >>> total_rev = lambda row: row['years'] * row['avg_revenue']
+   >>> add_total_rev = Custom(total_rev, 'total_revenue', axis=1)
+   >>> add_total_rev.transform(df)
+      years  avg_revenue  total_revenue
+   1      3         2143           6429
+   2     10         1321          13210
+   3      7         1255           8785
+   >>> def halfer(row):
+   ...     new = {'year/2': row['years']/2,
+   ...            'rev/2': row['avg_revenue']/2}
+   ...     return pd.Series(new)
+   >>> half_cols = Custom(halfer, axis=1, drop=False)
+   >>> half_cols.transform(df)
+      years  avg_revenue   rev/2  year/2
+   1      3         2143  1071.5     1.5
+   2     10         1321   660.5     5.0
+   3      7         1255   627.5     3.5
+
+   >>> data = [[3, 3], [2, 4], [1, 5]]
+   >>> df = pd.DataFrame(data, [1,2,3], ["A","B"])
+   >>> func = lambda df: df['A'] == df['B']
+   >>> add_equal = Custom(func, "A==B", strategy="pipe", drop=False)
+   >>> add_equal.transform(df)
+      A  B   A==B
+   1  3  3   True
+   2  2  4  False
+   3  1  5  False
+
+   copy(*args, **kwargs)
+
+      Makes a copy of transformer, copying its attributes to a new
+      instance.
+
+      This copy should essentially create a new transformation node,
+      not an entire new graph, so the _source attribute of the
+      returned instance should be assigned without being copied. This
+      is also made to be built upon by subclasses, such that only new
+      attributes need to be added to a class' copy method.
+
+      Parameters:
+         * ***args** -- Positional arguments to be passed to
+           initialize copy
+
+         * ****kwargs** -- Keyword arguments to be passed to
+           initialize copy
+
+      Returns:
+         A copy of this _Transformer instance with copies of necessary
+         attributes and empty input.
+
+class dalio.pipe.col_generation.CustomByCols(func, *args, strategy='apply', columns=None, new_cols=None, drop=True, reintegrate=False, **kwargs)
+
+   Bases: "dalio.pipe.col_generation.Custom"
+
+   A pipeline stage applying a function to individual columns
+   iteratively.
+
+   func
+
+      The function to be applied to each element of the given columns.
+
+      Type:
+         function
+
+   strategy
+
+      Application strategy. Different from Custom class' strategy
+      parameter (which here is kept at "apply") as this will now be
+      done on a series (each column). Extra care should be taken to
+      ensure resulting column lengths match.
+
+      Type:
+         str
+
+   -[ Example ]-
+
+   >>> import pandas as pd; import pdpipe as pdp; import math;
+   >>> data = [[3.2, "acd"], [7.2, "alk"], [12.1, "alk"]]
+   >>> df = pd.DataFrame(data, [1,2,3], ["ph","lbl"])
+   >>> round_ph = pdp.ApplyByCols("ph", math.ceil)
+   >>> round_ph(df)
+      ph  lbl
+   1   4  acd
+   2   8  alk
+   3  13  alk
+
+class dalio.pipe.col_generation.Index(index_at, *args, columns=None, new_cols=None, drop=True, reintegrate=False, **kwargs)
+
+   Bases: "dalio.pipe.col_generation._ColGeneration"
+
+   copy(*args, **kwargs)
+
+      Makes a copy of transformer, copying its attributes to a new
+      instance.
+
+      This copy should essentially create a new transformation node,
+      not an entire new graph, so the _source attribute of the
+      returned instance should be assigned without being copied. This
+      is also made to be built upon by subclasses, such that only new
+      attributes need to be added to a class' copy method.
+
+      Parameters:
+         * ***args** -- Positional arguments to be passed to
+           initialize copy
+
+         * ****kwargs** -- Keyword arguments to be passed to
+           initialize copy
+
+      Returns:
+         A copy of this _Transformer instance with copies of necessary
+         attributes and empty input.
+
+class dalio.pipe.col_generation.Log(*args, columns=None, new_cols=None, non_neg=False, const_shift=None, drop=True, reintegrate=False, **kwargs)
+
+   Bases: "dalio.pipe.col_generation.Custom"
+
+   A pipeline stage that log-transforms numeric data.
+
+   non_neg
+
+      If True, each transformed column is first shifted by smallest
+      negative value it includes (non-negative columns are thus not
+      shifted).
+
+      Type:
+         bool, default False
+
+   const_shift
+
+      If given, each transformed column is first shifted by this
+      constant. If non_neg is True then that transformation is applied
+      first, and only then is the column shifted by this constant.
+
+      Type:
+         int, optional
+
+   -[ Example ]-
+
+   >>> import pandas as pd; import pdpipe as pdp;
+   >>> data = [[3.2, "acd"], [7.2, "alk"], [12.1, "alk"]]
+   >>> df = pd.DataFrame(data, [1,2,3], ["ph","lbl"])
+   >>> log_stage = pdp.Log("ph", drop=True)
+   >>> log_stage(df)
+            ph  lbl
+   1  1.163151  acd
+   2  1.974081  alk
+   3  2.493205  alk
+
+class dalio.pipe.col_generation.MapColVals(value_map, *args, columns=None, new_cols=None, drop=True, reintegrate=False, **kwargs)
+
+   Bases: "dalio.pipe.col_generation.Custom"
+
+   A pipeline stage that reintegrates the values of a column by a map.
+
+   value_map
+
+      A dictionary mapping existing values to new ones. Values not in
+      the dictionary as keys will be converted to NaN. If a function
+      is given, it is applied element-wise to given columns. If a
+      Series is given, values are mapped by its index to its values.
+
+      Type:
+         dict, function or pandas.Series
+
+   -[ Example ]-
+
+   >>> import pandas as pd; import pdpipe as pdp;
+   >>> df = pd.DataFrame([[1], [3], [2]], ['UK', 'USSR', 'US'], ['Medal'])
+   >>> value_map = {1: 'Gold', 2: 'Silver', 3: 'Bronze'}
+   >>> pdp.MapColVals('Medal', value_map).apply(df)
+          Medal
+   UK      Gold
+   USSR  Bronze
+   US    Silver
+
+class dalio.pipe.col_generation.Period(period, *args, agg_func=<function mean>, columns=None, new_cols=None, axis=0, drop=True, reintegrate=False, **kwargs)
+
+   Bases: "dalio.pipe.col_generation._ColGeneration"
+
+   Resample input time series data to a different period
+
+      Attributes:
+         agg_func (callable): function to aggregate data to one
+         period.
+
+   # Quandl Input
+         Default set to np.mean.
+
+      _period (str): period to resample data to. Can be either daily,
+         monthly, quarterly or yearly.
+
+   agg_func: Callable[[Iterable], Any] = None
+
+   copy(*args, **kwargs)
+
+      Makes a copy of transformer, copying its attributes to a new
+      instance.
+
+      This copy should essentially create a new transformation node,
+      not an entire new graph, so the _source attribute of the
+      returned instance should be assigned without being copied. This
+      is also made to be built upon by subclasses, such that only new
+      attributes need to be added to a class' copy method.
+
+      Parameters:
+         * ***args** -- Positional arguments to be passed to
+           initialize copy
+
+         * ****kwargs** -- Keyword arguments to be passed to
+           initialize copy
+
+      Returns:
+         A copy of this _Transformer instance with copies of necessary
+         attributes and empty input.
+
+class dalio.pipe.col_generation.Rolling(func, *args, columns=None, new_cols=None, rolling_window=2, axis=0, drop=True, reintegrate=False, **kwargs)
+
+   Bases: "dalio.pipe.col_generation._ColGeneration"
+
+   Apply rolling function
+
+   rolling_window
+
+      rolling window to apply function. If none, no rolling window is
+      applied.
+
+      Type:
+         int, defailt None
+
+   copy(*args, **kwargs)
+
+      Makes a copy of transformer, copying its attributes to a new
+      instance.
+
+      This copy should essentially create a new transformation node,
+      not an entire new graph, so the _source attribute of the
+      returned instance should be assigned without being copied. This
+      is also made to be built upon by subclasses, such that only new
+      attributes need to be added to a class' copy method.
+
+      Parameters:
+         * ***args** -- Positional arguments to be passed to
+           initialize copy
+
+         * ****kwargs** -- Keyword arguments to be passed to
+           initialize copy
+
+      Returns:
+         A copy of this _Transformer instance with copies of necessary
+         attributes and empty input.
+
+class dalio.pipe.col_generation.StockReturns(columns=None, new_cols=None, drop=True, reintegrate=False)
+
+   Bases: "dalio.pipe.col_generation._ColGeneration"
+
+   Perform percent change and minor aesthetic changes to data
+
+
+dalio.pipe.forecast module
+==========================
+
+Transformations makes forecasts based on data
+
+class dalio.pipe.forecast.Forecast(horizon=10)
+
+   Bases: "dalio.pipe.pipe.Pipe"
+
+   Generalized forecasting class.
+
+   This should be used mostly for subclassing or very generic
+   forecasting interfaces.
+
+   horizon
+
+      how many steps ahead to forecast
+
+      Type:
+         int
+
+   horizon: int = None
+
+   transform(data, **kwargs)
+
+      Return forecast of data
+
+class dalio.pipe.forecast.GARCHForecast(start=None, horizon=1)
+
+   Bases: "dalio.pipe.forecast.Forecast"
+
+   Forecast data based on a fitted GARCH model
+
+   _start
+
+      forecast start time and date.
+
+      Type:
+         pd.Timestamp
+
+   transform(data, **kwargs)
+
+      Make a mean, variance and residual variance forecast.
+
+      Forecast will be made for the specified horizon starting at the
+      specified time. This means that will only get data for the steps
+      starting at the specified start date and the steps after it.
+
+      Returns:
+         A DataFrame with the columns MEAN, VARIANCE and
+         RESIDUAL_VARIANCE for the time horizon after the start date.
+
+
+dalio.pipe.pipe module
+======================
+
+Defines the Pipe and PipeLine classes
+
+Pipes are perhaps the most common classes in graphs and represent any
+transformation with one input and one output. Pipes` main
+functionality revolves around the .transform() method, which actually
+applies a transformation to data retrieved from a source. Pipes must
+also implement propper data checks by adding descriptions to their
+source.
+
+class dalio.pipe.pipe.Pipe
+
+   Bases: "dalio.base.transformer._Transformer"
+
+   Pipes represend data modifications with one internal input and one
+   internal output.
+
+   _source
+
+      input data definition
+
+      Type:
+         _DataDef
+
+   copy(*args, **kwargs)
+
+      Makes a copy of transformer, copying its attributes to a new
+      instance.
+
+      This copy should essentially create a new transformation node,
+      not an entire new graph, so the _source attribute of the
+      returned instance should be assigned without being copied. This
+      is also made to be built upon by subclasses, such that only new
+      attributes need to be added to a class' copy method.
+
+      Parameters:
+         * ***args** -- Positional arguments to be passed to
+           initialize copy
+
+         * ****kwargs** -- Keyword arguments to be passed to
+           initialize copy
+
+      Returns:
+         A copy of this _Transformer instance with copies of necessary
+         attributes and empty input.
+
+   get_input()
+
+      Return the input transformer
+
+   pipeline(*args)
+
+      Returns a PipeLine instance with self as the input source and
+      any other Pipe instances as part of its pipeline.
+
+      Parameters:
+         ***args** -- any additional Pipe to be added to the pipeline,
+         in that order.
+
+   run(**kwargs)
+
+      Get data from source, transform it, and return it
+
+      This will often be left alone unless there are specific keyword
+      arguments or checks done in addition to the actual
+      transformation. Keep in mind this is rare, as keyword arguments
+      are often required by Translators, and checks are performed by
+      DataDefs.
+
+   set_input(new_input)
+
+      Set the input data source in place.
+
+      Parameters:
+         **new_input** (*_Transformer*) -- new transformer to be set
+         as input to source connection.
+
+      Raises:
+         **TypeError** -- if new_input is not an instance of
+         _Transformer.
+
+   transform(data, **kwargs)
+
+      Apply a transformation to data returned from source.
+
+      This is where the bulk of funtionality in a Pipe lies. And
+      allows it to be highly customizable. This will often be the only
+      method needed to be overwriten in subclasses.
+
+      Parameters:
+         **data** -- data returned by source.
+
+   with_input(new_input)
+
+      Return copy of this transformer with the new data source.
+
+class dalio.pipe.pipe.PipeBuilder
+
+   Bases: "dalio.pipe.pipe.Pipe", "dalio.base.builder._Builder"
+
+   Hybrid builder type for complementing _Transformer instances.
+
+   These specify extra methods implemented by _Transformer instances.
+
+   copy(*args, **kwargs)
+
+      Makes a copy of transformer, copying its attributes to a new
+      instance.
+
+      This copy should essentially create a new transformation node,
+      not an entire new graph, so the _source attribute of the
+      returned instance should be assigned without being copied. This
+      is also made to be built upon by subclasses, such that only new
+      attributes need to be added to a class' copy method.
+
+      Parameters:
+         * ***args** -- Positional arguments to be passed to
+           initialize copy
+
+         * ****kwargs** -- Keyword arguments to be passed to
+           initialize copy
+
+      Returns:
+         A copy of this _Transformer instance with copies of necessary
+         attributes and empty input.
+
+   with_piece(param, name, *args, **kwargs)
+
+      Copy self and return with a new piece set
+
+class dalio.pipe.pipe.PipeLine(*args)
+
+   Bases: "dalio.pipe.pipe.Pipe"
+
+   Collection of Pipe transformations.
+
+   PipeLine instances represent multiple Pipe transformations being
+   performed consecutively. Pipelines essentially execute multiple
+   transformations one after the other, and thus do not check for data
+   integrity in between them; so keep in mind that order matters and
+   only the first data definition will be enforced.
+
+   pipeline
+
+      list of Pipe instaces this pipeline is composed of
+
+      Type:
+         list
+
+   copy(*args, **kwargs)
+
+      Make a copy of this Pipeline
+
+   extend(*args, deep=False)
+
+      Extend existing pipeline with one or more Pipe instances
+
+      Keep in mind that this will not mean that
+
+   transform(data, **kwargs)
+
+      Pass data sourced from first pipe through every Pipe`s
+      .transform() method in order.
+
+      Parameters:
+         **data** -- data sourced and checked from first source.
+
+
+dalio.pipe.select module
+========================
+
+Defines various ways of getting a subset of data based on some
+condition
+
+class dalio.pipe.select.ColDrop(columns)
+
+   Bases: "dalio.pipe.select._ColSelection"
+
+   A pipeline stage that drops columns by name.
+
+   Parameters:
+      **columns** (*str**, **iterable** or **callable*) -- The label,
+      or an iterable of labels, of columns to drop. Alternatively,
+      columns can be assigned a callable returning bool values for
+      pandas.Series objects; if this is the case, every column for
+      which it return True will be dropped.
+
+   -[ Example ]-
+
+   >>> import pandas as pd; import pdpipe as pdp;
+   >>> df = pd.DataFrame([[8,'a'],[5,'b']], [1,2], ['num', 'char'])
+   >>> pdp.ColDrop('num').apply(df)
+     char
+   1    a
+   2    b
+
+   transform(data, **kwargs)
+
+      Apply a transformation to data returned from source.
+
+      This is where the bulk of funtionality in a Pipe lies. And
+      allows it to be highly customizable. This will often be the only
+      method needed to be overwriten in subclasses.
+
+      Parameters:
+         **data** -- data returned by source.
+
+class dalio.pipe.select.ColRename(map_dict)
+
+   Bases: "dalio.pipe.pipe.Pipe"
+
+   A pipeline stage that renames a column or columns.
+
+   rename_map
+
+      Maps old column names to new ones.
+
+      Type:
+         dict
+
+   Example
+      >>> import pandas as pd; import pdpipe as pdp;
+      >>> df = pd.DataFrame([[8,'a'],[5,'b']], [1,2], ['num', 'char'])
+      >>> pdp.ColRename({'num': 'len', 'char': 'initial'}).apply(df)
+         len initial
+      1    8       a
+      2    5       b
+
+   copy(*args, **kwargs)
+
+      Makes a copy of transformer, copying its attributes to a new
+      instance.
+
+      This copy should essentially create a new transformation node,
+      not an entire new graph, so the _source attribute of the
+      returned instance should be assigned without being copied. This
+      is also made to be built upon by subclasses, such that only new
+      attributes need to be added to a class' copy method.
+
+      Parameters:
+         * ***args** -- Positional arguments to be passed to
+           initialize copy
+
+         * ****kwargs** -- Keyword arguments to be passed to
+           initialize copy
+
+      Returns:
+         A copy of this _Transformer instance with copies of necessary
+         attributes and empty input.
+
+   transform(data, **kwargs)
+
+      Apply a transformation to data returned from source.
+
+      This is where the bulk of funtionality in a Pipe lies. And
+      allows it to be highly customizable. This will often be the only
+      method needed to be overwriten in subclasses.
+
+      Parameters:
+         **data** -- data returned by source.
+
+class dalio.pipe.select.ColReorder(map_dict, level=0)
+
+   Bases: "dalio.pipe.select._ColSelection"
+
+   A pipeline stage that reorders columns.
+
+   positions
+
+      A mapping of column names to their desired positions after
+      reordering Columns not included in the mapping will maintain
+      their relative positions over the non-mapped colums.
+
+      Type:
+         dict
+
+   -[ Example ]-
+
+   >>> import pandas as pd; import pdpipe as pdp;
+   >>> df = pd.DataFrame([[8,4,3,7]], columns=['a', 'b', 'c', 'd'])
+   >>> pdp.ColReorder({'b': 0, 'c': 3}).apply(df)
+      b  a  d  c
+   0  4  8  7  3
+
+   copy(*args, **kwargs)
+
+      Makes a copy of transformer, copying its attributes to a new
+      instance.
+
+      This copy should essentially create a new transformation node,
+      not an entire new graph, so the _source attribute of the
+      returned instance should be assigned without being copied. This
+      is also made to be built upon by subclasses, such that only new
+      attributes need to be added to a class' copy method.
+
+      Parameters:
+         * ***args** -- Positional arguments to be passed to
+           initialize copy
+
+         * ****kwargs** -- Keyword arguments to be passed to
+           initialize copy
+
+      Returns:
+         A copy of this _Transformer instance with copies of necessary
+         attributes and empty input.
+
+   transform(data, **kwargs)
+
+      Apply a transformation to data returned from source.
+
+      This is where the bulk of funtionality in a Pipe lies. And
+      allows it to be highly customizable. This will often be the only
+      method needed to be overwriten in subclasses.
+
+      Parameters:
+         **data** -- data returned by source.
+
+class dalio.pipe.select.ColSelect(columns)
+
+   Bases: "dalio.pipe.select._ColSelection"
+
+   Select columns
+
+   transform(data, **kwargs)
+
+      Selects the specified columns or returns data as is if no column
+      was specified.
+
+      Returns:
+         Data of the same format as before but only only containing
+         the specified columns.
+
+class dalio.pipe.select.DateSelect(start=None, end=None)
+
+   Bases: "dalio.pipe.pipe.Pipe"
+
+   Select a date range.
+
+   This is commonly left as a local variable to control date range
+   being used at a piece of a graph.
+
+   _start
+
+      start date.
+
+      Type:
+         pd.Timestamp
+
+   _end
+
+      end date.
+
+      Type:
+         pd.Timestamp
+
+   copy(*args, **kwargs)
+
+      Makes a copy of transformer, copying its attributes to a new
+      instance.
+
+      This copy should essentially create a new transformation node,
+      not an entire new graph, so the _source attribute of the
+      returned instance should be assigned without being copied. This
+      is also made to be built upon by subclasses, such that only new
+      attributes need to be added to a class' copy method.
+
+      Parameters:
+         * ***args** -- Positional arguments to be passed to
+           initialize copy
+
+         * ****kwargs** -- Keyword arguments to be passed to
+           initialize copy
+
+      Returns:
+         A copy of this _Transformer instance with copies of necessary
+         attributes and empty input.
+
+   set_end(end)
+
+      Set the _end attribute
+
+   set_start(start)
+
+      Set the _start attribute
+
+   transform(data, **kwargs)
+
+      Slices time series into selected date range.
+
+      Returns:
+         Time series of the same format as input containing a subset
+         of the original dates.
+
+class dalio.pipe.select.DropNa(**kwargs)
+
+   Bases: "dalio.pipe.pipe.Pipe"
+
+   A pipeline stage that drops null values.
+
+   Supports all parameter supported by pandas.dropna function.
+
+   -[ Example ]-
+
+   >>> import pandas as pd; import pdpipe as pdp;
+   >>> df = pd.DataFrame([[1,4],[4,None],[1,11]], [1,2,3], ['a','b'])
+   >>> pdp.DropNa().apply(df)
+      a     b
+   1  1   4.0
+   3  1  11.0
+
+   transform(data, **kwargs)
+
+      Apply a transformation to data returned from source.
+
+      This is where the bulk of funtionality in a Pipe lies. And
+      allows it to be highly customizable. This will often be the only
+      method needed to be overwriten in subclasses.
+
+      Parameters:
+         **data** -- data returned by source.
+
+class dalio.pipe.select.FreqDrop(values, columns=None)
+
+   Bases: "dalio.pipe.select._ColValSelection"
+
+   A pipeline stage that drops rows by value frequency.
+
+   Parameters:
+      * **threshold** (*int*) -- The minimum frequency required for a
+        value to be kept.
+
+      * **column** (*str*) -- The name of the colums to check for the
+        given value frequency.
+
+   -[ Example ]-
+
+   >>> import pandas as pd; import pdpipe as pdp;
+   >>> df = pd.DataFrame([[1,4],[4,5],[1,11]], [1,2,3], ['a','b'])
+   >>> pdp.FreqDrop(2, 'a').apply(df)
+      a   b
+   1  1   4
+   3  1  11
+
+   transform(data, **kwargs)
+
+      Apply a transformation to data returned from source.
+
+      This is where the bulk of funtionality in a Pipe lies. And
+      allows it to be highly customizable. This will often be the only
+      method needed to be overwriten in subclasses.
+
+      Parameters:
+         **data** -- data returned by source.
+
+class dalio.pipe.select.RowDrop(conditions, columns=None, reduce_strat=None)
+
+   Bases: "dalio.pipe.select._ColSelection"
+
+   A pipeline stage that drop rows by callable conditions.
+
+   Parameters:
+      * **conditions** (*list-like** or **dict*) -- The list of
+        conditions that make a row eligible to be dropped. Each
+        condition must be a callable that take a cell value and return
+        a bool value. If a list of callables is given, the conditions
+        are checked for each column value of each row. If a dict
+        mapping column labels to callables is given, then each
+        condition is only checked for the column values of the
+        designated column.
+
+      * **reduce** (*'any'**, **'all'** or **'xor'**, **default
+        'any'*) -- Determines how row conditions are reduced. If set
+        to 'all', a row must satisfy all given conditions to be
+        dropped. If set to 'any', rows satisfying at least one of the
+        conditions are dropped. If set to 'xor', rows satisfying
+        exactly one of the conditions will be dropped. Set to 'any' by
+        default.
+
+      * **columns** (*str** or **iterable**, **optional*) -- The
+        label, or an iterable of labels, of columns. Optional. If
+        given, input conditions will be applied to the sub-dataframe
+        made up of these columns to determine which rows to drop.
+
+   -[ Example ]-
+
+   >>> import pandas as pd; import pdpipe as pdp;
+   >>> df = pd.DataFrame([[1,4],[4,5],[5,11]], [1,2,3], ['a','b'])
+   >>> pdp.RowDrop([lambda x: x < 2]).apply(df)
+      a   b
+   2  4   5
+   3  5  11
+   >>> pdp.RowDrop({'a': lambda x: x == 4}).apply(df)
+      a   b
+   1  1   4
+   3  5  11
+
+   transform(data, **kwargs)
+
+      Apply a transformation to data returned from source.
+
+      This is where the bulk of funtionality in a Pipe lies. And
+      allows it to be highly customizable. This will often be the only
+      method needed to be overwriten in subclasses.
+
+      Parameters:
+         **data** -- data returned by source.
+
+class dalio.pipe.select.ValDrop(values, columns=None)
+
+   Bases: "dalio.pipe.select._ColValSelection"
+
+   A pipeline stage that drops rows by value.
+
+   Parameters:
+      * **values** (*list-like*) -- A list of the values to drop.
+
+      * **columns** (*str** or **list-like**, **default None*) -- The
+        name, or an iterable of names, of columns to check for the
+        given values. If set to None, all columns are checked.
+
+   -[ Example ]-
+
+   >>> import pandas as pd; import pdpipe as pdp;
+   >>> df = pd.DataFrame([[1,4],[4,5],[18,11]], [1,2,3], ['a','b'])
+   >>> pdp.ValDrop([4], 'a').apply(df)
+       a   b
+   1   1   4
+   3  18  11
+   >>> pdp.ValDrop([4]).apply(df)
+       a   b
+   3  18  11
+
+   transform(data, **kwargs)
+
+      Apply a transformation to data returned from source.
+
+      This is where the bulk of funtionality in a Pipe lies. And
+      allows it to be highly customizable. This will often be the only
+      method needed to be overwriten in subclasses.
+
+      Parameters:
+         **data** -- data returned by source.
+
+class dalio.pipe.select.ValKeep(values, columns=None)
+
+   Bases: "dalio.pipe.select._ColValSelection"
+
+   A pipeline stage that keeps rows by value.
+
+   Parameters:
+      * **values** (*list-like*) -- A list of the values to keep.
+
+      * **columns** (*str** or **list-like**, **default None*) -- The
+        name, or an iterable of names, of columns to check for the
+        given values. If set to None, all columns are checked.
+
+   -[ Example ]-
+
+   >>> import pandas as pd; import pdpipe as pdp;
+   >>> df = pd.DataFrame([[1,4],[4,5],[5,11]], [1,2,3], ['a','b'])
+   >>> pdp.ValKeep([4, 5], 'a').apply(df)
+      a   b
+   2  4   5
+   3  5  11
+   >>> pdp.ValKeep([4, 5]).apply(df)
+      a  b
+   2  4  5
+
+   transform(data, **kwargs)
+
+      Apply a transformation to data returned from source.
+
+      This is where the bulk of funtionality in a Pipe lies. And
+      allows it to be highly customizable. This will often be the only
+      method needed to be overwriten in subclasses.
+
+      Parameters:
+         **data** -- data returned by source.
+
+
+Module contents
+===============
+
+class dalio.pipe.PipeLine(*args)
+
+   Bases: "dalio.pipe.pipe.Pipe"
+
+   Collection of Pipe transformations.
+
+   PipeLine instances represent multiple Pipe transformations being
+   performed consecutively. Pipelines essentially execute multiple
+   transformations one after the other, and thus do not check for data
+   integrity in between them; so keep in mind that order matters and
+   only the first data definition will be enforced.
+
+   pipeline
+
+      list of Pipe instaces this pipeline is composed of
+
+      Type:
+         list
+
+   copy(*args, **kwargs)
+
+      Make a copy of this Pipeline
+
+   extend(*args, deep=False)
+
+      Extend existing pipeline with one or more Pipe instances
+
+      Keep in mind that this will not mean that
+
+   transform(data, **kwargs)
+
+      Pass data sourced from first pipe through every Pipe`s
+      .transform() method in order.
+
+      Parameters:
+         **data** -- data sourced and checked from first source.
+
+class dalio.pipe.Custom(func, *args, columns=None, new_cols=None, strategy='apply', axis=0, drop=True, reintegrate=False, **kwargs)
+
+   Bases: "dalio.pipe.col_generation._ColGeneration"
+
+   Apply custom function.
+
+   strategy
+
+      strategy for applying value function. One of ["apply",
+      "transform", "agg", "pipe"]
+
+      Type:
+         str, default "pipe"
+
+   -[ Example ]-
+
+   >>> import pandas as pd; from dalio.pipe import Custom;
+   >>> data = [[3, 2143], [10, 1321], [7, 1255]]
+   >>> df = pd.DataFrame(data, [1,2,3], ['years', 'avg_revenue'])
+   >>> total_rev = lambda row: row['years'] * row['avg_revenue']
+   >>> add_total_rev = Custom(total_rev, 'total_revenue', axis=1)
+   >>> add_total_rev.transform(df)
+      years  avg_revenue  total_revenue
+   1      3         2143           6429
+   2     10         1321          13210
+   3      7         1255           8785
+   >>> def halfer(row):
+   ...     new = {'year/2': row['years']/2,
+   ...            'rev/2': row['avg_revenue']/2}
+   ...     return pd.Series(new)
+   >>> half_cols = Custom(halfer, axis=1, drop=False)
+   >>> half_cols.transform(df)
+      years  avg_revenue   rev/2  year/2
+   1      3         2143  1071.5     1.5
+   2     10         1321   660.5     5.0
+   3      7         1255   627.5     3.5
+
+   >>> data = [[3, 3], [2, 4], [1, 5]]
+   >>> df = pd.DataFrame(data, [1,2,3], ["A","B"])
+   >>> func = lambda df: df['A'] == df['B']
+   >>> add_equal = Custom(func, "A==B", strategy="pipe", drop=False)
+   >>> add_equal.transform(df)
+      A  B   A==B
+   1  3  3   True
+   2  2  4  False
+   3  1  5  False
+
+   copy(*args, **kwargs)
+
+      Makes a copy of transformer, copying its attributes to a new
+      instance.
+
+      This copy should essentially create a new transformation node,
+      not an entire new graph, so the _source attribute of the
+      returned instance should be assigned without being copied. This
+      is also made to be built upon by subclasses, such that only new
+      attributes need to be added to a class' copy method.
+
+      Parameters:
+         * ***args** -- Positional arguments to be passed to
+           initialize copy
+
+         * ****kwargs** -- Keyword arguments to be passed to
+           initialize copy
+
+      Returns:
+         A copy of this _Transformer instance with copies of necessary
+         attributes and empty input.
+
+class dalio.pipe.Rolling(func, *args, columns=None, new_cols=None, rolling_window=2, axis=0, drop=True, reintegrate=False, **kwargs)
+
+   Bases: "dalio.pipe.col_generation._ColGeneration"
+
+   Apply rolling function
+
+   rolling_window
+
+      rolling window to apply function. If none, no rolling window is
+      applied.
+
+      Type:
+         int, defailt None
+
+   copy(*args, **kwargs)
+
+      Makes a copy of transformer, copying its attributes to a new
+      instance.
+
+      This copy should essentially create a new transformation node,
+      not an entire new graph, so the _source attribute of the
+      returned instance should be assigned without being copied. This
+      is also made to be built upon by subclasses, such that only new
+      attributes need to be added to a class' copy method.
+
+      Parameters:
+         * ***args** -- Positional arguments to be passed to
+           initialize copy
+
+         * ****kwargs** -- Keyword arguments to be passed to
+           initialize copy
+
+      Returns:
+         A copy of this _Transformer instance with copies of necessary
+         attributes and empty input.
+
+class dalio.pipe.ColSelect(columns)
+
+   Bases: "dalio.pipe.select._ColSelection"
+
+   Select columns
+
+   transform(data, **kwargs)
+
+      Selects the specified columns or returns data as is if no column
+      was specified.
+
+      Returns:
+         Data of the same format as before but only only containing
+         the specified columns.
+
+class dalio.pipe.DateSelect(start=None, end=None)
+
+   Bases: "dalio.pipe.pipe.Pipe"
+
+   Select a date range.
+
+   This is commonly left as a local variable to control date range
+   being used at a piece of a graph.
+
+   _start
+
+      start date.
+
+      Type:
+         pd.Timestamp
+
+   _end
+
+      end date.
+
+      Type:
+         pd.Timestamp
+
+   copy(*args, **kwargs)
+
+      Makes a copy of transformer, copying its attributes to a new
+      instance.
+
+      This copy should essentially create a new transformation node,
+      not an entire new graph, so the _source attribute of the
+      returned instance should be assigned without being copied. This
+      is also made to be built upon by subclasses, such that only new
+      attributes need to be added to a class' copy method.
+
+      Parameters:
+         * ***args** -- Positional arguments to be passed to
+           initialize copy
+
+         * ****kwargs** -- Keyword arguments to be passed to
+           initialize copy
+
+      Returns:
+         A copy of this _Transformer instance with copies of necessary
+         attributes and empty input.
+
+   set_end(end)
+
+      Set the _end attribute
+
+   set_start(start)
+
+      Set the _start attribute
+
+   transform(data, **kwargs)
+
+      Slices time series into selected date range.
+
+      Returns:
+         Time series of the same format as input containing a subset
+         of the original dates.
+
+class dalio.pipe.ColDrop(columns)
+
+   Bases: "dalio.pipe.select._ColSelection"
+
+   A pipeline stage that drops columns by name.
+
+   Parameters:
+      **columns** (*str**, **iterable** or **callable*) -- The label,
+      or an iterable of labels, of columns to drop. Alternatively,
+      columns can be assigned a callable returning bool values for
+      pandas.Series objects; if this is the case, every column for
+      which it return True will be dropped.
+
+   -[ Example ]-
+
+   >>> import pandas as pd; import pdpipe as pdp;
+   >>> df = pd.DataFrame([[8,'a'],[5,'b']], [1,2], ['num', 'char'])
+   >>> pdp.ColDrop('num').apply(df)
+     char
+   1    a
+   2    b
+
+   transform(data, **kwargs)
+
+      Apply a transformation to data returned from source.
+
+      This is where the bulk of funtionality in a Pipe lies. And
+      allows it to be highly customizable. This will often be the only
+      method needed to be overwriten in subclasses.
+
+      Parameters:
+         **data** -- data returned by source.
+
+class dalio.pipe.ValDrop(values, columns=None)
+
+   Bases: "dalio.pipe.select._ColValSelection"
+
+   A pipeline stage that drops rows by value.
+
+   Parameters:
+      * **values** (*list-like*) -- A list of the values to drop.
+
+      * **columns** (*str** or **list-like**, **default None*) -- The
+        name, or an iterable of names, of columns to check for the
+        given values. If set to None, all columns are checked.
+
+   -[ Example ]-
+
+   >>> import pandas as pd; import pdpipe as pdp;
+   >>> df = pd.DataFrame([[1,4],[4,5],[18,11]], [1,2,3], ['a','b'])
+   >>> pdp.ValDrop([4], 'a').apply(df)
+       a   b
+   1   1   4
+   3  18  11
+   >>> pdp.ValDrop([4]).apply(df)
+       a   b
+   3  18  11
+
+   transform(data, **kwargs)
+
+      Apply a transformation to data returned from source.
+
+      This is where the bulk of funtionality in a Pipe lies. And
+      allows it to be highly customizable. This will often be the only
+      method needed to be overwriten in subclasses.
+
+      Parameters:
+         **data** -- data returned by source.
+
+class dalio.pipe.ValKeep(values, columns=None)
+
+   Bases: "dalio.pipe.select._ColValSelection"
+
+   A pipeline stage that keeps rows by value.
+
+   Parameters:
+      * **values** (*list-like*) -- A list of the values to keep.
+
+      * **columns** (*str** or **list-like**, **default None*) -- The
+        name, or an iterable of names, of columns to check for the
+        given values. If set to None, all columns are checked.
+
+   -[ Example ]-
+
+   >>> import pandas as pd; import pdpipe as pdp;
+   >>> df = pd.DataFrame([[1,4],[4,5],[5,11]], [1,2,3], ['a','b'])
+   >>> pdp.ValKeep([4, 5], 'a').apply(df)
+      a   b
+   2  4   5
+   3  5  11
+   >>> pdp.ValKeep([4, 5]).apply(df)
+      a  b
+   2  4  5
+
+   transform(data, **kwargs)
+
+      Apply a transformation to data returned from source.
+
+      This is where the bulk of funtionality in a Pipe lies. And
+      allows it to be highly customizable. This will often be the only
+      method needed to be overwriten in subclasses.
+
+      Parameters:
+         **data** -- data returned by source.
+
+class dalio.pipe.ColRename(map_dict)
+
+   Bases: "dalio.pipe.pipe.Pipe"
+
+   A pipeline stage that renames a column or columns.
+
+   rename_map
+
+      Maps old column names to new ones.
+
+      Type:
+         dict
+
+   Example
+      >>> import pandas as pd; import pdpipe as pdp;
+      >>> df = pd.DataFrame([[8,'a'],[5,'b']], [1,2], ['num', 'char'])
+      >>> pdp.ColRename({'num': 'len', 'char': 'initial'}).apply(df)
+         len initial
+      1    8       a
+      2    5       b
+
+   copy(*args, **kwargs)
+
+      Makes a copy of transformer, copying its attributes to a new
+      instance.
+
+      This copy should essentially create a new transformation node,
+      not an entire new graph, so the _source attribute of the
+      returned instance should be assigned without being copied. This
+      is also made to be built upon by subclasses, such that only new
+      attributes need to be added to a class' copy method.
+
+      Parameters:
+         * ***args** -- Positional arguments to be passed to
+           initialize copy
+
+         * ****kwargs** -- Keyword arguments to be passed to
+           initialize copy
+
+      Returns:
+         A copy of this _Transformer instance with copies of necessary
+         attributes and empty input.
+
+   transform(data, **kwargs)
+
+      Apply a transformation to data returned from source.
+
+      This is where the bulk of funtionality in a Pipe lies. And
+      allows it to be highly customizable. This will often be the only
+      method needed to be overwriten in subclasses.
+
+      Parameters:
+         **data** -- data returned by source.
+
+class dalio.pipe.DropNa(**kwargs)
+
+   Bases: "dalio.pipe.pipe.Pipe"
+
+   A pipeline stage that drops null values.
+
+   Supports all parameter supported by pandas.dropna function.
+
+   -[ Example ]-
+
+   >>> import pandas as pd; import pdpipe as pdp;
+   >>> df = pd.DataFrame([[1,4],[4,None],[1,11]], [1,2,3], ['a','b'])
+   >>> pdp.DropNa().apply(df)
+      a     b
+   1  1   4.0
+   3  1  11.0
+
+   transform(data, **kwargs)
+
+      Apply a transformation to data returned from source.
+
+      This is where the bulk of funtionality in a Pipe lies. And
+      allows it to be highly customizable. This will often be the only
+      method needed to be overwriten in subclasses.
+
+      Parameters:
+         **data** -- data returned by source.
+
+class dalio.pipe.FreqDrop(values, columns=None)
+
+   Bases: "dalio.pipe.select._ColValSelection"
+
+   A pipeline stage that drops rows by value frequency.
+
+   Parameters:
+      * **threshold** (*int*) -- The minimum frequency required for a
+        value to be kept.
+
+      * **column** (*str*) -- The name of the colums to check for the
+        given value frequency.
+
+   -[ Example ]-
+
+   >>> import pandas as pd; import pdpipe as pdp;
+   >>> df = pd.DataFrame([[1,4],[4,5],[1,11]], [1,2,3], ['a','b'])
+   >>> pdp.FreqDrop(2, 'a').apply(df)
+      a   b
+   1  1   4
+   3  1  11
+
+   transform(data, **kwargs)
+
+      Apply a transformation to data returned from source.
+
+      This is where the bulk of funtionality in a Pipe lies. And
+      allows it to be highly customizable. This will often be the only
+      method needed to be overwriten in subclasses.
+
+      Parameters:
+         **data** -- data returned by source.
+
+class dalio.pipe.ColReorder(map_dict, level=0)
+
+   Bases: "dalio.pipe.select._ColSelection"
+
+   A pipeline stage that reorders columns.
+
+   positions
+
+      A mapping of column names to their desired positions after
+      reordering Columns not included in the mapping will maintain
+      their relative positions over the non-mapped colums.
+
+      Type:
+         dict
+
+   -[ Example ]-
+
+   >>> import pandas as pd; import pdpipe as pdp;
+   >>> df = pd.DataFrame([[8,4,3,7]], columns=['a', 'b', 'c', 'd'])
+   >>> pdp.ColReorder({'b': 0, 'c': 3}).apply(df)
+      b  a  d  c
+   0  4  8  7  3
+
+   copy(*args, **kwargs)
+
+      Makes a copy of transformer, copying its attributes to a new
+      instance.
+
+      This copy should essentially create a new transformation node,
+      not an entire new graph, so the _source attribute of the
+      returned instance should be assigned without being copied. This
+      is also made to be built upon by subclasses, such that only new
+      attributes need to be added to a class' copy method.
+
+      Parameters:
+         * ***args** -- Positional arguments to be passed to
+           initialize copy
+
+         * ****kwargs** -- Keyword arguments to be passed to
+           initialize copy
+
+      Returns:
+         A copy of this _Transformer instance with copies of necessary
+         attributes and empty input.
+
+   transform(data, **kwargs)
+
+      Apply a transformation to data returned from source.
+
+      This is where the bulk of funtionality in a Pipe lies. And
+      allows it to be highly customizable. This will often be the only
+      method needed to be overwriten in subclasses.
+
+      Parameters:
+         **data** -- data returned by source.
+
+class dalio.pipe.RowDrop(conditions, columns=None, reduce_strat=None)
+
+   Bases: "dalio.pipe.select._ColSelection"
+
+   A pipeline stage that drop rows by callable conditions.
+
+   Parameters:
+      * **conditions** (*list-like** or **dict*) -- The list of
+        conditions that make a row eligible to be dropped. Each
+        condition must be a callable that take a cell value and return
+        a bool value. If a list of callables is given, the conditions
+        are checked for each column value of each row. If a dict
+        mapping column labels to callables is given, then each
+        condition is only checked for the column values of the
+        designated column.
+
+      * **reduce** (*'any'**, **'all'** or **'xor'**, **default
+        'any'*) -- Determines how row conditions are reduced. If set
+        to 'all', a row must satisfy all given conditions to be
+        dropped. If set to 'any', rows satisfying at least one of the
+        conditions are dropped. If set to 'xor', rows satisfying
+        exactly one of the conditions will be dropped. Set to 'any' by
+        default.
+
+      * **columns** (*str** or **iterable**, **optional*) -- The
+        label, or an iterable of labels, of columns. Optional. If
+        given, input conditions will be applied to the sub-dataframe
+        made up of these columns to determine which rows to drop.
+
+   -[ Example ]-
+
+   >>> import pandas as pd; import pdpipe as pdp;
+   >>> df = pd.DataFrame([[1,4],[4,5],[5,11]], [1,2,3], ['a','b'])
+   >>> pdp.RowDrop([lambda x: x < 2]).apply(df)
+      a   b
+   2  4   5
+   3  5  11
+   >>> pdp.RowDrop({'a': lambda x: x == 4}).apply(df)
+      a   b
+   1  1   4
+   3  5  11
+
+   transform(data, **kwargs)
+
+      Apply a transformation to data returned from source.
+
+      This is where the bulk of funtionality in a Pipe lies. And
+      allows it to be highly customizable. This will often be the only
+      method needed to be overwriten in subclasses.
+
+      Parameters:
+         **data** -- data returned by source.
+
+class dalio.pipe.Change(*args, strategy='diff', columns=None, new_cols=None, drop=True, reintegrate=False, **kwargs)
+
+   Bases: "dalio.pipe.col_generation._ColGeneration"
+
+   Perform item-by-item change
+
+   This has two main forms, percentage change and absolute change
+   (difference).
+
+   _strategy
+
+      change strategy.
+
+      Type:
+         str, callable
+
+   copy(*args, **kwargs)
+
+      Makes a copy of transformer, copying its attributes to a new
+      instance.
+
+      This copy should essentially create a new transformation node,
+      not an entire new graph, so the _source attribute of the
+      returned instance should be assigned without being copied. This
+      is also made to be built upon by subclasses, such that only new
+      attributes need to be added to a class' copy method.
+
+      Parameters:
+         * ***args** -- Positional arguments to be passed to
+           initialize copy
+
+         * ****kwargs** -- Keyword arguments to be passed to
+           initialize copy
+
+      Returns:
+         A copy of this _Transformer instance with copies of necessary
+         attributes and empty input.
+
+class dalio.pipe.StockReturns(columns=None, new_cols=None, drop=True, reintegrate=False)
+
+   Bases: "dalio.pipe.col_generation._ColGeneration"
+
+   Perform percent change and minor aesthetic changes to data
+
+class dalio.pipe.Period(period, *args, agg_func=<function mean>, columns=None, new_cols=None, axis=0, drop=True, reintegrate=False, **kwargs)
+
+   Bases: "dalio.pipe.col_generation._ColGeneration"
+
+   Resample input time series data to a different period
+
+      Attributes:
+         agg_func (callable): function to aggregate data to one
+         period.
+
+   # Quandl Input
+         Default set to np.mean.
+
+      _period (str): period to resample data to. Can be either daily,
+         monthly, quarterly or yearly.
+
+   agg_func: Callable[[Iterable], Any] = None
+
+   copy(*args, **kwargs)
+
+      Makes a copy of transformer, copying its attributes to a new
+      instance.
+
+      This copy should essentially create a new transformation node,
+      not an entire new graph, so the _source attribute of the
+      returned instance should be assigned without being copied. This
+      is also made to be built upon by subclasses, such that only new
+      attributes need to be added to a class' copy method.
+
+      Parameters:
+         * ***args** -- Positional arguments to be passed to
+           initialize copy
+
+         * ****kwargs** -- Keyword arguments to be passed to
+           initialize copy
+
+      Returns:
+         A copy of this _Transformer instance with copies of necessary
+         attributes and empty input.
+
+class dalio.pipe.Index(index_at, *args, columns=None, new_cols=None, drop=True, reintegrate=False, **kwargs)
+
+   Bases: "dalio.pipe.col_generation._ColGeneration"
+
+   copy(*args, **kwargs)
+
+      Makes a copy of transformer, copying its attributes to a new
+      instance.
+
+      This copy should essentially create a new transformation node,
+      not an entire new graph, so the _source attribute of the
+      returned instance should be assigned without being copied. This
+      is also made to be built upon by subclasses, such that only new
+      attributes need to be added to a class' copy method.
+
+      Parameters:
+         * ***args** -- Positional arguments to be passed to
+           initialize copy
+
+         * ****kwargs** -- Keyword arguments to be passed to
+           initialize copy
+
+      Returns:
+         A copy of this _Transformer instance with copies of necessary
+         attributes and empty input.
+
+class dalio.pipe.Bin(bin_map, *args, bin_strat='normal', columns=None, new_cols=None, drop=True, reintegrate=False, **kwargs)
+
+   Bases: "dalio.pipe.col_generation.Custom"
+
+   A pipeline stage that adds a binned version of a column or columns.
+
+   If drop is set to True the new columns retain the names of the
+   source columns; otherwise, the resulting column gain the suffix
+   '_bin'
+
+   bin_map
+
+      implicitly projects a left-most bin containing all elements
+      smaller than the left-most end point and a right-most bin
+      containing all elements larger that the right-most end point.
+      For example, the list [0, 5, 8] is interpreted as the bins (-∞,
+      0), [0-5), [5-8) and [8, ∞).
+
+      Type:
+         array-like
+
+   bin_strat
+
+      binning strategy to use. "normal" uses the default binning
+      strategy per a list of value separations or number of bins.
+      "quantile" uses a list of quantiles or a preset quantile range
+      (4 for quartiles and 10 for deciles).
+
+      Type:
+         str, default "normal"
+
+   -[ Example ]-
+
+   >>> import pandas as pd; import pdpipe as pdp;
+   >>> df = pd.DataFrame([[-3],[4],[5], [9]], [1,2,3, 4], ['speed'])
+   >>> pdp.Bin({'speed': [5]}, drop=False).apply(df)
+      speed speed_bin
+   1     -3        <5
+   2      4        <5
+   3      5        5≤
+   4      9        5≤
+   >>> pdp.Bin({'speed': [0,5,8]}, drop=False).apply(df)
+      speed speed_bin
+   1     -3        <0
+   2      4       0-5
+   3      5       5-8
+   4      9        8≤
+
+class dalio.pipe.MapColVals(value_map, *args, columns=None, new_cols=None, drop=True, reintegrate=False, **kwargs)
+
+   Bases: "dalio.pipe.col_generation.Custom"
+
+   A pipeline stage that reintegrates the values of a column by a map.
+
+   value_map
+
+      A dictionary mapping existing values to new ones. Values not in
+      the dictionary as keys will be converted to NaN. If a function
+      is given, it is applied element-wise to given columns. If a
+      Series is given, values are mapped by its index to its values.
+
+      Type:
+         dict, function or pandas.Series
+
+   -[ Example ]-
+
+   >>> import pandas as pd; import pdpipe as pdp;
+   >>> df = pd.DataFrame([[1], [3], [2]], ['UK', 'USSR', 'US'], ['Medal'])
+   >>> value_map = {1: 'Gold', 2: 'Silver', 3: 'Bronze'}
+   >>> pdp.MapColVals('Medal', value_map).apply(df)
+          Medal
+   UK      Gold
+   USSR  Bronze
+   US    Silver
+
+class dalio.pipe.CustomByCols(func, *args, strategy='apply', columns=None, new_cols=None, drop=True, reintegrate=False, **kwargs)
+
+   Bases: "dalio.pipe.col_generation.Custom"
+
+   A pipeline stage applying a function to individual columns
+   iteratively.
+
+   func
+
+      The function to be applied to each element of the given columns.
+
+      Type:
+         function
+
+   strategy
+
+      Application strategy. Different from Custom class' strategy
+      parameter (which here is kept at "apply") as this will now be
+      done on a series (each column). Extra care should be taken to
+      ensure resulting column lengths match.
+
+      Type:
+         str
+
+   -[ Example ]-
+
+   >>> import pandas as pd; import pdpipe as pdp; import math;
+   >>> data = [[3.2, "acd"], [7.2, "alk"], [12.1, "alk"]]
+   >>> df = pd.DataFrame(data, [1,2,3], ["ph","lbl"])
+   >>> round_ph = pdp.ApplyByCols("ph", math.ceil)
+   >>> round_ph(df)
+      ph  lbl
+   1   4  acd
+   2   8  alk
+   3  13  alk
+
+class dalio.pipe.Log(*args, columns=None, new_cols=None, non_neg=False, const_shift=None, drop=True, reintegrate=False, **kwargs)
+
+   Bases: "dalio.pipe.col_generation.Custom"
+
+   A pipeline stage that log-transforms numeric data.
+
+   non_neg
+
+      If True, each transformed column is first shifted by smallest
+      negative value it includes (non-negative columns are thus not
+      shifted).
+
+      Type:
+         bool, default False
+
+   const_shift
+
+      If given, each transformed column is first shifted by this
+      constant. If non_neg is True then that transformation is applied
+      first, and only then is the column shifted by this constant.
+
+      Type:
+         int, optional
+
+   -[ Example ]-
+
+   >>> import pandas as pd; import pdpipe as pdp;
+   >>> data = [[3.2, "acd"], [7.2, "alk"], [12.1, "alk"]]
+   >>> df = pd.DataFrame(data, [1,2,3], ["ph","lbl"])
+   >>> log_stage = pdp.Log("ph", drop=True)
+   >>> log_stage(df)
+            ph  lbl
+   1  1.163151  acd
+   2  1.974081  alk
+   3  2.493205  alk
+
+class dalio.pipe.BoxCox(*args, columns=None, new_cols=None, non_neg=False, const_shift=None, drop=True, reintegrate=False, **kwargs)
+
+   Bases: "dalio.pipe.col_generation.Custom"
+
+   A pipeline stage that applies the BoxCox transformation on data.
+
+   const_shift
+
+      If given, each transformed column is first shifted by this
+      constant. If non_neg is True then that transformation is applied
+      first, and only then is the column shifted by this constant.
+
+      Type:
+         int, optional
+
+class dalio.pipe.StockComps(strategy='sic_code', max_ticks=6)
+
+   Bases: "dalio.pipe.pipe.Pipe"
+
+   Get a list of a ticker's comparable stocks
+
+   This can utilize any strategy of getting stock comparative
+   companies and return up to a certain ammount of comps.
+
+   _strategy
+
+      comparisson strategy name or function.
+
+      Type:
+         str, callable
+
+   max_ticks
+
+      maximum number of tickers to return.
+
+      Type:
+         int
+
+   copy(*args, **kwargs)
+
+      Makes a copy of transformer, copying its attributes to a new
+      instance.
+
+      This copy should essentially create a new transformation node,
+      not an entire new graph, so the _source attribute of the
+      returned instance should be assigned without being copied. This
+      is also made to be built upon by subclasses, such that only new
+      attributes need to be added to a class' copy method.
+
+      Parameters:
+         * ***args** -- Positional arguments to be passed to
+           initialize copy
+
+         * ****kwargs** -- Keyword arguments to be passed to
+           initialize copy
+
+      Returns:
+         A copy of this _Transformer instance with copies of necessary
+         attributes and empty input.
+
+   max_ticks: int = None
+
+   run(**kwargs)
+
+      Gets ticker argument and passes an empty ticker request to
+      transform.
+
+      Empty ticker requests are supposed to return all tickers
+      available in a source, so this allows the compariisson to be
+      made in all stocks from a certain source.
+
+      Raises:
+         **ValueError** -- if ticker is more than a single symbol.
+
+   transform(data, **kwargs)
+
+      Get comps according to the set strategy
+
+class dalio.pipe.CovShrink(frequency=252)
+
+   Bases: "dalio.pipe.pipe.PipeBuilder"
+
+   Perform Covariance Shrinkage on data
+
+   Builder with a single piece: shirnkage. Shrinkage defines what kind
+   of shrinkage to apply on a resultant covariance matrix. If none is
+   set, covariance will not be shrunk.
+
+   frequency
+
+      data time period frequency
+
+      Type:
+         int
+
+   build_model(data, **kwargs)
+
+      Builds Covariance Srhinkage object and returns selected
+      shrinkage strategy
+
+      Returns:
+         Function fitted on the data.
+
+   check_name(param, name)
+
+      Check if name and parameter combination is valid.
+
+      This will always be called upon setting a new piece to ensure
+      this piece is present dictionary and that the name is valid.
+      Subclasses will often override this method to implement the name
+      checks in accordance to their specific name parameter
+      combination options. Notice that checks cannot be done on
+      arguments before running the _Builder. This also can be called
+      from outside of a _Builder instance to check for the validity of
+      settings.
+
+      Parameters:
+         * **piece** (*str*) -- name of the key in the piece
+           dictionary.
+
+         * **name** (*str*) -- name option to be set to the piece.
+
+   copy(*args, **kwargs)
+
+      Makes a copy of transformer, copying its attributes to a new
+      instance.
+
+      This copy should essentially create a new transformation node,
+      not an entire new graph, so the _source attribute of the
+      returned instance should be assigned without being copied. This
+      is also made to be built upon by subclasses, such that only new
+      attributes need to be added to a class' copy method.
+
+      Parameters:
+         * ***args** -- Positional arguments to be passed to
+           initialize copy
+
+         * ****kwargs** -- Keyword arguments to be passed to
+           initialize copy
+
+      Returns:
+         A copy of this _Transformer instance with copies of necessary
+         attributes and empty input.
+
+   frequency: int = None
+
+   transform(data, **kwargs)
+
+      Build model using data get results.
+
+      Returns:
+         A covariance matrix
+
+class dalio.pipe.ExpectedReturns
+
+   Bases: "dalio.pipe.pipe.PipeBuilder"
+
+   Get stock's time series expected returns.
+
+   Builder with a single piece: return_model. return_model is what
+   model to get the expected returns from.
+
+   build_model(data, **kwargs)
+
+      Assemble pieces into a model given some data
+
+      The data will opten be optional, but several builder models will
+      require it to be fitted on initialization. Which further shows
+      why builders are necessary for context-agnostic graphs.
+
+      Parameters:
+         * **data** -- data that might be used to build the model.
+
+         * ****kwargs** -- any additional argument used in building
+
+   check_name(param, name)
+
+      Check if name and parameter combination is valid.
+
+      This will always be called upon setting a new piece to ensure
+      this piece is present dictionary and that the name is valid.
+      Subclasses will often override this method to implement the name
+      checks in accordance to their specific name parameter
+      combination options. Notice that checks cannot be done on
+      arguments before running the _Builder. This also can be called
+      from outside of a _Builder instance to check for the validity of
+      settings.
+
+      Parameters:
+         * **piece** (*str*) -- name of the key in the piece
+           dictionary.
+
+         * **name** (*str*) -- name option to be set to the piece.
+
+   transform(data, **kwargs)
+
+      Builds model using data and gets expected returns from it
+
+class dalio.pipe.MakeARCH
+
+   Bases: "dalio.pipe.pipe.PipeBuilder"
+
+   Build arch model and make it based on input data.
+
+   This class allows for the creation of arch models by configuring
+   three pieces: the mean, volatility and distribution. These are set
+   after initialization through the _Builder interface.
+
+   _piece
+
+      see _Builder class.
+
+      Type:
+         list
+
+   assimilate(model)
+
+      Assimilate core pieces of an existent ARCH Model.
+
+      Assimilation means setting this model's' pieces in accordance to
+      an existing model's pieces. Assimilation is shallow, so only the
+      main pieces are assimilated, not their parameters.
+
+      Parameters:
+         **model** (*ARCHModel*) -- Existing ARCH Model.
+
+   build_model(data, **kwargs)
+
+      Build ARCH Model using data, set pieces and their arguments
+
+      Returns:
+         A built arch model from the arch package.
+
+   transform(data, **kwargs)
+
+      Build model with sourced data
+
+class dalio.pipe.ValueAtRisk(quantiles=None)
+
+   Bases: "dalio.pipe.pipe.Pipe"
+
+   Get the value at risk for data based on an ARHC Model
+
+   This takes in an ARCH Model maker, not data, which might be
+   unintuitive, yet necessary, as this allows users to modify the ARCH
+   model generating these values separately. A useful strategy that
+   allows for this is using a pipeline with an arch model as its first
+   input and a ValueAtRisk instance as its second layer. This allows
+   us to treat the PipeLine as a data input with VaR output and still
+   have control over the ARCH Model pieces (given you left a local
+   variable for it behind.)
+
+   _quantiles
+
+      list of quantiles to check the value at risk for.
+
+      Type:
+         list
+
+   copy(*args, **kwargs)
+
+      Makes a copy of transformer, copying its attributes to a new
+      instance.
+
+      This copy should essentially create a new transformation node,
+      not an entire new graph, so the _source attribute of the
+      returned instance should be assigned without being copied. This
+      is also made to be built upon by subclasses, such that only new
+      attributes need to be added to a class' copy method.
+
+      Parameters:
+         * ***args** -- Positional arguments to be passed to
+           initialize copy
+
+         * ****kwargs** -- Keyword arguments to be passed to
+           initialize copy
+
+      Returns:
+         A copy of this _Transformer instance with copies of necessary
+         attributes and empty input.
+
+   transform(data, **kwargs)
+
+      Get values at risk at each quantile and each results maximum
+      exedence from the mean.
+
+      The maximum exedence columns tells which quantile the loss is
+      placed on. The word "maximum" might be misleading as it is
+      compared to the minimum quantile, however, this definition is
+      accurate as the column essentially answers the question: "what
+      quantile furthest away from the mean does the data exeed?"
+
+      Thank you for the creators of the arch package for the beautiful
+      visualizations and ideas!
+
+      Raises:
+         * **ValueError** -- if ARCH model does not have returns. This
+           is often     the case for unfitted models. Ensure your
+           graph is complete.
+
+         * **TypeError** -- if ARCH model has unsuported distribution
+           parameter.
+
+class dalio.pipe.ExpectedShortfall(quantiles=None)
+
+   Bases: "dalio.pipe.builders.ValueAtRisk"
+
+   Get expected shortfal for given quantiles
+
+   See base class for more in depth explanation.
+
+   transform(data, **kwargs)
+
+      Get the value at risk given by an arch model and calculate the
+      expected shortfall at given quantiles.
+
+class dalio.pipe.PandasLinearModel
+
+   Bases: "dalio.pipe.pipe.PipeBuilder"
+
+   Create a linear model from input pandas dataframe, using its index
+   as the X value.
+
+   This builder is made up of a single piece: strategy. This piece
+   sets which linear model should be used to fit the data.
+
+   build_model(data, **kwargs)
+
+      Build model by returning the chosen model and initialization
+      parameters
+
+      Returns:
+         Unfitted linear model
+
+   transform(data, **kwargs)
+
+      Set up fitting parameters and fit built model.
+
+      Returns:
+         Fitted linear model
+
+class dalio.pipe.OptimumWeights
+
+   Bases: "dalio.pipe.pipe.PipeBuilder"
+
+   Get optimum portfolio weights from an efficient frontier or CLA.
+   This is also a builder with one piece: strategy. The strategy piece
+   refers to the optimization strategy.
+
+   build_model(data, **kwargs)
+
+      Assemble pieces into a model given some data
+
+      The data will opten be optional, but several builder models will
+      require it to be fitted on initialization. Which further shows
+      why builders are necessary for context-agnostic graphs.
+
+      Parameters:
+         * **data** -- data that might be used to build the model.
+
+         * ****kwargs** -- any additional argument used in building
+
+   check_name(param, name)
+
+      Check if name and parameter combination is valid.
+
+      This will always be called upon setting a new piece to ensure
+      this piece is present dictionary and that the name is valid.
+      Subclasses will often override this method to implement the name
+      checks in accordance to their specific name parameter
+      combination options. Notice that checks cannot be done on
+      arguments before running the _Builder. This also can be called
+      from outside of a _Builder instance to check for the validity of
+      settings.
+
+      Parameters:
+         * **piece** (*str*) -- name of the key in the piece
+           dictionary.
+
+         * **name** (*str*) -- name option to be set to the piece.
+
+   transform(data, **kwargs)
+
+      Get efficient frontier, fit it to model and get weights

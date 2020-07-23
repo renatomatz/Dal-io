@@ -1,0 +1,356 @@
+
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta charset="utf-8" />
+    <title>The Dal.io Documentation &#8212; Dal.io 0.0.1 documentation</title>
+    <link rel="stylesheet" href="_static/sphinxdoc.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <script id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+    <script src="_static/jquery.js"></script>
+    <script src="_static/underscore.js"></script>
+    <script src="_static/doctools.js"></script>
+    <script src="_static/language_data.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" /> 
+  </head><body>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="nav-item nav-item-0"><a href="index.html">Dal.io 0.0.1 documentation</a> &#187;</li> 
+      </ul>
+    </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+            <p class="logo"><a href="index.html">
+              <img class="logo" src="_static/logo.png" alt="Logo"/>
+            </a></p>
+  <h3><a href="index.html">Table of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">The Dal.io Documentation</a></li>
+<li><a class="reference internal" href="#introduction">Introduction</a></li>
+<li><a class="reference internal" href="#installation">Installation</a></li>
+<li><a class="reference internal" href="#a-guided-example">A Guided Example</a></li>
+<li><a class="reference internal" href="#next-steps">Next Steps</a></li>
+<li><a class="reference internal" href="#beginner-s-guide">Beginner’s Guide</a></li>
+<li><a class="reference internal" href="#developer-s-guide">Developer’s Guide</a></li>
+<li><a class="reference internal" href="#modules">Modules</a></li>
+</ul>
+
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="_sources/pdf_index.rst.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" />
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script>$('#searchbox').show(0);</script>
+        </div>
+      </div>
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="the-dal-io-documentation">
+<h1>The Dal.io Documentation<a class="headerlink" href="#the-dal-io-documentation" title="Permalink to this headline">¶</a></h1>
+</div>
+<div class="section" id="introduction">
+<span id="id1"></span><h1>Introduction<a class="headerlink" href="#introduction" title="Permalink to this headline">¶</a></h1>
+<p>Dal-io is a financial modeling package for python aiming to facilitate the gathering, wrangling and analysis of financial data. The library uses <strong>graphical object structures</strong> and <strong>progressive display of complexity</strong> to make workflows suit the user’s specific proficiency in python without making efficiency
+sacrifices.</p>
+<p>The core library implements common workflows from well-supported packages and the means to flexibly interlink them, and aims to continue adding relevant features. However, the user is not constrained by these features, and is free to extend pieces through inheritance in order to implement extra functionality that can be used with the rest of the package. See <a class="reference internal" href="developers-guide.html#developers-guide"><span class="std std-ref">Core Classes and Concepts</span></a> for more information on extending core features.</p>
+</div>
+<div class="section" id="installation">
+<span id="instalation"></span><h1>Installation<a class="headerlink" href="#installation" title="Permalink to this headline">¶</a></h1>
+<p>You can clone this repository from git using</p>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>git clone https://github.com/renatomatz/Dal-io
+</pre></div>
+</div>
+<p>If you are using Windows, make sure you are in the package folder to use the functionality and that you run the following command before importing the modules.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">sys</span>
+<span class="n">sys</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">&quot;/path-to-dalio/Dal-io&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>For Linux and Mac, you can access the package contents from your python environment anywhere with</p>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>export PYTHONPATH=$PYTHONPATH:&quot;path/to/Dal-io&quot;
+</pre></div>
+</div>
+</div>
+<div class="section" id="a-guided-example">
+<span id="id2"></span><h1>A Guided Example<a class="headerlink" href="#a-guided-example" title="Permalink to this headline">¶</a></h1>
+<p>Let’s go through a quick example of what Dal-io can do. We’ll build a simple portfolio optimization workflow and test it out with some sample stocks.</p>
+<p>This example will be fairly dry, so if you want to jump right into it with some understanding of the Dal-io mechanics, you can go through the <a class="reference internal" href="beginners-guide.html#beginners-guide"><span class="std std-ref">Understanding Graphs</span></a> first. If you just want to see what the library is capable of, let’s get right to it.</p>
+<p>We’ll start off by importing the Dal-io pieces</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+
+<span class="kn">import</span> <span class="nn">dalio.external</span> <span class="k">as</span> <span class="nn">de</span>
+<span class="kn">import</span> <span class="nn">dalio.translator</span> <span class="k">as</span> <span class="nn">dt</span>
+<span class="kn">import</span> <span class="nn">dalio.pipe</span> <span class="k">as</span> <span class="nn">dp</span>
+<span class="kn">import</span> <span class="nn">dalio.model</span> <span class="k">as</span> <span class="nn">dm</span>
+<span class="kn">import</span> <span class="nn">dalio.application</span> <span class="k">as</span> <span class="nn">da</span>
+</pre></div>
+</div>
+<p>Specific pieces can also be imported individually, though for testing this sub-module import structure is preferred.</p>
+<p>Now lets set up our stock data input from Yahoo! Finance.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">tickers</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;GOOG&quot;</span><span class="p">,</span> <span class="s2">&quot;MSFT&quot;</span><span class="p">,</span> <span class="s2">&quot;ATVI&quot;</span><span class="p">,</span> <span class="s2">&quot;TTWO&quot;</span><span class="p">,</span> <span class="s2">&quot;GM&quot;</span><span class="p">,</span> <span class="s2">&quot;FORD&quot;</span><span class="p">,</span> <span class="s2">&quot;SPY&quot;</span><span class="p">]</span>
+
+<span class="n">stocks</span> <span class="o">=</span> <span class="n">dt</span><span class="o">.</span><span class="n">YahooStockTranslator</span><span class="p">()</span>\
+    <span class="o">.</span><span class="n">set_input</span><span class="p">(</span><span class="n">de</span><span class="o">.</span><span class="n">YahooDR</span><span class="p">())</span>
+</pre></div>
+</div>
+<p>Easy right? Notice that the stock input is composed of one external source (in this case <code class="code docutils literal notranslate"><span class="pre">de.YahooDR</span></code>) and one translator (<code class="code docutils literal notranslate"><span class="pre">dt.YahooStockTranslator</span></code>). This is the case for any input, with one piece getting raw data from an external source and another one translating it to a format friendly to Dal-io pieces. For more on formatting, go to <a class="reference internal" href="formatting.html#formatting"><span class="std std-ref">Formatting</span></a>.</p>
+<p>Notice the <code class="code docutils literal notranslate"><span class="pre">.set_input</span></code> call that took in the YahooDR object. Every all translators, pipes, models and applications share this method that allows them to plug the output of another object as their own input. This idea of connecting different objects like nodes in a graph is at the core of the <strong>graphical object design</strong>.</p>
+<p>At this point you can try out running the model with <code class="code docutils literal notranslate"><span class="pre">stocks.run(ticker=tickers)</span></code> which will get the OHLCV data for the ticker symbols assigned to <code class="code docutils literal notranslate"><span class="pre">tickers</span></code>, though you can specify any ticker available in Yahoo! Finance. Notice that the column names where standardized to be all lower-case with underscores (_) instead of spaces. This is performed as part of the translation step to ensure all imported data can be referenced with common string representations.</p>
+<p>Now lets create a data processing pipeline for our input data.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">time_conf</span> <span class="o">=</span> <span class="n">dp</span><span class="o">.</span><span class="n">DateSelect</span><span class="p">()</span>
+
+<span class="n">close</span> <span class="o">=</span> <span class="n">dp</span><span class="o">.</span><span class="n">PipeLine</span><span class="p">(</span>
+    <span class="n">dp</span><span class="o">.</span><span class="n">ColSelect</span><span class="p">(</span><span class="n">columns</span><span class="o">=</span><span class="s2">&quot;close&quot;</span><span class="p">),</span>
+    <span class="n">time_conf</span>
+<span class="p">)(</span><span class="n">stocks</span><span class="p">)</span>
+
+<span class="n">annual_rets</span> <span class="o">=</span> <span class="n">close</span> <span class="o">+</span> \
+    <span class="n">dp</span><span class="o">.</span><span class="n">Period</span><span class="p">(</span><span class="s2">&quot;Y&quot;</span><span class="p">,</span> <span class="n">agg_func</span><span class="o">=</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">x</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span> <span class="o">+</span> \
+    <span class="n">dp</span><span class="o">.</span><span class="n">Change</span><span class="p">(</span><span class="n">strategy</span><span class="o">=</span><span class="s2">&quot;pct_change&quot;</span><span class="p">)</span>
+
+<span class="n">cov</span> <span class="o">=</span> <span class="n">dp</span><span class="o">.</span><span class="n">Custom</span><span class="p">(</span><span class="k">lambda</span> <span class="n">df</span><span class="p">:</span> <span class="n">df</span><span class="o">.</span><span class="n">cov</span><span class="p">(),</span> <span class="n">strategy</span><span class="o">=</span><span class="s2">&quot;pipe&quot;</span><span class="p">)</span> \
+    <span class="o">.</span><span class="n">with_input</span><span class="p">(</span><span class="n">annual_rets</span><span class="p">)</span>
+
+<span class="n">exp_rets</span> <span class="o">=</span> <span class="n">annual_rets</span> <span class="o">+</span> <span class="n">dp</span><span class="o">.</span><span class="n">Custom</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>That was a bit more challenging! Let’s take it step by step.</p>
+<p>We started off defining a <code class="code docutils literal notranslate"><span class="pre">DateSelect</span></code> pipe (which we will use later) and passing it into a pipeline with other pipes to get a company’s annual returns. Pipelines aggregate zero or more Pipe objects and pass in a common input through all of their transformations. This skips data integrity checking while still allowing users to control pipes inside the pipeline from the outside (as we will with <code class="code docutils literal notranslate"><span class="pre">time_conf</span></code>)</p>
+<p>We then added a custom pipe that applies the np.mean function to the annual returns to get the expected returns for each stock.</p>
+<p>Finally, we did the exact same thing but with a lambda that calls the pd.DataFrame internal method .cov() to get the dataframe’s covariance. As we will be passing the whole dataframe to the function at once, we set the Custom strategy to “pipe”.</p>
+<p>Notice how we didn’t use <code class="code docutils literal notranslate"><span class="pre">.set_input()</span></code> as we did before, that’s because we utilized alternative ways of establishing this same node-to-node connection.</p>
+<p>We can connect nodes with:</p>
+<blockquote>
+<div><ol class="arabic simple">
+<li><p><code class="code docutils literal notranslate"><span class="pre">p1.set_input(p2)</span></code> set p1’s input to p2.</p></li>
+<li><p><code class="code docutils literal notranslate"><span class="pre">p1.with_input(p2)</span></code> create a copy of p1 and set its input to p2.</p></li>
+<li><p><code class="code docutils literal notranslate"><span class="pre">p1(p2)</span></code> same as <code class="code docutils literal notranslate"><span class="pre">p1.with_input(p2)</span></code>.</p></li>
+<li><p><code class="code docutils literal notranslate"><span class="pre">pL</span> <span class="pre">+</span> <span class="pre">p2</span></code> set p2 as the last transformation in the PipeLine pL.</p></li>
+</ol>
+</div></blockquote>
+<p>Now let’s set up our efficient frontier model, get the optimal weights and finally create our optimal portfolio model.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">ef</span> <span class="o">=</span> <span class="n">dm</span><span class="o">.</span><span class="n">MakeEfficientFrontier</span><span class="p">(</span><span class="n">weight_bounds</span><span class="o">=</span><span class="p">(</span><span class="o">-</span><span class="mf">0.5</span><span class="p">,</span> <span class="mi">1</span><span class="p">))</span> \
+    <span class="o">.</span><span class="n">set_input</span><span class="p">(</span><span class="s2">&quot;sample_covariance&quot;</span><span class="p">,</span> <span class="n">cov</span><span class="p">)</span> \
+    <span class="o">.</span><span class="n">set_input</span><span class="p">(</span><span class="s2">&quot;expected_returns&quot;</span><span class="p">,</span> <span class="n">exp_rets</span><span class="p">)</span>
+
+<span class="n">weights</span> <span class="o">=</span> <span class="n">dp</span><span class="o">.</span><span class="n">OptimumWeights</span><span class="p">()</span> \
+    <span class="o">.</span><span class="n">set_piece</span><span class="p">(</span><span class="s2">&quot;strategy&quot;</span><span class="p">,</span> <span class="s2">&quot;max_sharpe&quot;</span><span class="p">,</span> <span class="n">risk_free_rate</span><span class="o">=</span><span class="mf">0.0</span><span class="p">)</span> \
+    <span class="o">.</span><span class="n">set_input</span><span class="p">(</span><span class="n">ef</span><span class="p">)</span>
+
+<span class="n">opt_port</span> <span class="o">=</span> <span class="n">dm</span><span class="o">.</span><span class="n">OptimumPortfolio</span><span class="p">()</span> \
+    <span class="o">.</span><span class="n">set_input</span><span class="p">(</span><span class="s2">&quot;weights_in&quot;</span><span class="p">,</span> <span class="n">weights</span><span class="p">)</span> \
+    <span class="o">.</span><span class="n">set_input</span><span class="p">(</span><span class="s2">&quot;data_in&quot;</span><span class="p">,</span> <span class="n">close</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>And those are two examples of Dal-io Models! As you can see, models can have multiple named inputs, which can be set the same way as you would in a pipe but also having to specify their name. You also saw an example of a Builder, which has pieces (that can be set with the <code class="code docutils literal notranslate"><span class="pre">.set_piece()</span></code>) method which allow for more modular flexibility when deciding characteristics of certain pipes or models.We could go into what each source and pieces represents, but that can be better done through the documentation.</p>
+<p>Now, as a final step, lets graph the performance of the optimal portfolio.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">graph</span> <span class="o">=</span> <span class="n">da</span><span class="o">.</span><span class="n">PandasXYGrapher</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="s2">&quot;close&quot;</span><span class="p">,</span> <span class="n">legend</span><span class="o">=</span><span class="s2">&quot;upper_right&quot;</span><span class="p">)</span> \
+    <span class="o">.</span><span class="n">set_input</span><span class="p">(</span><span class="s2">&quot;data_in&quot;</span><span class="p">,</span> <span class="n">dp</span><span class="o">.</span><span class="n">Index</span><span class="p">(</span><span class="mi">100</span><span class="p">)(</span><span class="n">opt_port</span><span class="p">))</span> \
+    <span class="o">.</span><span class="n">set_output</span><span class="p">(</span><span class="s2">&quot;data_out&quot;</span><span class="p">,</span> <span class="n">de</span><span class="o">.</span><span class="n">PyPlotGraph</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">12</span><span class="p">,</span> <span class="mi">8</span><span class="p">)))</span>
+</pre></div>
+</div>
+<p>Additionally, you can change the time range of the whole model at any point using the <code class="code docutils literal notranslate"><span class="pre">time_conf</span></code> object we created all the way in the beginning. Below is an example of setting the dates from 2016 to 2020.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">time_conf</span><span class="o">.</span><span class="n">set_start</span><span class="p">(</span><span class="s2">&quot;2016-01-01&quot;</span><span class="p">)</span>
+<span class="n">time_conf</span><span class="o">.</span><span class="n">set_end</span><span class="p">(</span><span class="s2">&quot;2019-12-31&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>And that’s it!</p>
+<p>All that you have to do now is run the model with <code class="code docutils literal notranslate"><span class="pre">graph.run(ticker=tickers)</span></code> to</p>
+<blockquote>
+<div><ol class="arabic simple">
+<li><p>Get stock data from Yahoo! Finance</p></li>
+<li><p>Process data</p></li>
+<li><p>Optimize portfolio weights</p></li>
+<li><p>Get an optimum portfolio</p></li>
+<li><p>Graph optimum portfolio</p></li>
+</ol>
+</div></blockquote>
+<p>Which yields this figure:</p>
+<img alt="_images/port_opt_cook_graph.png" src="_images/port_opt_cook_graph.png" />
+<p>Notice how this <code class="code docutils literal notranslate"><span class="pre">.run()</span></code> call was the same as you did all the way back when you only had your imported data. This method is also common to all translators, pipes, models and applications, and it gives you the piece’s output.</p>
+<p>This means you can get information of any of the stages you created like this, and for any stock that you’d like. For example, we can run the <code class="code docutils literal notranslate"><span class="pre">weights</span></code> object we created to get the weights associated with the portfolio we just plotted.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">weights</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">ticker</span><span class="o">=</span><span class="n">tickers</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>{&#39;GOOG&#39;: 0.45514,
+ &#39;MSFT&#39;: 0.82602,
+ &#39;ATVI&#39;: -0.49995,
+ &#39;TTWO&#39;: 0.29241,
+ &#39;GM&#39;: -0.43788,
+ &#39;FORD&#39;: 0.38413,
+ &#39;SPY&#39;: -0.01986}
+</pre></div>
+</div>
+<p>Also, every time you run a set of stocks or time intervals, the new run will be automatically layered with the old one and indexed at 100, which can be great for comparing how multiple portfolios would have fared! To clear this, just re-define the graph.</p>
+<p>Hope this example was enough to show how you can create clean and powerful models using just a few lines of code!</p>
+</div>
+<div class="section" id="next-steps">
+<span id="id3"></span><h1>Next Steps<a class="headerlink" href="#next-steps" title="Permalink to this headline">¶</a></h1>
+<p>If you read and enjoyed the example above, that’s great! Now comes the part where you get to understand its various pieces, workflows and internal logic for you to start creating your own models with Dal-io.</p>
+<p>A good first step, if you haven’t already is reading the <a class="reference internal" href="beginners-guide.html#beginners-guide"><span class="std std-ref">Understanding Graphs</span></a>.</p>
+<p>If you understood these core concepts well and are ready for some more examples, check out the cookbook.</p>
+<p>For those who want to adventure into creating your own pieces (and hopefully contributing to the library) can read the <a class="reference internal" href="developers-guide.html#developers-guide"><span class="std std-ref">Core Classes and Concepts</span></a> as well as the <a class="reference internal" href="formatting.html#formatting"><span class="std std-ref">Formatting</span></a>.</p>
+<p>And as always, you can check the full breakdown of the modules with the ol’ reliable <a class="reference internal" href="modules_compact.html#modules"><span class="std std-ref">User Modules</span></a>.</p>
+</div>
+<div class="section" id="beginner-s-guide">
+<h1>Beginner’s Guide<a class="headerlink" href="#beginner-s-guide" title="Permalink to this headline">¶</a></h1>
+<div class="toctree-wrapper compound">
+<p class="caption"><span class="caption-text">Beginner's Guide</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="beginners-guide.html">Understanding Graphs</a></li>
+<li class="toctree-l1"><a class="reference internal" href="beginners-guide.html#base-classes">Base Classes</a></li>
+<li class="toctree-l1"><a class="reference internal" href="beginners-guide.html#extra-classes-and-concepts">Extra Classes and Concepts</a></li>
+<li class="toctree-l1"><a class="reference internal" href="beginners-guide.html#tips-and-tricks">Tips and Tricks</a></li>
+</ul>
+</div>
+</div>
+<div class="section" id="developer-s-guide">
+<h1>Developer’s Guide<a class="headerlink" href="#developer-s-guide" title="Permalink to this headline">¶</a></h1>
+<div class="toctree-wrapper compound">
+<p class="caption"><span class="caption-text">Developer's Guide</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="developers-guide.html">Core Classes and Concepts</a></li>
+<li class="toctree-l1"><a class="reference internal" href="developers-guide.html#development-notes-on-base-classes">Development Notes on Base Classes</a></li>
+<li class="toctree-l1"><a class="reference internal" href="developers-guide.html#key-concepts-differences-and-philosophy">Key Concepts, Differences and Philosophy</a></li>
+</ul>
+</div>
+</div>
+<div class="section" id="modules">
+<h1>Modules<a class="headerlink" href="#modules" title="Permalink to this headline">¶</a></h1>
+<div class="toctree-wrapper compound">
+<p class="caption"><span class="caption-text">Modules</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="modules.html">User Modules</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="dalio.external.html">dalio.external package</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="dalio.external.html#submodules">Submodules</a></li>
+<li class="toctree-l3"><a class="reference internal" href="dalio.external.html#module-dalio.external.external">dalio.external.external module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="dalio.external.html#module-dalio.external.file">dalio.external.file module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="dalio.external.html#module-dalio.external.image">dalio.external.image module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="dalio.external.html#module-dalio.external.web">dalio.external.web module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="dalio.external.html#module-dalio.external">Module contents</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="dalio.translator.html">dalio.translator package</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="dalio.translator.html#submodules">Submodules</a></li>
+<li class="toctree-l3"><a class="reference internal" href="dalio.translator.html#module-dalio.translator.file">dalio.translator.file module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="dalio.translator.html#module-dalio.translator.pdr">dalio.translator.pdr module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="dalio.translator.html#module-dalio.translator.quandl">dalio.translator.quandl module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="dalio.translator.html#module-dalio.translator.translator">dalio.translator.translator module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="dalio.translator.html#module-dalio.translator">Module contents</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="dalio.pipe.html">dalio.pipe package</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="dalio.pipe.html#submodules">Submodules</a></li>
+<li class="toctree-l3"><a class="reference internal" href="dalio.pipe.html#module-dalio.pipe.builders">dalio.pipe.builders module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="dalio.pipe.html#module-dalio.pipe.col_generation">dalio.pipe.col_generation module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="dalio.pipe.html#module-dalio.pipe.forecast">dalio.pipe.forecast module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="dalio.pipe.html#module-dalio.pipe.pipe">dalio.pipe.pipe module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="dalio.pipe.html#module-dalio.pipe.select">dalio.pipe.select module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="dalio.pipe.html#module-dalio.pipe">Module contents</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="dalio.model.html">dalio.model package</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="dalio.model.html#submodules">Submodules</a></li>
+<li class="toctree-l3"><a class="reference internal" href="dalio.model.html#module-dalio.model.basic">dalio.model.basic module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="dalio.model.html#module-dalio.model.financial">dalio.model.financial module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="dalio.model.html#module-dalio.model.model">dalio.model.model module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="dalio.model.html#module-dalio.model.statistical">dalio.model.statistical module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="dalio.model.html#module-dalio.model">Module contents</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="dalio.application.html">dalio.application package</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="dalio.application.html#submodules">Submodules</a></li>
+<li class="toctree-l3"><a class="reference internal" href="dalio.application.html#module-dalio.application.application">dalio.application.application module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="dalio.application.html#module-dalio.application.graphers">dalio.application.graphers module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="dalio.application.html#module-dalio.application.printers">dalio.application.printers module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="dalio.application.html#module-dalio.application">Module contents</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="modules.html#developer-modules">Developer Modules</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="dalio.ops.html">dalio.ops module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="dalio.base.html">dalio.base package</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="dalio.base.html#submodules">Submodules</a></li>
+<li class="toctree-l3"><a class="reference internal" href="dalio.base.html#module-dalio.base.builder">dalio.base.builder module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="dalio.base.html#module-dalio.base.constants">dalio.base.constants module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="dalio.base.html#module-dalio.base.datadef">dalio.base.datadef module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="dalio.base.html#module-dalio.base.memory">dalio.base.memory module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="dalio.base.html#module-dalio.base.node">dalio.base.node module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="dalio.base.html#module-dalio.base.transformer">dalio.base.transformer module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="dalio.base.html#module-dalio.base">Module contents</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="dalio.validator.html">dalio.validator package</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="dalio.validator.html#submodules">Submodules</a></li>
+<li class="toctree-l3"><a class="reference internal" href="dalio.validator.html#module-dalio.validator.array_val">dalio.validator.array_val module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="dalio.validator.html#module-dalio.validator.base_val">dalio.validator.base_val module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="dalio.validator.html#module-dalio.validator.pandas_val">dalio.validator.pandas_val module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="dalio.validator.html#module-dalio.validator.presets">dalio.validator.presets module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="dalio.validator.html#module-dalio.validator.validator">dalio.validator.validator module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="dalio.validator.html#module-dalio.validator">Module contents</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="dalio.util.html">dalio.util package</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="dalio.util.html#submodules">Submodules</a></li>
+<li class="toctree-l3"><a class="reference internal" href="dalio.util.html#module-dalio.util.level_utils">dalio.util.level_utils module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="dalio.util.html#module-dalio.util.plotting_utils">dalio.util.plotting_utils module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="dalio.util.html#module-dalio.util.processing_utils">dalio.util.processing_utils module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="dalio.util.html#module-dalio.util.transformation_utils">dalio.util.transformation_utils module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="dalio.util.html#module-dalio.util.translation_utils">dalio.util.translation_utils module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="dalio.util.html#module-dalio.util">Module contents</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="nav-item nav-item-0"><a href="index.html">Dal.io 0.0.1 documentation</a> &#187;</li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &#169; Copyright 2020, Renato Zimmermann.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 2.4.0.
+    </div>
+  </body>
+</html>

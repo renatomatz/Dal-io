@@ -1,0 +1,445 @@
+dalio.application package
+*************************
+
+
+Submodules
+==========
+
+
+dalio.application.application module
+====================================
+
+Define the Application class
+
+While Models are normally the last stage of the processing chain, it
+still has a single output, which might have limited value in itself.
+Applications are tools used for the interpretation of some input and
+outisde outputs. These can have a broad range of uses, from graphing
+to real-time trading. The main functionality is in the .run() method,
+which gets input data and interprets it as needed.
+
+class dalio.application.application.Application
+
+   Bases: "dalio.model.model.Model"
+
+   Represent final representation of graph data through external
+   entities.
+
+   Applications are transformations with one or more internal inputs
+   and one or more external outputs.
+
+   _out
+
+      dictionary of outisde output connections
+
+      Type:
+         dict
+
+   copy(*args, **kwargs)
+
+      Makes a copy of transformer, copying its attributes to a new
+      instance.
+
+      This copy should essentially create a new transformation node,
+      not an entire new graph, so the _source attribute of the
+      returned instance should be assigned without being copied. This
+      is also made to be built upon by subclasses, such that only new
+      attributes need to be added to a class' copy method.
+
+      Parameters:
+         * ***args** -- Positional arguments to be passed to
+           initialize copy
+
+         * ****kwargs** -- Keyword arguments to be passed to
+           initialize copy
+
+      Returns:
+         A copy of this _Transformer instance with copies of necessary
+         attributes and empty input.
+
+   run(**kwargs)
+
+      Run application.
+
+      This will be the bulk of subclass functionality. It is where all
+      data is sourced, processed and output.
+
+   set_output(output_name, new_output)
+
+      Set a new output to data definition in dictionary entry matching
+      the name
+
+      Parameters:
+         * **output_name** (*str*) -- the name of the output from the
+           output dict.
+
+         * **new_output** -- new External source to be set as the
+           output.
+
+      Raises:
+         * **KeyError** -- if name is not in the output dict.
+
+         * **ValueError** -- if the new output is not an instance of
+           External.
+
+   with_output(output_name, new_output)
+
+      Return a copy of this model with the specified data definition
+      output changed
+
+      Parameters:
+         * **output_name** (*str*) -- the name of the output from the
+           output dict.
+
+         * **new_output** -- new External source to be set as the
+           output.
+
+
+dalio.application.graphers module
+=================================
+
+Applications based on graphing input data
+
+class dalio.application.graphers.ForecastGrapher
+
+   Bases: "dalio.application.graphers.Grapher"
+
+   Application to graph data and a forecast horizon
+
+   This Application has two sources data_in and forecast_in. The data-
+   in source is explained in Grapher. The forecast_in source gets a
+   forecast data to be graphed.
+
+   run(**kwargs)
+
+      Get data, its forecast and plot both
+
+class dalio.application.graphers.Grapher
+
+   Bases: "dalio.application.application.Application"
+
+   Base grapher class.
+
+   Does basic graphing, assuming data does not require any processing
+   before being passed onto an external grapher.
+
+   This Application has one source: data_in. The data_in source gets
+   internal data to be graphed.
+
+   This Application has one output: data_out. The data_out output
+   represents an external graph.
+
+   reset_out()
+
+      Reset the output graph. Figure instances should implement the
+      .reset() method.
+
+   run(**kwargs)
+
+      Gets data input and plots it
+
+class dalio.application.graphers.LMGrapher(x=None, y=None, legend=None)
+
+   Bases: "dalio.application.graphers.PandasXYGrapher"
+
+   Application to graph data and a linear model fitted to it.
+
+   This Application has two sources data_in and linear_model. The
+   data-in source is explained in Grapher. The linear_model source is
+   a fitted linear model with intercept and coefficient data.
+
+   _legend
+
+      legend position on graph.
+
+      Type:
+         str, None
+
+   run(**kwargs)
+
+      Get data, its fitted coefficients and intercepts and graph them.
+
+class dalio.application.graphers.MultiGrapher(rows, cols)
+
+   Bases: "dalio.application.application.Application",
+   "dalio.base.builder._Builder"
+
+   Grapher for multiple inputs taking in the same keyword arguments.
+
+   This is useful to greate subplots of the same data processed in
+   different ways. Sources are the data inputs and pieces are their
+   kinds, args and kwargs.
+
+   This applicaiton can N sources and pieces, where N is the total
+   number of graphs.
+
+   build_model(data, **kwargs)
+
+      Return data unprocessed
+
+   run(**kwargs)
+
+      Gets data input from each source and plots it using the set
+      information in each piece
+
+class dalio.application.graphers.PandasMultiGrapher(rows, cols)
+
+   Bases: "dalio.application.graphers.MultiGrapher"
+
+   Multigrapher with column selection mechanisms
+
+   In this MultiGrapher, you can select any x, y and z columns as
+   piece kwargs and they will be interpreted during the run. Keep in
+   mind that this allows for any combination of these layered one on
+   top of each other regardless of name. If you specify an "x" and a
+   "z", the "z" column will be treated like a "y" column.
+
+   There are also no interpretations of what is to be graphed, and
+   thus all wanted columns should be specified.
+
+   There is one case for indexes, where the x_index, y_index or
+   z_index keyword arguments can be set to True.
+
+   build_model(data, **kwargs)
+
+      Process data columns
+
+class dalio.application.graphers.PandasTSGrapher(y=None, legend=None)
+
+   Bases: "dalio.application.graphers.PandasXYGrapher"
+
+   Graphs a pandas time series
+
+   Same functionality as parent class with stricter inputs.
+
+class dalio.application.graphers.PandasXYGrapher(x=None, y=None, legend=None)
+
+   Bases: "dalio.application.graphers.Grapher"
+
+   Graph data from a pandas dataframe with option of selecting columns
+   used as axis
+
+   _x
+
+      name of column to be used for x-axis.
+
+      Type:
+         str
+
+   _y
+
+      name of column to be used for y-axis.
+
+      Type:
+         str
+
+   _legend
+
+      legend position. None by default
+
+      Type:
+         str, None
+
+   run(**kwargs)
+
+      Get data, separate columns and feed it to data output graph
+
+class dalio.application.graphers.VaRGrapher
+
+   Bases: "dalio.application.graphers.Grapher"
+
+   Application to visualize Value at Risk
+
+   run(**kwargs)
+
+      Get value at risk data, plot returns, value at risk lines and
+      exceptions at their maximum exedence.
+
+      Thank you for the creators of the arch package for the amazing
+      visulaization idea!
+
+
+dalio.application.printers module
+=================================
+
+Print data onto an external output
+
+class dalio.application.printers.FilePrinter
+
+   Bases: "dalio.application.application.Application"
+
+   Application to print data onto a file
+
+   This application has one source: data_in. The data_in source is the
+   data to be printed.
+
+   This application has one output: data_out. The data_out output is
+   the external output to print the data to.
+
+   run(**kwargs)
+
+      Gets data and prints it
+
+
+Module contents
+===============
+
+class dalio.application.FilePrinter
+
+   Bases: "dalio.application.application.Application"
+
+   Application to print data onto a file
+
+   This application has one source: data_in. The data_in source is the
+   data to be printed.
+
+   This application has one output: data_out. The data_out output is
+   the external output to print the data to.
+
+   run(**kwargs)
+
+      Gets data and prints it
+
+class dalio.application.Grapher
+
+   Bases: "dalio.application.application.Application"
+
+   Base grapher class.
+
+   Does basic graphing, assuming data does not require any processing
+   before being passed onto an external grapher.
+
+   This Application has one source: data_in. The data_in source gets
+   internal data to be graphed.
+
+   This Application has one output: data_out. The data_out output
+   represents an external graph.
+
+   reset_out()
+
+      Reset the output graph. Figure instances should implement the
+      .reset() method.
+
+   run(**kwargs)
+
+      Gets data input and plots it
+
+class dalio.application.MultiGrapher(rows, cols)
+
+   Bases: "dalio.application.application.Application",
+   "dalio.base.builder._Builder"
+
+   Grapher for multiple inputs taking in the same keyword arguments.
+
+   This is useful to greate subplots of the same data processed in
+   different ways. Sources are the data inputs and pieces are their
+   kinds, args and kwargs.
+
+   This applicaiton can N sources and pieces, where N is the total
+   number of graphs.
+
+   build_model(data, **kwargs)
+
+      Return data unprocessed
+
+   run(**kwargs)
+
+      Gets data input from each source and plots it using the set
+      information in each piece
+
+class dalio.application.PandasXYGrapher(x=None, y=None, legend=None)
+
+   Bases: "dalio.application.graphers.Grapher"
+
+   Graph data from a pandas dataframe with option of selecting columns
+   used as axis
+
+   _x
+
+      name of column to be used for x-axis.
+
+      Type:
+         str
+
+   _y
+
+      name of column to be used for y-axis.
+
+      Type:
+         str
+
+   _legend
+
+      legend position. None by default
+
+      Type:
+         str, None
+
+   run(**kwargs)
+
+      Get data, separate columns and feed it to data output graph
+
+class dalio.application.PandasTSGrapher(y=None, legend=None)
+
+   Bases: "dalio.application.graphers.PandasXYGrapher"
+
+   Graphs a pandas time series
+
+   Same functionality as parent class with stricter inputs.
+
+class dalio.application.PandasMultiGrapher(rows, cols)
+
+   Bases: "dalio.application.graphers.MultiGrapher"
+
+   Multigrapher with column selection mechanisms
+
+   In this MultiGrapher, you can select any x, y and z columns as
+   piece kwargs and they will be interpreted during the run. Keep in
+   mind that this allows for any combination of these layered one on
+   top of each other regardless of name. If you specify an "x" and a
+   "z", the "z" column will be treated like a "y" column.
+
+   There are also no interpretations of what is to be graphed, and
+   thus all wanted columns should be specified.
+
+   There is one case for indexes, where the x_index, y_index or
+   z_index keyword arguments can be set to True.
+
+   build_model(data, **kwargs)
+
+      Process data columns
+
+class dalio.application.VaRGrapher
+
+   Bases: "dalio.application.graphers.Grapher"
+
+   Application to visualize Value at Risk
+
+   run(**kwargs)
+
+      Get value at risk data, plot returns, value at risk lines and
+      exceptions at their maximum exedence.
+
+      Thank you for the creators of the arch package for the amazing
+      visulaization idea!
+
+class dalio.application.LMGrapher(x=None, y=None, legend=None)
+
+   Bases: "dalio.application.graphers.PandasXYGrapher"
+
+   Application to graph data and a linear model fitted to it.
+
+   This Application has two sources data_in and linear_model. The
+   data-in source is explained in Grapher. The linear_model source is
+   a fitted linear model with intercept and coefficient data.
+
+   _legend
+
+      legend position on graph.
+
+      Type:
+         str, None
+
+   run(**kwargs)
+
+      Get data, its fitted coefficients and intercepts and graph them.

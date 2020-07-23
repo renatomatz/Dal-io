@@ -1,0 +1,338 @@
+dalio.translator package
+************************
+
+
+Submodules
+==========
+
+
+dalio.translator.file module
+============================
+
+Translator for common file imports
+
+These will often be very specific to the file being imported, but
+should strive to still be as flexible as possible. These will often
+hold the format translated to constant and try being adaptable with
+the data to fit it. So it is more importat to begin with the output
+and then adapt to the input, not the other way.
+
+class dalio.translator.file.StockStreamFileTranslator(date_col=None, att_name=None)
+
+   Bases: "dalio.translator.translator.Translator"
+
+   Create a DataFrame conforming to the STOCK_STREAM validator preset.
+
+   The STOCK_STREAM preset includes:
+      1. having a time series index,
+
+      2. being a dataframe,
+
+      3. having a multiindex column with levels named ATTRIBUTE and
+         TICKER.
+            Such that an imported excel file will have column names
+            renamed that or assume a single column name row is of
+            ticker names.
+
+   date_col
+
+      column name to get date data from.
+
+      Type:
+         str
+
+   att_name
+
+      name of the attribute column if imported dataframe column has
+      only one level.
+
+      Type:
+         str
+
+   copy(*args, **kwargs)
+
+      Makes a copy of transformer, copying its attributes to a new
+      instance.
+
+      This copy should essentially create a new transformation node,
+      not an entire new graph, so the _source attribute of the
+      returned instance should be assigned without being copied. This
+      is also made to be built upon by subclasses, such that only new
+      attributes need to be added to a class' copy method.
+
+      Parameters:
+         * ***args** -- Positional arguments to be passed to
+           initialize copy
+
+         * ****kwargs** -- Keyword arguments to be passed to
+           initialize copy
+
+      Returns:
+         A copy of this _Transformer instance with copies of necessary
+         attributes and empty input.
+
+   run(**kwargs)
+
+      Request pandas data from file and format it into a dataframe
+      that complies with the STOCK_STREAM validator preset
+
+      Parameters:
+         ****kwargs** --
+
+         Optional request arguments TICKER: single ticker or iterable
+         of tickers to filter for
+
+            in data.
+
+   translations = None
+
+
+dalio.translator.pdr module
+===========================
+
+Define translators for data from the pandas_datareader package
+
+class dalio.translator.pdr.YahooStockTranslator
+
+   Bases: "dalio.translator.translator.Translator"
+
+   Translate stock data gathered from Yahoo! Finance
+
+   run(**kwargs)
+
+      Request data subset and translate columns
+
+      Parameters:
+         ****kwargs** -- optional run arguments. TICKER: ticker to get
+         data from.
+
+   translations = None
+
+
+dalio.translator.quandl module
+==============================
+
+Define Translator instances for data imported from quandl.
+
+These should be designed with both input and output in mind as quandl
+inputs can, for a good extent, known from the table and query, both of
+which are known from the time of request. This means that these
+translators should be designed to be more specific to the query
+instead of being flexible.
+
+class dalio.translator.quandl.QuandlSharadarSF1Translator
+
+   Bases: "dalio.translator.translator.Translator"
+
+   Import and translate data from the SHARADAR/SF1 table
+
+   run(**kwargs)
+
+      Get input from quandl's SHARADAR/SF1 table, and format according
+      to the STOCK_STREAM validator preset.
+
+   translations = None
+
+class dalio.translator.quandl.QuandlTickerInfoTranslator
+
+   Bases: "dalio.translator.translator.Translator"
+
+   Import and translate data from the SHARADAR/TICKERS table
+
+   run(**kwargs)
+
+      Get input from quandl's SHARADAR/TICKER table, and format
+      according to the STOCK_INFO validator preset.
+
+   translations = None
+
+
+dalio.translator.translator module
+==================================
+
+Define Translator class
+
+Translators are the root of all data that feeds your graph. Objects of
+this take in data from some external source then "translates" it into
+a format that can be used universaly by other elements in this
+package. Please consult the translation manual to make this as usabel
+as possible and make extensive use of the base tools to build
+translations.
+
+class dalio.translator.translator.Translator
+
+   Bases: "dalio.base.transformer._Transformer"
+
+   _source
+
+      Connection used to retrieve raw data from outide source.
+
+   translations
+
+      dictionary of translations from vocabulaary used in the data
+      source to base constants. These should be created from
+      initialization and kept unmodified. This is to ensure data
+      coming through a translator is though of before usage to ensure
+      integrity.
+
+   copy(*args, **kwargs)
+
+      Makes a copy of transformer, copying its attributes to a new
+      instance.
+
+      This copy should essentially create a new transformation node,
+      not an entire new graph, so the _source attribute of the
+      returned instance should be assigned without being copied. This
+      is also made to be built upon by subclasses, such that only new
+      attributes need to be added to a class' copy method.
+
+      Parameters:
+         * ***args** -- Positional arguments to be passed to
+           initialize copy
+
+         * ****kwargs** -- Keyword arguments to be passed to
+           initialize copy
+
+      Returns:
+         A copy of this _Transformer instance with copies of necessary
+         attributes and empty input.
+
+   set_input(new_input)
+
+      See base class
+
+   translate_item(item)
+
+      Translate all items of an iterable
+
+      Parameters:
+         **item** (*dict**, **any*) -- item or iterator of items to
+         translate.
+
+      Returns:
+         A list with the translated names.
+
+   translations: Dict[str, str] = None
+
+   update_translations(new_translations)
+
+      Update translations dictionary with new dictrionary
+
+   with_input(new_input)
+
+      See base class
+
+
+Module contents
+===============
+
+class dalio.translator.QuandlSharadarSF1Translator
+
+   Bases: "dalio.translator.translator.Translator"
+
+   Import and translate data from the SHARADAR/SF1 table
+
+   run(**kwargs)
+
+      Get input from quandl's SHARADAR/SF1 table, and format according
+      to the STOCK_STREAM validator preset.
+
+   translations = None
+
+class dalio.translator.QuandlTickerInfoTranslator
+
+   Bases: "dalio.translator.translator.Translator"
+
+   Import and translate data from the SHARADAR/TICKERS table
+
+   run(**kwargs)
+
+      Get input from quandl's SHARADAR/TICKER table, and format
+      according to the STOCK_INFO validator preset.
+
+   translations = None
+
+class dalio.translator.YahooStockTranslator
+
+   Bases: "dalio.translator.translator.Translator"
+
+   Translate stock data gathered from Yahoo! Finance
+
+   run(**kwargs)
+
+      Request data subset and translate columns
+
+      Parameters:
+         ****kwargs** -- optional run arguments. TICKER: ticker to get
+         data from.
+
+   translations = None
+
+class dalio.translator.StockStreamFileTranslator(date_col=None, att_name=None)
+
+   Bases: "dalio.translator.translator.Translator"
+
+   Create a DataFrame conforming to the STOCK_STREAM validator preset.
+
+   The STOCK_STREAM preset includes:
+      1. having a time series index,
+
+      2. being a dataframe,
+
+      3. having a multiindex column with levels named ATTRIBUTE and
+         TICKER.
+            Such that an imported excel file will have column names
+            renamed that or assume a single column name row is of
+            ticker names.
+
+   date_col
+
+      column name to get date data from.
+
+      Type:
+         str
+
+   att_name
+
+      name of the attribute column if imported dataframe column has
+      only one level.
+
+      Type:
+         str
+
+   copy(*args, **kwargs)
+
+      Makes a copy of transformer, copying its attributes to a new
+      instance.
+
+      This copy should essentially create a new transformation node,
+      not an entire new graph, so the _source attribute of the
+      returned instance should be assigned without being copied. This
+      is also made to be built upon by subclasses, such that only new
+      attributes need to be added to a class' copy method.
+
+      Parameters:
+         * ***args** -- Positional arguments to be passed to
+           initialize copy
+
+         * ****kwargs** -- Keyword arguments to be passed to
+           initialize copy
+
+      Returns:
+         A copy of this _Transformer instance with copies of necessary
+         attributes and empty input.
+
+   run(**kwargs)
+
+      Request pandas data from file and format it into a dataframe
+      that complies with the STOCK_STREAM validator preset
+
+      Parameters:
+         ****kwargs** --
+
+         Optional request arguments TICKER: single ticker or iterable
+         of tickers to filter for
+
+            in data.
+
+   translations = None

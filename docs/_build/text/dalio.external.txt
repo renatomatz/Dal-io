@@ -1,0 +1,564 @@
+dalio.external package
+**********************
+
+
+Submodules
+==========
+
+
+dalio.external.external module
+==============================
+
+Define abstract External class
+
+External instances manage connections between your environment and an
+external source. Class instacnes will often be redundant with existing
+connection handlers, but at least subclasses will allow for more
+integrated connection handling and collection, so that you can have a
+single connection object for each external connection.
+
+class dalio.external.external.External(config=None)
+
+   Bases: "dalio.base.node._Node"
+
+   Represents external data input or output
+
+   External instances have one external input and one internal output
+   or one internal input and one external output.
+
+   _connection
+
+      connection with outside source of data
+
+   _config
+
+      authentication settings for outside sources
+
+      Type:
+         dict
+
+   authenticate()
+
+      Establish a connection with the source.
+
+      Returns:
+         True if authenication is successful or if it is already
+         existent False if the authentication fails.
+
+   check()
+
+      Check if connection is ready to request data
+
+      Returns:
+         Whether data is ready to be requested
+
+   request(**kwargs)
+
+      Request data to or from an external source
+
+   update_config(new_conf)
+
+      Update configuration dict with new data
+
+      Parameters:
+         **new_conf** -- dictionary with new configurations or file
+         containing configuration settings translatable to a
+         dictionary
+
+      Raises:
+         **TypeError** -- if config is a non-existent file or not a
+         dict.
+
+
+dalio.external.file module
+==========================
+
+Define File IO classes
+
+Files are external sources of data that can be processed in several
+ways as raw data used in a graph.
+
+class dalio.external.file.FileWriter(out_file=<_io.TextIOWrapper name='<stdout>' mode='w' encoding='UTF-8'>)
+
+   Bases: "dalio.external.external.External"
+
+   File string writer
+
+   _connection
+
+      any file instance that can be written on
+
+   check()
+
+      Check if there is an open file as the connection
+
+   request(**kwargs)
+
+      Write a request string onto a file
+
+   set_connection(new_connection)
+
+      Set current connection
+
+      Set connection to opened file or open a new file given the path
+      to one.
+
+      Parameters:
+         **new_connection** -- open file instance or path to an
+         existing file.
+
+      Raises:
+         * **IOError** -- if specified path does not exist.
+
+         * **TypeError** -- if specified "new_connection" argument is
+           of an     invalid type
+
+class dalio.external.file.PandasInFile(in_file)
+
+   Bases: "dalio.external.external.External"
+
+   Get data from a file using the pandas package
+
+   _connection
+
+      path to a file that can be read by some pandas function.
+
+      Type:
+         str
+
+   check()
+
+      Check if connection is ready to request data
+
+      Returns:
+         Whether data is ready to be requested
+
+   request(**kwargs)
+
+      Get data input from a file according to its extension
+
+      Parameters:
+         ****kwargs** -- arguments to the inport function.
+
+
+dalio.external.image module
+===========================
+
+Define classes for image pieces
+
+Images, be it a plot, picture or video are considered external outputs
+as the figure itself is not contained in the python session, and must
+be shown in a screen or server.
+
+class dalio.external.image.PyPfOptGraph(figsize=None)
+
+   Bases: "dalio.external.image.PyPlotGraph"
+
+   Graphs data from the PyPfOpt package
+
+   plot(data, coords=None, kind=None, **kwargs)
+
+      Graph data from pypfopt
+
+      Parameters:
+         **data** -- plottable data from pypfopt package
+
+      Raises:
+         **TypeError** -- if data is not of a plottable class from
+         pypfopt
+
+class dalio.external.image.PyPlotGraph(figsize=None)
+
+   Bases: "dalio.external.image._Figure"
+
+   Figure from the matplotlib.pyplot package.
+
+   _connection
+
+      graph figure
+
+      Type:
+         matplotlib.pyplot.Figure
+
+   _axes
+
+      figure axis
+
+      Type:
+         matplotlib.axes._subplots.AxesSubplot
+
+   plot(data, kind=None, **graph_opts)
+
+      Plot x onto the x-axis and y onto the y-axis, if applicable.
+
+      Parameters:
+         * **data** (*matrix** or **array like*) -- either data to be
+           plotted on the x axis or a tuple of x and y data to be
+           plotted or the x and y axis.
+
+         * **kind** (*str*) -- kind of graph.
+
+         * ****graph_opts** -- plt plotting arguments for this kind of
+           graph.
+
+   request(**kwargs)
+
+      Processed request for data.
+
+      This adds the SHOW request to the base class implementation
+
+   reset()
+
+      Set connection and axes to a single figure and axis
+
+class dalio.external.image.PySubplotGraph(rows, cols, figsize=None)
+
+   Bases: "dalio.external.image._MultiFigure"
+
+   A matplotlib.pyplot.Figure containing multiple subplots.
+
+   This has a set number of axes, rows and columns which can be
+   accessed individually to have data plotted on. These will often be
+   used inside of applications that require more than one subplot all
+   contained in the same instance.
+
+   _rows
+
+      number of rows in the subplot
+
+      Type:
+         int
+
+   _cols
+
+      number of columns in the subplot
+
+      Type:
+         int
+
+   _loc
+
+      array of the figure's axes
+
+      Type:
+         np.array
+
+   get_loc(coords)
+
+      Gets a specific axis from the _loc attribute at given
+      coordinates
+
+   make_manager(coords)
+
+      Create a SubPlotManager to manage this instance's subplots
+
+   plot(data, coords=None, kind=None, **graph_opts)
+
+      Plot on a specified subplot axis
+
+      Parameters:
+         **coords** (*tuple*) -- tuple of subplot coordinates to plot
+         data
+
+      Raises:
+         **ValueError** -- if coordinates are out of range.
+
+   reset()
+
+      Resets figure and all axes
+
+class dalio.external.image.SubplotManager(subplot, coords)
+
+   Bases: "dalio.external.image.PyPlotGraph"
+
+   A manager object for treating a subplot axis like a single plot.
+
+   Applications will often take in single plots and have their
+   functionality catered to such. Subplots, while useful, will often
+   be used for specific applications. A subplot manager allows you to
+   create multiple subplots and pass each one individually onto
+   applications that take a single subplot axis and still have access
+   to the underlying figure.
+
+   reset()
+
+      Set connection and axes to a single figure and axis
+
+
+dalio.external.web module
+=========================
+
+Define web external request classes
+
+class dalio.external.web.QuandlAPI(config=None)
+
+   Bases: "dalio.external.external.External"
+
+   Set up the Quandl API and request table data from quandl.
+
+   _quandl_conf
+
+      Quandl API config object
+
+   authenticate()
+
+      Set the api key if it is available in the config dictionary
+
+      Returns:
+         True if key was successfully set, False otherwise
+
+   check()
+
+      Check if the api key is set
+
+   request(**kwargs)
+
+      Request table data from quandl
+
+      Parameters:
+         ****kwargs** -- keyword arguments for quandl request. query:
+         table to get data from. filter: dictionary of filters for
+         data. Depends on table. columns: columns to select.
+
+      Raises:
+         * **IOError** -- if api key is not set.
+
+         * **ValueError** -- if filters kwarg is not a dict.
+
+class dalio.external.web.YahooDR(config=None)
+
+   Bases: "dalio.external.web._PDR"
+
+   Represents financial data from Yahoo! Finance
+
+   request(**kwargs)
+
+      Get data from specified tickers
+
+
+Module contents
+===============
+
+class dalio.external.FileWriter(out_file=<_io.TextIOWrapper name='<stdout>' mode='w' encoding='UTF-8'>)
+
+   Bases: "dalio.external.external.External"
+
+   File string writer
+
+   _connection
+
+      any file instance that can be written on
+
+   check()
+
+      Check if there is an open file as the connection
+
+   request(**kwargs)
+
+      Write a request string onto a file
+
+   set_connection(new_connection)
+
+      Set current connection
+
+      Set connection to opened file or open a new file given the path
+      to one.
+
+      Parameters:
+         **new_connection** -- open file instance or path to an
+         existing file.
+
+      Raises:
+         * **IOError** -- if specified path does not exist.
+
+         * **TypeError** -- if specified "new_connection" argument is
+           of an     invalid type
+
+class dalio.external.PandasInFile(in_file)
+
+   Bases: "dalio.external.external.External"
+
+   Get data from a file using the pandas package
+
+   _connection
+
+      path to a file that can be read by some pandas function.
+
+      Type:
+         str
+
+   check()
+
+      Check if connection is ready to request data
+
+      Returns:
+         Whether data is ready to be requested
+
+   request(**kwargs)
+
+      Get data input from a file according to its extension
+
+      Parameters:
+         ****kwargs** -- arguments to the inport function.
+
+class dalio.external.PyPlotGraph(figsize=None)
+
+   Bases: "dalio.external.image._Figure"
+
+   Figure from the matplotlib.pyplot package.
+
+   _connection
+
+      graph figure
+
+      Type:
+         matplotlib.pyplot.Figure
+
+   _axes
+
+      figure axis
+
+      Type:
+         matplotlib.axes._subplots.AxesSubplot
+
+   plot(data, kind=None, **graph_opts)
+
+      Plot x onto the x-axis and y onto the y-axis, if applicable.
+
+      Parameters:
+         * **data** (*matrix** or **array like*) -- either data to be
+           plotted on the x axis or a tuple of x and y data to be
+           plotted or the x and y axis.
+
+         * **kind** (*str*) -- kind of graph.
+
+         * ****graph_opts** -- plt plotting arguments for this kind of
+           graph.
+
+   request(**kwargs)
+
+      Processed request for data.
+
+      This adds the SHOW request to the base class implementation
+
+   reset()
+
+      Set connection and axes to a single figure and axis
+
+class dalio.external.PySubplotGraph(rows, cols, figsize=None)
+
+   Bases: "dalio.external.image._MultiFigure"
+
+   A matplotlib.pyplot.Figure containing multiple subplots.
+
+   This has a set number of axes, rows and columns which can be
+   accessed individually to have data plotted on. These will often be
+   used inside of applications that require more than one subplot all
+   contained in the same instance.
+
+   _rows
+
+      number of rows in the subplot
+
+      Type:
+         int
+
+   _cols
+
+      number of columns in the subplot
+
+      Type:
+         int
+
+   _loc
+
+      array of the figure's axes
+
+      Type:
+         np.array
+
+   get_loc(coords)
+
+      Gets a specific axis from the _loc attribute at given
+      coordinates
+
+   make_manager(coords)
+
+      Create a SubPlotManager to manage this instance's subplots
+
+   plot(data, coords=None, kind=None, **graph_opts)
+
+      Plot on a specified subplot axis
+
+      Parameters:
+         **coords** (*tuple*) -- tuple of subplot coordinates to plot
+         data
+
+      Raises:
+         **ValueError** -- if coordinates are out of range.
+
+   reset()
+
+      Resets figure and all axes
+
+class dalio.external.PyPfOptGraph(figsize=None)
+
+   Bases: "dalio.external.image.PyPlotGraph"
+
+   Graphs data from the PyPfOpt package
+
+   plot(data, coords=None, kind=None, **kwargs)
+
+      Graph data from pypfopt
+
+      Parameters:
+         **data** -- plottable data from pypfopt package
+
+      Raises:
+         **TypeError** -- if data is not of a plottable class from
+         pypfopt
+
+class dalio.external.YahooDR(config=None)
+
+   Bases: "dalio.external.web._PDR"
+
+   Represents financial data from Yahoo! Finance
+
+   request(**kwargs)
+
+      Get data from specified tickers
+
+class dalio.external.QuandlAPI(config=None)
+
+   Bases: "dalio.external.external.External"
+
+   Set up the Quandl API and request table data from quandl.
+
+   _quandl_conf
+
+      Quandl API config object
+
+   authenticate()
+
+      Set the api key if it is available in the config dictionary
+
+      Returns:
+         True if key was successfully set, False otherwise
+
+   check()
+
+      Check if the api key is set
+
+   request(**kwargs)
+
+      Request table data from quandl
+
+      Parameters:
+         ****kwargs** -- keyword arguments for quandl request. query:
+         table to get data from. filter: dictionary of filters for
+         data. Depends on table. columns: columns to select.
+
+      Raises:
+         * **IOError** -- if api key is not set.
+
+         * **ValueError** -- if filters kwarg is not a dict.

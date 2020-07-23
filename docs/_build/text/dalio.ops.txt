@@ -1,0 +1,40 @@
+dalio.ops module
+****************
+
+Define various operations
+
+dalio.ops.get_comps_by_sic(data, ticker, max_ticks=None)
+
+   Get an equity’s comps based on market cap and sic code similarity
+
+   This has the major flaw of getting too many comps for common
+   industries.
+
+   Parameters:
+      * **data** (*pd.DataFrame*) – data containing all possible
+        comparisson candidates.
+
+      * **ticker** (*str*) – ticker of main stock.
+
+      * **max_ticks** (*int*) – maximum number of tickers to return.
+
+   Raises:
+      **KeyError** – if stock is not present in data.
+
+dalio.ops.index_cols(df, i=100)
+
+   Index columns at some value
+
+dalio.ops.risk_metrics(data, lam, ignore_first=True)
+
+   Apply the basic RiskMetrics (EWMA) continuous volatility measure to
+   a a dataframe
+
+   Parameters:
+      * **lam** (*float*) – lambda parameter
+
+      * **ignore_first** (*bool*) – whether to ignore the first row.
+        This is often the case after a change pipe.
+
+   Returns:
+      A copy of data with the continuous volatility of each value

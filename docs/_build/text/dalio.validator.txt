@@ -1,0 +1,253 @@
+dalio.validator package
+***********************
+
+
+Submodules
+==========
+
+
+dalio.validator.array_val module
+================================
+
+Definte validators applied to array-like inputs
+
+class dalio.validator.array_val.HAS_DIMS(dims, comparisson='==')
+
+   Bases: "dalio.validator.validator.Validator"
+
+   Check if an array has a number of dimensions
+
+   _dims
+
+      number of dimensions
+
+      Type:
+         int
+
+   _comparisson
+
+      which comparisson to perform
+
+      Type:
+         str
+
+   validate(data)
+
+      Validate data
+
+      Check if data fits a certain description.
+
+      Returns:
+         A description of any errors in the data according to this
+         specific validation condition, and None if data is valid.
+
+
+dalio.validator.base_val module
+===============================
+
+Define Validators used for general python objects
+
+class dalio.validator.base_val.ELEMS_TYPE(t)
+
+   Bases: "dalio.validator.base_val.HAS_ATTR"
+
+   Checks if all elements of an iterator is of a certain type.
+
+   _t
+
+      type to check iterator’s elements for
+
+      Type:
+         type, tuple
+
+   validate(data)
+
+      Validates data if it is an iterable with all elements of type
+      self._t
+
+class dalio.validator.base_val.HAS_ATTR(attr)
+
+   Bases: "dalio.validator.validator.Validator"
+
+   Checks if data has an attribute
+
+   _attr
+
+      attribute to check for
+
+      Type:
+         str
+
+   validate(data)
+
+      Validates data if it contains attribute self._attr
+
+class dalio.validator.base_val.IS_TYPE(t)
+
+   Bases: "dalio.validator.validator.Validator"
+
+   Checks if data is of a certain type
+
+   Attribute:
+      t (type): type of data to check for
+
+   validate(data)
+
+      Validates data if it is of type self._t
+
+
+dalio.validator.pandas_val module
+=================================
+
+class dalio.validator.pandas_val.HAS_COLS(cols, level=None)
+
+   Bases: "dalio.validator.pandas_val.IS_PD_DF"
+
+   Checks if data has certain column names
+
+   _cols
+
+      list of column names to check
+
+   validate(data)
+
+      Validates data if all the columns in self._cols is present in
+      the dataframe
+
+class dalio.validator.pandas_val.HAS_INDEX_NAMES(names, axis=0)
+
+   Bases: "dalio.validator.pandas_val.IS_PD_DF"
+
+   Checks if an axis has specified names
+
+   _names
+
+      names to check for
+
+   _axis
+
+      axis to check for names
+
+   validate(data)
+
+      Validates data if specified axis has the specified names
+
+class dalio.validator.pandas_val.HAS_IN_COLS(items, cols=None)
+
+   Bases: "dalio.validator.pandas_val.HAS_COLS"
+
+   Check if certain items are present in certain columns
+
+   _cols
+
+      See base class
+
+   _items
+
+      items that must be present in each of the specified columns
+
+   validate(data)
+
+      Validates data if items in self._items are not present in
+      specified columns. Specified columns are all columns if
+      self._cols is None.
+
+class dalio.validator.pandas_val.HAS_LEVELS(levels, axis=0, comparisson='<=')
+
+   Bases: "dalio.validator.pandas_val.IS_PD_DF"
+
+   validate(data)
+
+      Validates data if it is of type self._t
+
+class dalio.validator.pandas_val.IS_PD_DF
+
+   Bases: "dalio.validator.base_val.IS_TYPE"
+
+   Checks if data is a pandas dataframe
+
+   See base class
+
+class dalio.validator.pandas_val.IS_PD_TS
+
+   Bases: "dalio.validator.base_val.IS_TYPE"
+
+   Checks if data is a pandas time series
+
+   validate(data)
+
+      Validates data if it’s index is of type pandas.DateTimeIndex
+
+
+dalio.validator.presets module
+==============================
+
+Define Validator collection presets
+
+These are useful to describe very specific data characteristics
+commonly used in some analysis.
+
+
+dalio.validator.validator module
+================================
+
+Define Validator class
+
+Validators are the building blocks of data integrity in the graph. As
+modularity is key, validators ensure that the data that enters a node
+is what it is mean to be or that errors are targeted to make debugging
+easier.
+
+class dalio.validator.validator.Validator(fatal=True)
+
+   Bases: "object"
+
+   Check for some characteristic of a piece of data
+
+   Validators can have any attribute needed, but functionality is
+   stored in u the .validate function, which returns any errors in the
+   data.
+
+   fatal
+
+      Whether if invalid data is fatal. Decides whether invalid data
+      can still be passed on (with a warning) or if it is grounds to
+      stop the execution of the graph. False by default.
+
+      Type:
+         bool
+
+   test_desc
+
+      Description of tests performed on data
+
+      Type:
+         str
+
+   fatal: bool = None
+
+   fatal_off()
+
+      Turn fatal off and return self
+
+   fatal_on()
+
+      Turn fatal on and return self
+
+   is_on: bool = None
+
+   test_desc: str = None
+
+   validate(data)
+
+      Validate data
+
+      Check if data fits a certain description.
+
+      Returns:
+         A description of any errors in the data according to this
+         specific validation condition, and None if data is valid.
+
+
+Module contents
+===============

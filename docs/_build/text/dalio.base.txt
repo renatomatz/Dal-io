@@ -1,0 +1,286 @@
+dalio.base package
+******************
+
+
+Submodules
+==========
+
+
+dalio.base.builder module
+=========================
+
+Define extra utility classes used throughout the package
+
+These classes implement certain interfaces used in specific cases and
+are not constrained an object's parent class.
+
+
+dalio.base.constants module
+===========================
+
+Define constant terms
+
+In order to maintain name integrity throughout graphs, constants are
+used instead of any string name for variables that were created or
+will be usued in any _Transformer instance before or after the current
+one. These are often column names for pandas DataFrames, though can be
+anything that is or will be used to identify data throughout the
+graph.
+
+
+dalio.base.datadef module
+=========================
+
+Defines DataDef base class
+
+DataDef instances describe data inputs throughout the graph and ensure
+the integrity of data continuously. These are composed of various
+validators that serve both to describe approved data and check for
+whether data passes a test.
+
+
+dalio.base.memory module
+========================
+
+Defines memory transformers
+
+class dalio.base.memory.LazyRunner(mem_type, args=None, kwargs=None, buff=1, update=False)
+
+   Bases: "dalio.base.transformer._Transformer"
+
+   Memory manager created to set memory input of an object after
+   executing a transformer with given kwargs.
+
+   This is useful when you want to store data sourced from a
+   transformer but doesn't know which kwarg requests will be used.
+   This object waits for a run request to source data from a
+   transformer and set the source of one or more memory objects (in
+   order) when data does arrive, and reutilize it if data is requested
+   with the same kwargs.
+
+   For every new and valid evaluation, a new Memory instance is
+   created and saved as a value in the _memory dictionary. Failed
+   memory storage will result in no new Memory instance being created.
+   This is done instead of simply setting inputs to Memory instances
+   created upon initialization in order to reduce the memory usage of
+   LazyRunner instances.
+
+   KEEP IN MIND that this does not check if the actual input is the
+   same to relay the data, only the kwargs (for speed's sake). This
+   creates the risk that inputs or transformer attributes are changed
+   (keeping kwarg requests the same) and the old data is retrieved.
+   Use the pop() or clear() methods to solve this.
+
+   KEEP IN MIND there is a risk of having very different inputs being
+   retrieved (from different external sources or date filters, for
+   example) only based on kwarg requests. This is only relevant if
+   _buff > 1.
+
+   _source
+
+      transformer to source data from. No data definitions are used as
+      this should be performed by the memory type uppon setting an
+      input.
+
+      Type:
+         _Transformer
+
+   _mem_type
+
+      type object for generating new memory instances.
+
+      Type:
+         type
+
+   _args
+
+      tuple of arguments for new _mem_type instance initialization
+
+      Type:
+         tuple
+
+   _kwargs
+
+      dict of keyword arguments for new _mem_type instance
+      initialization
+
+      Type:
+         dict
+
+   _memory
+
+      deque containing one Memory instance for every unique kwargs ran
+      with a (kwarg, Memory) tuple structure.
+
+      Type:
+         deque
+
+   _buff
+
+      Maximum number of Memory instances to be stored at any point.
+      Positive numbers will be this limit, -1 represent no buffer
+      limits. This option should be used with caution, as it can be
+      highly memory-inneficient. Subclasses can create new methods of
+      managing this limit.
+
+      Type:
+         int, -1 or >0
+
+   _update
+
+      Whether _memory dict should be updated if a new set of kwargs is
+      ran after reaching maximum capacity (as defined by the _buff
+      attribute). If set to True, the last element of the _memory dict
+      will be substituted.
+
+      Type:
+         bool
+
+   clear()
+
+      Clear memory
+
+   copy(*args, **kwargs)
+
+      Return a copy of this instance with a shallow memory dict copy
+
+   run(**kwargs)
+
+      Compare kwargs with existing keys, update or set _memory in
+      accordance to _update and _buff attributes.
+
+      Raises:
+         **BufferError** -- if new kwargs, buffer is full and update
+         set to False
+
+   set_buff(buff)
+
+      Set the _buff attribute
+
+   set_input(new_input)
+
+      Set the input data source.
+
+      Parameters:
+         **new_input** (*_Transformer*) -- new transformer to be set
+         as input.
+
+      Raises:
+         **TypeError** -- if new_input is not an instance of
+         _Transformer.
+
+   set_update(update)
+
+      Set the _update attribute
+
+   with_input(new_input)
+
+      Return copy of this transformer with the new input connection.
+
+      Returns:
+         Copy of self with new input.
+
+class dalio.base.memory.LocalMemory
+
+   Bases: "dalio.base.memory.Memory"
+
+   Stores memory in the local session
+
+   clear()
+
+      Clear memory
+
+   run(**kwargs)
+
+      Return data stored in source variable
+
+      If data can be coppied, it will. This might not be memory
+      efficient, but it makes behaviour from the Memory._source
+      attribute more consistent with external memory sources.
+
+   set_input(new_input)
+
+      Store input data into source variable
+
+class dalio.base.memory.Memory
+
+   Bases: "dalio.base.transformer._Transformer"
+
+   Implement mechanics to store and retrieve input data.
+
+   This is a pseudo-transformer, as it is supposed to behave like on
+   on the surface (implementing all needed methods) but not actually
+   performing any actual transformation.
+
+   This is used in pipes that heavily reutilize the same external data
+   source using the same kwarg requests. Implementations store and
+   retrieive data through different methods and locations, and might
+   implement certain requirements that must be met by input data in
+   order for it to be stored.
+
+   _def
+
+      Connection-less data definition that checks for required
+      characteristics of of input data.
+
+      Type:
+         _DataDef
+
+   _source
+
+      Memory source. Implementations will often have additional
+      attributes to manage this source.
+
+      Type:
+         any
+
+   clear()
+
+      Clear memory
+
+   copy(*args, **kwargs)
+
+      Create new instance and memory source
+
+   run(**kwargs)
+
+      Check if location is set and return stored data accordingly
+
+   set_input(new_input)
+
+      Store input data
+
+   with_input(new_input)
+
+      Return copy of this transformer with the new input connection.
+
+      Returns:
+         Copy of self with new input.
+
+
+dalio.base.node module
+======================
+
+Defines Node abstract class
+
+Nodes are the key building blocks of your model as they represent any
+data that passes thorugh it. These are usued in subsequent classes to
+describe and manage data.
+
+
+dalio.base.transformer module
+=============================
+
+Define Transformer class
+
+Transformers are a base class that represents any kind of data
+modification. These interact with DataOrigin instances as they are key
+to their input and output integrity. A set_source() method sets the
+source of the input, the .run() method cannot be executed if the
+input"s source is not set.
+
+
+Module contents
+===============
+
+import classes

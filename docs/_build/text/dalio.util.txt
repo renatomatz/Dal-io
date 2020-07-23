@@ -1,0 +1,612 @@
+dalio.util package
+******************
+
+
+Submodules
+==========
+
+
+dalio.util.level_utils module
+=============================
+
+Utilities for dealing with DataFrame index or column levels
+
+dalio.util.level_utils.add_suffix(all_cols, cols, suffix)
+
+   Add suffix to appropriate level in a given column index.
+
+   Parameters:
+      * **all_cols** (*pd.Index**, **pd.MultiIndex*) – all columns
+        from an index. This is only relevent when the columns at hand
+        are a multindex, as each tuple element will contain elements
+        from all levels (not only the selected ones)
+
+      * **cols** (*str**, **list**, **dict*) – selected columns
+
+      * **suffix** (*str*) – the suffix to add to the selected
+        columns.
+
+dalio.util.level_utils.drop_cols(df, cols)
+
+   Drop selected columns from levels
+
+   Parameters:
+      * **df** (*pd.DataFrame*) – dataframe to have columns dropped.
+
+      * **cols** (*hashable**, **iterable**, **dict*) – column
+        selection
+
+dalio.util.level_utils.extract_cols(df, cols)
+
+   Extract columns from a dataframe
+
+   Parameters:
+      * **df** (*pd.DataFrame*) – dataframe containing the columns
+
+      * **cols** (*hashable**, **iterable**, **dict*) – single column,
+        list of columnst or dict with the level as keys and column(s)
+        as values.
+
+   Raises:
+      **KeyError** – if columns are not in dataframe
+
+dalio.util.level_utils.extract_level_names_dict(df)
+
+   Extract all column names in a dataframe as (level: >>names_<<
+   dicitonar7
+
+   Parameters:
+      **df** (*pd.DataFrame*) – dataframe whose columns will be
+      extracted
+
+dalio.util.level_utils.filter_levels(levels, filters)
+
+   Filter columns in levels to either be equal to specified columns or
+   a filtering function
+
+   Parameters:
+      * **levels** (*dict*) – all column names in a (level: names)
+        dict
+
+      * **filters** (*str**, **list**, **callable**, **dict*) – either
+        columns to place on a specified level or filter functions to
+        select columns there.
+
+dalio.util.level_utils.get_slice_from_dict(df, cols)
+
+   Get a tuple of slices that locate the specified (level: column)
+   combination.
+
+   Parameters:
+      * **df** (*pd.DataFrame*) – dataframe with multiindex
+
+      * **cols** (*dict*) – (level: column) dictionary
+
+   Raises:
+      * **ValueError** – if any of the level keys are not integers
+
+      * **KeyError** – if any level key is out of bounds or if columns
+        are not in     the dataframe
+
+dalio.util.level_utils.insert_cols(df, new_data, cols)
+
+   Insert new data into specified existing columns
+
+   Parameters:
+      * **df** (*pd.DataFrame*) – dataframe to insert data into.
+
+      * **new_data** (*any*) – new data to be inserted
+
+      * **cols** (*hashable**, **iterable**, **dict*) – existing
+        columns in data.
+
+   Raises:
+      * **KeyError** – if columns are not in dataframe
+
+      * **Exception** – if new data doesn’t fit cols dimensions
+
+dalio.util.level_utils.mi_join(df1, df2, *args, **kwargs)
+
+   Join two dataframes and sort their columns
+
+   Parameters:
+      * **df2** (*df1**,*) – dataframes to join
+
+      * ****kwargs** (**args**,*) –
+
+        arguments for join function (called from df1)
+
+   Raises:
+      **ValueError if number of levels don't match** –
+
+
+dalio.util.plotting_utils module
+================================
+
+Plotting utilities
+
+Thank you for the creators of pypfopt for the wonderful code!
+
+dalio.util.plotting_utils.plot_covariance(cov_matrix, plot_correlation=False, show_tickers=True, ax=None)
+
+   Generate a basic plot of the covariance (or correlation) matrix,
+   given a covariance matrix.
+
+   Parameters:
+      * **cov_matrix** (*pd.DataFrame**, **np.ndarray*) – covariance
+        matrix
+
+      * **plot_correlation** (*bool*) – whether to plot the
+        correlation matrix instead, defaults to False. Optional.
+
+      * **show_tickers** (*bool*) – whether to use tickers as labels
+        (not recommended for large portfolios). Optional. Defaults to
+        True.
+
+      * **ax** (*matplolib.axis**, **None*) – Axis to plot on.
+        Optional. New axis will be created if none is specified.
+
+   Returns:
+      matplotlib axis
+
+dalio.util.plotting_utils.plot_dendrogram(hrp, show_tickers=True, ax=None, **kwargs)
+
+   Plot the clusters in the form of a dendrogram.
+
+   Parameters:
+      * **hrp** – HRPpt object that has already been optimized.
+
+      * **show_tickers** (*bool*) – whether to use tickers as labels
+        (not recommended for large portfolios). Optional. Defaults to
+        True.
+
+      * **ax** (*matplolib.axis**, **None*) – Axis to plot on.
+        Optional. New axis will be created if none is specified.
+
+      * ****kwargs** – optional parameters for main graph.
+
+   Returns:
+      matplotlib axis
+
+dalio.util.plotting_utils.plot_efficient_frontier(cla, points=100, visible=25, show_assets=True, ax=None, **kwargs)
+
+   Plot the efficient frontier based on a CLA object
+
+   Parameters:
+      * **points** (*int*) – number of points to plot. Optional.
+        Defaults to 100
+
+      * **show_assets** (*bool*) – whether we should plot the asset
+        risks/returns also. Optional. Defaults to True.
+
+      * **ax** (*matplolib.axis**, **None*) – Axis to plot on.
+        Optional. New axis will be created if none is specified.
+
+      * ****kwargs** – optional parameters for main graph.
+
+   Returns:
+      matplotlib axis
+
+dalio.util.plotting_utils.plot_weights(weights, ax=None, **kwargs)
+
+   Plot the portfolio weights as a horizontal bar chart
+
+   Parameters:
+      * **weights** (*dict*) – the weights outputted by any
+        PyPortfolioOpt optimiser.
+
+      * **ax** (*matplolib.axis**, **None*) – Axis to plot on.
+        Optional. New axis will be created if none is specified.
+
+      * ****kwargs** – optional parameters for main graph.
+
+   Returns:
+      matplotlib axis
+
+
+dalio.util.processing_utils module
+==================================
+
+Data processing utilities
+
+dalio.util.processing_utils.list_str(listi)
+
+dalio.util.processing_utils.process_cols(cols)
+
+   Standardize input columns
+
+dalio.util.processing_utils.process_date(date)
+
+   Standardize input date
+
+   Raises:
+      **TypeError** – if the type of the date parameter cannot be
+      converted to     a pandas timestamp
+
+dalio.util.processing_utils.process_new_colnames(cols, new_cols)
+
+   Get new column names based on the column parameter
+
+dalio.util.processing_utils.process_new_df(df1, df2, cols, new_cols)
+
+   Process new dataframe given columns and new column names
+
+   Parameters:
+      * **df1** (*pd.DataFrame*) – first dataframe.
+
+      * **df2** (*pd.DataFrame*) – dataframe to join or get columns
+        from
+
+      * **cols** (*iterable*) – iterable of columns being targetted.
+
+      * **new_cols** (*iterable*) – iterable of new column names.
+
+
+dalio.util.transformation_utils module
+======================================
+
+dalio.util.transformation_utils.out_of_place_col_insert(df, series, loc, column_name=None)
+
+   Returns a new dataframe with given column inserted at given
+   location.
+
+   Parameters:
+      * **df** (*pandas.DataFrame*) – The dataframe into which to
+        insert the column.
+
+      * **series** (*pandas.Series*) – The pandas series to be
+        inserted.
+
+      * **loc** (*int*) – The location into which to insert the new
+        column.
+
+      * **column_name** (*str**, **default None*) – The name to assign
+        the new column. If None, the given series name attribute is
+        attempted; if the given series is missing the name attribute a
+        ValueError exception will be raised.
+
+   Returns:
+      The resulting dataframe.
+
+   Return type:
+      pandas.DataFrame
+
+   -[ Example ]-
+
+   >>> import pandas as pd; import pdpipe as pdp;
+   >>> df = pd.DataFrame([[1, 'a'], [4, 'b']], columns=['a', 'g'])
+   >>> ser = pd.Series([7, 5])
+   >>> out_of_place_col_insert(df, ser, 1, 'n')
+      a  n  g
+   0  1  7  a
+   1  4  5  b
+
+
+dalio.util.translation_utils module
+===================================
+
+Translation utilities
+
+dalio.util.translation_utils.get_numeric_column_names(df)
+
+   Return the names of all columns of numeric type.
+
+   Parameters:
+      **df** (*pandas.DataFrame*) – The dataframe to get numeric
+      column names for.
+
+   Returns:
+      The names of all columns of numeric type.
+
+   Return type:
+      list of str
+
+   -[ Example ]-
+
+   >>> import pandas as pd; import pdpipe as pdp;
+   >>> data = [[2, 3.2, "acd"], [1, 7.2, "alk"], [8, 12.1, "alk"]]
+   >>> df = pd.DataFrame(data, [1,2,3], ["rank", "ph","lbl"])
+   >>> sorted(get_numeric_column_names(df))
+   ['ph', 'rank']
+
+dalio.util.translation_utils.translate_df(translator, df, inplace=False)
+
+   Translate dataframe column and index names in accordance to
+   translator dictionary.
+
+   Parameters:
+      * **translator** (*dict*) – dictionary of {original: translated}
+        key value pairs.
+
+      * **df** (*pd.DataFrame*) – dataframe to have rows and columns
+        translated.
+
+      * **inplace** (*bool*) – whether to perform operation inplace or
+        return a translated copy. Optional. Defaults to False.
+
+
+Module contents
+===============
+
+dalio.util.extract_level_names_dict(df)
+
+   Extract all column names in a dataframe as (level: >>names_<<
+   dicitonar7
+
+   Parameters:
+      **df** (*pd.DataFrame*) – dataframe whose columns will be
+      extracted
+
+dalio.util.filter_levels(levels, filters)
+
+   Filter columns in levels to either be equal to specified columns or
+   a filtering function
+
+   Parameters:
+      * **levels** (*dict*) – all column names in a (level: names)
+        dict
+
+      * **filters** (*str**, **list**, **callable**, **dict*) – either
+        columns to place on a specified level or filter functions to
+        select columns there.
+
+dalio.util.extract_cols(df, cols)
+
+   Extract columns from a dataframe
+
+   Parameters:
+      * **df** (*pd.DataFrame*) – dataframe containing the columns
+
+      * **cols** (*hashable**, **iterable**, **dict*) – single column,
+        list of columnst or dict with the level as keys and column(s)
+        as values.
+
+   Raises:
+      **KeyError** – if columns are not in dataframe
+
+dalio.util.insert_cols(df, new_data, cols)
+
+   Insert new data into specified existing columns
+
+   Parameters:
+      * **df** (*pd.DataFrame*) – dataframe to insert data into.
+
+      * **new_data** (*any*) – new data to be inserted
+
+      * **cols** (*hashable**, **iterable**, **dict*) – existing
+        columns in data.
+
+   Raises:
+      * **KeyError** – if columns are not in dataframe
+
+      * **Exception** – if new data doesn’t fit cols dimensions
+
+dalio.util.drop_cols(df, cols)
+
+   Drop selected columns from levels
+
+   Parameters:
+      * **df** (*pd.DataFrame*) – dataframe to have columns dropped.
+
+      * **cols** (*hashable**, **iterable**, **dict*) – column
+        selection
+
+dalio.util.get_slice_from_dict(df, cols)
+
+   Get a tuple of slices that locate the specified (level: column)
+   combination.
+
+   Parameters:
+      * **df** (*pd.DataFrame*) – dataframe with multiindex
+
+      * **cols** (*dict*) – (level: column) dictionary
+
+   Raises:
+      * **ValueError** – if any of the level keys are not integers
+
+      * **KeyError** – if any level key is out of bounds or if columns
+        are not in     the dataframe
+
+dalio.util.mi_join(df1, df2, *args, **kwargs)
+
+   Join two dataframes and sort their columns
+
+   Parameters:
+      * **df2** (*df1**,*) – dataframes to join
+
+      * ****kwargs** (**args**,*) –
+
+        arguments for join function (called from df1)
+
+   Raises:
+      **ValueError if number of levels don't match** –
+
+dalio.util.add_suffix(all_cols, cols, suffix)
+
+   Add suffix to appropriate level in a given column index.
+
+   Parameters:
+      * **all_cols** (*pd.Index**, **pd.MultiIndex*) – all columns
+        from an index. This is only relevent when the columns at hand
+        are a multindex, as each tuple element will contain elements
+        from all levels (not only the selected ones)
+
+      * **cols** (*str**, **list**, **dict*) – selected columns
+
+      * **suffix** (*str*) – the suffix to add to the selected
+        columns.
+
+dalio.util.out_of_place_col_insert(df, series, loc, column_name=None)
+
+   Returns a new dataframe with given column inserted at given
+   location.
+
+   Parameters:
+      * **df** (*pandas.DataFrame*) – The dataframe into which to
+        insert the column.
+
+      * **series** (*pandas.Series*) – The pandas series to be
+        inserted.
+
+      * **loc** (*int*) – The location into which to insert the new
+        column.
+
+      * **column_name** (*str**, **default None*) – The name to assign
+        the new column. If None, the given series name attribute is
+        attempted; if the given series is missing the name attribute a
+        ValueError exception will be raised.
+
+   Returns:
+      The resulting dataframe.
+
+   Return type:
+      pandas.DataFrame
+
+   -[ Example ]-
+
+   >>> import pandas as pd; import pdpipe as pdp;
+   >>> df = pd.DataFrame([[1, 'a'], [4, 'b']], columns=['a', 'g'])
+   >>> ser = pd.Series([7, 5])
+   >>> out_of_place_col_insert(df, ser, 1, 'n')
+      a  n  g
+   0  1  7  a
+   1  4  5  b
+
+dalio.util.translate_df(translator, df, inplace=False)
+
+   Translate dataframe column and index names in accordance to
+   translator dictionary.
+
+   Parameters:
+      * **translator** (*dict*) – dictionary of {original: translated}
+        key value pairs.
+
+      * **df** (*pd.DataFrame*) – dataframe to have rows and columns
+        translated.
+
+      * **inplace** (*bool*) – whether to perform operation inplace or
+        return a translated copy. Optional. Defaults to False.
+
+dalio.util.get_numeric_column_names(df)
+
+   Return the names of all columns of numeric type.
+
+   Parameters:
+      **df** (*pandas.DataFrame*) – The dataframe to get numeric
+      column names for.
+
+   Returns:
+      The names of all columns of numeric type.
+
+   Return type:
+      list of str
+
+   -[ Example ]-
+
+   >>> import pandas as pd; import pdpipe as pdp;
+   >>> data = [[2, 3.2, "acd"], [1, 7.2, "alk"], [8, 12.1, "alk"]]
+   >>> df = pd.DataFrame(data, [1,2,3], ["rank", "ph","lbl"])
+   >>> sorted(get_numeric_column_names(df))
+   ['ph', 'rank']
+
+dalio.util.process_cols(cols)
+
+   Standardize input columns
+
+dalio.util.process_new_colnames(cols, new_cols)
+
+   Get new column names based on the column parameter
+
+dalio.util.process_date(date)
+
+   Standardize input date
+
+   Raises:
+      **TypeError** – if the type of the date parameter cannot be
+      converted to     a pandas timestamp
+
+dalio.util.process_new_df(df1, df2, cols, new_cols)
+
+   Process new dataframe given columns and new column names
+
+   Parameters:
+      * **df1** (*pd.DataFrame*) – first dataframe.
+
+      * **df2** (*pd.DataFrame*) – dataframe to join or get columns
+        from
+
+      * **cols** (*iterable*) – iterable of columns being targetted.
+
+      * **new_cols** (*iterable*) – iterable of new column names.
+
+dalio.util.translate_df(translator, df, inplace=False)
+
+   Translate dataframe column and index names in accordance to
+   translator dictionary.
+
+   Parameters:
+      * **translator** (*dict*) – dictionary of {original: translated}
+        key value pairs.
+
+      * **df** (*pd.DataFrame*) – dataframe to have rows and columns
+        translated.
+
+      * **inplace** (*bool*) – whether to perform operation inplace or
+        return a translated copy. Optional. Defaults to False.
+
+dalio.util.plot_efficient_frontier(cla, points=100, visible=25, show_assets=True, ax=None, **kwargs)
+
+   Plot the efficient frontier based on a CLA object
+
+   Parameters:
+      * **points** (*int*) – number of points to plot. Optional.
+        Defaults to 100
+
+      * **show_assets** (*bool*) – whether we should plot the asset
+        risks/returns also. Optional. Defaults to True.
+
+      * **ax** (*matplolib.axis**, **None*) – Axis to plot on.
+        Optional. New axis will be created if none is specified.
+
+      * ****kwargs** – optional parameters for main graph.
+
+   Returns:
+      matplotlib axis
+
+dalio.util.plot_covariance(cov_matrix, plot_correlation=False, show_tickers=True, ax=None)
+
+   Generate a basic plot of the covariance (or correlation) matrix,
+   given a covariance matrix.
+
+   Parameters:
+      * **cov_matrix** (*pd.DataFrame**, **np.ndarray*) – covariance
+        matrix
+
+      * **plot_correlation** (*bool*) – whether to plot the
+        correlation matrix instead, defaults to False. Optional.
+
+      * **show_tickers** (*bool*) – whether to use tickers as labels
+        (not recommended for large portfolios). Optional. Defaults to
+        True.
+
+      * **ax** (*matplolib.axis**, **None*) – Axis to plot on.
+        Optional. New axis will be created if none is specified.
+
+   Returns:
+      matplotlib axis
+
+dalio.util.plot_weights(weights, ax=None, **kwargs)
+
+   Plot the portfolio weights as a horizontal bar chart
+
+   Parameters:
+      * **weights** (*dict*) – the weights outputted by any
+        PyPortfolioOpt optimiser.
+
+      * **ax** (*matplolib.axis**, **None*) – Axis to plot on.
+        Optional. New axis will be created if none is specified.
+
+      * ****kwargs** – optional parameters for main graph.
+
+   Returns:
+      matplotlib axis

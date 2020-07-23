@@ -1,0 +1,479 @@
+dalio.model package
+*******************
+
+
+Submodules
+==========
+
+
+dalio.model.basic module
+========================
+
+Define basic models
+
+class dalio.model.basic.Join(**kwargs)
+
+   Bases: "dalio.model.model.Model"
+
+   Join two dataframes on index.
+
+   This model has two sources: left and right.
+
+   _kwargs
+
+      optional keyword arguments for pd.join
+
+      Type:
+         dict
+
+   run(**kwargs)
+
+      Get left and right side data and join
+
+
+dalio.model.financial module
+============================
+
+Define comps analysis models
+
+class dalio.model.financial.CompsData
+
+   Bases: "dalio.model.model.Model"
+
+   Get a ticker's comps and their data.
+
+   This model has two sources: comps_in and data_in. comps_in gets a
+   ticker's comparative stocks. data_in sources ticker data given a
+   "TICKER" keyword argument.
+
+   run(**kwargs)
+
+      Run model.
+
+      This will be the bulk of subclass functionality. It is where all
+      data is sourced and processed.
+
+class dalio.model.financial.CompsFinancials
+
+   Bases: "dalio.model.financial.CompsData"
+
+   Subclass to CompsData for getting stock price information
+
+class dalio.model.financial.CompsInfo
+
+   Bases: "dalio.model.financial.CompsData"
+
+   Subclass to CompsData for getting comps stock information
+
+class dalio.model.financial.MakeCriticalLine(weight_bounds=(-1, 1))
+
+   Bases: "dalio.model.model.Model"
+
+   Fit a critical line algorithm This model takes in two sources:
+   sample_covariance and expected_returns. These are self-explanatory.
+   The model calculates the algorithm for a set of weight bounds. ..
+   attribute:: weight_bounds
+
+      lower and upper bound for portfolio weights.
+
+      type:
+         tuple
+
+   run(**kwargs)
+
+      Get source data and create critical line algorithm
+
+   weight_bounds: Tuple[int] = None
+
+class dalio.model.financial.MakeEfficientFrontier(weight_bounds=(0, 1), gamma=0)
+
+   Bases: "dalio.model.financial.MakeCriticalLine"
+
+   Make an efficient frontier algorithm. :param gamma: gamma
+   optimization parameter. :type gamma: int
+
+   add_constraint(new_constraint)
+
+      Wrapper to PyPortfolioOpt BaseConvexOptimizer function Add a new
+      constraint to the optimisation problem. This constraint must be
+      linear and must be either an equality or simple inequality.
+      :param new_constraint: the constraint to be added :type
+      new_constraint: callable
+
+      Raises:
+         **AttributeError** -- if new objective is not callable.
+
+   add_objective(new_objective, *args, **kwargs)
+
+      Wrapper to PyPortfolioOpt BaseConvexOptimizer function Add a new
+      term into the objective function. This term must be convex, and
+      built from cvxpy atomic functions. :param new_objective: the
+      objective to be added :type new_objective: cp.Expression
+
+      Raises:
+         * **ValueError** -- if the new objective is not supported.
+
+         * **AttributeError** -- if new objective is not callable.
+
+   add_sector_definitions(sector_defs=None, **kwargs)
+
+   add_sector_weight_constraint(sector=None, constraint='is', weight=0.5)
+
+   add_stock_weight_constraint(ticker=None, comparisson='is', weight=0.5)
+
+      Wrapper to add_constraint method. Adds constraing on a named
+      ticker. This is a much more intuitive interface to add
+      constraints, as these will often be stocks of an unknown order
+      in a dataframe. :param ticker: stock ticker or location to be
+      constrained. :type ticker: str, int :param comparisson:
+      constraing comparisson. :type comparisson: str :param weight:
+      weight to constrain. :type weight: float
+
+      Raises:
+         **TypeError** -- if any of the arguments are of an invalid
+         type
+
+   copy()
+
+      Copy superclass, objectives and constraints.
+
+   gamma: int = None
+
+   run(**kwargs)
+
+      Make efficient frontier. Create efficient frontier given a set
+      of weight constraints.
+
+   weight_bounds: Tuple[int] = None
+
+class dalio.model.financial.OptimumPortfolio
+
+   Bases: "dalio.model.model.Model"
+
+   Create optimum portfolio of stocks given dictionary of weights.
+   This model has two sources: weights_in and data_in. The weights_in
+   source gets optimum weights for a set of tickers. The data_in
+   source gets price data for these same tickers.
+
+   run(**kwargs)
+
+      Gets weights and uses them to create portfolio prices if weights
+      were kept constant.
+
+
+dalio.model.model module
+========================
+
+Define Model class
+
+Models are transformers that take in multiple inputs and has a single
+output. Model instance can be much more flexible with additional
+options for differen strategies of data processing and collection.
+
+class dalio.model.model.Model
+
+   Bases: "dalio.base.transformer._Transformer"
+
+   Models represent data modification with multiple internal inputs
+   and a single internal output.
+
+   _source
+
+      dictionary of input data definitions
+
+   copy(*args, **kwargs)
+
+      Makes a copy of transformer, copying its attributes to a new
+      instance.
+
+      This copy should essentially create a new transformation node,
+      not an entire new graph, so the _source attribute of the
+      returned instance should be assigned without being copied. This
+      is also made to be built upon by subclasses, such that only new
+      attributes need to be added to a class' copy method.
+
+      Parameters:
+         * ***args** -- Positional arguments to be passed to
+           initialize copy
+
+         * ****kwargs** -- Keyword arguments to be passed to
+           initialize copy
+
+      Returns:
+         A copy of this _Transformer instance with copies of necessary
+         attributes and empty input.
+
+   run(**kwargs)
+
+      Run model.
+
+      This will be the bulk of subclass functionality. It is where all
+      data is sourced and processed.
+
+   set_input(source_name, new_input)
+
+      Set a new connection to a data definition in dictionary entry
+      matching the key name.
+
+      Parameters:
+         * **source_name** (*str*) -- initialized item in sources
+           dict.
+
+         * **new_input** -- new source connection.
+
+      Raise:
+         KeyError: if input name is not present in sources dict.
+
+   with_input(source_name, new_input)
+
+      Return a copy of this model with the specified data definition
+      connection changed
+
+      Parameters:
+         * **source_name** (*str*) -- initialized item in sources
+           dict.
+
+         * **new_input** -- new source connection.
+
+
+dalio.model.statistical module
+==============================
+
+Define statistical models
+
+class dalio.model.statistical.XYLinearModel
+
+   Bases: "dalio.model.model.Model", "dalio.base.builder._Builder"
+
+   Generalized Linear model for arrays from two sources.
+
+   This Model has two sources, x and y.
+
+   This Builder has one piece. the linear model strategy.
+
+   build_model(data, **kwargs)
+
+      Build model by returning the chosen model and initialization
+      parameters
+
+      Returns:
+         Unfitted linear model
+
+   copy(*args, **kwargs)
+
+      Makes a copy of transformer, copying its attributes to a new
+      instance.
+
+      This copy should essentially create a new transformation node,
+      not an entire new graph, so the _source attribute of the
+      returned instance should be assigned without being copied. This
+      is also made to be built upon by subclasses, such that only new
+      attributes need to be added to a class' copy method.
+
+      Parameters:
+         * ***args** -- Positional arguments to be passed to
+           initialize copy
+
+         * ****kwargs** -- Keyword arguments to be passed to
+           initialize copy
+
+      Returns:
+         A copy of this _Transformer instance with copies of necessary
+         attributes and empty input.
+
+   run(**kwargs)
+
+      Get data from both sources, transform them into np.arrays and
+      fit the built model
+
+
+Module contents
+===============
+
+class dalio.model.Join(**kwargs)
+
+   Bases: "dalio.model.model.Model"
+
+   Join two dataframes on index.
+
+   This model has two sources: left and right.
+
+   _kwargs
+
+      optional keyword arguments for pd.join
+
+      Type:
+         dict
+
+   run(**kwargs)
+
+      Get left and right side data and join
+
+class dalio.model.CompsData
+
+   Bases: "dalio.model.model.Model"
+
+   Get a ticker's comps and their data.
+
+   This model has two sources: comps_in and data_in. comps_in gets a
+   ticker's comparative stocks. data_in sources ticker data given a
+   "TICKER" keyword argument.
+
+   run(**kwargs)
+
+      Run model.
+
+      This will be the bulk of subclass functionality. It is where all
+      data is sourced and processed.
+
+class dalio.model.CompsFinancials
+
+   Bases: "dalio.model.financial.CompsData"
+
+   Subclass to CompsData for getting stock price information
+
+class dalio.model.CompsInfo
+
+   Bases: "dalio.model.financial.CompsData"
+
+   Subclass to CompsData for getting comps stock information
+
+class dalio.model.MakeCriticalLine(weight_bounds=(-1, 1))
+
+   Bases: "dalio.model.model.Model"
+
+   Fit a critical line algorithm This model takes in two sources:
+   sample_covariance and expected_returns. These are self-explanatory.
+   The model calculates the algorithm for a set of weight bounds. ..
+   attribute:: weight_bounds
+
+      lower and upper bound for portfolio weights.
+
+      type:
+         tuple
+
+   run(**kwargs)
+
+      Get source data and create critical line algorithm
+
+   weight_bounds: Tuple[int] = None
+
+class dalio.model.MakeEfficientFrontier(weight_bounds=(0, 1), gamma=0)
+
+   Bases: "dalio.model.financial.MakeCriticalLine"
+
+   Make an efficient frontier algorithm. :param gamma: gamma
+   optimization parameter. :type gamma: int
+
+   add_constraint(new_constraint)
+
+      Wrapper to PyPortfolioOpt BaseConvexOptimizer function Add a new
+      constraint to the optimisation problem. This constraint must be
+      linear and must be either an equality or simple inequality.
+      :param new_constraint: the constraint to be added :type
+      new_constraint: callable
+
+      Raises:
+         **AttributeError** -- if new objective is not callable.
+
+   add_objective(new_objective, *args, **kwargs)
+
+      Wrapper to PyPortfolioOpt BaseConvexOptimizer function Add a new
+      term into the objective function. This term must be convex, and
+      built from cvxpy atomic functions. :param new_objective: the
+      objective to be added :type new_objective: cp.Expression
+
+      Raises:
+         * **ValueError** -- if the new objective is not supported.
+
+         * **AttributeError** -- if new objective is not callable.
+
+   add_sector_definitions(sector_defs=None, **kwargs)
+
+   add_sector_weight_constraint(sector=None, constraint='is', weight=0.5)
+
+   add_stock_weight_constraint(ticker=None, comparisson='is', weight=0.5)
+
+      Wrapper to add_constraint method. Adds constraing on a named
+      ticker. This is a much more intuitive interface to add
+      constraints, as these will often be stocks of an unknown order
+      in a dataframe. :param ticker: stock ticker or location to be
+      constrained. :type ticker: str, int :param comparisson:
+      constraing comparisson. :type comparisson: str :param weight:
+      weight to constrain. :type weight: float
+
+      Raises:
+         **TypeError** -- if any of the arguments are of an invalid
+         type
+
+   copy()
+
+      Copy superclass, objectives and constraints.
+
+   gamma: int = None
+
+   run(**kwargs)
+
+      Make efficient frontier. Create efficient frontier given a set
+      of weight constraints.
+
+   weight_bounds: Tuple[int] = None
+
+class dalio.model.OptimumPortfolio
+
+   Bases: "dalio.model.model.Model"
+
+   Create optimum portfolio of stocks given dictionary of weights.
+   This model has two sources: weights_in and data_in. The weights_in
+   source gets optimum weights for a set of tickers. The data_in
+   source gets price data for these same tickers.
+
+   run(**kwargs)
+
+      Gets weights and uses them to create portfolio prices if weights
+      were kept constant.
+
+class dalio.model.XYLinearModel
+
+   Bases: "dalio.model.model.Model", "dalio.base.builder._Builder"
+
+   Generalized Linear model for arrays from two sources.
+
+   This Model has two sources, x and y.
+
+   This Builder has one piece. the linear model strategy.
+
+   build_model(data, **kwargs)
+
+      Build model by returning the chosen model and initialization
+      parameters
+
+      Returns:
+         Unfitted linear model
+
+   copy(*args, **kwargs)
+
+      Makes a copy of transformer, copying its attributes to a new
+      instance.
+
+      This copy should essentially create a new transformation node,
+      not an entire new graph, so the _source attribute of the
+      returned instance should be assigned without being copied. This
+      is also made to be built upon by subclasses, such that only new
+      attributes need to be added to a class' copy method.
+
+      Parameters:
+         * ***args** -- Positional arguments to be passed to
+           initialize copy
+
+         * ****kwargs** -- Keyword arguments to be passed to
+           initialize copy
+
+      Returns:
+         A copy of this _Transformer instance with copies of necessary
+         attributes and empty input.
+
+   run(**kwargs)
+
+      Get data from both sources, transform them into np.arrays and
+      fit the built model
