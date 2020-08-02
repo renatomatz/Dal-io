@@ -8,11 +8,11 @@ from typing import Dict, List, Union, Any
 
 from collections import namedtuple
 
-from dalio.base.interpreter import Interpreter
+from dalio.interpreter import _Interpreter
 
 
 class _Factory:
-    """Interface for setting and assembling pieces.
+    """Interface for setting and assembling pieces onto an _Interpreter.
 
     Builder instances are meant, as the name suggests, to be set and built at
     command. This is necessary in the context of graphs as the vast majority
@@ -25,7 +25,7 @@ class _Factory:
 
     Attributes:
         piece (type): nametuple singleton for piece generation
-        _interpreter (Interperter): object implementing all building functions 
+        _interpreter (Interperter): object implementing all building functions
             over some engine.
         _pieces (dict): dictionary containing a piece's name, positional
             arguments and keyword arguments.
@@ -55,20 +55,34 @@ class _Factory:
         """
         raise NotImplementedError()
 
-    def set_interpreter(self, interpreter):
+    @property
+    def interpreter(self):
+        if self._interpreter is not None:
+            return self._interpreter
+
+        raise AttributeError("Interpreter is not set")
+
+    @interpreter.setter
+    def interpreter(self, interpreter):
         """Set the interpreter to be built on
 
         Args:
             interpreter (Interpreter): interpreter to build on engine.
 
         Raises:
-            TypeError: when interpreter is not of type <class type>.
+            TypeError: when interpreter is not of type <class type> or
+                <class _Interpreter>.
         """
-        if isinstance(interpreter, Interpreter):
+        if isinstance(interpreter, _Interpreter):
             self._interpreter = interpreter
         else:
-            raise TypeError(f"interpreter argument must be of type {type} \
-                not {type(interpreter)}")
+            raise TypeError(f"new interpreter must be of type {type} or \
+                    {_Interpreter}, not {type(interpreter)}")
+
+    def set_interpreter(self, interpreter):
+        """Wrapper for chaining"""
+        self.interpreter = interpreter
+        return self
 
     def set_piece(self, param, name, *args, **kwargs):
         """Set a piece name, positional arguments and keyword arguments
@@ -86,10 +100,35 @@ class _Factory:
             **kwargs: piece keyword arguments.
         """
 
-        self.check_name(param, name)
+        if param not in self._pieces:
+            raise KeyError(f"invalid parameter {param}, select one of \
+                {self._pieces.keys()}")
+        if name is None:
+            raise ValueError("Please specify a valid name")
 
         self._pieces[param] = self.piece(name, args, kwargs)
 
+        return self
+
+    def update_pieces(self, new_pieces):
+        """Update pieces by specifying a dictionary
+
+        Args:
+            new_pieces (dict): dictionary containing only keys in the
+                current object and _Factory.piece values.
+
+        Raises:
+            ValueError: if any of the above characteristics of
+                the new_pieces argument is violated.
+        """
+        if not all([key in self._pieces.keys()
+                    and isinstance(val, _Factory.piece)
+                    for key, val in new_pieces.items()]):
+
+            raise ValueError(f"new pieces must have only {_Factory.piece} \
+                instances as values with keys matching this object's")
+
+        self._pieces.update(new_pieces)
         return self
 
     def _init_piece(self, params):
@@ -102,24 +141,3 @@ class _Factory:
             params (list): list of piece names to be initialized.
         """
         self._pieces = {p: self.piece() for p in params}
-
-    def check_name(self, param, name):
-        """Check if name and parameter combination is valid.
-
-        This will always be called upon setting a new piece to ensure this
-        piece is present dictionary and that the name is valid. Subclasses
-        will often override this method to implement the name checks in
-        accordance to their specific name parameter combination options.
-        Notice that checks cannot be done on arguments before running the
-        _Factory. This also can be called from outside of a _Factory instance
-        to check for the validity of settings.
-
-        Args:
-            piece (str): name of the key in the piece dictionary.
-            name (str): name option to be set to the piece.
-        """
-        if param not in self._pieces:
-            raise KeyError(f"invalid parameter {param}, select one of \
-                {self._pieces.keys()}")
-        if name is None:
-            raise ValueError("Please specify a valid name")

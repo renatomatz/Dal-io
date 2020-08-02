@@ -9,7 +9,7 @@ propper data checks by adding descriptions to their source.
 
 from typing import List
 
-from dalio.base import _Transformer, _DataDef, _Factory
+from dalio.base import _Transformer, _DataDef
 
 
 class Pipe(_Transformer):
@@ -190,27 +190,3 @@ class PipeLine(Pipe):
             other (Pipe, PipeLine): instance to extend this.
         """
         return self.extend(other)
-
-
-class PipeBuilder(Pipe, _Factory):
-    """Hybrid builder type for complementing _Transformer instances.
-
-    These specify extra methods implemented by _Transformer instances.
-    """
-
-    def with_piece(self, param, name, *args, **kwargs):
-        """Copy self and return with a new piece set"""
-        return _Factory.set_piece(
-            self.copy(),
-            param,
-            name,
-            *args, **kwargs
-        )
-
-    def copy(self, *args, **kwargs):
-        ret = super().copy(*args, **kwargs)
-
-        # Copy should be of same type and thus accept the same pieces
-        ret._pieces = self._pieces.copy()
-
-        return ret

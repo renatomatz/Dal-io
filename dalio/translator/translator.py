@@ -9,12 +9,12 @@ of the base tools to build translations.
 
 from typing import Dict
 
-from dalio.base import _Transformer
-from dalio.external import External
+from dalio.base import _Transformer, _Factory
 
 
-class Translator(_Transformer):
-    """
+class Translator(_Transformer, _Factory):
+    """_Transformer with no inputs that translates external data gathered
+    from an interpreter.
 
     Attributes:
         _source: Connection used to retrieve raw data from outide source.
@@ -25,36 +25,33 @@ class Translator(_Transformer):
             integrity.
     """
 
-    _source: External
+    _source: None
     translations: Dict[str, str]
 
     def __init__(self):
         """Initialize instance"""
         super().__init__()
-        self.translations = {}
+        self.translations = dict()
 
     def copy(self, *args, **kwargs):
         ret = type(self)(*args, **kwargs)
-        ret.set_input(self.get_input())
         ret.add_tag(self._tags)
         return ret
 
     def set_input(self, new_input):
-        """See base class"""
-        if isinstance(new_input, External):
+        if new_input is None:
             self._source = new_input
         else:
-            raise ValueError("new input must be of type External")
+            raise ValueError("_Transformer instances have 0 inputs")
         return self
 
     def with_input(self, new_input):
-        """See base class"""
-        if isinstance(new_input, External):
+        if new_input is None:
             ret = type(self)()
             ret._source = new_input
             ret.update_translations(self.translations)
         else:
-            raise ValueError("new input must be of type External")
+            raise ValueError("_Transformer instances have 0 inputs")
         return ret
 
     def update_translations(self, new_translations):

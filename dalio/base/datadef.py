@@ -7,11 +7,10 @@ serve both to describe approved data and check for whether data passes a test.
 
 import concurrent.futures
 
-from dalio.base import _Node
 from dalio.validator import Validator
 
 
-class _DataDef(_Node):
+class _DataDef:
     """Define input data
 
     Node used to represent input data coming from a _Transformer instance.
@@ -27,7 +26,7 @@ class _DataDef(_Node):
 
     def __init__(self, parallel=False):
         """Initialize DataDef instance"""
-        super().__init__()
+        self._connection = None
         self.parallel = parallel
         self._desc = []
 
@@ -130,17 +129,33 @@ class _DataDef(_Node):
 
         if len(report["exception"]) > 0:
             raise Exception(f"Data failed \
-                {len(report['exception'])} fatal tests")  # TODO: Create custom exception
+                {len(report['exception'])} fatal tests")
+            # TODO: Create custom exception
 
         return data
 
     def describe(self):
         """Print out validator descriptions
         """
-        super().describe()
-        print("Validators:\n")
+        print(f"\
+            connection: {self._connection}\n \
+            Validators:\n \
+        ")
+
         for val in self._desc:
             print(f"- {type(val)}: {val.test_desc}\n")
+
+    def get_connection(self):
+        """Gets instance's connection"""
+        return self._connection
+
+    def set_connection(self, new_connection):
+        """Set connection attribute
+
+        This method can be further extended to certify connection and
+        implement other securuty features
+        """
+        self._connection = new_connection
 
     def copy(self, keep_connection=True):
         """Make deep copy of instance, with option to remove original input

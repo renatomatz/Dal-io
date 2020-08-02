@@ -1,4 +1,4 @@
-"""Define Transformer class
+"""Define Transformer classes
 
 Transformers are a base class that represents any kind of data modification.
 These interact with DataOrigin instances as they are key to their input and
@@ -6,7 +6,6 @@ output integrity. A set_source() method sets the source of the input, the
 .run() method cannot be executed if the input"s source is not set.
 """
 from typing import Set
-from dalio.base import _Node
 
 
 class _Transformer:
@@ -25,7 +24,6 @@ class _Transformer:
         _tags (set)
     """
 
-    _source: _Node
     _req_args: Set[str]
     _tags: Set[str]
 

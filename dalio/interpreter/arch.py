@@ -55,16 +55,6 @@ class _ARCH(_Interpreter):
         """Set the mean estimation model"""
         raise NotImplementedError()
 
-    def init_mean(self, data, mean, *args, **kwargs):
-        """Initialize a new mean object from given data.
-
-        Args:
-            data (array-like): data to fit the mean on.
-            mean (str): mean name.
-            *args, **kwargs: mean initialization parameters.
-        """
-        raise NotImplementedError()
-
     @property
     def volatility(self):
         """Get the volatility estimation model"""
@@ -75,16 +65,6 @@ class _ARCH(_Interpreter):
         """Set the volatility estimation model"""
         raise NotImplementedError()
 
-    def init_volatility(self, data, volatility, *args, **kwargs):
-        """Initialize a new volatility object from given data.
-
-        Args:
-            data (array-like): data to fit the volatility on.
-            volatility (str): volatility name.
-            *args, **kwargs: volatility initialization parameters.
-        """
-        raise NotImplementedError()
-
     @property
     def distribution(self):
         """Get the dependent variable distribution"""
@@ -93,16 +73,6 @@ class _ARCH(_Interpreter):
     @distribution.setter
     def distribution(self, distribution):
         """Set the dependent variable distribution"""
-        raise NotImplementedError()
-
-    def init_distribution(self, data, distribution, *args, **kwargs):
-        """Initialize a new distribution object from given data.
-
-        Args:
-            data (array-like): data to fit the distribution on.
-            distribution (str): distribution name.
-            *args, **kwargs: distribution initialization parameters.
-        """
         raise NotImplementedError()
 
     def fit(self, data, *args, **kwargs):
@@ -235,7 +205,14 @@ class ARCHInterpreter(_ARCH):
             raise TypeError(f"mean must be of type {ARCHModel} not \
                 {type(mean)}")
 
-    def init_mean(self, data, mean, *args, **kwargs):
+    def init_mean(self, mean, *args, data=None, **kwargs):
+        """Initialize a new mean object from given data.
+
+        Args:
+            data (array-like): data to fit the mean on.
+            mean (str): mean name.
+            *args, **kwargs: mean initialization parameters.
+        """
         if callable(mean):
             self.mean = mean(
                 data,
@@ -262,7 +239,14 @@ class ARCHInterpreter(_ARCH):
         raise TypeError(f"volatility must be of type {VolatilityProcess} not \
             {type(volatility)}")
 
-    def init_volatility(self, data, volatility, *args, **kwargs):
+    def init_volatility(self, volatility, *args, data=None, **kwargs):
+        """Initialize a new volatility object from given data.
+
+        Args:
+            data (array-like): data to fit the volatility on.
+            volatility (str): volatility name.
+            *args, **kwargs: volatility initialization parameters.
+        """
         if callable(volatility):
             self.volatility = volatility(
                 data,
@@ -289,7 +273,14 @@ class ARCHInterpreter(_ARCH):
         raise TypeError(f"distribution must be of type {Distribution} not \
             {type(distribution)}")
 
-    def init_distribution(self, data, distribution, *args, **kwargs):
+    def init_distribution(self, distribution, *args, data=None, **kwargs):
+        """Initialize a new distribution object from given data.
+
+        Args:
+            data (array-like): data to fit the distribution on.
+            distribution (str): distribution name.
+            *args, **kwargs: distribution initialization parameters.
+        """
         if callable(distribution):
             self.distribution = distribution(
                 data,
