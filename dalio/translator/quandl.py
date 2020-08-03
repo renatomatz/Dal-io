@@ -27,6 +27,12 @@ class QuandlSharadarSF1Translator(Translator):
 
     def __init__(self):
         super().__init__()
+
+        self._init_pieces([
+            "config",
+            "api_key",
+        ])
+
         self.update_translations({
             "calendardate": DATE
         })
@@ -46,14 +52,14 @@ class QuandlSharadarSF1Translator(Translator):
             if "ticker" not in kwargs["columns"]:
                 kwargs["columns"].append("ticker")
 
-        kwargs["query"] = "SHARADAR/SF1"
+        quandl_dr = self.build(None)
 
         # establish connection if not connected
-        if not self._source.check():
-            self._source.authenticate()
+        if not quandl_dr.authenticate():
+            raise IOError("Authentication failed")
 
         # get data from quandl connection
-        ret = self._source.request(**kwargs)
+        ret = quandl_dr.read("SHARADAR/SF1", **kwargs)
 
         # apply translations
         translate_df(self, ret, inplace=True)
@@ -64,12 +70,31 @@ class QuandlSharadarSF1Translator(Translator):
 
         return ret
 
+    def build(data, **kwargs):
+        quandl_dr = self.interpreter
+
+        config = self._piece["config"].name
+        if config is not None:
+            quandl_dr.config = config
+
+        api_key = self._piece["api_key"].name
+        if api_key is not None:
+            quandl_dr.api_key = api_key
+
+        return quandl_dr
+
 
 class QuandlTickerInfoTranslator(Translator):
     """Import and translate data from the SHARADAR/TICKERS table"""
 
     def __init__(self):
         super().__init__()
+
+        self._init_pieces([
+            "config",
+            "api_key",
+        ])
+
         self.update_translations({
             "lastupdated": LAST_UPDATED,
             "category": CATEGORY,
@@ -93,14 +118,14 @@ class QuandlTickerInfoTranslator(Translator):
             if "ticker" not in kwargs["columns"]:
                 kwargs["columns"].append("ticker")
 
-        kwargs["query"] = "SHARADAR/TICKERS"
+        quandl_dr = self.build(None)
 
         # establish connection if not connected
-        if not self._source.check():
-            self._source.authenticate()
+        if not quandl_dr.authenticate():
+            raise IOError("Authentication failed")
 
         # get data from quandl connection
-        ret = self._source.request(**kwargs)
+        ret = quandl_dr.read("SHARADAR/TICKERS", **kwargs)
 
         # apply translations
         translate_df(self, ret, inplace=True)
@@ -110,3 +135,16 @@ class QuandlTickerInfoTranslator(Translator):
         ret.columns.set_names([ATTRIBUTE], inplace=True)
 
         return ret
+
+    def build(data, **kwargs):
+        quandl_dr = self.interpreter
+
+        config = self._piece["config"].name
+        if config is not None:
+            quandl_dr.config = config
+
+        api_key = self._piece["api_key"].name
+        if api_key is not None:
+            quandl_dr.api_key = api_key
+
+        return quandl_dr

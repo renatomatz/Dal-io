@@ -55,8 +55,6 @@ class LazyRunner(PipeApplication):
     """
 
     def __init__(self,
-                 mem_type,
-                 args=None, kwargs=None,
                  buff=1,
                  update=False):
         """Check parameter data types, simplify parameters and initialize
@@ -78,14 +76,9 @@ class LazyRunner(PipeApplication):
         """
         super().__init__()
 
-        if isinstance(mem_type, type):
-            self._mem_type = mem_type
-        else:
-            raise TypeError("mem_type should be of type {type}, not \
-                {type(mem_type)}")
-
-        self._args = args if args is not None else tuple()
-        self._kwargs = kwargs if kwargs is not None else dict()
+        self._init_pieces([
+            "mem_type"
+        ])
 
         self.set_buff(buff)
         self.set_update(update)
@@ -101,7 +94,7 @@ class LazyRunner(PipeApplication):
         """
         for kw, mem in self._memory:
             if kw == kwargs:
-                return mem.run(**kwargs)
+                return mem.load(**kwargs)
                 # leave the for loop and skip the else statement
                 break
         else:
@@ -114,15 +107,29 @@ class LazyRunner(PipeApplication):
                     raise BufferError("Memory buffer is full and is not set \
                         to be updated")
 
-            data = self._source.run(**kwargs)
+            return self.transform(self._source.run(**kwargs), **kwargs)
 
-            new_mem = self._mem_type(*self._args, **self._kwargs)\
-                .set_input(data)
+    def transform(self, data, **kwargs):
+        """Modify sourced data, create a new memory object and append it to memory"""
 
-            # create a (kwargs, memory) tuple
-            self._memory.append((kwargs, new_mem))
+        new_mem = self.build(data)
 
-            return data
+        # create a (kwargs, memory) tuple
+        self._memory.append((kwargs, new_mem))
+
+        return data
+
+    def build(self, data, **kwargs):
+            
+        mem_type = self._pieces["mem_type"]
+        if not isinstance(mem_type, type):
+            raise TypeError("mem_type should be of type {type}, not \
+                {type(mem_type)}")
+
+        mem = mem_type.name(*mem_type.args, **mem_type.kwargs)
+        mem.save(data)
+
+        return mem
 
     def copy(self, *args, **kwargs):
         """Return a copy of this instance with a shallow memory dict copy"""

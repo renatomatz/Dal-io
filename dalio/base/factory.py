@@ -42,7 +42,7 @@ class _Factory:
         self._interpreter = None
         self._pieces = None
 
-    def build_model(self, data, **kwargs):
+    def build(self, data, **kwargs):
         """Assemble pieces into a model given some data
 
         The data will opten be optional, but several builder models will
