@@ -29,10 +29,13 @@ class StockStreamFileTranslator(Translator):
             column has only one level.
     """
 
-    def __init__(self, date_col=None, att_name=None):
+    def __init__(self):
         super().__init__()
-        self.date_col = date_col
-        self.att_name = att_name if att_name is not None else PRICE
+
+        self._init_pieces([
+            "date_col",
+            "att_name",
+        ])
 
     def run(self, **kwargs):
         """Request pandas data from file and format it into a dataframe that
@@ -44,11 +47,24 @@ class StockStreamFileTranslator(Translator):
                     in data.
         """
 
-        ret = self._source.request(parse_dates=True)
+        ret = self.build(None)
+
+        tick = kwargs.get(TICKER, None)
+        if isinstance(tick, str):
+            ret = ret.loc(axis=1)[:, [tick]]
+        elif isinstance(tick, (list, tuple)):
+            ret = ret.loc(axis=1)[:, tick]
+
+        return ret
+
+    def build(self, data, **kwargs):
+        ret = self.interpreter.request(parse_dates=True)
+
+        date_col = self._pieces["date_col"].name
 
         # define the index col
-        if self.date_col is not None:
-            icol = self.date_col
+        if date_col is not None:
+            icol = date_col
         else:
             icol = [col for col in ["DATE", "Date", "date", ret.columns[0]]
                     if col in ret][0]
@@ -62,24 +78,18 @@ class StockStreamFileTranslator(Translator):
 
         ret.index.set_names([DATE], inplace=True)
 
+        att_name = self._pieces["att_name"]
+
         if not isinstance(ret.columns, pd.MultiIndex):
             ret.columns = pd.MultiIndex.from_product(
-                [[self.att_name], ret.columns])
+                [[att_name if att_name is not None else PRICE], ret.columns])
 
         ret.columns.set_names([ATTRIBUTE, TICKER], inplace=True)
 
-        tick = kwargs.get(TICKER, None)
-        if isinstance(tick, str):
-            ret = ret.loc(axis=1)[:, [tick]]
-        elif isinstance(tick, (list, tuple)):
-            ret = ret.loc(axis=1)[:, tick]
-
         return ret
-
+        
     def copy(self, *args, **kwargs):
         return super().copy(
             *args,
-            date_col=self.date_col,
-            att_name=self.att_name,
             **kwargs
         )

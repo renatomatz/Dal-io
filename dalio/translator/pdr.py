@@ -45,7 +45,7 @@ class YahooStockTranslator(Translator):
         if isinstance(kwargs[TICKER], str):
             kwargs[TICKER] = [kwargs[TICKER]]
 
-        ret = self._source.request(**kwargs)
+        ret = self.build(None).read(**kwargs)
 
         # apply translations
         translate_df(self, ret, inplace=True)
@@ -53,3 +53,6 @@ class YahooStockTranslator(Translator):
         ret.columns.set_names([ATTRIBUTE, TICKER], inplace=True)
 
         return ret
+
+    def build(self, data, **kwargs):
+        return self.interpreter

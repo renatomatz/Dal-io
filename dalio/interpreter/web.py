@@ -18,7 +18,7 @@ class _Web(_Interpreter):
 
     Attributes:
         _engine (any): API engine
-        path_to_config (str): path to a config file containing configuration
+        config (str): path to a config file containing configuration
             details. File must be of .json format
         _api_key (str): API key for engine authentication. Can be either set
             manually or be in an "api_key" key in a specified config file.
@@ -27,33 +27,41 @@ class _Web(_Interpreter):
             config file.
     """
 
-    def __init__(self, path_to_config=None, api_key=None, api_secret=None):
+    def __init__(self, config=None, api_key=None, api_secret=None):
         """Initializes instance and assigns a datareader instance to the
         connection.
         """
         super().__init__()
-
-        if path_to_config is not None and not os.path.exists(path_to_config):
-            raise IOError("path to config file does not exist")
-
-        self.path_to_config = path_to_config
-
-        self._api_key = api_key
-        self._api_secret = api_secret
-
         self.clear()
+
+        self.config = config
+
+        self.api_key = api_key
+        self.api_secret = api_secret
+
+    @property
+    def config(self):
+        if isinstance(self.config, dict):
+            return self._config
+
+        with open(self.config, "r") as f:
+            return json.load(f)
+
+    @config.setter
+    def config(self, new_config):
+        if isinstance(new_config, dict) or new_config is None:
+            self._config = new_config
+        else:
+            if not os.path.exists(new_config):
+                raise IOError("path to config file does not exist")
 
     @property
     def api_key(self):
         """Get api key from variable if it is set, or else from a file"""
-        if self._api_key is None and self.path_to_config is not None:
-            try:
-                with open(self.path_to_config) as f:
-                    return json.load(f)["api_key"]
-            except KeyError:
-                raise KeyError("config file does not have an 'api_key' key")
+        if self._api_key is not None:
+            return self._api_key
 
-        return self._api_key
+        return self._config.get("api_key", None)
 
     @api_key.setter
     def api_key(self, api_key):
@@ -62,19 +70,10 @@ class _Web(_Interpreter):
     @property
     def api_secret(self):
         """Get api secret from variable if it is set, or else from a file"""
-        if self._api_secret is None and self.path_to_config is not None:
-            try:
-                with open(self.path_to_config) as f:
-                    return json.load(f)["api_secret"]
-            except KeyError:
-                raise KeyError("config file does not have an 'api_secret'\
-                    key")
+        if self._api_secret is not None:
+            return self._api_secret
 
-        return self._api_key
-
-    @api_secret.setter
-    def api_secret(self, api_secret):
-        self._api_secret = api_secret
+        return self._config.get("api_secret", None)
 
     def request(self, query, *args, **kwargs):
         """Send generic request
@@ -94,12 +93,11 @@ class BaseDR(_Web):
     instances, but mostly used as a base class.
     """
 
-    def __init__(self, path_to_config=None, api_key=None):
+    def __init__(self, config=None, api_key=None):
         """Initializes instance and assigns a datareader instance to the
         connection.
         """
-        super().__init__(path_to_config=None, api_key=None)
-        self.clear()
+        super().__init__(config=None, api_key=None)
 
     @property
     def engine(self):
@@ -140,15 +138,15 @@ class YahooDR(BaseDR):
     """Represents financial data from Yahoo! Finance"""
 
     def request(self, query, *args, **kwargs):
-        return self.engine.__call__(query, "yahoo", *args, **kwargs)
+        return self.engine.__call__(self, query, "yahoo", *args, **kwargs)
 
 
 class QuandlAPI(_Web):
     """Set up the Quandl API and request table data from quandl."""
 
-    def __init__(self, path_to_config=None, api_key=None):
+    def __init__(self, config=None, api_key=None):
         """Initialize instance and set the api key if possible"""
-        super().__init__(path_to_config=None, api_key=None)
+        super().__init__(config=None, api_key=None)
 
         self.clear()
 

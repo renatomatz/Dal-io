@@ -55,12 +55,13 @@ class _Figure(_Interpreter):
 
     @property
     def figsize(self):
+        raise NotImplementedError()
+
+    def set_figsize(self):
         """Get figure size"""
         raise NotImplementedError()
 
-    @figsize.setter
-    def figsize(self, figsize):
-        """Set figure size"""
+    def set_legend(self, legend, *args, **kwargs):
         raise NotImplementedError()
 
     def plot_hist(self, x, *args, **kwargs):
@@ -135,12 +136,13 @@ class _MultiFigure(_Interpreter):
 
     @property
     def figsize(self):
+        raise NotImplementedError()
+
+    def set_figsize(self):
         """Get figure size"""
         raise NotImplementedError()
 
-    @figsize.setter
-    def figsize(self, figsize):
-        """Set figure size"""
+    def set_legend(self, legend, *args, **kwargs):
         raise NotImplementedError()
 
     def plot_hist(self, x, *args, loc=None, **kwargs):
@@ -177,8 +179,7 @@ class _PyPlotBaseInterpreter:
         """Get the figure size in inches"""
         return self.figure.get_size_inches()
 
-    @figsize.setter
-    def figsize(self, figsize):
+    def set_figsize(self, figsize, *args, **kwargs):
         """Set the figure size in inches"""
         w, h = figsize
         self.figure.set_size_inches(w, h=h)

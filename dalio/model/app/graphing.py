@@ -1,9 +1,9 @@
 from itertools import product
 
-from dalio.model.app import TransformerApplication
+from dalio.model.app import ModelApplication
 
 
-class MultiGrapher(TransformerApplication):
+class MultiGrapher(ModelApplication):
     """Grapher for multiple inputs taking in the same keyword arguments.
 
     This is useful to greate subplots of the same data processed in
@@ -106,3 +106,76 @@ class PandasMultiGrapher(MultiGrapher):
                 cols.append(data.loc(axis=1)[ax])
 
         return tuple(cols), kind, f_kwargs
+
+
+class ForecastGrapher(ModelApplication):
+    """Application to graph data and a forecast horizon
+
+    This Application has two sources data_in and forecast_in. The data-in
+    source is explained in Grapher. The forecast_in source gets a forecast
+    data to be graphed.
+    """
+
+    def __init__(self):
+        """Initialize instance.
+
+        Both data_in and forecast_in are described as pandas time series
+        data frames.
+        """
+
+        super().__init__()
+
+        self._init_source([
+            "data_in",
+            "forecast_in"
+        ])
+
+        self._get_source("data_in")\
+            .add_desc(IS_PD_DF())\
+            .add_desc(IS_PD_TS())
+
+        self._get_source("forecast_in")\
+            .add_desc(IS_PD_DF())\
+            .add_desc(IS_PD_TS())
+
+        self._init_pieces([
+            "plot",
+            "fore_plot"
+        ])
+
+    def run(self, **kwargs):
+        """Get data, its forecast and plot both"""
+        # TODO: Parallelize
+        data = self._source_from("data_in", **kwargs)
+        forecast = self._source_from("forecast_in", **kwargs)
+
+        fig = self.build((data, forecast))
+
+        return fig
+
+    def build(self, data, **kwargs):
+
+        fig = self.interpreter
+        data, forecast = data
+
+        legend = self._pieces("legend")
+        if legend.name is not None:
+            fig.set_legend(legend.name, *legend.args, **legend.kwargs)
+ 
+        figsize = self._pieces("figsize")
+        if figsize.name is not None:
+            fig.set_figsize(figsize.name, *figsize.args, **figsize.kwargs)
+
+        plot = self._pieces["plot"]
+        fig.plot((data.index, data), 
+                *plot.args,
+                kind=plot.name if plot.name is not None else "line",
+                **plot.kwargs)
+
+        fore_plot = self._pieces["fore_plot"]
+        fig.fore_plot((forecast.index, forecast), 
+                *fore_plot.args,
+                kind=fore_plot.name if fore_plot.name is not None else "line",
+                **fore_plot.kwargs)
+
+        return fig
