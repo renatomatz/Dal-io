@@ -43,6 +43,18 @@ class _Memory(_Interpreter):
         """Clear memory"""
         raise NotImplementedError()
 
+    def close(self):
+        """Close any possible memory connections before exiting
+
+        Calls clear() _Interpreter method by default, though this might often
+        need its own implementation.
+        """
+        self.clear()
+
+    def __del__(self):
+        """Wrapper to call close"""
+        self.close()
+
 
 class LocalMemory(_Memory):
     """Stores memory in the local session"""

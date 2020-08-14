@@ -1,10 +1,8 @@
 """Applications based on graphing input data"""
 
-import numpy as np
-
 from dalio.base.constants import RETURNS, MAX_EXEDENCE
-from dalio.pipe.app import TransformerApplication
-from dalio.validator import IS_PD_DF, HAS_COLS, IS_PD_TS, HAS_ATTR
+from dalio.pipe.app import PipeApplication
+from dalio.validator import IS_PD_DF, HAS_COLS
 from dalio.util import process_cols
 
 
@@ -54,7 +52,7 @@ class PandasXYGrapher(PipeApplication):
     def build(self, data, **kwargs):
 
         fig = self.interpreter
-        
+
         x = self._pieces("x").name
         if ((isinstance(x, tuple) and not all([col in data for col in x]))
             or (isinstance(x, str) and not x in data)):
@@ -62,7 +60,7 @@ class PandasXYGrapher(PipeApplication):
 
         x = process_cols(x)
         x = data[x].to_numpy() if x is not None else data.index
-        
+
         y = self._pieces("y").name
         if ((isinstance(y, tuple) and not all([col in data for col in y]))
             or (isinstance(y, str) and not y in data)):
@@ -81,7 +79,7 @@ class PandasXYGrapher(PipeApplication):
 
         plot = self._pieces["plot"]
 
-        fig.plot((x, y), 
+        fig.plot((x, y),
                 *plot.args,
                 kind=plot.name if plot.name is not None else "line",
                 **plot.kwargs)
@@ -133,28 +131,29 @@ class VaRGrapher(PipeApplication):
 
         var_plot = self._pieces["var_plot"]
         line_opts = {
-            linewidth=0.5,
-            alpha=0.6
+            "linewidth": 0.5,
+            "alpha": 0.6
         }
-        line_opts.update(var_plot.kwargs) 
+        line_opts.update(var_plot.kwargs)
 
         # plot value at risk lines
-        fig.plot((x, data), 
-                *var_plot.args,
-                kind = var_plot.name if var_plot.name is not None else "line",
-                **line_opts)
+        fig.plot((x, data),
+                 *var_plot.args,
+                 kind=var_plot.name if var_plot.name is not None else "line",
+                 **line_opts)
 
         rets_plot = self._pieces["rets_plot"]
         line_opts = {
-            c=exedence,
-            alpha=0.5
+            "c": exedence,
+            "alpha": 0.5
         }
-        line_opts.update(rets_plot.kwargs) 
+        line_opts.update(rets_plot.kwargs)
 
         # plot value at risk lines
-        fig.plot((x, -returns), 
-                *rets_plot.args,
-                kind = rets_plot.name if rets_plot.name is not None else "scatter",
-                **line_opts)
+        fig.plot((x, -returns),
+                 *rets_plot.args,
+                 kind=rets_plot.name if rets_plot.name is not None
+                 else "scatter",
+                 **line_opts)
 
         return fig

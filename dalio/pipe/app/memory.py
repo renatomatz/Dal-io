@@ -110,7 +110,9 @@ class LazyRunner(PipeApplication):
             return self.transform(self._source.run(**kwargs), **kwargs)
 
     def transform(self, data, **kwargs):
-        """Modify sourced data, create a new memory object and append it to memory"""
+        """Modify sourced data, create a new memory object and append it to 
+        the memory attribute.
+        """
 
         new_mem = self.build(data)
 
@@ -142,10 +144,14 @@ class LazyRunner(PipeApplication):
             **kwargs
         )
         ret._memory = self._memory.copy()
+
         return ret
 
     def clear(self):
         """Clear memory"""
+        for mem in self._memory.values():
+            mem.close()
+
         self._memory = deque()
 
     def set_update(self, update):
